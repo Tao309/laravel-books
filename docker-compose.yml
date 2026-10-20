@@ -1,21 +1,21 @@
 services:
   db:
-    container_name: laravel-db
+    container_name: laravel-books-db
     image: postgres:18
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-laravel}
-      POSTGRES_USER: ${POSTGRES_USER:-laravel}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-laravel}
+      POSTGRES_DB: ${POSTGRES_DB:-laravel_books}
+      POSTGRES_USER: ${POSTGRES_USER:-laravel_books}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-laravel_books}
     volumes:
       - ./pgdata:/var/lib/postgresql:rw
     ports:
       - "5432:5432"
     networks:
-      - laravel
+      - laravel-books
 
   php:
-    container_name: laravel-php
+    container_name: laravel-books-php
     build:
       context: ./docker/php-fpm
     volumes:
@@ -24,10 +24,10 @@ services:
       # Фикс для windows (ускорение работы)
       - /var/www/laravel/vendor
     networks:
-      - laravel
+      - laravel-books
 
   nginx:
-    container_name: laravel-nginx
+    container_name: laravel-books-nginx
     build:
       context: ./docker/nginx
     volumes:
@@ -39,10 +39,10 @@ services:
       - php
       - db
     networks:
-      - laravel
+      - laravel-books
 
 volumes:
   pgdata:
 
 networks:
-  laravel-posts:
+  laravel-books:
