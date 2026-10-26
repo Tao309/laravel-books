@@ -1,33 +1,31 @@
 services:
   db:
-    container_name: laravel-base-db
+    container_name: laravel-books-db
     image: postgres:18
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-laravel}
-      POSTGRES_USER: ${POSTGRES_USER:-laravel}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-laravel}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./pgdata:/var/lib/postgresql:rw
     ports:
       - "5432:5432"
     networks:
-      - laravel-base
+      - laravel-books
 
   php:
-    container_name: laravel-base-php
+    container_name: laravel-books-php
     build:
       context: ./docker/php-fpm
     volumes:
       - ./docker/php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
       - ./laravel:/var/www/laravel
-      # Фикс только для windows (ускорение работы)
-#      - /var/www/laravel/vendor
     networks:
-      - laravel-base
+      - laravel-books
 
   nginx:
-    container_name: laravel-base-nginx
+    container_name: laravel-books-nginx
     build:
       context: ./docker/nginx
     volumes:
@@ -39,10 +37,10 @@ services:
       - php
       - db
     networks:
-      - laravel-base
+      - laravel-books
 
   redis:
-    container_name: laravel-base-redis
+    container_name: laravel-books-redis
     image: redis:latest
     ports:
       - 6379
@@ -50,11 +48,11 @@ services:
       - ./redisdata:/data
     command: ["redis-server", "--bind", "redis", "--port", "6379"]
     networks:
-      - laravel-base
+      - laravel-books
 
 volumes:
   pgdata:
   redisdata:
 
 networks:
-  laravel-base:
+  laravel-books:

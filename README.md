@@ -1,6 +1,6 @@
-## Laravel
+## Laravel Books
 
-Base Laravel repository
+Laravel Books repository
 
 ------------------------------------------------------------------------------------------
 
@@ -30,7 +30,6 @@ Base Laravel repository
 </details>
 
 ------------------------------------------------------------------------------------------
-#### Добавить доступ на папки:
-``cd storage && sudo chmod -R 0777 framework app logs``
+
 
 
