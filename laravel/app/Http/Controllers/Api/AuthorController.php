@@ -176,7 +176,7 @@ class AuthorController extends ApiController
             ),
         ]
     )]
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         return $this->json([
             'success' => $this->authorService->deleteById($id),

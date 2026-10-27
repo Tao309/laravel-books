@@ -11,8 +11,8 @@ use App\Handlers\Authors\GetAuthorsHandler;
 use App\Handlers\Authors\GetByIdAuthorHandler;
 use App\Handlers\Authors\UpdateAuthorHandler;
 use App\Models\Author;
+use App\Queries\Authors\GetAuthorByIdQuery;
 use App\Queries\Authors\GetAuthorsQuery;
-use App\Queries\Authors\GetByIdAuthorQuery;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -33,7 +33,7 @@ readonly class AuthorService
 
     public function getById(int $id): JsonResource
     {
-        return $this->getByIdAuthorHandler->handle(new GetByIdAuthorQuery($id))->toResource();
+        return $this->getByIdAuthorHandler->handle(new GetAuthorByIdQuery($id))->toResource();
     }
 
     public function create(array $validatedData): JsonResource

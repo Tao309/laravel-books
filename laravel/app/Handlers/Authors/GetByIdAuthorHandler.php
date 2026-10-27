@@ -3,7 +3,7 @@
 namespace App\Handlers\Authors;
 
 use App\Models\Author;
-use App\Queries\Authors\GetByIdAuthorQuery;
+use App\Queries\Authors\GetAuthorByIdQuery;
 use App\Repositories\AuthorRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 
@@ -16,7 +16,7 @@ class GetByIdAuthorHandler
         public RepositoryInterface $repository,
     ) {}
 
-    public function handle(GetByIdAuthorQuery $query): Author
+    public function handle(GetAuthorByIdQuery $query): Author
     {
         return $this->repository->get($query->id);
     }

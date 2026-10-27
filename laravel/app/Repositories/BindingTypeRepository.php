@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\BindingType;
-use App\Queries\GetByIdQueryInterface;
 use App\Queries\GetCollectionQueryInterface;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,7 +15,7 @@ class BindingTypeRepository implements RepositoryInterface
         return BindingType::create($data);
     }
 
-    public function get(GetByIdQueryInterface $id): BindingType
+    public function get(int $id): BindingType
     {
         return BindingType::findOrFail($id);
     }

@@ -19,7 +19,11 @@ Swagger документация по api доступна по адресу /ap
 
 ### BindingType (тип переплёта)
 
-- Добавить типы переплёта через seeder: `php artisan db:seed --class=BindingType`
+- Добавить типы переплёта через seeder (добавлен в главный seeder): `php artisan db:seed --class=BindingType`
+
+### City (город)
+
+- Добавить города через seeder (добавлен в главный seeder): `php artisan db:seed --class=City`
 
 --------
 
@@ -162,7 +166,7 @@ Swagger документация по api доступна по адресу /ap
 
 <details>
 <summary>
-<code><span style="color: #50e3c2;font-weight: bold;">GET</span></code>
+<code><span style="color: #50e3c2;font-weight: bold;">PATCH</span></code>
 <code><b>/api/authors/{id}</b></code> 
 <code>(обновить автора)</code>
 </summary>
@@ -304,7 +308,7 @@ Swagger документация по api доступна по адресу /ap
 
 <details>
 <summary>
-<code><span style="color: #50e3c2;font-weight: bold;">GET</span></code>
+<code><span style="color: #50e3c2;font-weight: bold;">PATCH</span></code>
 <code><b>/api/binding_types/{id}</b></code> 
 <code>(обновить тип переплёта)</code>
 </summary>
@@ -350,6 +354,155 @@ Swagger документация по api доступна по адресу /ap
 > | Название | Тип      | Тип данных | Описание          |
 > |----------|----------|------------|-------------------|
 > | `id`     | required | int        | ID типа переплёта |
+
+##### Параметры тела запроса:
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "success": true
+}
+```
+</details>
+
+
+#### Cities:
+
+<details>
+<summary>
+<code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
+<code><b>/api/cities</b></code> 
+<code> (получить города)
+</code></summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": [
+        {
+            "id": 1,
+            "code": "КРР",
+            "title": "Краснодар",
+            "updated_at": "2026-10-27 10:28:50",
+            "created_at": "2026-10-27 10:28:50"
+        },
+        {
+            "id": 2,
+            "code": "МОВ",
+            "title": "Москва",
+            "updated_at": "2026-10-27 10:28:50",
+            "created_at": "2026-10-27 10:28:50"
+        }
+    ]
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #49cc90;font-weight: bold;">POST</span></code>
+<code><b>/api/cities</b></code> 
+<code> (создать город)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+ ```json
+{
+    "code": "МОВ",
+    "title": "Москва"
+}
+```
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 4,
+        "code": "МОВ",
+        "title": "Москва",
+        "updated_at": "2026-10-27 11:02:51",
+        "created_at": "2026-10-27 11:02:51"
+    }
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #50e3c2;font-weight: bold;">PATCH</span></code>
+<code><b>/api/cities/{id}</b></code> 
+<code>(обновить город)</code>
+</summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание  |
+> |----------|----------|------------|-----------|
+> | `id`     | required | int        | ID города |
+
+##### Параметры тела запроса:
+````json
+{
+    "code": "СПТ",
+    "title": "Санкт-Петербург"
+}
+````
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 4,
+        "code": "СПТ",
+        "title": "Санкт-Петербург",
+        "updated_at": "2026-10-27 11:02:51",
+        "created_at": "2026-10-27 11:02:51"
+    }
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #f93e3e;font-weight: bold;">DELETE</span></code>
+<code><b>/api/ities/{id}</b></code> 
+<code>(удалить город по ID)</code>
+</summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание  |
+> |----------|----------|------------|-----------|
+> | `id`     | required | int        | ID города |
 
 ##### Параметры тела запроса:
 > Нет

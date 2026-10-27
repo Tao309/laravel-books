@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Author;
-use App\Queries\GetByIdQueryInterface;
 use App\Queries\GetCollectionQueryInterface;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,7 +15,7 @@ class AuthorRepository implements RepositoryInterface
         return Author::create($data);
     }
 
-    public function get(GetByIdQueryInterface $id): Author
+    public function get(int $id): Author
     {
         return Author::findOrFail($id);
     }

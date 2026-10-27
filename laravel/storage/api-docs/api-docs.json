@@ -312,6 +312,143 @@
                     }
                 }
             }
+        },
+        "/api/cities": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Get a list of cities",
+                "description": "Get a list of cities",
+                "operationId": "185d0aefb5fd6e9d4e5f1263e2734df4",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get a list of cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CityCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Create City",
+                "description": "Create City",
+                "operationId": "2c088ea7c660d40e5d092a82ee72e2eb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCityRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created City",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CityDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cities/{id}": {
+            "delete": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Delete City by id",
+                "description": "Delete City by id",
+                "operationId": "0dc95dd0bc4da8cabcb3ebd5b105a59b",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete City by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete City by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Update City by id",
+                "description": "Update City by id",
+                "operationId": "137e9f693dc6399bcbfdf8ded04e27de",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the City",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCityRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update City by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CityDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -356,6 +493,32 @@
                     "label": {
                         "type": "string",
                         "example": "Мягкий переплёт"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCityRequest": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "example": "МОВ"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Москва"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCityRequest": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "example": "МОВ"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Москва"
                     }
                 },
                 "type": "object"
@@ -485,6 +648,73 @@
                     }
                 },
                 "type": "object"
+            },
+            "CityCollection": {
+                "description": "Collection of Cities",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CityResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CityDataResource": {
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            },
+                            "code": {
+                                "type": "string",
+                                "example": "МОВ"
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Москва"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "CityResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "МОВ"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Москва"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -496,6 +726,10 @@
         {
             "name": "BindingTypes",
             "description": "BindingTypes"
+        },
+        {
+            "name": "Cities",
+            "description": "Cities"
         }
     ]
 }

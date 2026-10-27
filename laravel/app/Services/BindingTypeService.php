@@ -17,7 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 readonly class BindingTypeService
 {
     public function __construct(
-        private DestroyBindingTypeHandler $destroyAuthorHandler,
+        private DestroyBindingTypeHandler $destroyBindingTypeHandler,
         private UpdateBindingTypeHandler $updateBindingTypeHandler,
         private CreateBindingTypeHandler $createBindingTypeHandler,
         private GetBindingTypesHandler $getBindingTypesHandler,
@@ -49,6 +49,6 @@ readonly class BindingTypeService
 
     public function deleteById(int $id): bool
     {
-        return $this->destroyAuthorHandler->handle(new DestroyBindingTypeCommand($id));
+        return $this->destroyBindingTypeHandler->handle(new DestroyBindingTypeCommand($id));
     }
 }

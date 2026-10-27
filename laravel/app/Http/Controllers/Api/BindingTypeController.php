@@ -59,7 +59,7 @@ class BindingTypeController extends ApiController
             ),
         ]
     )]
-    public function store(StoreBindingTypeRequest $request)
+    public function store(StoreBindingTypeRequest $request): JsonResponse
     {
         return $this->json(
             $this->bindingTypeService->create($request->validated()),
@@ -101,7 +101,7 @@ class BindingTypeController extends ApiController
             ),
         ]
     )]
-    public function update(UpdateBindingTypeRequest $request, int $id)
+    public function update(UpdateBindingTypeRequest $request, int $id): JsonResponse
     {
         return $this->json(
             $this->bindingTypeService->updateById($id, $request->validated())
@@ -142,7 +142,7 @@ class BindingTypeController extends ApiController
             ),
         ]
     )]
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         return $this->json([
             'success' => $this->bindingTypeService->deleteById($id),
