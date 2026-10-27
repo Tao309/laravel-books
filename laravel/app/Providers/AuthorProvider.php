@@ -11,7 +11,7 @@ use App\Repositories\AuthorRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
-class AuthorServiceProvider extends ServiceProvider
+class AuthorProvider extends ServiceProvider
 {
     public function register(): void
     {

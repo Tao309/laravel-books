@@ -2,7 +2,9 @@
 
 namespace App\Queries\Authors;
 
-class GetByIdAuthorQuery
+use App\Queries\GetByIdQueryInterface;
+
+class GetByIdAuthorQuery implements GetByIdQueryInterface
 {
     public function __construct(public int $id) {}
 

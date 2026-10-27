@@ -2,4 +2,6 @@
 
 namespace App\Queries\Authors;
 
-class GetAuthorsQuery {}
+use App\Queries\GetCollectionQueryInterface;
+
+class GetAuthorsQuery implements GetCollectionQueryInterface {}

@@ -15,6 +15,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: 'data',
             properties: [
+                new OA\Property(property: 'id', type: 'integer', example: '1'),
                 new OA\Property(property: 'first_name', type: 'string', example: 'Фёдор'),
                 new OA\Property(property: 'last_name', type: 'string', example: 'Достоевский'),
                 new OA\Property(property: 'updated_at', type: 'string', example: '2026-09-10 10:10:19'),
@@ -28,6 +29,7 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     schema: 'AuthorResource',
     properties: [
+        new OA\Property(property: 'id', type: 'integer', example: '1'),
         new OA\Property(property: 'first_name', type: 'string', example: 'Фёдор'),
         new OA\Property(property: 'last_name', type: 'string', example: 'Достоевский'),
         new OA\Property(property: 'updated_at', type: 'string', example: '2026-09-10 10:10:19'),

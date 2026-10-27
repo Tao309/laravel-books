@@ -22,18 +22,18 @@ readonly class AuthorService
         private CreateAuthorHandler $createAuthorHandler,
         private UpdateAuthorHandler $updateAuthorHandler,
         private DestroyAuthorHandler $destroyAuthorHandler,
-        private GetAuthorsHandler $getAuthorsHandler,
         private GetByIdAuthorHandler $getByIdAuthorHandler,
+        private GetAuthorsHandler $getAuthorsHandler,
     ) {}
-
-    public function getById(int $id): JsonResource
-    {
-        return $this->getByIdAuthorHandler->handle(new GetByIdAuthorQuery($id))->toResource();
-    }
 
     public function getListPaginate(): LengthAwarePaginator
     {
         return $this->getAuthorsHandler->handle(new GetAuthorsQuery);
+    }
+
+    public function getById(int $id): JsonResource
+    {
+        return $this->getByIdAuthorHandler->handle(new GetByIdAuthorQuery($id))->toResource();
     }
 
     public function create(array $validatedData): JsonResource

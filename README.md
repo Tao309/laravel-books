@@ -2,6 +2,10 @@
 
 Laravel Books repository
 
+### Действия после установки:
+
+1. `php artisan migrate:fresh --seed` (установка миграций с запуском сидеров)
+
 --------
 ### Swagger API
 
@@ -9,13 +13,20 @@ Swagger документация по api доступна по адресу /ap
 
 --------
 
-
 ### Authors (авторы)
 
 - Добавить авторов через seeder: `php artisan db:seed --class=AuthorSeeder`
 
+### BindingType (тип переплёта)
+
+- Добавить типы переплёта через seeder: `php artisan db:seed --class=BindingType`
+
+--------
 
 ### API
+
+#### Authors:
+
 <details>
  <summary><code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> <code><b>/api/authors</b></code> 
 <code> (получить авторов, с пагинацией)
@@ -215,7 +226,145 @@ Swagger документация по api доступна по адресу /ap
 ```
 </details>
 
+
+#### BindingTypes:
+
+<details>
+ <summary><code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
+<code><b>/api/binding_types</b></code> 
+<code> (получить типы переплётов)
+</code></summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": [
+        {
+            "id": 1,
+            "label": "Твёрдый переплёт",
+            "updated_at": "2026-10-27 07:41:59",
+            "created_at": "2026-10-27 07:41:59"
+        },
+        {
+            "id": 2,
+            "label": "Мягкий переплёт",
+            "updated_at": "2026-10-27 07:41:59",
+            "created_at": "2026-10-27 07:41:59"
+        }
+    ]
+}
+```
+</details>
+
+<details>
+ <summary><code><span style="color: #49cc90;font-weight: bold;">POST</span></code> <code><b>/api/binding_types</b></code> 
+<code> (создать тип переплёта)
+</code></summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+ ```json
+{
+    "label": "Мягкий переплёт"
+}
+```
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 5,
+        "label": "Мягкий переплёт",
+        "updated_at": "2026-10-27 09:01:41",
+        "created_at": "2026-10-27 09:01:41"
+    }
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #50e3c2;font-weight: bold;">GET</span></code>
+<code><b>/api/binding_types/{id}</b></code> 
+<code>(обновить тип переплёта)</code>
+</summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание           |
+> |----------|----------|------------|--------------------|
+> | `id`     | required | int        | ID типа перепплёта |
+
+##### Параметры тела запроса:
+````json
+{
+    "label": "Твёрдый переплёт"
+}
+````
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 6,
+        "label": "Твёрдый переплёт",
+        "updated_at": "2026-10-27 09:01:41",
+        "created_at": "2026-10-27 09:01:41"
+    }
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #f93e3e;font-weight: bold;">DELETE</span></code>
+<code><b>/api/binding_types/{id}</b></code> 
+<code>(удалить тип переплёта по ID)</code>
+</summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание          |
+> |----------|----------|------------|-------------------|
+> | `id`     | required | int        | ID типа переплёта |
+
+##### Параметры тела запроса:
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "success": true
+}
+```
+</details>
+
+
 --------
-
-
-

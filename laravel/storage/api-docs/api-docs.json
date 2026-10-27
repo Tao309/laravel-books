@@ -175,6 +175,143 @@
                     }
                 }
             }
+        },
+        "/api/binding_types": {
+            "get": {
+                "tags": [
+                    "BindingTypes"
+                ],
+                "summary": "Get a list of binding types",
+                "description": "Get a list of binding types",
+                "operationId": "fd06c9b8bf02a14c9c16d60510bfe730",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get a list of binding types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BindingTypeCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "BindingTypes"
+                ],
+                "summary": "Create BindingType",
+                "description": "Create BindingType",
+                "operationId": "6d95f22f8ada314b36644cf3641d5074",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBindingTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created BindingType",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BindingTypeResourceData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/binding_types/{id}": {
+            "delete": {
+                "tags": [
+                    "BindingTypes"
+                ],
+                "summary": "Delete BindingType by id",
+                "description": "Delete BindingType by id",
+                "operationId": "40382e5ad07e43a7ecf86e2b82f2fb7f",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete BindingType by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete BindingType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "BindingTypes"
+                ],
+                "summary": "Update BindingType by id",
+                "description": "Update BindingType by id",
+                "operationId": "1214e4db0d74eed5a1a7f4870d822aab",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the BindingType",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBindingTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update BindingType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BindingTypeResourceData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -205,6 +342,24 @@
                 },
                 "type": "object"
             },
+            "StoreBindingTypeRequest": {
+                "properties": {
+                    "label": {
+                        "type": "string",
+                        "example": "Мягкий переплёт"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBindingTypeRequest": {
+                "properties": {
+                    "label": {
+                        "type": "string",
+                        "example": "Мягкий переплёт"
+                    }
+                },
+                "type": "object"
+            },
             "AuthorCollection": {
                 "description": "Collection of authors",
                 "properties": {
@@ -221,6 +376,10 @@
                 "properties": {
                     "data": {
                         "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            },
                             "first_name": {
                                 "type": "string",
                                 "example": "Фёдор"
@@ -245,6 +404,10 @@
             },
             "AuthorResource": {
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
                     "first_name": {
                         "type": "string",
                         "example": "Фёдор"
@@ -263,6 +426,65 @@
                     }
                 },
                 "type": "object"
+            },
+            "BindingTypeCollection": {
+                "description": "Collection of binding types",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BindingTypeResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "BindingTypeResourceData": {
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            },
+                            "label": {
+                                "type": "string",
+                                "example": "Мягкий переплёт"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BindingTypeResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Мягкий переплёт"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -270,6 +492,10 @@
         {
             "name": "Authors",
             "description": "Authors"
+        },
+        {
+            "name": "BindingTypes",
+            "description": "BindingTypes"
         }
     ]
 }

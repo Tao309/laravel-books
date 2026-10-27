@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Author;
+use App\Queries\GetByIdQueryInterface;
+use App\Queries\GetCollectionQueryInterface;
 use App\Repositories\Interfaces\RepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class AuthorRepository implements RepositoryInterface
@@ -13,29 +16,33 @@ class AuthorRepository implements RepositoryInterface
         return Author::create($data);
     }
 
-    public function get($id): Author
+    public function get(GetByIdQueryInterface $id): Author
     {
         return Author::findOrFail($id);
     }
 
-    public function getAllPaginate($query): LengthAwarePaginator
+    public function getAll(GetCollectionQueryInterface $query): Collection
+    {
+        return Author::all();
+    }
+
+    public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
         return Author::paginate();
     }
 
     public function update(int $id, array $data): Author
     {
-        $foundAuthor = Author::findOrFail($id);
+        $entity = Author::findOrFail($id);
+        $entity->update($data);
 
-        $foundAuthor->update($data);
-
-        return $foundAuthor;
+        return $entity;
     }
 
     public function delete($id): bool
     {
-        $foundAuthor = Author::findOrFail($id);
+        $entity = Author::findOrFail($id);
 
-        return $foundAuthor->delete();
+        return $entity->delete();
     }
 }

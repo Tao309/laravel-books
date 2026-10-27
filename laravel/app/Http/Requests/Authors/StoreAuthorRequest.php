@@ -41,7 +41,7 @@ class StoreAuthorRequest extends FormRequest
     public function messages(): array
     {
         return [
-            Author::FIRST_NAME.'.unique' => 'An author with this name already exists',
+            Author::FIRST_NAME.'.unique' => 'An Author with this name already exists',
         ];
     }
 }
