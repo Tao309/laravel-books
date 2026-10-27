@@ -1,0 +1,275 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Books API",
+        "description": "Laravel Books API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/authors": {
+            "get": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Get a list of authors",
+                "description": "Get a list of authors",
+                "operationId": "b1de4facd6962392c6fde61f8a7b097a",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get a list of authors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthorCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Create Author",
+                "description": "Create Author",
+                "operationId": "ff9d12ef46fc5034a0d4adf9d10b6de3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreAuthorRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created Author",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthorResourceData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/authors/{id}": {
+            "get": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Get author by id",
+                "description": "Get author by id",
+                "operationId": "35c1b6d7002827ab95f68425b845db97",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the author",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get author by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthorResourceData"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Delete author by id",
+                "description": "Delete author by id",
+                "operationId": "c56695bdfa8aa06b4a00f609c64bdc40",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete author by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete author by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Update author by id",
+                "description": "Update author by id",
+                "operationId": "4fe4d85db208483b6b0171b3d0069ffe",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the author",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAuthorRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update author by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthorResourceData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StoreAuthorRequest": {
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "example": "Фёдор"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Достоевский"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAuthorRequest": {
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "example": "Фёдор"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Достоевский"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthorCollection": {
+                "description": "Collection of authors",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthorResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "AuthorResourceData": {
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "first_name": {
+                                "type": "string",
+                                "example": "Фёдор"
+                            },
+                            "last_name": {
+                                "type": "string",
+                                "example": "Достоевский"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthorResource": {
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "example": "Фёдор"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Достоевский"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authors",
+            "description": "Authors"
+        }
+    ]
+}
