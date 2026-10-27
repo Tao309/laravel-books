@@ -7,8 +7,8 @@ use App\Commands\Authors\DestroyAuthorCommand;
 use App\Commands\Authors\UpdateAuthorCommand;
 use App\Handlers\Authors\CreateAuthorHandler;
 use App\Handlers\Authors\DestroyAuthorHandler;
+use App\Handlers\Authors\GetAuthorByIdHandler;
 use App\Handlers\Authors\GetAuthorsHandler;
-use App\Handlers\Authors\GetByIdAuthorHandler;
 use App\Handlers\Authors\UpdateAuthorHandler;
 use App\Models\Author;
 use App\Queries\Authors\GetAuthorByIdQuery;
@@ -22,7 +22,7 @@ readonly class AuthorService
         private CreateAuthorHandler $createAuthorHandler,
         private UpdateAuthorHandler $updateAuthorHandler,
         private DestroyAuthorHandler $destroyAuthorHandler,
-        private GetByIdAuthorHandler $getByIdAuthorHandler,
+        private GetAuthorByIdHandler $getAuthorByIdHandler,
         private GetAuthorsHandler $getAuthorsHandler,
     ) {}
 
@@ -33,7 +33,7 @@ readonly class AuthorService
 
     public function getById(int $id): JsonResource
     {
-        return $this->getByIdAuthorHandler->handle(new GetAuthorByIdQuery($id))->toResource();
+        return $this->getAuthorByIdHandler->handle(new GetAuthorByIdQuery($id))->toResource();
     }
 
     public function create(array $validatedData): JsonResource

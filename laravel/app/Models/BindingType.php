@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Http\Resources\BindingTypes\BindingTypeCollection;
 use App\Http\Resources\BindingTypes\BindingTypeDataResource;
+use App\Http\Resources\BindingTypes\BindingTypeResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 
 #[UseResource(BindingTypeDataResource::class)]
-#[UseResourceCollection(BindingTypeCollection::class)]
+#[UseResourceCollection(BindingTypeResourceCollection::class)]
 class BindingType extends Model
 {
     public const string ID = 'id';

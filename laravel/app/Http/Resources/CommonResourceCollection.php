@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-abstract class CommonCollection extends ResourceCollection
+abstract class CommonResourceCollection extends ResourceCollection
 {
     /**
      * @return array<int|string, mixed>

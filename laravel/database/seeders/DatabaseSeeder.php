@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BindingTypeSeeder::class,
             CitySeeder::class,
+            ShopSeeder::class,
         ]);
     }
 }

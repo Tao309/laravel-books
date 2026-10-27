@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Queries\Cities;
+namespace App\Queries\Shops;
 
 use App\Queries\GetByIdQueryInterface;
 
-class GetCityByIdQuery implements GetByIdQueryInterface
+class GetShopByIdQuery implements GetByIdQueryInterface
 {
     public function __construct(public int $id) {}
 

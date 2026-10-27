@@ -32,9 +32,11 @@ Swagger документация по api доступна по адресу /ap
 #### Authors:
 
 <details>
- <summary><code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> <code><b>/api/authors</b></code> 
-<code> (получить авторов, с пагинацией)
-</code></summary>
+<summary>
+<code><span style="color: #00a9b5;font-weight: bold;">GET</span></code>
+<code><b>/api/authors</b></code> 
+<code> (получить авторов, с пагинацией)</code>
+</summary>
 
 ##### Параметры пути:
 
@@ -97,9 +99,11 @@ Swagger документация по api доступна по адресу /ap
 </details>
 
 <details>
- <summary><code><span style="color: #49cc90;font-weight: bold;">POST</span></code> <code><b>/api/authors</b></code> 
-<code> (создать автора)
-</code></summary>
+<summary>
+<code><span style="color: #49cc90;font-weight: bold;">POST</span></code>
+<code><b>/api/authors</b></code> 
+<code> (создать автора)</code>
+</summary>
 
 ##### Параметры пути:
 
@@ -133,9 +137,11 @@ Swagger документация по api доступна по адресу /ap
 </details>
 
 <details>
- <summary><code><span style="color: #61affe;font-weight: bold;">GET</span></code> <code><b>/api/authors/{id}</b></code> 
-<code> (получить автора по id)
-</code></summary>
+<summary>
+<code><span style="color: #61affe;font-weight: bold;">GET</span></code>
+<code><b>/api/authors/{id}</b></code> 
+<code> (получить автора по id)</code>
+</summary>
 
 ##### Параметры пути:
 
@@ -234,10 +240,11 @@ Swagger документация по api доступна по адресу /ap
 #### BindingTypes:
 
 <details>
- <summary><code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
+<summary>
+<code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
 <code><b>/api/binding_types</b></code> 
-<code> (получить типы переплётов)
-</code></summary>
+<code> (получить типы переплётов)</code>
+</summary>
 
 ##### Параметры пути:
 
@@ -273,9 +280,11 @@ Swagger документация по api доступна по адресу /ap
 </details>
 
 <details>
- <summary><code><span style="color: #49cc90;font-weight: bold;">POST</span></code> <code><b>/api/binding_types</b></code> 
-<code> (создать тип переплёта)
-</code></summary>
+<summary>
+<code><span style="color: #49cc90;font-weight: bold;">POST</span></code>
+<code><b>/api/binding_types</b></code> 
+<code> (создать тип переплёта)</code>
+</summary>
 
 ##### Параметры пути:
 
@@ -370,15 +379,14 @@ Swagger документация по api доступна по адресу /ap
 ```
 </details>
 
-
 #### Cities:
 
 <details>
 <summary>
 <code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
 <code><b>/api/cities</b></code> 
-<code> (получить города)
-</code></summary>
+<code> (получить города)</code>
+</summary>
 
 ##### Параметры пути:
 
@@ -515,6 +523,85 @@ Swagger документация по api доступна по адресу /ap
 ```json 
 {
     "success": true
+}
+```
+</details>
+
+#### Shops:
+
+<details>
+<summary>
+<code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
+<code><b>/api/shops</b></code> 
+<code> (получить магазины)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": [
+        {
+            "id": 1,
+            "type": "ozon",
+            "domain": "ozon.ru",
+            "url": null,
+            "updated_at": "2026-10-27 12:02:51",
+            "created_at": "2026-10-27 12:02:51"
+        },
+        {
+            "id": 2,
+            "type": "wildberries",
+            "domain": "wildberries.ru",
+            "url": null,
+            "updated_at": "2026-10-27 12:02:51",
+            "created_at": "2026-10-27 12:02:51"
+        }
+    ]
+}
+```
+</details>
+
+<details>
+ <summary><code><span style="color: #61affe;font-weight: bold;">GET</span></code> <code><b>/api/shops/{id}</b></code> 
+<code> (получить магазин по id)
+</code></summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание    |
+> |----------|----------|------------|-------------|
+> | `id`     | required | int        | ID магазина |
+
+##### Параметры тела запроса:
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 1,
+        "type": "ozon",
+        "domain": "ozon.ru",
+        "url": null,
+        "updated_at": "2026-10-27 12:02:51",
+        "created_at": "2026-10-27 12:02:51"
+    }
 }
 ```
 </details>

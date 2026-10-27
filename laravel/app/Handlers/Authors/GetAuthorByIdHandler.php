@@ -7,7 +7,7 @@ use App\Queries\Authors\GetAuthorByIdQuery;
 use App\Repositories\AuthorRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 
-class GetByIdAuthorHandler
+class GetAuthorByIdHandler
 {
     /**
      * @param  AuthorRepository  $repository

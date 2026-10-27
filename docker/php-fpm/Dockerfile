@@ -1,4 +1,4 @@
-FROM php:8.5.8-fpm
+FROM php:8.5.12-fpm
 
 ARG XDEBUG_VERSION="xdebug-3.5.3"
 

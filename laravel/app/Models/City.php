@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Cities\CityCollection;
 use App\Http\Resources\Cities\CityDataResource;
+use App\Http\Resources\Cities\CityResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 
 #[UseResource(CityDataResource::class)]
-#[UseResourceCollection(CityCollection::class)]
+#[UseResourceCollection(CityResourceCollection::class)]
 class City extends Model
 {
     public const string ID = 'id';

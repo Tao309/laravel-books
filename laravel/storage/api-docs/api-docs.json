@@ -449,6 +449,64 @@
                     }
                 }
             }
+        },
+        "/api/shops": {
+            "get": {
+                "tags": [
+                    "Shops"
+                ],
+                "summary": "Get a list of shops",
+                "description": "Get a list of shops",
+                "operationId": "27017e83e03c95e6a4fb951511513cda",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get a list of shops",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShopCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shops/{id}": {
+            "get": {
+                "tags": [
+                    "Shops"
+                ],
+                "summary": "Get shop by id",
+                "description": "Get shop by id",
+                "operationId": "8a7f990e83583eeb3a061e4edfb156f4",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the shop",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get shop by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShopDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -715,6 +773,81 @@
                     }
                 },
                 "type": "object"
+            },
+            "ShopCollection": {
+                "description": "Collection of Shops",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ShopResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ShopDataResource": {
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            },
+                            "type": {
+                                "type": "string",
+                                "example": "ozon"
+                            },
+                            "domain": {
+                                "type": "string",
+                                "example": "ozon.ru"
+                            },
+                            "url": {
+                                "type": "string",
+                                "example": "https://www.ozon.ru"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "example": "2026-09-10 10:10:19"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ShopResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "ozon"
+                    },
+                    "domain": {
+                        "type": "string",
+                        "example": "ozon.ru"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://www.ozon.ru"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -730,6 +863,10 @@
         {
             "name": "Cities",
             "description": "Cities"
+        },
+        {
+            "name": "Shops",
+            "description": "Shops"
         }
     ]
 }
