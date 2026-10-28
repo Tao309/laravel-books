@@ -7,7 +7,7 @@ use App\CQRS\Commands\BindingTypes\CreateBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\DestroyBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\UpdateBindingTypeCommand;
 use App\CQRS\Queries\BindingTypes\GetBindingTypesQuery;
-use App\DTOs\BindingTyperDTO;
+use App\DTOs\DtoInterface;
 use App\Models\BindingType;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -22,16 +22,16 @@ readonly class BindingTypeService
         return $this->bus->dispatch(new GetBindingTypesQuery);
     }
 
-    public function create(array $data): BindingType
+    public function create(DtoInterface $dto): BindingType
     {
-        $command = new CreateBindingTypeCommand(BindingTyperDTO::fromArray($data));
+        $command = new CreateBindingTypeCommand($dto);
 
         return $this->bus->dispatch($command);
     }
 
-    public function updateById(int $id, array $data): BindingType
+    public function updateById(int $id, DtoInterface $dto): BindingType
     {
-        $command = new UpdateBindingTypeCommand($id, BindingTyperDTO::fromArray($data));
+        $command = new UpdateBindingTypeCommand($id, $dto);
 
         return $this->bus->dispatch($command);
     }

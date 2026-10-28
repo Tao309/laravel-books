@@ -5,7 +5,6 @@ namespace App\Http\Requests\Authors;
 use App\Models\Author;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
@@ -17,13 +16,8 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class StoreAuthorRequest extends FormRequest
+class StoreAuthorRequest extends AbstractAuthorRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -35,13 +29,6 @@ class StoreAuthorRequest extends FormRequest
                     return $query->where('first_name', $this->first_name)->where('last_name', $this->last_name);
                 })],
             Author::LAST_NAME => ['string', 'min:2', 'max:100'],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            Author::FIRST_NAME.'.unique' => 'An Author with this name already exists',
         ];
     }
 }

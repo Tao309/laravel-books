@@ -62,7 +62,7 @@ class AuthorController extends ApiController
     public function store(StoreAuthorRequest $request): JsonResponse
     {
         return $this->toJson(
-            $this->authorService->create($request->validated())->toResource(),
+            $this->authorService->create($request->toDTO())->toResource(),
             Response::HTTP_CREATED
         );
     }
@@ -137,7 +137,7 @@ class AuthorController extends ApiController
     public function update(UpdateAuthorRequest $request, int $id): JsonResponse
     {
         return $this->toJson(
-            $this->authorService->updateById($id, $request->validated())->toResource()
+            $this->authorService->updateById($id, $request->toDTO())->toResource()
 
         );
     }

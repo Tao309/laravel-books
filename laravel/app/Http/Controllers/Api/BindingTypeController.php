@@ -62,7 +62,7 @@ class BindingTypeController extends ApiController
     public function store(StoreBindingTypeRequest $request): JsonResponse
     {
         return $this->toJson(
-            $this->bindingTypeService->create($request->validated())->toResource(),
+            $this->bindingTypeService->create($request->toDTO())->toResource(),
             Response::HTTP_CREATED
         );
     }
@@ -104,7 +104,7 @@ class BindingTypeController extends ApiController
     public function update(UpdateBindingTypeRequest $request, int $id): JsonResponse
     {
         return $this->toJson(
-            $this->bindingTypeService->updateById($id, $request->validated())->toResource()
+            $this->bindingTypeService->updateById($id, $request->toDTO())->toResource()
         );
     }
 

@@ -4,7 +4,6 @@ namespace App\Http\Requests\Cities;
 
 use App\Models\City;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
@@ -16,13 +15,8 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class UpdateCityRequest extends FormRequest
+class UpdateCityRequest extends AbstractCityRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -44,14 +38,6 @@ class UpdateCityRequest extends FormRequest
                 'max:100',
                 Rule::unique('cities')->ignore($id),
             ],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            City::CODE.'.unique' => 'A City with this code already exists',
-            City::TITLE.'.unique' => 'A City with this title already exists',
         ];
     }
 }

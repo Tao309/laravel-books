@@ -7,7 +7,7 @@ use App\CQRS\Commands\PublishingHouses\CreatePublishingHouseCommand;
 use App\CQRS\Commands\PublishingHouses\UpdatePublishingHouseCommand;
 use App\CQRS\Queries\PublishingHouses\GetPublishingHouseByIdQuery;
 use App\CQRS\Queries\PublishingHouses\GetPublishingHousesQuery;
-use App\DTOs\PublishingHouseDTO;
+use App\DTOs\DtoInterface;
 use App\Models\PublishingHouse;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -27,16 +27,16 @@ readonly class PublishingHouseService
         return $this->bus->dispatch(new GetPublishingHouseByIdQuery($id));
     }
 
-    public function create(array $data): PublishingHouse
+    public function create(DtoInterface $dto): PublishingHouse
     {
-        $command = new CreatePublishingHouseCommand(PublishingHouseDTO::fromArray($data));
+        $command = new CreatePublishingHouseCommand($dto);
 
         return $this->bus->dispatch($command);
     }
 
-    public function updateById(int $id, array $data): PublishingHouse
+    public function updateById(int $id, DtoInterface $dto): PublishingHouse
     {
-        $command = new UpdatePublishingHouseCommand($id, PublishingHouseDTO::fromArray($data));
+        $command = new UpdatePublishingHouseCommand($id, $dto);
 
         return $this->bus->dispatch($command);
     }

@@ -4,7 +4,6 @@ namespace App\Http\Requests\PublishingHouses;
 
 use App\Models\PublishingHouse;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
@@ -15,13 +14,8 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class UpdatePublishingHouseRequest extends FormRequest
+class UpdatePublishingHouseRequest extends AbstractPublishingHouseRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -37,13 +31,6 @@ class UpdatePublishingHouseRequest extends FormRequest
                 'max:255',
                 Rule::unique('publishing_houses')->ignore($id),
             ],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            PublishingHouse::NAME.'.unique' => 'A PublishingHouse with this name already exists',
         ];
     }
 }

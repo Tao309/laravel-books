@@ -7,7 +7,7 @@ use App\CQRS\Commands\Cities\CreateCityCommand;
 use App\CQRS\Commands\Cities\DestroyCityCommand;
 use App\CQRS\Commands\Cities\UpdateCityCommand;
 use App\CQRS\Queries\Cities\GetCitiesQuery;
-use App\DTOs\CityDTO;
+use App\DTOs\DtoInterface;
 use App\Models\City;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -22,16 +22,16 @@ readonly class CityService
         return $this->bus->dispatch(new GetCitiesQuery);
     }
 
-    public function create(array $data): City
+    public function create(DtoInterface $dto): City
     {
-        $command = new CreateCityCommand(CityDTO::fromArray($data));
+        $command = new CreateCityCommand($dto);
 
         return $this->bus->dispatch($command);
     }
 
-    public function updateById(int $id, array $data): City
+    public function updateById(int $id, DtoInterface $dto): City
     {
-        $command = new UpdateCityCommand($id, CityDTO::fromArray($data));
+        $command = new UpdateCityCommand($id, $dto);
 
         return $this->bus->dispatch($command);
     }

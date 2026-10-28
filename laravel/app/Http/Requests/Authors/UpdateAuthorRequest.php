@@ -5,7 +5,6 @@ namespace App\Http\Requests\Authors;
 use App\Models\Author;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
@@ -17,13 +16,8 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class UpdateAuthorRequest extends FormRequest
+class UpdateAuthorRequest extends AbstractAuthorRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -43,13 +37,6 @@ class UpdateAuthorRequest extends FormRequest
                     ->ignore($id),
             ],
             Author::LAST_NAME => ['string', 'min:2', 'max:100'],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            Author::FIRST_NAME.'.unique' => 'An author with this name already exists',
         ];
     }
 }

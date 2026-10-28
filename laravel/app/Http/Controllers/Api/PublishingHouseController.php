@@ -62,7 +62,7 @@ class PublishingHouseController extends ApiController
     public function store(StorePublishingHouseRequest $request): JsonResponse
     {
         return $this->toJson(
-            $this->service->create($request->validated())->toResource(),
+            $this->service->create($request->toDTO())->toResource(),
             ResponseAlias::HTTP_CREATED
         );
     }
@@ -137,7 +137,7 @@ class PublishingHouseController extends ApiController
     public function update(UpdatePublishingHouseRequest $request, int $id): JsonResponse
     {
         return $this->toJson(
-            $this->service->updateById($id, $request->validated())->toResource()
+            $this->service->updateById($id, $request->toDTO())->toResource()
         );
     }
 }

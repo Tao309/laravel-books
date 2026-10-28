@@ -8,7 +8,7 @@ use App\CQRS\Commands\Authors\DestroyAuthorCommand;
 use App\CQRS\Commands\Authors\UpdateAuthorCommand;
 use App\CQRS\Queries\Authors\GetAuthorByIdQuery;
 use App\CQRS\Queries\Authors\GetAuthorsQuery;
-use App\DTOs\AuthorDTO;
+use App\DTOs\DtoInterface;
 use App\Models\Author;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -28,16 +28,16 @@ readonly class AuthorService
         return $this->bus->dispatch(new GetAuthorByIdQuery($id));
     }
 
-    public function create(array $data): Author
+    public function create(DtoInterface $dto): Author
     {
-        $command = new CreateAuthorCommand(AuthorDTO::fromArray($data));
+        $command = new CreateAuthorCommand($dto);
 
         return $this->bus->dispatch($command);
     }
 
-    public function updateById(int $id, array $data): Author
+    public function updateById(int $id, DtoInterface $dto): Author
     {
-        $command = new UpdateAuthorCommand($id, AuthorDTO::fromArray($data));
+        $command = new UpdateAuthorCommand($id, $dto);
 
         return $this->bus->dispatch($command);
     }

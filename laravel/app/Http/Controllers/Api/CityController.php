@@ -62,7 +62,7 @@ class CityController extends ApiController
     public function store(StoreCityRequest $request): JsonResponse
     {
         return $this->toJson(
-            $this->cityService->create($request->validated()),
+            $this->cityService->create($request->toDTO()),
             Response::HTTP_CREATED
         );
     }
@@ -104,7 +104,7 @@ class CityController extends ApiController
     public function update(UpdateCityRequest $request, int $id): JsonResponse
     {
         return $this->toJson(
-            $this->cityService->updateById($id, $request->validated())
+            $this->cityService->updateById($id, $request->toDTO())
         );
     }
 

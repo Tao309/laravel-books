@@ -16,7 +16,8 @@ Swagger документация по api доступна по адресу /ap
 ### CLI commands
 
 - Запуск всех команд с импортом `php artisan app:import:run-all`
-- Импорт издательских домов `php artisan app:import:publishing-houses`
+- Импорт издательских домов `php artisan app:import:publishing_houses`
+- Импорт издательских брэндов `php artisan app:import:publishing_brands`
 
 Доступные опции:
 
@@ -30,23 +31,27 @@ Swagger документация по api доступна по адресу /ap
 
 ### Authors (авторы)
 
-- Добавить авторов через seeder: `php artisan db:seed --class=AuthorSeeder`
+- Добавить через seeder: `php artisan db:seed --class=AuthorSeeder`
 
 ### BindingType (тип переплёта)
 
-- Добавить типы переплёта через seeder (добавлен в главный seeder): `php artisan db:seed --class=BindingType`
+- Добавить через seeder (добавлен в главный seeder): `php artisan db:seed --class=BindingType`
 
 ### City (город)
 
-- Добавить города через seeder (добавлен в главный seeder): `php artisan db:seed --class=City`
+- Добавить через seeder (добавлен в главный seeder): `php artisan db:seed --class=City`
 
 ### Shop (магазин)
 
-- Добавить города через seeder (добавлен в главный seeder): `php artisan db:seed --class=Shop`
+- Добавить через seeder (добавлен в главный seeder): `php artisan db:seed --class=Shop`
 
 ### PublishingHouse (издательский дом)
 
-- Добавить города через seeder: `php artisan db:seed --class=PublishingHouse`
+- Добавить через seeder: `php artisan db:seed --class=PublishingHouse`
+
+### PublishingBrand (издательский брэнд)
+
+- Добавить через seeder: `php artisan db:seed --class=PublishingBrand`
 
 --------
 
@@ -629,7 +634,6 @@ Swagger документация по api доступна по адресу /ap
 ```
 </details>
 
-
 #### PublishingHouses:
 
 <details>
@@ -749,7 +753,7 @@ Swagger документация по api доступна по адресу /ap
 <summary>
 <code><span style="color: #50e3c2;font-weight: bold;">PATCH</span></code>
 <code><b>/api/publishing_houses/{id}</b></code> 
-<code>(обновить издательский)</code>
+<code>(обновить издательский дом)</code>
 </summary>
 
 ##### Параметры пути:
@@ -776,6 +780,158 @@ Swagger документация по api доступна по адресу /ap
         "name": "Манн, Иванов и Фербер",
         "updated_at": "2026-10-28 06:19:16",
         "created_at": "2026-10-28 06:11:23"
+    }
+}
+```
+</details>
+
+
+#### PublishingBrands:
+
+<details>
+<summary>
+<code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
+<code><b>/api/publishing_brands</b></code> 
+<code> (получить издательские брэнды)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Астрель СПб",
+            "updated_at": "2026-10-28 09:25:03",
+            "created_at": "2026-10-28 09:25:03"
+        },
+        {
+            "id": 2,
+            "name": "Молодежная литература. Фантастика и фэнтези",
+            "updated_at": "2026-10-28 09:25:03",
+            "created_at": "2026-10-28 09:25:03"
+        },
+        {
+            "id": 3,
+            "name": "Like Book",
+            "updated_at": "2026-10-28 09:25:03",
+            "created_at": "2026-10-28 09:25:03"
+        }
+    ]
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #49cc90;font-weight: bold;">POST</span></code>
+<code><b>/api/publishing_brands</b></code> 
+<code> (создать издательский брэнд)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+ ```json
+{
+    "name": "Астрель СПб"
+}
+```
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 1,
+        "name": "Астрель СПб",
+        "updated_at": "2026-10-28 09:25:03",
+        "created_at": "2026-10-28 09:25:03"
+    }
+}
+```
+</details>
+
+<details>
+ <summary><code><span style="color: #61affe;font-weight: bold;">GET</span></code> <code><b>/api/publishing_brands/{id}</b></code> 
+<code> (получить издательский брэнд по id)
+</code></summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание                |
+> |----------|----------|------------|-------------------------|
+> | `id`     | required | int        | ID издательского брэнда |
+
+##### Параметры тела запроса:
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 1,
+        "name": "Астрель СПб",
+        "updated_at": "2026-10-28 09:25:03",
+        "created_at": "2026-10-28 09:25:03"
+    }
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #50e3c2;font-weight: bold;">PATCH</span></code>
+<code><b>/api/publishing_brands/{id}</b></code> 
+<code>(обновить издательский брэнд)</code>
+</summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание                |
+> |----------|----------|------------|-------------------------|
+> | `id`     | required | int        | ID издательского брэнда |
+
+##### Параметры тела запроса:
+````json
+{
+    "name": "Астрель СПб"
+}
+````
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 1,
+        "name": "Астрель СПб",
+        "updated_at": "2026-10-28 09:25:03",
+        "created_at": "2026-10-28 09:25:03"
     }
 }
 ```

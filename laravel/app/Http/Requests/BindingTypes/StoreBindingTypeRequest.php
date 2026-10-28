@@ -4,7 +4,6 @@ namespace App\Http\Requests\BindingTypes;
 
 use App\Models\BindingType;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
@@ -15,13 +14,8 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class StoreBindingTypeRequest extends FormRequest
+class StoreBindingTypeRequest extends AbstractBindingTypeRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -35,13 +29,6 @@ class StoreBindingTypeRequest extends FormRequest
                 'max:50',
                 Rule::unique('binding_types'),
             ],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            BindingType::LABEL.'.unique' => 'An Binding Type with this label already exists',
         ];
     }
 }

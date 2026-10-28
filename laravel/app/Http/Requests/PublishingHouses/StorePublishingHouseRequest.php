@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\PublishingHouses;
 
-use App\DTOs\PublishingHouseDTO;
 use App\Models\PublishingHouse;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
@@ -16,13 +14,8 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class StorePublishingHouseRequest extends FormRequest
+class StorePublishingHouseRequest extends AbstractPublishingHouseRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -37,17 +30,5 @@ class StorePublishingHouseRequest extends FormRequest
                 Rule::unique('publishing_houses'),
             ],
         ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            PublishingHouse::NAME.'.unique' => 'A PublishingHouse with this name already exists',
-        ];
-    }
-
-    public function toDTO(): PublishingHouseDTO
-    {
-        return PublishingHouseDTO::fromArray($this->validated());
     }
 }
