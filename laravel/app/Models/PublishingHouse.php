@@ -18,5 +18,5 @@ class PublishingHouse extends Model
 
     protected $table = 'publishing_houses';
 
-    protected $fillable = [self::NAME];
+    protected $fillable = [self::ID, self::NAME];
 }

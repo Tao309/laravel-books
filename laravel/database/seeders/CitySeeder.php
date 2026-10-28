@@ -13,6 +13,7 @@ class CitySeeder extends Seeder
     public function run(): void
     {
         DB::table('cities')->insert([
+            City::ID => 1,
             City::CODE => 'КРР',
             City::TITLE => 'Краснодар',
             Model::CREATED_AT => Carbon::now(),
@@ -20,6 +21,7 @@ class CitySeeder extends Seeder
         ]);
 
         DB::table('cities')->insert([
+            City::ID => 2,
             City::CODE => 'МОВ',
             City::TITLE => 'Москва',
             Model::CREATED_AT => Carbon::now(),
@@ -27,6 +29,7 @@ class CitySeeder extends Seeder
         ]);
 
         DB::table('cities')->insert([
+            City::ID => 3,
             City::CODE => 'СПТ',
             City::TITLE => 'Санкт-Петербург',
             Model::CREATED_AT => Carbon::now(),

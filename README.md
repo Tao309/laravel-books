@@ -5,11 +5,26 @@ Laravel Books repository
 ### Действия после установки:
 
 1. `php artisan migrate:fresh --seed` (установка миграций с запуском сидеров)
+2. `php artisan app:import:run-all --fake=0 --just-check-parsing=0` (импорт данных)
 
 --------
 ### Swagger API
 
 Swagger документация по api доступна по адресу /api/documentation/
+
+--------
+### CLI commands
+
+- Запуск всех команд с импортом `php artisan app:import:run-all`
+- Импорт издательских домов `php artisan app:import:publishing-houses`
+
+Доступные опции:
+
+| Название | Описание      | Значение по умолчанию |
+|----------|----------|-----------------------|
+| `fake`     | Фейковый запрос, без записи в БД | Вкл |
+| `show-parsing-log`     | Показывать детали парсинга | Вкл |
+| `just-check-parsing`     | Проверить только парсинг, без создания новых сущностей | Вкл |
 
 --------
 
