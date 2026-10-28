@@ -14,14 +14,14 @@ class ShopController extends ApiController
 
     #[OA\Get(
         path: '/api/shops',
-        description: 'Get a list of shops',
-        summary: 'Get a list of shops',
+        description: 'Get list of shops',
+        summary: 'Get list of shops',
         requestBody: new OA\RequestBody,
         tags: ['Shops'],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Get a list of shops',
+                description: 'Get list of shops',
                 content: new OA\JsonContent(
                     ref: '#/components/schemas/ShopCollection'
                 )

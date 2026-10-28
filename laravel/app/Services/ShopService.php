@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Handlers\Shops\GetShopByIdHandler;
-use App\Handlers\Shops\GetShopsHandler;
-use App\Queries\Shops\GetShopByIdQuery;
-use App\Queries\Shops\GetShopsQuery;
+use App\CQRS\Handlers\Shops\GetShopByIdHandler;
+use App\CQRS\Handlers\Shops\GetShopsHandler;
+use App\CQRS\Queries\Shops\GetShopByIdQuery;
+use App\CQRS\Queries\Shops\GetShopsQuery;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 

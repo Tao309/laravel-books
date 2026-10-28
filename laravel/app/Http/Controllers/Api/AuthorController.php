@@ -17,14 +17,14 @@ class AuthorController extends ApiController
 
     #[OA\Get(
         path: '/api/authors',
-        description: 'Get a list of authors',
-        summary: 'Get a list of authors',
+        description: 'Get list of authors',
+        summary: 'Get list of authors',
         requestBody: new OA\RequestBody,
         tags: ['Authors'],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Get a list of authors',
+                description: 'Get list of authors',
                 content: new OA\JsonContent(
                     ref: '#/components/schemas/AuthorCollection'
                 )

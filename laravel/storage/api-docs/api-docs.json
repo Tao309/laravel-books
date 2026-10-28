@@ -11,13 +11,13 @@
                 "tags": [
                     "Authors"
                 ],
-                "summary": "Get a list of authors",
-                "description": "Get a list of authors",
+                "summary": "Get list of authors",
+                "description": "Get list of authors",
                 "operationId": "b1de4facd6962392c6fde61f8a7b097a",
                 "requestBody": {},
                 "responses": {
                     "200": {
-                        "description": "Get a list of authors",
+                        "description": "Get list of authors",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -181,13 +181,13 @@
                 "tags": [
                     "BindingTypes"
                 ],
-                "summary": "Get a list of binding types",
-                "description": "Get a list of binding types",
+                "summary": "Get list of binding types",
+                "description": "Get list of binding types",
                 "operationId": "fd06c9b8bf02a14c9c16d60510bfe730",
                 "requestBody": {},
                 "responses": {
                     "200": {
-                        "description": "Get a list of binding types",
+                        "description": "Get list of binding types",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -318,13 +318,13 @@
                 "tags": [
                     "Cities"
                 ],
-                "summary": "Get a list of cities",
-                "description": "Get a list of cities",
+                "summary": "Get list of cities",
+                "description": "Get list of cities",
                 "operationId": "185d0aefb5fd6e9d4e5f1263e2734df4",
                 "requestBody": {},
                 "responses": {
                     "200": {
-                        "description": "Get a list of cities",
+                        "description": "Get list of cities",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -450,18 +450,149 @@
                 }
             }
         },
+        "/api/publishing_houses": {
+            "get": {
+                "tags": [
+                    "PublishingHouses"
+                ],
+                "summary": "Get list of Publishing Houses",
+                "description": "Get list of Publishing Houses",
+                "operationId": "c6d6bdfa6a5eb4a1b4d5d4bbbbb14d9c",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of Publishing Houses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingHouseResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "PublishingHouses"
+                ],
+                "summary": "Create PublishingHouse",
+                "description": "Create PublishingHouse",
+                "operationId": "61ec3c4ef713e123bb75041159cc9216",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePublishingHouseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created PublishingHouse",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingHouseDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/publishing_houses/{id}": {
+            "get": {
+                "tags": [
+                    "PublishingHouses"
+                ],
+                "summary": "Get PublishingHouse by id",
+                "description": "Get PublishingHouse by id",
+                "operationId": "f0d3cb7228b88f5221a7d6cff7a5e481",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the PublishingHouse",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get PublishingHouse by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingHouseDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "PublishingHouses"
+                ],
+                "summary": "Update PublishingHouse by id",
+                "description": "Update PublishingHouse by id",
+                "operationId": "8d240ce1b70db19cb6858c9040b2e1fb",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the PublishingHouse",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePublishingHouseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update PublishingHouse by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingHouseDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/shops": {
             "get": {
                 "tags": [
                     "Shops"
                 ],
-                "summary": "Get a list of shops",
-                "description": "Get a list of shops",
+                "summary": "Get list of shops",
+                "description": "Get list of shops",
                 "operationId": "27017e83e03c95e6a4fb951511513cda",
                 "requestBody": {},
                 "responses": {
                     "200": {
-                        "description": "Get a list of shops",
+                        "description": "Get list of shops",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -581,14 +712,20 @@
                 },
                 "type": "object"
             },
-            "AuthorCollection": {
-                "description": "Collection of authors",
+            "StorePublishingHouseRequest": {
                 "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/AuthorResource"
-                        }
+                    "name": {
+                        "type": "string",
+                        "example": "АСТ"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdatePublishingHouseRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "АСТ"
                     }
                 },
                 "type": "object"
@@ -648,13 +785,13 @@
                 },
                 "type": "object"
             },
-            "BindingTypeCollection": {
-                "description": "Collection of binding types",
+            "AuthorCollection": {
+                "description": "Collection of authors",
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/BindingTypeResource"
+                            "$ref": "#/components/schemas/AuthorResource"
                         }
                     }
                 },
@@ -707,13 +844,13 @@
                 },
                 "type": "object"
             },
-            "CityCollection": {
-                "description": "Collection of Cities",
+            "BindingTypeCollection": {
+                "description": "Collection of binding types",
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/CityResource"
+                            "$ref": "#/components/schemas/BindingTypeResource"
                         }
                     }
                 },
@@ -774,13 +911,54 @@
                 },
                 "type": "object"
             },
-            "ShopCollection": {
-                "description": "Collection of Shops",
+            "CityCollection": {
+                "description": "Collection of Cities",
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/ShopResource"
+                            "$ref": "#/components/schemas/CityResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingHouseDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/PublishingHouseResource"
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingHouseResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "АСТ"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingHouseResourceCollection": {
+                "description": "Collection of Publishing Houses",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PublishingHouseResource"
                         }
                     }
                 },
@@ -848,6 +1026,18 @@
                     }
                 },
                 "type": "object"
+            },
+            "ShopCollection": {
+                "description": "Collection of Shops",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ShopResource"
+                        }
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -863,6 +1053,10 @@
         {
             "name": "Cities",
             "description": "Cities"
+        },
+        {
+            "name": "PublishingHouses",
+            "description": "PublishingHouses"
         },
         {
             "name": "Shops",

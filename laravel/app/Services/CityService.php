@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Commands\Cities\CreateCityCommand;
-use App\Commands\Cities\DestroyCityCommand;
-use App\Commands\Cities\UpdateCityCommand;
-use App\Handlers\Cities\CreateCityHandler;
-use App\Handlers\Cities\DestroyCityHandler;
-use App\Handlers\Cities\GetCitiesHandler;
-use App\Handlers\Cities\UpdateCityHandler;
+use App\CQRS\Commands\Cities\CreateCityCommand;
+use App\CQRS\Commands\Cities\DestroyCityCommand;
+use App\CQRS\Commands\Cities\UpdateCityCommand;
+use App\CQRS\Handlers\Cities\CreateCityHandler;
+use App\CQRS\Handlers\Cities\DestroyCityHandler;
+use App\CQRS\Handlers\Cities\GetCitiesHandler;
+use App\CQRS\Handlers\Cities\UpdateCityHandler;
+use App\CQRS\Queries\Cities\GetCitiesQuery;
 use App\Models\City;
-use App\Queries\Cities\GetCitiesQuery;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Commands\Authors\CreateAuthorCommand;
-use App\Commands\Authors\DestroyAuthorCommand;
-use App\Commands\Authors\UpdateAuthorCommand;
-use App\Handlers\Authors\CreateAuthorHandler;
-use App\Handlers\Authors\DestroyAuthorHandler;
-use App\Handlers\Authors\GetAuthorByIdHandler;
-use App\Handlers\Authors\GetAuthorsHandler;
-use App\Handlers\Authors\UpdateAuthorHandler;
+use App\CQRS\Commands\Authors\CreateAuthorCommand;
+use App\CQRS\Commands\Authors\DestroyAuthorCommand;
+use App\CQRS\Commands\Authors\UpdateAuthorCommand;
+use App\CQRS\Handlers\Authors\CreateAuthorHandler;
+use App\CQRS\Handlers\Authors\DestroyAuthorHandler;
+use App\CQRS\Handlers\Authors\GetAuthorByIdHandler;
+use App\CQRS\Handlers\Authors\GetAuthorsHandler;
+use App\CQRS\Handlers\Authors\UpdateAuthorHandler;
+use App\CQRS\Queries\Authors\GetAuthorByIdQuery;
+use App\CQRS\Queries\Authors\GetAuthorsQuery;
 use App\Models\Author;
-use App\Queries\Authors\GetAuthorByIdQuery;
-use App\Queries\Authors\GetAuthorsQuery;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 

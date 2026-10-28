@@ -17,14 +17,14 @@ class BindingTypeController extends ApiController
 
     #[OA\Get(
         path: '/api/binding_types',
-        description: 'Get a list of binding types',
-        summary: 'Get a list of binding types',
+        description: 'Get list of binding types',
+        summary: 'Get list of binding types',
         requestBody: new OA\RequestBody,
         tags: ['BindingTypes'],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Get a list of binding types',
+                description: 'Get list of binding types',
                 content: new OA\JsonContent(
                     ref: '#/components/schemas/BindingTypeCollection'
                 )

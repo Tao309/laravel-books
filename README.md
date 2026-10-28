@@ -25,6 +25,14 @@ Swagger документация по api доступна по адресу /ap
 
 - Добавить города через seeder (добавлен в главный seeder): `php artisan db:seed --class=City`
 
+### Shop (магазин)
+
+- Добавить города через seeder (добавлен в главный seeder): `php artisan db:seed --class=Shop`
+
+### PublishingHouse (издательский дом)
+
+- Добавить города через seeder: `php artisan db:seed --class=PublishingHouse`
+
 --------
 
 ### API
@@ -606,5 +614,156 @@ Swagger документация по api доступна по адресу /ap
 ```
 </details>
 
+
+#### PublishingHouses:
+
+<details>
+<summary>
+<code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
+<code><b>/api/publishing_houses</b></code> 
+<code> (получить издательские дома)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "АСТ",
+            "updated_at": "2026-10-27 14:08:27",
+            "created_at": "2026-10-27 14:08:27"
+        },
+        {
+            "id": 2,
+            "name": "Эксмо",
+            "updated_at": "2026-10-27 14:08:27",
+            "created_at": "2026-10-27 14:08:27"
+        },
+        {
+            "id": 3,
+            "name": "Манн, Иванов и Фербер",
+            "updated_at": "2026-10-27 14:08:27",
+            "created_at": "2026-10-27 14:08:27"
+        }
+    ]
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #49cc90;font-weight: bold;">POST</span></code>
+<code><b>/api/publishing_houses</b></code> 
+<code> (создать издательский дом)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+ ```json
+{
+    "name": "АСТ"
+}
+```
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 9,
+        "name": "АСТ",
+        "updated_at": "2026-10-28 06:26:39",
+        "created_at": "2026-10-28 06:26:39"
+    }
+}
+```
+</details>
+
+<details>
+ <summary><code><span style="color: #61affe;font-weight: bold;">GET</span></code> <code><b>/api/publishing_houses/{id}</b></code> 
+<code> (получить издательский дом по id)
+</code></summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание              |
+> |----------|----------|------------|-----------------------|
+> | `id`     | required | int        | ID издательского дома |
+
+##### Параметры тела запроса:
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 2,
+        "name": "Эксмо",
+        "updated_at": "2026-10-27 14:08:27",
+        "created_at": "2026-10-27 14:08:27"
+    }
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #50e3c2;font-weight: bold;">PATCH</span></code>
+<code><b>/api/publishing_houses/{id}</b></code> 
+<code>(обновить издательский)</code>
+</summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание              |
+> |----------|----------|------------|-----------------------|
+> | `id`     | required | int        | ID издательского дома |
+
+##### Параметры тела запроса:
+````json
+{
+    "name": "Манн, Иванов и Фербер"
+}
+````
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 7,
+        "name": "Манн, Иванов и Фербер",
+        "updated_at": "2026-10-28 06:19:16",
+        "created_at": "2026-10-28 06:11:23"
+    }
+}
+```
+</details>
 
 --------

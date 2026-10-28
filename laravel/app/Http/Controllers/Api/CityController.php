@@ -17,14 +17,14 @@ class CityController extends ApiController
 
     #[OA\Get(
         path: '/api/cities',
-        description: 'Get a list of cities',
-        summary: 'Get a list of cities',
+        description: 'Get list of cities',
+        summary: 'Get list of cities',
         requestBody: new OA\RequestBody,
         tags: ['Cities'],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Get a list of cities',
+                description: 'Get list of cities',
                 content: new OA\JsonContent(
                     ref: '#/components/schemas/CityCollection'
                 )

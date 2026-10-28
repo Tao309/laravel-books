@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Handlers\Shops\GetShopByIdHandler;
-use App\Handlers\Shops\GetShopsHandler;
+use App\CQRS\Handlers\Shops\GetShopByIdHandler;
+use App\CQRS\Handlers\Shops\GetShopsHandler;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\ShopRepository;
 use Illuminate\Support\ServiceProvider;

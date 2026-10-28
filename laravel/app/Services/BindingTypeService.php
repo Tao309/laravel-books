@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Commands\BindingTypes\CreateBindingTypeCommand;
-use App\Commands\BindingTypes\DestroyBindingTypeCommand;
-use App\Commands\BindingTypes\UpdateBindingTypeCommand;
-use App\Handlers\BindingTypes\CreateBindingTypeHandler;
-use App\Handlers\BindingTypes\DestroyBindingTypeHandler;
-use App\Handlers\BindingTypes\GetBindingTypesHandler;
-use App\Handlers\BindingTypes\UpdateBindingTypeHandler;
+use App\CQRS\Commands\BindingTypes\CreateBindingTypeCommand;
+use App\CQRS\Commands\BindingTypes\DestroyBindingTypeCommand;
+use App\CQRS\Commands\BindingTypes\UpdateBindingTypeCommand;
+use App\CQRS\Handlers\BindingTypes\CreateBindingTypeHandler;
+use App\CQRS\Handlers\BindingTypes\DestroyBindingTypeHandler;
+use App\CQRS\Handlers\BindingTypes\GetBindingTypesHandler;
+use App\CQRS\Handlers\BindingTypes\UpdateBindingTypeHandler;
+use App\CQRS\Queries\BindingTypes\GetBindingTypesQuery;
 use App\Models\BindingType;
-use App\Queries\BindingTypes\GetBindingTypesQuery;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 

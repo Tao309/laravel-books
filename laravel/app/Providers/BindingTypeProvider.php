@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Handlers\BindingTypes\CreateBindingTypeHandler;
-use App\Handlers\BindingTypes\DestroyBindingTypeHandler;
-use App\Handlers\BindingTypes\GetBindingTypesHandler;
-use App\Handlers\BindingTypes\UpdateBindingTypeHandler;
+use App\CQRS\Handlers\BindingTypes\CreateBindingTypeHandler;
+use App\CQRS\Handlers\BindingTypes\DestroyBindingTypeHandler;
+use App\CQRS\Handlers\BindingTypes\GetBindingTypesHandler;
+use App\CQRS\Handlers\BindingTypes\UpdateBindingTypeHandler;
 use App\Repositories\BindingTypeRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Support\ServiceProvider;

@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Handlers\Cities\CreateCityHandler;
-use App\Handlers\Cities\DestroyCityHandler;
-use App\Handlers\Cities\GetCitiesHandler;
-use App\Handlers\Cities\UpdateCityHandler;
+use App\CQRS\Handlers\Cities\CreateCityHandler;
+use App\CQRS\Handlers\Cities\DestroyCityHandler;
+use App\CQRS\Handlers\Cities\GetCitiesHandler;
+use App\CQRS\Handlers\Cities\UpdateCityHandler;
 use App\Repositories\CityRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Support\ServiceProvider;

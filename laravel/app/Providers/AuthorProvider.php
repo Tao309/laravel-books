@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Handlers\Authors\CreateAuthorHandler;
-use App\Handlers\Authors\DestroyAuthorHandler;
-use App\Handlers\Authors\GetAuthorByIdHandler;
-use App\Handlers\Authors\GetAuthorsHandler;
-use App\Handlers\Authors\UpdateAuthorHandler;
+use App\CQRS\Handlers\Authors\CreateAuthorHandler;
+use App\CQRS\Handlers\Authors\DestroyAuthorHandler;
+use App\CQRS\Handlers\Authors\GetAuthorByIdHandler;
+use App\CQRS\Handlers\Authors\GetAuthorsHandler;
+use App\CQRS\Handlers\Authors\UpdateAuthorHandler;
 use App\Repositories\AuthorRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Support\ServiceProvider;

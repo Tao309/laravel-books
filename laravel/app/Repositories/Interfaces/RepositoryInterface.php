@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\GetCollectionQueryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
