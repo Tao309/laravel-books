@@ -22,9 +22,6 @@ class UpdateCityHandler
      */
     public function handle(UpdateCityCommand $command): City
     {
-        return $this->repository->update($command->id, [
-            City::CODE => $command->code,
-            City::TITLE => $command->title,
-        ]);
+        return $this->repository->update($command->id, $command->dto->toArray());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CQRS\Commands\CommandBus;
+use App\CQRS\CommandBus;
 use App\CQRS\Commands\PublishingHouses\CreatePublishingHouseCommand;
 use App\CQRS\Commands\PublishingHouses\UpdatePublishingHouseCommand;
 use App\CQRS\Queries\PublishingHouses\GetPublishingHouseByIdQuery;

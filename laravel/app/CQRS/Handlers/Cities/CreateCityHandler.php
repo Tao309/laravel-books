@@ -22,9 +22,6 @@ readonly class CreateCityHandler
      */
     public function handle(CreateCityCommand $command): City
     {
-        return $this->repository->create([
-            City::CODE => $command->code,
-            City::TITLE => $command->title,
-        ]);
+        return $this->repository->create($command->dto->toArray());
     }
 }

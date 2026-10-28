@@ -4,16 +4,16 @@ namespace App\DTOs;
 
 use App\Models\PublishingHouse;
 
-class PublishingHouseDTO
+class PublishingHouseDTO implements DtoInterface
 {
     public function __construct(
         public string $name,
     ) {}
 
-    public static function fromArray(array $data): PublishingHouseDTO
+    public static function fromArray(array $data): self
     {
         return new self(
-            name: $data['name'],
+            name: $data[PublishingHouse::NAME],
         );
     }
 

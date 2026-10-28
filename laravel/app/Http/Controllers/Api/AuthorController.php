@@ -33,7 +33,7 @@ class AuthorController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->authorService->getListPaginate()
         );
     }
@@ -61,8 +61,8 @@ class AuthorController extends ApiController
     )]
     public function store(StoreAuthorRequest $request): JsonResponse
     {
-        return $this->json(
-            $this->authorService->create($request->validated()),
+        return $this->toJson(
+            $this->authorService->create($request->validated())->toResource(),
             Response::HTTP_CREATED
         );
     }
@@ -97,7 +97,7 @@ class AuthorController extends ApiController
     )]
     public function show(int $id): JsonResponse
     {
-        return $this->json($this->authorService->getById($id));
+        return $this->toJson($this->authorService->getById($id)->toResource());
     }
 
     #[OA\Patch(
@@ -136,8 +136,8 @@ class AuthorController extends ApiController
     )]
     public function update(UpdateAuthorRequest $request, int $id): JsonResponse
     {
-        return $this->json(
-            $this->authorService->updateById($id, $request->validated())
+        return $this->toJson(
+            $this->authorService->updateById($id, $request->validated())->toResource()
 
         );
     }
@@ -178,7 +178,7 @@ class AuthorController extends ApiController
     )]
     public function destroy(int $id): JsonResponse
     {
-        return $this->json([
+        return $this->toJson([
             'success' => $this->authorService->deleteById($id),
         ]);
     }

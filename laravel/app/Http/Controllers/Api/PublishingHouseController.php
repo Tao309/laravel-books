@@ -33,7 +33,7 @@ class PublishingHouseController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->service->getList()->toResourceCollection()
         );
     }
@@ -61,7 +61,7 @@ class PublishingHouseController extends ApiController
     )]
     public function store(StorePublishingHouseRequest $request): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->service->create($request->validated())->toResource(),
             ResponseAlias::HTTP_CREATED
         );
@@ -97,7 +97,7 @@ class PublishingHouseController extends ApiController
     )]
     public function show(int $id): JsonResponse
     {
-        return $this->json($this->service->getById($id)->toResource());
+        return $this->toJson($this->service->getById($id)->toResource());
     }
 
     #[OA\Patch(
@@ -136,7 +136,7 @@ class PublishingHouseController extends ApiController
     )]
     public function update(UpdatePublishingHouseRequest $request, int $id): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->service->updateById($id, $request->validated())->toResource()
         );
     }

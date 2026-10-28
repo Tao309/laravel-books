@@ -22,8 +22,6 @@ readonly class CreateBindingTypeHandler
      */
     public function handle(CreateBindingTypeCommand $command): BindingType
     {
-        return $this->repository->create([
-            BindingType::LABEL => $command->label,
-        ]);
+        return $this->repository->create($command->dto->toArray());
     }
 }

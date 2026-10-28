@@ -22,8 +22,6 @@ class UpdateBindingTypeHandler
      */
     public function handle(UpdateBindingTypeCommand $command): BindingType
     {
-        return $this->repository->update($command->id, [
-            BindingType::LABEL => $command->label,
-        ]);
+        return $this->repository->update($command->id, $command->dto->toArray());
     }
 }

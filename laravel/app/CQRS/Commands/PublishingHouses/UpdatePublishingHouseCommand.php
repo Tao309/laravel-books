@@ -2,9 +2,9 @@
 
 namespace App\CQRS\Commands\PublishingHouses;
 
-use App\DTOs\PublishingHouseDTO;
+use App\DTOs\DtoInterface;
 
 class UpdatePublishingHouseCommand
 {
-    public function __construct(public int $id, public PublishingHouseDTO $dto) {}
+    public function __construct(public int $id, public DtoInterface $dto) {}
 }

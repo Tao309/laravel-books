@@ -2,9 +2,9 @@
 
 namespace App\CQRS\Commands\PublishingHouses;
 
-use App\DTOs\PublishingHouseDTO;
+use App\DTOs\DtoInterface;
 
 class CreatePublishingHouseCommand
 {
-    public function __construct(public PublishingHouseDTO $dto) {}
+    public function __construct(public DtoInterface $dto) {}
 }

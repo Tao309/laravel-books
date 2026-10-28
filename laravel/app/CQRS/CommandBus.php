@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CQRS\Commands;
+namespace App\CQRS;
 
 use Illuminate\Contracts\Container\Container;
 

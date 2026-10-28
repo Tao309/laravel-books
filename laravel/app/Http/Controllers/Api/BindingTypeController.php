@@ -33,7 +33,7 @@ class BindingTypeController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->bindingTypeService->getList()->toResourceCollection()
         );
     }
@@ -61,8 +61,8 @@ class BindingTypeController extends ApiController
     )]
     public function store(StoreBindingTypeRequest $request): JsonResponse
     {
-        return $this->json(
-            $this->bindingTypeService->create($request->validated()),
+        return $this->toJson(
+            $this->bindingTypeService->create($request->validated())->toResource(),
             Response::HTTP_CREATED
         );
     }
@@ -103,8 +103,8 @@ class BindingTypeController extends ApiController
     )]
     public function update(UpdateBindingTypeRequest $request, int $id): JsonResponse
     {
-        return $this->json(
-            $this->bindingTypeService->updateById($id, $request->validated())
+        return $this->toJson(
+            $this->bindingTypeService->updateById($id, $request->validated())->toResource()
         );
     }
 
@@ -144,7 +144,7 @@ class BindingTypeController extends ApiController
     )]
     public function destroy(int $id): JsonResponse
     {
-        return $this->json([
+        return $this->toJson([
             'success' => $this->bindingTypeService->deleteById($id),
         ]);
     }

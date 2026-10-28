@@ -2,7 +2,9 @@
 
 namespace App\CQRS\Commands\Cities;
 
+use App\DTOs\DtoInterface;
+
 class UpdateCityCommand
 {
-    public function __construct(public int $id, public ?string $code, public string $title) {}
+    public function __construct(public int $id, public DtoInterface $dto) {}
 }

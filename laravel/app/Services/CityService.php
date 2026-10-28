@@ -2,55 +2,42 @@
 
 namespace App\Services;
 
+use App\CQRS\CommandBus;
 use App\CQRS\Commands\Cities\CreateCityCommand;
 use App\CQRS\Commands\Cities\DestroyCityCommand;
 use App\CQRS\Commands\Cities\UpdateCityCommand;
-use App\CQRS\Handlers\Cities\CreateCityHandler;
-use App\CQRS\Handlers\Cities\DestroyCityHandler;
-use App\CQRS\Handlers\Cities\GetCitiesHandler;
-use App\CQRS\Handlers\Cities\UpdateCityHandler;
 use App\CQRS\Queries\Cities\GetCitiesQuery;
+use App\DTOs\CityDTO;
 use App\Models\City;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 readonly class CityService
 {
     public function __construct(
-        private DestroyCityHandler $destroyCityHandler,
-        private UpdateCityHandler $updateCityHandler,
-        private CreateCityHandler $createCityHandler,
-        private GetCitiesHandler $getCitiesHandler,
+        private CommandBus $bus,
     ) {}
 
     public function getList(): Collection
     {
-        return $this->getCitiesHandler->handle(new GetCitiesQuery);
+        return $this->bus->dispatch(new GetCitiesQuery);
     }
 
-    public function create(array $validatedData): JsonResource
+    public function create(array $data): City
     {
-        $command = new CreateCityCommand(
-            $validatedData[City::CODE],
-            $validatedData[City::TITLE],
-        );
+        $command = new CreateCityCommand(CityDTO::fromArray($data));
 
-        return $this->createCityHandler->handle($command)->toResource();
+        return $this->bus->dispatch($command);
     }
 
-    public function updateById(int $id, array $validatedData): JsonResource
+    public function updateById(int $id, array $data): City
     {
-        $command = new UpdateCityCommand(
-            $id,
-            $validatedData[City::CODE],
-            $validatedData[City::TITLE],
-        );
+        $command = new UpdateCityCommand($id, CityDTO::fromArray($data));
 
-        return $this->updateCityHandler->handle($command)->toResource();
+        return $this->bus->dispatch($command);
     }
 
     public function deleteById(int $id): bool
     {
-        return $this->destroyCityHandler->handle(new DestroyCityCommand($id));
+        return $this->bus->dispatch(new DestroyCityCommand($id));
     }
 }

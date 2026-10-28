@@ -2,27 +2,25 @@
 
 namespace App\Services;
 
-use App\CQRS\Handlers\Shops\GetShopByIdHandler;
-use App\CQRS\Handlers\Shops\GetShopsHandler;
+use App\CQRS\CommandBus;
 use App\CQRS\Queries\Shops\GetShopByIdQuery;
 use App\CQRS\Queries\Shops\GetShopsQuery;
+use App\Models\Shop;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 readonly class ShopService
 {
     public function __construct(
-        private GetShopByIdHandler $getShopByIdHandler,
-        private GetShopsHandler $getShopsHandler,
+        private CommandBus $bus,
     ) {}
 
-    public function getById(int $id): JsonResource
+    public function getById(int $id): Shop
     {
-        return $this->getShopByIdHandler->handle(new GetShopByIdQuery($id))->toResource();
+        return $this->bus->dispatch(new GetShopByIdQuery($id));
     }
 
     public function getList(): Collection
     {
-        return $this->getShopsHandler->handle(new GetShopsQuery);
+        return $this->bus->dispatch(new GetShopsQuery);
     }
 }

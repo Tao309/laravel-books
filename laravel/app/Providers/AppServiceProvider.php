@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\CQRS\Commands\CommandBus;
+use App\CQRS\CommandBus;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

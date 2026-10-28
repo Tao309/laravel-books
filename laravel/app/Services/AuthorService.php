@@ -2,63 +2,48 @@
 
 namespace App\Services;
 
+use App\CQRS\CommandBus;
 use App\CQRS\Commands\Authors\CreateAuthorCommand;
 use App\CQRS\Commands\Authors\DestroyAuthorCommand;
 use App\CQRS\Commands\Authors\UpdateAuthorCommand;
-use App\CQRS\Handlers\Authors\CreateAuthorHandler;
-use App\CQRS\Handlers\Authors\DestroyAuthorHandler;
-use App\CQRS\Handlers\Authors\GetAuthorByIdHandler;
-use App\CQRS\Handlers\Authors\GetAuthorsHandler;
-use App\CQRS\Handlers\Authors\UpdateAuthorHandler;
 use App\CQRS\Queries\Authors\GetAuthorByIdQuery;
 use App\CQRS\Queries\Authors\GetAuthorsQuery;
+use App\DTOs\AuthorDTO;
 use App\Models\Author;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class AuthorService
 {
     public function __construct(
-        private CreateAuthorHandler $createAuthorHandler,
-        private UpdateAuthorHandler $updateAuthorHandler,
-        private DestroyAuthorHandler $destroyAuthorHandler,
-        private GetAuthorByIdHandler $getAuthorByIdHandler,
-        private GetAuthorsHandler $getAuthorsHandler,
+        private CommandBus $bus,
     ) {}
 
     public function getListPaginate(): LengthAwarePaginator
     {
-        return $this->getAuthorsHandler->handle(new GetAuthorsQuery);
+        return $this->bus->dispatch(new GetAuthorsQuery);
     }
 
-    public function getById(int $id): JsonResource
+    public function getById(int $id): Author
     {
-        return $this->getAuthorByIdHandler->handle(new GetAuthorByIdQuery($id))->toResource();
+        return $this->bus->dispatch(new GetAuthorByIdQuery($id));
     }
 
-    public function create(array $validatedData): JsonResource
+    public function create(array $data): Author
     {
-        $command = new CreateAuthorCommand(
-            $validatedData[Author::FIRST_NAME],
-            $validatedData[Author::LAST_NAME]
-        );
+        $command = new CreateAuthorCommand(AuthorDTO::fromArray($data));
 
-        return $this->createAuthorHandler->handle($command)->toResource();
+        return $this->bus->dispatch($command);
     }
 
-    public function updateById(int $id, array $validatedData): JsonResource
+    public function updateById(int $id, array $data): Author
     {
-        $command = new UpdateAuthorCommand(
-            $id,
-            $validatedData[Author::FIRST_NAME],
-            $validatedData[Author::LAST_NAME]
-        );
+        $command = new UpdateAuthorCommand($id, AuthorDTO::fromArray($data));
 
-        return $this->updateAuthorHandler->handle($command)->toResource();
+        return $this->bus->dispatch($command);
     }
 
     public function deleteById(int $id): bool
     {
-        return $this->destroyAuthorHandler->handle(new DestroyAuthorCommand($id));
+        return $this->bus->dispatch(new DestroyAuthorCommand($id));
     }
 }

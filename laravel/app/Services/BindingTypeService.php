@@ -2,53 +2,42 @@
 
 namespace App\Services;
 
+use App\CQRS\CommandBus;
 use App\CQRS\Commands\BindingTypes\CreateBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\DestroyBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\UpdateBindingTypeCommand;
-use App\CQRS\Handlers\BindingTypes\CreateBindingTypeHandler;
-use App\CQRS\Handlers\BindingTypes\DestroyBindingTypeHandler;
-use App\CQRS\Handlers\BindingTypes\GetBindingTypesHandler;
-use App\CQRS\Handlers\BindingTypes\UpdateBindingTypeHandler;
 use App\CQRS\Queries\BindingTypes\GetBindingTypesQuery;
+use App\DTOs\BindingTyperDTO;
 use App\Models\BindingType;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 readonly class BindingTypeService
 {
     public function __construct(
-        private DestroyBindingTypeHandler $destroyBindingTypeHandler,
-        private UpdateBindingTypeHandler $updateBindingTypeHandler,
-        private CreateBindingTypeHandler $createBindingTypeHandler,
-        private GetBindingTypesHandler $getBindingTypesHandler,
+        private CommandBus $bus,
     ) {}
 
     public function getList(): Collection
     {
-        return $this->getBindingTypesHandler->handle(new GetBindingTypesQuery);
+        return $this->bus->dispatch(new GetBindingTypesQuery);
     }
 
-    public function create(array $validatedData): JsonResource
+    public function create(array $data): BindingType
     {
-        $command = new CreateBindingTypeCommand(
-            $validatedData[BindingType::LABEL],
-        );
+        $command = new CreateBindingTypeCommand(BindingTyperDTO::fromArray($data));
 
-        return $this->createBindingTypeHandler->handle($command)->toResource();
+        return $this->bus->dispatch($command);
     }
 
-    public function updateById(int $id, array $validatedData): JsonResource
+    public function updateById(int $id, array $data): BindingType
     {
-        $command = new UpdateBindingTypeCommand(
-            $id,
-            $validatedData[BindingType::LABEL]
-        );
+        $command = new UpdateBindingTypeCommand($id, BindingTyperDTO::fromArray($data));
 
-        return $this->updateBindingTypeHandler->handle($command)->toResource();
+        return $this->bus->dispatch($command);
     }
 
     public function deleteById(int $id): bool
     {
-        return $this->destroyBindingTypeHandler->handle(new DestroyBindingTypeCommand($id));
+        return $this->bus->dispatch(new DestroyBindingTypeCommand($id));
     }
 }

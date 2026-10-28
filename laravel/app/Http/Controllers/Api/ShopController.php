@@ -30,7 +30,7 @@ class ShopController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->shopService->getList()->toResourceCollection()
         );
     }
@@ -65,6 +65,6 @@ class ShopController extends ApiController
     )]
     public function show(int $id): JsonResponse
     {
-        return $this->json($this->shopService->getById($id));
+        return $this->toJson($this->shopService->getById($id)->toResource());
     }
 }

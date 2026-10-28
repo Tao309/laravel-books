@@ -22,9 +22,6 @@ class CreateAuthorHandler
      */
     public function handle(CreateAuthorCommand $command): Author
     {
-        return $this->repository->create([
-            Author::FIRST_NAME => $command->firstName,
-            Author::LAST_NAME => $command->lastName,
-        ]);
+        return $this->repository->create($command->dto->toArray());
     }
 }

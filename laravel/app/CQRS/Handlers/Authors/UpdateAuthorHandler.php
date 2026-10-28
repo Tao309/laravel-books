@@ -22,9 +22,6 @@ class UpdateAuthorHandler
      */
     public function handle(UpdateAuthorCommand $command): Author
     {
-        return $this->repository->update($command->id, [
-            Author::FIRST_NAME => $command->firstName,
-            Author::LAST_NAME => $command->lastName,
-        ]);
+        return $this->repository->update($command->id, $command->dto->toArray());
     }
 }

@@ -33,7 +33,7 @@ class CityController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->cityService->getList()->toResourceCollection()
         );
     }
@@ -61,7 +61,7 @@ class CityController extends ApiController
     )]
     public function store(StoreCityRequest $request): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->cityService->create($request->validated()),
             Response::HTTP_CREATED
         );
@@ -103,7 +103,7 @@ class CityController extends ApiController
     )]
     public function update(UpdateCityRequest $request, int $id): JsonResponse
     {
-        return $this->json(
+        return $this->toJson(
             $this->cityService->updateById($id, $request->validated())
         );
     }
@@ -144,7 +144,7 @@ class CityController extends ApiController
     )]
     public function destroy(int $id): JsonResponse
     {
-        return $this->json([
+        return $this->toJson([
             'success' => $this->cityService->deleteById($id),
         ]);
     }
