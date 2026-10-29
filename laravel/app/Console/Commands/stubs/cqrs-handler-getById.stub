@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ GetByIdCommandNamespace }};
+use {{ ModelNamespace }};
+use {{ RepositoryNamespace }};
+use App\Repositories\Interfaces\RepositoryInterface;
+
+class {{ class }}
+{
+    /**
+     * @param  {{ RepositoryName }}  $repository
+     */
+    public function __construct(
+        public RepositoryInterface $repository,
+    ) {}
+
+    public function handle({{ GetByIdCommandName }} $query): {{ ModelName }}
+    {
+        return $this->repository->get($query->id);
+    }
+}

@@ -1,0 +1,11 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\CQRS\Queries\GetByIdQueryInterface;
+
+class {{ class }} implements GetByIdQueryInterface
+{
+    public function __construct(public int $id) {}
+
+}

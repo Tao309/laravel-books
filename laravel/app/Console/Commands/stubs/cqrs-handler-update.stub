@@ -1,0 +1,27 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ UpdateCommandNamespace }};
+use App\Exceptions\ApiException;
+use {{ ModelNamespace }};
+use {{ RepositoryNamespace }};
+use App\Repositories\Interfaces\RepositoryInterface;
+
+class {{ class }}
+{
+    /**
+     * @param  {{ RepositoryName }}  $repository
+     */
+    public function __construct(
+        public RepositoryInterface $repository,
+    ) {}
+
+    /**
+     * @throws ApiException
+     */
+    public function handle({{ UpdateCommandName }} $command): {{ ModelName }}
+    {
+        return $this->repository->update($command->id, $command->dto->toArray());
+    }
+}

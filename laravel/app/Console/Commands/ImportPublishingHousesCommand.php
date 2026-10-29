@@ -6,7 +6,7 @@ use App\Models\PublishingHouse;
 use App\Repositories\PublishingHouseRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class ImportPublishingHouses extends CommonImportCommand
+class ImportPublishingHousesCommand extends CommonImportCommand
 {
     public const string COMMAND_LABEL = 'Издательские дома';
 

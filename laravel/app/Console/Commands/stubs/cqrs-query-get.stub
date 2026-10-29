@@ -1,0 +1,7 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\CQRS\Queries\GetCollectionQueryInterface;
+
+class {{ class }} implements GetCollectionQueryInterface {}

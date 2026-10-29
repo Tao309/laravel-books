@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\DTOs\DtoInterface;
+
+class {{ class }}
+{
+    public function __construct(public int $id, public DtoInterface $dto) {}
+}

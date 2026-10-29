@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Models\PublishingBrand;
-use App\Repositories\PublishingBrandRepository;
+use App\Models\BookSeries;
+use App\Repositories\BookSeriesRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class ImportPublishingBrands extends CommonImportCommand
+class ImportBookSeriesCommand extends CommonImportCommand
 {
-    public const string COMMAND_LABEL = 'Издательские брэнды';
+    public const string COMMAND_LABEL = 'Книжные серии';
 
     private const string FIELD_ID = 'id';
 
@@ -18,16 +18,16 @@ class ImportPublishingBrands extends CommonImportCommand
 
     private const string FIELD_DATE_CREATED = 'date_created';
 
-    protected string $fileName = 'publishing_brands.csv';
+    protected string $fileName = 'book_series.csv';
 
-    protected ?string $seqTable = 'publishing_brands';
+    protected ?string $seqTable = BookSeries::TABLE_NAME;
 
-    protected $signature = 'app:import:publishing_brands';
+    protected $signature = 'app:import:books_series';
 
-    protected $description = 'Импортируем список издательских брэндов';
+    protected $description = 'Импортируем список книжных серий';
 
     public function __construct(
-        private readonly PublishingBrandRepository $repository
+        private readonly BookSeriesRepository $repository
     ) {
         parent::__construct();
     }
@@ -42,11 +42,11 @@ class ImportPublishingBrands extends CommonImportCommand
         ];
     }
 
-    protected function createEntityByImportRowData(array $row): PublishingBrand
+    protected function createEntityByImportRowData(array $row): BookSeries
     {
         return $this->repository->create([
-            PublishingBrand::ID => $row[self::FIELD_ID],
-            PublishingBrand::NAME => $row[self::FIELD_NAME],
+            BookSeries::ID => $row[self::FIELD_ID],
+            BookSeries::NAME => $row[self::FIELD_NAME],
             Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
         ]);

@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ RepositoryNamespace }};
+use App\Repositories\Interfaces\RepositoryInterface;
+
+abstract class {{ class }}
+{
+    /**
+     * @param  {{ RepositoryName }}  $repository
+     */
+    public function __construct(
+        public RepositoryInterface $repository,
+    ) {}
+}

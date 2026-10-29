@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ GetCommandNamespace }};
+use {{ RepositoryNamespace }};
+use App\Repositories\Interfaces\RepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+class {{ class }}
+{
+    /**
+     * @param  {{ RepositoryName }}  $repository
+     */
+    public function __construct(
+        public RepositoryInterface $repository,
+    ) {}
+
+    public function handle({{ GetCommandName }} $query): LengthAwarePaginator
+    {
+        return $this->repository->getAllPaginate($query);
+    }
+}

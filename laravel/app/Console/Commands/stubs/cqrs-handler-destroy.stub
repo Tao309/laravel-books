@@ -1,0 +1,26 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ DestroyCommandNamespace }};
+use App\Exceptions\ApiException;
+use {{ RepositoryNamespace }};
+use App\Repositories\Interfaces\RepositoryInterface;
+
+class {{ class }}
+{
+    /**
+     * @param  {{ RepositoryName }}  $repository
+     */
+    public function __construct(
+        public RepositoryInterface $repository,
+    ) {}
+
+    /**
+     * @throws ApiException
+     */
+    public function handle({{ DestroyCommandName }} $command): bool
+    {
+        return $this->repository->delete($command->id);
+    }
+}
