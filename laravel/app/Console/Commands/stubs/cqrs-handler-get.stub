@@ -7,7 +7,7 @@ use {{ RepositoryNamespace }};
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class {{ class }}
+class {{ class }} extends {{ AbstractHandlerName }}
 {
     /**
      * @param  {{ RepositoryName }}  $repository

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\CQRSCommands;
 
+use App\CQRS\Handlers\PublishingBrands\AbstractPublishingBrandHandler;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,6 +49,13 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
 
         $searchAction = Str::ucfirst($this->argument('action'));
 
+
+        $singularName = Str::singular($this->getNameInput());
+        $pluralName = Str::plural($this->getNameInput());
+
+        $commandName = $action === 'get' ? $pluralName : $singularName;
+        $commandName = Str::ucfirst($commandName);
+
         $searches = [
             [
                 '{{ ModelNamespace }}',
@@ -56,14 +64,9 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
                 '{{ RepositoryName }}',
                 '{{ '.$searchAction.'CommandNamespace }}',
                 '{{ '.$searchAction.'CommandName }}',
+                '{{ AbstractHandlerName }}',
             ],
         ];
-
-        $singularName = Str::singular($this->getNameInput());
-        $pluralName = Str::plural($this->getNameInput());
-
-        $commandName = $action === 'get' ? $pluralName : $singularName;
-        $commandName = Str::ucfirst($commandName);
 
         foreach ($searches as $search) {
             $stub = str_replace(
@@ -75,7 +78,7 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
                     $singularName.'Repository',
                     'App\\CQRS\\Commands\\'.$pluralName.'\\'.$searchAction.$commandName.'Command',
                     $searchAction.$commandName.'Command',
-
+                    'Abstract'.$singularName.'Handler',
                 ],
                 $stub
             );

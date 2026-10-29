@@ -7,7 +7,7 @@ use {{ ModelNamespace }};
 use {{ RepositoryNamespace }};
 use App\Repositories\Interfaces\RepositoryInterface;
 
-class {{ class }}
+class {{ class }} extends {{ AbstractHandlerName }}
 {
     /**
      * @param  {{ RepositoryName }}  $repository
