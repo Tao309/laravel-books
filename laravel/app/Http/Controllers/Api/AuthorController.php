@@ -6,14 +6,15 @@ use App\Http\Requests\Authors\StoreAuthorRequest;
 use App\Http\Requests\Authors\UpdateAuthorRequest;
 use App\Services\AuthorService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
 class AuthorController extends ApiController
 {
     public function __construct(
-        private readonly AuthorService $authorService,
-    ) {}
+        AuthorService $service,
+    ) {
+        $this->service = $service;
+    }
 
     #[OA\Get(
         path: '/api/authors',
@@ -33,9 +34,7 @@ class AuthorController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->toJson(
-            $this->authorService->getListPaginate()
-        );
+        return $this->indexAction();
     }
 
     #[OA\Post(
@@ -61,10 +60,7 @@ class AuthorController extends ApiController
     )]
     public function store(StoreAuthorRequest $request): JsonResponse
     {
-        return $this->toJson(
-            $this->authorService->create($request->toDTO())->toResource(),
-            Response::HTTP_CREATED
-        );
+        return $this->storeAction($request);
     }
 
     #[OA\Get(
@@ -97,7 +93,7 @@ class AuthorController extends ApiController
     )]
     public function show(int $id): JsonResponse
     {
-        return $this->toJson($this->authorService->getById($id)->toResource());
+        return $this->showAction($id);
     }
 
     #[OA\Patch(
@@ -136,10 +132,7 @@ class AuthorController extends ApiController
     )]
     public function update(UpdateAuthorRequest $request, int $id): JsonResponse
     {
-        return $this->toJson(
-            $this->authorService->updateById($id, $request->toDTO())->toResource()
-
-        );
+        return $this->updateAction($request, $id);
     }
 
     #[OA\Delete(
@@ -178,8 +171,6 @@ class AuthorController extends ApiController
     )]
     public function destroy(int $id): JsonResponse
     {
-        return $this->toJson([
-            'success' => $this->authorService->deleteById($id),
-        ]);
+        return $this->destroyAction($id);
     }
 }

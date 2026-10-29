@@ -6,7 +6,7 @@ use App\Http\Resources\CommonResourceCollection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'PublishingBranResourcedCollection',
+    schema: 'PublishingBrandResourceCollection',
     properties: [
         new OA\Property(
             property: 'data',

@@ -10,8 +10,9 @@ use App\CQRS\Queries\PublishingBrands\GetPublishingBrandsQuery;
 use App\DTOs\DtoInterface;
 use App\Models\PublishingBrand;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class PublishingBrandService
+readonly class PublishingBrandService implements ServiceInterface
 {
     public function __construct(
         private CommandBus $bus,
@@ -37,5 +38,10 @@ readonly class PublishingBrandService
         $command = new UpdatePublishingBrandCommand($id, $dto);
 
         return $this->bus->dispatch($command);
+    }
+
+    public function getListPaginate(): ?LengthAwarePaginator
+    {
+        return null;
     }
 }

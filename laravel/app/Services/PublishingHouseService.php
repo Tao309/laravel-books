@@ -10,8 +10,9 @@ use App\CQRS\Queries\PublishingHouses\GetPublishingHousesQuery;
 use App\DTOs\DtoInterface;
 use App\Models\PublishingHouse;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class PublishingHouseService
+readonly class PublishingHouseService implements ServiceInterface
 {
     public function __construct(
         private CommandBus $bus,
@@ -39,5 +40,10 @@ readonly class PublishingHouseService
         $command = new UpdatePublishingHouseCommand($id, $dto);
 
         return $this->bus->dispatch($command);
+    }
+
+    public function getListPaginate(): ?LengthAwarePaginator
+    {
+        return null;
     }
 }

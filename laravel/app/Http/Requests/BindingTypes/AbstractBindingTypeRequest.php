@@ -3,10 +3,11 @@
 namespace App\Http\Requests\BindingTypes;
 
 use App\DTOs\BindingTyperDTO;
+use App\Http\Requests\RequestInterface;
 use App\Models\BindingType;
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class AbstractBindingTypeRequest extends FormRequest
+abstract class AbstractBindingTypeRequest extends FormRequest implements RequestInterface
 {
     public function authorize(): bool
     {

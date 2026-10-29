@@ -10,8 +10,10 @@ use App\CQRS\Queries\BindingTypes\GetBindingTypesQuery;
 use App\DTOs\DtoInterface;
 use App\Models\BindingType;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class BindingTypeService
+readonly class BindingTypeService implements ServiceInterface
 {
     public function __construct(
         private CommandBus $bus,
@@ -39,5 +41,15 @@ readonly class BindingTypeService
     public function deleteById(int $id): bool
     {
         return $this->bus->dispatch(new DestroyBindingTypeCommand($id));
+    }
+
+    public function getListPaginate(): ?LengthAwarePaginator
+    {
+        return null;
+    }
+
+    public function getById(int $id): ?Model
+    {
+        return null;
     }
 }

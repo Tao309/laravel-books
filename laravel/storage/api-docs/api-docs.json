@@ -313,6 +313,137 @@
                 }
             }
         },
+        "/api/books_series": {
+            "get": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Get list of Book Series",
+                "description": "Get list of Book Series",
+                "operationId": "88d03acf1fea2e34de0012a4f350f8b7",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of Book Series",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Create BookSeries",
+                "description": "Create BookSeries",
+                "operationId": "fc99649938164e8e3e712269b2f4de2c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBookSeriesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created BookSeries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/books_series/{id}": {
+            "get": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Get BookSeries by id",
+                "description": "Get BookSeries by id",
+                "operationId": "3391ee1f2364f949b395102aa75204b2",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the BookSeries",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get BookSeries by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Update BookSeries by id",
+                "description": "Update BookSeries by id",
+                "operationId": "d130f402b9c63aa310e892627ad58342",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the BookSeries",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBookSeriesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update BookSeries by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/cities": {
             "get": {
                 "tags": [
@@ -443,6 +574,137 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CityDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/publishing_brands": {
+            "get": {
+                "tags": [
+                    "PublishingBrands"
+                ],
+                "summary": "Get list of Publishing Brands",
+                "description": "Get list of Publishing Brands",
+                "operationId": "392c654a67106cf15e0dd80568bc2669",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of Publishing Brands",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingBrandResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "PublishingBrands"
+                ],
+                "summary": "Create PublishingBrand",
+                "description": "Create PublishingBrand",
+                "operationId": "b12b40e741d081375e03e01d79af65ff",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePublishingBrandRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created PublishingBrand",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingBrandDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/publishing_brands/{id}": {
+            "get": {
+                "tags": [
+                    "PublishingBrands"
+                ],
+                "summary": "Get PublishingBrand by id",
+                "description": "Get PublishingBrand by id",
+                "operationId": "3b2be98177e2277975ebb9788bee0d6d",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the PublishingBrand",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get PublishingBrand by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingBrandDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "PublishingBrands"
+                ],
+                "summary": "Update PublishingBrand by id",
+                "description": "Update PublishingBrand by id",
+                "operationId": "555203e0289e8e21dfc332cf0ba1bdda",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the PublishingBrand",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePublishingBrandRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update PublishingBrand by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PublishingBrandDataResource"
                                 }
                             }
                         }
@@ -686,6 +948,24 @@
                 },
                 "type": "object"
             },
+            "StoreBookSeriesRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Звезды научной фантастики"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBookSeriesRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Звезды научной фантастики"
+                    }
+                },
+                "type": "object"
+            },
             "StoreCityRequest": {
                 "properties": {
                     "code": {
@@ -708,6 +988,24 @@
                     "title": {
                         "type": "string",
                         "example": "Москва"
+                    }
+                },
+                "type": "object"
+            },
+            "StorePublishingBrandRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Астрель СПб"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdatePublishingBrandRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Астрель СПб"
                     }
                 },
                 "type": "object"
@@ -856,6 +1154,47 @@
                 },
                 "type": "object"
             },
+            "BookSeriesDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/BookSeriesResource"
+                    }
+                },
+                "type": "object"
+            },
+            "BookSeriesResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Звезды научной фантастики"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "BookSeriesResourceCollection": {
+                "description": "Collection of Publishing Series",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BookSeriesResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "CityDataResource": {
                 "properties": {
                     "data": {
@@ -918,6 +1257,46 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/CityResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingBrandDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/PublishingBrandResource"
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingBrandResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Астрель СПб"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingBrandResourceCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PublishingBrandResource"
                         }
                     }
                 },
@@ -1051,8 +1430,16 @@
             "description": "BindingTypes"
         },
         {
+            "name": "BookSeries",
+            "description": "BookSeries"
+        },
+        {
             "name": "Cities",
             "description": "Cities"
+        },
+        {
+            "name": "PublishingBrands",
+            "description": "PublishingBrands"
         },
         {
             "name": "PublishingHouses",

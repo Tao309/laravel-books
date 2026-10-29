@@ -3,10 +3,11 @@
 namespace App\Http\Requests\PublishingHouses;
 
 use App\DTOs\PublishingHouseDTO;
+use App\Http\Requests\RequestInterface;
 use App\Models\PublishingHouse;
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class AbstractPublishingHouseRequest extends FormRequest
+abstract class AbstractPublishingHouseRequest extends FormRequest implements RequestInterface
 {
     public function authorize(): bool
     {

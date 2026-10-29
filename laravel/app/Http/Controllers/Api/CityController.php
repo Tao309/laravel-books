@@ -6,14 +6,15 @@ use App\Http\Requests\Cities\StoreCityRequest;
 use App\Http\Requests\Cities\UpdateCityRequest;
 use App\Services\CityService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
 class CityController extends ApiController
 {
     public function __construct(
-        private readonly CityService $cityService,
-    ) {}
+        CityService $service,
+    ) {
+        $this->service = $service;
+    }
 
     #[OA\Get(
         path: '/api/cities',
@@ -33,9 +34,7 @@ class CityController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->toJson(
-            $this->cityService->getList()->toResourceCollection()
-        );
+        return $this->indexAction();
     }
 
     #[OA\Post(
@@ -61,10 +60,7 @@ class CityController extends ApiController
     )]
     public function store(StoreCityRequest $request): JsonResponse
     {
-        return $this->toJson(
-            $this->cityService->create($request->toDTO()),
-            Response::HTTP_CREATED
-        );
+        return $this->storeAction($request);
     }
 
     #[OA\Patch(
@@ -103,9 +99,7 @@ class CityController extends ApiController
     )]
     public function update(UpdateCityRequest $request, int $id): JsonResponse
     {
-        return $this->toJson(
-            $this->cityService->updateById($id, $request->toDTO())
-        );
+        return $this->updateAction($request, $id);
     }
 
     #[OA\Delete(
@@ -144,8 +138,6 @@ class CityController extends ApiController
     )]
     public function destroy(int $id): JsonResponse
     {
-        return $this->toJson([
-            'success' => $this->cityService->deleteById($id),
-        ]);
+        return $this->destroyAction($id);
     }
 }

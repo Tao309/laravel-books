@@ -9,8 +9,10 @@ use OpenApi\Attributes as OA;
 class ShopController extends ApiController
 {
     public function __construct(
-        private readonly ShopService $shopService,
-    ) {}
+        ShopService $service,
+    ) {
+        $this->service = $service;
+    }
 
     #[OA\Get(
         path: '/api/shops',
@@ -30,9 +32,7 @@ class ShopController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->toJson(
-            $this->shopService->getList()->toResourceCollection()
-        );
+        return $this->indexAction();
     }
 
     #[OA\Get(
@@ -65,6 +65,6 @@ class ShopController extends ApiController
     )]
     public function show(int $id): JsonResponse
     {
-        return $this->toJson($this->shopService->getById($id)->toResource());
+        return $this->showAction($id);
     }
 }

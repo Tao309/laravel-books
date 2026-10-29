@@ -3,10 +3,11 @@
 namespace App\Http\Requests\Authors;
 
 use App\DTOs\AuthorDTO;
+use App\Http\Requests\RequestInterface;
 use App\Models\Author;
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class AbstractAuthorRequest extends FormRequest
+abstract class AbstractAuthorRequest extends FormRequest implements RequestInterface
 {
     public function authorize(): bool
     {

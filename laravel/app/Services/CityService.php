@@ -10,8 +10,10 @@ use App\CQRS\Queries\Cities\GetCitiesQuery;
 use App\DTOs\DtoInterface;
 use App\Models\City;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class CityService
+readonly class CityService implements ServiceInterface
 {
     public function __construct(
         private CommandBus $bus,
@@ -39,5 +41,15 @@ readonly class CityService
     public function deleteById(int $id): bool
     {
         return $this->bus->dispatch(new DestroyCityCommand($id));
+    }
+
+    public function getListPaginate(): ?LengthAwarePaginator
+    {
+        return null;
+    }
+
+    public function getById(int $id): ?Model
+    {
+        return null;
     }
 }

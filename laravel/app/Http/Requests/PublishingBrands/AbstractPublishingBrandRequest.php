@@ -3,10 +3,11 @@
 namespace App\Http\Requests\PublishingBrands;
 
 use App\DTOs\PublishingBrandDTO;
+use App\Http\Requests\RequestInterface;
 use App\Models\PublishingBrand;
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class AbstractPublishingBrandRequest extends FormRequest
+abstract class AbstractPublishingBrandRequest extends FormRequest implements RequestInterface
 {
     public function authorize(): bool
     {

@@ -6,14 +6,15 @@ use App\Http\Requests\BindingTypes\StoreBindingTypeRequest;
 use App\Http\Requests\BindingTypes\UpdateBindingTypeRequest;
 use App\Services\BindingTypeService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
 class BindingTypeController extends ApiController
 {
     public function __construct(
-        private readonly BindingTypeService $bindingTypeService,
-    ) {}
+        BindingTypeService $service,
+    ) {
+        $this->service = $service;
+    }
 
     #[OA\Get(
         path: '/api/binding_types',
@@ -33,9 +34,7 @@ class BindingTypeController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->toJson(
-            $this->bindingTypeService->getList()->toResourceCollection()
-        );
+        return $this->indexAction();
     }
 
     #[OA\Post(
@@ -61,10 +60,7 @@ class BindingTypeController extends ApiController
     )]
     public function store(StoreBindingTypeRequest $request): JsonResponse
     {
-        return $this->toJson(
-            $this->bindingTypeService->create($request->toDTO())->toResource(),
-            Response::HTTP_CREATED
-        );
+        return $this->storeAction($request);
     }
 
     #[OA\Patch(
@@ -103,9 +99,7 @@ class BindingTypeController extends ApiController
     )]
     public function update(UpdateBindingTypeRequest $request, int $id): JsonResponse
     {
-        return $this->toJson(
-            $this->bindingTypeService->updateById($id, $request->toDTO())->toResource()
-        );
+        return $this->updateAction($request, $id);
     }
 
     #[OA\Delete(
@@ -144,8 +138,6 @@ class BindingTypeController extends ApiController
     )]
     public function destroy(int $id): JsonResponse
     {
-        return $this->toJson([
-            'success' => $this->bindingTypeService->deleteById($id),
-        ]);
+        return $this->destroyAction($id);
     }
 }

@@ -18,6 +18,7 @@ Swagger документация по api доступна по адресу /ap
 - Запуск всех команд с импортом `php artisan app:import:run-all`
 - Импорт издательских домов `php artisan app:import:publishing_houses`
 - Импорт издательских брэндов `php artisan app:import:publishing_brands`
+- Импорт книжных серий `php artisan app:import:books_series`
 
 Доступные опции:
 
@@ -52,6 +53,10 @@ Swagger документация по api доступна по адресу /ap
 ### PublishingBrand (издательский брэнд)
 
 - Добавить через seeder: `php artisan db:seed --class=PublishingBrand`
+
+### BookSeries (книжная серия)
+
+- Добавить через seeder: `php artisan db:seed --class=BookSeries`
 
 --------
 
@@ -785,7 +790,6 @@ Swagger документация по api доступна по адресу /ap
 ```
 </details>
 
-
 #### PublishingBrands:
 
 <details>
@@ -932,6 +936,156 @@ Swagger документация по api доступна по адресу /ap
         "name": "Астрель СПб",
         "updated_at": "2026-10-28 09:25:03",
         "created_at": "2026-10-28 09:25:03"
+    }
+}
+```
+</details>
+
+
+#### BookSeries:
+
+<details>
+<summary>
+<code><span style="color: #00a9b5;font-weight: bold;">GET</span></code> 
+<code><b>/api/books_series</b></code> 
+<code> (получить книжные серии)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Звезды научной фантастики",
+            "updated_at": "2026-10-28 16:00:29",
+            "created_at": "2026-10-28 16:00:29"
+        },
+        {
+            "id": 2,
+            "name": "НоваФикшн. Фантастика: XXI век",
+            "updated_at": "2026-10-28 16:00:29",
+            "created_at": "2026-10-28 16:00:29"
+        },
+        {
+            "id": 3,
+            "name": "Nova Fiction. Русская городская фэнтези",
+            "updated_at": "2026-10-28 16:00:29",
+            "created_at": "2026-10-28 16:00:29"
+        }
+    ]
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #49cc90;font-weight: bold;">POST</span></code>
+<code><b>/api/books_series</b></code> 
+<code> (создать книжную серию)</code>
+</summary>
+
+##### Параметры пути:
+
+> Нет
+
+##### Параметры тела запроса:
+
+ ```json
+{
+    "name": "Звезды научной фантастики"
+}
+```
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "id": 1,
+    "name": "Звезды научной фантастики",
+    "updated_at": "2026-10-28 16:00:29",
+    "created_at": "2026-10-28 16:00:29"
+}
+```
+</details>
+
+<details>
+ <summary><code><span style="color: #61affe;font-weight: bold;">GET</span></code> <code><b>/api/books_series/{id}</b></code> 
+<code> (получить книжную серию по id)
+</code></summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание         |
+> |----------|----------|------------|------------------|
+> | `id`     | required | int        | ID книжной серии |
+
+##### Параметры тела запроса:
+> Нет
+
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 1,
+        "name": "Звезды научной фантастики",
+        "updated_at": "2026-10-28 16:00:29",
+        "created_at": "2026-10-28 16:00:29"
+    }
+}
+```
+</details>
+
+<details>
+<summary>
+<code><span style="color: #50e3c2;font-weight: bold;">PATCH</span></code>
+<code><b>/api/books_series/{id}</b></code> 
+<code>(обновить книжную серию)</code>
+</summary>
+
+##### Параметры пути:
+
+> | Название | Тип      | Тип данных | Описание         |
+> |----------|----------|------------|------------------|
+> | `id`     | required | int        | ID книжной серии |
+
+##### Параметры тела запроса:
+````json
+{
+    "name": "Звезды научной фантастики"
+}
+````
+##### Responses:
+**Http code**: `200`
+**Content-type**: `application/json`
+
+**Response**
+```json 
+{
+    "data": {
+        "id": 1,
+        "name": "Звезды научной фантастики",
+        "updated_at": "2026-10-28 16:00:29",
+        "created_at": "2026-10-28 16:00:29"
     }
 }
 ```

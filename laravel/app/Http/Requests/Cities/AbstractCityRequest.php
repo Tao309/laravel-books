@@ -3,10 +3,11 @@
 namespace App\Http\Requests\Cities;
 
 use App\DTOs\CityDTO;
+use App\Http\Requests\RequestInterface;
 use App\Models\City;
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class AbstractCityRequest extends FormRequest
+abstract class AbstractCityRequest extends FormRequest implements RequestInterface
 {
     public function authorize(): bool
     {

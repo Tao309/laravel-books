@@ -7,13 +7,14 @@ use App\Http\Requests\PublishingBrands\UpdatePublishingBrandRequest;
 use App\Services\PublishingBrandService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PublishingBrandController extends ApiController
 {
     public function __construct(
-        private readonly PublishingBrandService $service,
-    ) {}
+        PublishingBrandService $service,
+    ) {
+        $this->service = $service;
+    }
 
     #[OA\Get(
         path: '/api/publishing_brands',
@@ -33,9 +34,7 @@ class PublishingBrandController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->toJson(
-            $this->service->getList()->toResourceCollection()
-        );
+        return $this->indexAction();
     }
 
     #[OA\Post(
@@ -61,10 +60,7 @@ class PublishingBrandController extends ApiController
     )]
     public function store(StorePublishingBrandRequest $request): JsonResponse
     {
-        return $this->toJson(
-            $this->service->create($request->toDTO())->toResource(),
-            ResponseAlias::HTTP_CREATED
-        );
+        return $this->storeAction($request);
     }
 
     #[OA\Get(
@@ -97,7 +93,7 @@ class PublishingBrandController extends ApiController
     )]
     public function show(int $id): JsonResponse
     {
-        return $this->toJson($this->service->getById($id)->toResource());
+        return $this->showAction($id);
     }
 
     #[OA\Patch(
@@ -136,8 +132,6 @@ class PublishingBrandController extends ApiController
     )]
     public function update(UpdatePublishingBrandRequest $request, int $id): JsonResponse
     {
-        return $this->toJson(
-            $this->service->updateById($id, $request->toDTO())->toResource()
-        );
+        return $this->updateAction($request, $id);
     }
 }

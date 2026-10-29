@@ -7,13 +7,14 @@ use App\Http\Requests\PublishingHouses\UpdatePublishingHouseRequest;
 use App\Services\PublishingHouseService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PublishingHouseController extends ApiController
 {
     public function __construct(
-        private readonly PublishingHouseService $service,
-    ) {}
+        PublishingHouseService $service,
+    ) {
+        $this->service = $service;
+    }
 
     #[OA\Get(
         path: '/api/publishing_houses',
@@ -33,9 +34,7 @@ class PublishingHouseController extends ApiController
     )]
     public function index(): JsonResponse
     {
-        return $this->toJson(
-            $this->service->getList()->toResourceCollection()
-        );
+        return $this->indexAction();
     }
 
     #[OA\Post(
@@ -61,10 +60,7 @@ class PublishingHouseController extends ApiController
     )]
     public function store(StorePublishingHouseRequest $request): JsonResponse
     {
-        return $this->toJson(
-            $this->service->create($request->toDTO())->toResource(),
-            ResponseAlias::HTTP_CREATED
-        );
+        return $this->storeAction($request);
     }
 
     #[OA\Get(
@@ -97,7 +93,7 @@ class PublishingHouseController extends ApiController
     )]
     public function show(int $id): JsonResponse
     {
-        return $this->toJson($this->service->getById($id)->toResource());
+        return $this->showAction($id);
     }
 
     #[OA\Patch(
@@ -136,8 +132,6 @@ class PublishingHouseController extends ApiController
     )]
     public function update(UpdatePublishingHouseRequest $request, int $id): JsonResponse
     {
-        return $this->toJson(
-            $this->service->updateById($id, $request->toDTO())->toResource()
-        );
+        return $this->updateAction($request, $id);
     }
 }
