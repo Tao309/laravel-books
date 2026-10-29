@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\CQRSCommands;
 
-use App\CQRS\Handlers\PublishingBrands\AbstractPublishingBrandHandler;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,7 +47,6 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
         $action = $this->argument('action');
 
         $searchAction = Str::ucfirst($this->argument('action'));
-
 
         $singularName = Str::singular($this->getNameInput());
         $pluralName = Str::plural($this->getNameInput());

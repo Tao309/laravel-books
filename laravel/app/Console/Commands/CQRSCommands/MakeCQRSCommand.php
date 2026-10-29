@@ -47,7 +47,12 @@ class MakeCQRSCommand extends GeneratorCommand
             '--migration' => true,
             '--seed' => true,
             '--requests' => true,
-            '--controller' => true,
+        ]);
+
+        $this->call('make:controller', [
+            'name' => 'Api/'.$upperName.'Controller',
+            '--model' => $upperName,
+            '--requests' => true,
         ]);
 
         $this->call('make:resource', [
@@ -65,6 +70,7 @@ class MakeCQRSCommand extends GeneratorCommand
 
         $this->createDTO();
         $this->createRepository();
+        $this->createService();
         $this->createCommands();
         $this->createHandlers();
         $this->createQueries();
@@ -82,6 +88,14 @@ class MakeCQRSCommand extends GeneratorCommand
     private function createRepository(): void
     {
         $this->call('make:repository', [
+            'name' => $this->getNameInput(),
+            '--force' => true,
+        ]);
+    }
+
+    public function createService(): void
+    {
+        $this->call('make:service', [
             'name' => $this->getNameInput(),
             '--force' => true,
         ]);
