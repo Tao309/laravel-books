@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\PublishingBrand;
 
-use App\Http\Resources\CommonResourceCollection;
+use App\Http\Resources\AbstractResourceCollection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -19,4 +19,4 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class PublishingBrandResourceCollection extends CommonResourceCollection {}
+class PublishingBrandResourceCollection extends AbstractResourceCollection {}

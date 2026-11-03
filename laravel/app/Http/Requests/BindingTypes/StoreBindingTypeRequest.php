@@ -22,7 +22,7 @@ class StoreBindingTypeRequest extends AbstractBindingTypeRequest
     public function rules(): array
     {
         return [
-            BindingType::LABEL => [
+            BindingType::PARAM_LABEL => [
                 'required',
                 'string',
                 'min:5',

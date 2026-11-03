@@ -60,6 +60,8 @@ class MakeServiceCommand extends GeneratorCommand
                 '{{ CreateModelCommandNamespace }}',
                 '{{ UpdateModelCommandName }}',
                 '{{ UpdateModelCommandNamespace }}',
+                '{{ DestroyModelCommandName }}',
+                '{{ DestroyModelCommandNamespace }}',
             ],
         ];
 
@@ -76,6 +78,8 @@ class MakeServiceCommand extends GeneratorCommand
                     'App\\CQRS\\Commands\\'.$pluralName.'\\Create'.$singularName.'Command',
                     'Update'.$singularName.'Command',
                     'App\\CQRS\\Commands\\'.$pluralName.'\\Update'.$singularName.'Command',
+                    'Destroy'.$singularName.'Command',
+                    'App\\CQRS\\Commands\\'.$pluralName.'\\Destroy'.$singularName.'Command',
                 ],
                 $stub
             );

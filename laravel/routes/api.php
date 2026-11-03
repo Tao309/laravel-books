@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BindingTypeController;
+use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\BookSeriesController;
 use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\PaperTypeController;
 use App\Http\Controllers\Api\PublishingBrandController;
 use App\Http\Controllers\Api\PublishingHouseController;
 use App\Http\Controllers\Api\ShopController;
@@ -21,3 +23,5 @@ Route::apiResource('/shops', ShopController::class)->only(['index', 'show']);
 Route::apiResource('/publishing_houses', PublishingHouseController::class)->except(['create', 'edit', 'destroy']);
 Route::apiResource('/publishing_brands', PublishingBrandController::class)->except(['create', 'edit', 'destroy']);
 Route::apiResource('/books_series', BookSeriesController::class)->except(['create', 'edit', 'destroy']);
+Route::apiResource('/books', BookController::class)->except(['create', 'edit']);
+Route::apiResource('/paper_types', PaperTypeController::class)->except(['create', 'edit']);

@@ -26,7 +26,7 @@ class UpdateAuthorRequest extends AbstractAuthorRequest
         $id = $this->route('author');
 
         return [
-            Author::FIRST_NAME => [
+            Author::PARAM_FIRST_NAME => [
                 'string',
                 'min:2',
                 'max:100',
@@ -36,7 +36,7 @@ class UpdateAuthorRequest extends AbstractAuthorRequest
                     })
                     ->ignore($id),
             ],
-            Author::LAST_NAME => ['string', 'min:2', 'max:100'],
+            Author::PARAM_LAST_NAME => ['string', 'min:2', 'max:100'],
         ];
     }
 }

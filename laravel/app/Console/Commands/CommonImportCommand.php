@@ -26,7 +26,11 @@ abstract class CommonImportCommand extends Command
 
     protected string $fileName = '';
 
+    // Обновить sequence по таблице, если она указана
     protected ?string $seqTable = null;
+
+    // Идентификатор для таблицы
+    protected string $idParam = 'id';
 
     abstract protected function fillImportRow(array $row): void;
 
@@ -68,6 +72,7 @@ abstract class CommonImportCommand extends Command
                 $this->persistImportData();
             }
 
+            $this->updateSequence();
             $this->runAtEnd();
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
@@ -201,5 +206,31 @@ abstract class CommonImportCommand extends Command
         }
 
         $this->io->progressFinish();
+    }
+
+    protected function updateSequence(): void
+    {
+        if (! $this->seqTable) {
+            return;
+        }
+
+        $pdoDriverName = DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
+        $tableName = DB::getTablePrefix().$this->seqTable;
+
+        if ($pdoDriverName === 'pgsql') {
+            DB::update("SELECT setval(pg_get_serial_sequence('".$tableName."', 'id'), COALESCE(MAX(id), 0) + 1, false) FROM ".$tableName.';');
+
+            return;
+        }
+
+        $lastId = $this->getLastId($tableName, $this->idParam);
+
+        DB::update('ALTER TABLE '.$tableName.' AUTO_INCREMENT = '.($lastId + 1).';');
+    }
+
+    protected function getLastId(string $tableName, $paramId = 'id'): int
+    {
+        return (int) DB::table($tableName)->max($paramId);
     }
 }

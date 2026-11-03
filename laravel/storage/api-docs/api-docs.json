@@ -21,7 +21,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorCollection"
+                                    "$ref": "#/components/schemas/AuthorResourceCollection"
                                 }
                             }
                         }
@@ -51,7 +51,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorResourceData"
+                                    "$ref": "#/components/schemas/AuthorDataResource"
                                 }
                             }
                         }
@@ -86,7 +86,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorResourceData"
+                                    "$ref": "#/components/schemas/AuthorDataResource"
                                 }
                             }
                         }
@@ -168,7 +168,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorResourceData"
+                                    "$ref": "#/components/schemas/AuthorDataResource"
                                 }
                             }
                         }
@@ -221,7 +221,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BindingTypeResourceData"
+                                    "$ref": "#/components/schemas/BindingTypeDataResource"
                                 }
                             }
                         }
@@ -305,7 +305,177 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BindingTypeResourceData"
+                                    "$ref": "#/components/schemas/BindingTypeDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/books": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get list of books",
+                "description": "Get list of books",
+                "operationId": "9017a3fa89d6636329067c858b27a6fa",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of books",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BooksResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Create Book",
+                "description": "Create Book",
+                "operationId": "72f82e1cd6f08112323f87053277ca99",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created Book",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/books/{id}": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get Book by id",
+                "description": "Get Book by id",
+                "operationId": "123856ec83e3466396b979a43eb1a15f",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Book",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get Book by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Delete Book by id",
+                "description": "Delete Book by id",
+                "operationId": "eda12c526d0ccacaecea5f3d8f15d6df",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete Book by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete Book by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Update Book by id",
+                "description": "Update Book by id",
+                "operationId": "3c5c1488774a14a2fa2e72f9ccee25d5",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Book",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update Book by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookDataResource"
                                 }
                             }
                         }
@@ -574,6 +744,176 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CityDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/paper_types": {
+            "get": {
+                "tags": [
+                    "PaperTypes"
+                ],
+                "summary": "Get list of PaperTypes",
+                "description": "Get list of PaperTypes",
+                "operationId": "95aa8e7c44fdf7b35459cebb3357ca5b",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of PaperTypes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaperTypesResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "PaperTypes"
+                ],
+                "summary": "Create PaperType",
+                "description": "Create PaperType",
+                "operationId": "4a26c8cfe49d9960823b48dc3cc8a894",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePaperTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created PaperType",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaperTypeDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/paper_types/{id}": {
+            "get": {
+                "tags": [
+                    "PaperTypes"
+                ],
+                "summary": "Get PaperType by id",
+                "description": "Get PaperType by id",
+                "operationId": "bcb743e4039049adadbc6c98b632ccab",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the PaperType",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get PaperType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaperTypeDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "PaperTypes"
+                ],
+                "summary": "Delete PaperType by id",
+                "description": "Delete PaperType by id",
+                "operationId": "b5beb995151c54308196be8c34f85b26",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete PaperType by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete PaperType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "PaperTypes"
+                ],
+                "summary": "Update PaperType by id",
+                "description": "Update PaperType by id",
+                "operationId": "61e29bcd3f899c685826037dbf22142f",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the PaperType",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePaperTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update PaperType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaperTypeDataResource"
                                 }
                             }
                         }
@@ -966,6 +1306,230 @@
                 },
                 "type": "object"
             },
+            "StoreBookRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Сияние"
+                    },
+                    "original_title": {
+                        "type": "string",
+                        "example": "The Shining"
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "example": "978-5-17-080493-1"
+                    },
+                    "pages": {
+                        "type": "integer",
+                        "example": "544"
+                    },
+                    "circulation": {
+                        "type": "integer",
+                        "example": "21000"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "example": "4x14x21"
+                    },
+                    "publish_year": {
+                        "type": "integer",
+                        "example": "2025"
+                    },
+                    "livelib_id": {
+                        "type": "integer",
+                        "example": "1000965735"
+                    },
+                    "goodreads_id": {
+                        "type": "integer",
+                        "example": "11588"
+                    },
+                    "fantlab_id": {
+                        "type": "integer",
+                        "example": "edition115331"
+                    },
+                    "livelib_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.4"
+                    },
+                    "goodreads_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.28"
+                    },
+                    "binding_type": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "paper_type": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "authors": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "publishing_house": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "publishing_brand": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "book_series": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBookRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Сияние"
+                    },
+                    "original_title": {
+                        "type": "string",
+                        "example": "The Shining"
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "example": "978-5-17-080493-1"
+                    },
+                    "pages": {
+                        "type": "integer",
+                        "example": "544"
+                    },
+                    "circulation": {
+                        "type": "integer",
+                        "example": "21000"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "example": "4x14x21"
+                    },
+                    "publish_year": {
+                        "type": "integer",
+                        "example": "2025"
+                    },
+                    "livelib_id": {
+                        "type": "integer",
+                        "example": "1000965735"
+                    },
+                    "goodreads_id": {
+                        "type": "integer",
+                        "example": "11588"
+                    },
+                    "fantlab_id": {
+                        "type": "integer",
+                        "example": "edition115331"
+                    },
+                    "livelib_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.4"
+                    },
+                    "goodreads_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.28"
+                    },
+                    "binding_type": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "paper_type": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "authors": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "publishing_house": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "publishing_brand": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "book_series": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StoreCityRequest": {
                 "properties": {
                     "code": {
@@ -988,6 +1552,32 @@
                     "title": {
                         "type": "string",
                         "example": "Москва"
+                    }
+                },
+                "type": "object"
+            },
+            "StorePaperTypeRequest": {
+                "properties": {
+                    "label": {
+                        "type": "string",
+                        "example": "Типографская"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Бумага средней плотности, светло-серая, слегка шероховатая"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdatePaperTypeRequest": {
+                "properties": {
+                    "label": {
+                        "type": "string",
+                        "example": "Типографская"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Бумага средней плотности, светло-серая, слегка шероховатая"
                     }
                 },
                 "type": "object"
@@ -1028,36 +1618,6 @@
                 },
                 "type": "object"
             },
-            "AuthorResourceData": {
-                "properties": {
-                    "data": {
-                        "properties": {
-                            "id": {
-                                "type": "integer",
-                                "example": "1"
-                            },
-                            "first_name": {
-                                "type": "string",
-                                "example": "Фёдор"
-                            },
-                            "last_name": {
-                                "type": "string",
-                                "example": "Достоевский"
-                            },
-                            "updated_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            },
-                            "created_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
             "AuthorResource": {
                 "properties": {
                     "id": {
@@ -1083,7 +1643,22 @@
                 },
                 "type": "object"
             },
-            "AuthorCollection": {
+            "AuthorDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/AuthorResource"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthorResourceCollection": {
+                "description": "Collection of authors",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/AuthorResource"
+                }
+            },
+            "AuthorDataResourceCollection": {
                 "description": "Collection of authors",
                 "properties": {
                     "data": {
@@ -1091,32 +1666,6 @@
                         "items": {
                             "$ref": "#/components/schemas/AuthorResource"
                         }
-                    }
-                },
-                "type": "object"
-            },
-            "BindingTypeResourceData": {
-                "properties": {
-                    "data": {
-                        "properties": {
-                            "id": {
-                                "type": "integer",
-                                "example": "1"
-                            },
-                            "label": {
-                                "type": "string",
-                                "example": "Мягкий переплёт"
-                            },
-                            "updated_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            },
-                            "created_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            }
-                        },
-                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -1142,7 +1691,22 @@
                 },
                 "type": "object"
             },
+            "BindingTypeDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/BindingTypeResource"
+                    }
+                },
+                "type": "object"
+            },
             "BindingTypeCollection": {
+                "description": "Collection of binding types",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/BindingTypeResource"
+                }
+            },
+            "BindingTypeDataResourceCollection": {
                 "description": "Collection of binding types",
                 "properties": {
                     "data": {
@@ -1150,14 +1714,6 @@
                         "items": {
                             "$ref": "#/components/schemas/BindingTypeResource"
                         }
-                    }
-                },
-                "type": "object"
-            },
-            "BookSeriesDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/BookSeriesResource"
                     }
                 },
                 "type": "object"
@@ -1183,6 +1739,14 @@
                 },
                 "type": "object"
             },
+            "BookSeriesDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/BookSeriesResource"
+                    }
+                },
+                "type": "object"
+            },
             "BookSeriesResourceCollection": {
                 "description": "Collection of Publishing Series",
                 "properties": {
@@ -1190,6 +1754,121 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/BookSeriesResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "BookResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Сияние"
+                    },
+                    "original_title": {
+                        "type": "string",
+                        "example": "The Shining"
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "example": "978-5-17-080493-1"
+                    },
+                    "pages": {
+                        "type": "integer",
+                        "example": "544"
+                    },
+                    "circulation": {
+                        "type": "integer",
+                        "example": "21000"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "example": "4x14x21"
+                    },
+                    "publish_year": {
+                        "type": "integer",
+                        "example": "2025"
+                    },
+                    "livelib_id": {
+                        "type": "integer",
+                        "example": "1000965735"
+                    },
+                    "goodreads_id": {
+                        "type": "integer",
+                        "example": "11588"
+                    },
+                    "fantlab_id": {
+                        "type": "integer",
+                        "example": "edition115331"
+                    },
+                    "livelib_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.4"
+                    },
+                    "goodreads_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.28"
+                    },
+                    "binding_type": {
+                        "$ref": "#/components/schemas/BindingTypeResource"
+                    },
+                    "paper_type": {
+                        "$ref": "#/components/schemas/PaperTypeResource"
+                    },
+                    "authors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthorResource"
+                        }
+                    },
+                    "publishing_house": {
+                        "$ref": "#/components/schemas/PublishingHouseResource"
+                    },
+                    "publishing_brand": {
+                        "$ref": "#/components/schemas/PublishingBrandResource"
+                    },
+                    "book_series": {
+                        "$ref": "#/components/schemas/BookSeriesResource"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "BookDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/BookResource"
+                    }
+                },
+                "type": "object"
+            },
+            "BooksResourceCollection": {
+                "description": "Collection of books",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/BookResource"
+                }
+            },
+            "BooksResourceDataCollection": {
+                "description": "Collection of books",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BookResource"
                         }
                     }
                 },
@@ -1262,10 +1941,54 @@
                 },
                 "type": "object"
             },
-            "PublishingBrandDataResource": {
+            "PaperTypeResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Типографская"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Бумага средней плотности, светло-серая, слегка шероховатая"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "PaperTypeDataResource": {
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/PublishingBrandResource"
+                        "$ref": "#/components/schemas/PaperTypeResource"
+                    }
+                },
+                "type": "object"
+            },
+            "PaperTypesResourceCollection": {
+                "description": "Collection of PaperTypes",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/PaperTypeResource"
+                }
+            },
+            "PaperTypesDataResourceCollection": {
+                "description": "Collection of PaperTypes",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaperTypeResource"
+                        }
                     }
                 },
                 "type": "object"
@@ -1291,6 +2014,14 @@
                 },
                 "type": "object"
             },
+            "PublishingBrandDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/PublishingBrandResource"
+                    }
+                },
+                "type": "object"
+            },
             "PublishingBrandResourceCollection": {
                 "properties": {
                     "data": {
@@ -1298,14 +2029,6 @@
                         "items": {
                             "$ref": "#/components/schemas/PublishingBrandResource"
                         }
-                    }
-                },
-                "type": "object"
-            },
-            "PublishingHouseDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/PublishingHouseResource"
                     }
                 },
                 "type": "object"
@@ -1327,6 +2050,14 @@
                     "created_at": {
                         "type": "string",
                         "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingHouseDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/PublishingHouseResource"
                     }
                 },
                 "type": "object"
@@ -1417,6 +2148,31 @@
                     }
                 },
                 "type": "object"
+            },
+            "UserResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "admin"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "admin@mail.ru"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -1430,12 +2186,20 @@
             "description": "BindingTypes"
         },
         {
+            "name": "Books",
+            "description": "Books"
+        },
+        {
             "name": "BookSeries",
             "description": "BookSeries"
         },
         {
             "name": "Cities",
             "description": "Cities"
+        },
+        {
+            "name": "PaperTypes",
+            "description": "PaperTypes"
         },
         {
             "name": "PublishingBrands",

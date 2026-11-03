@@ -2,23 +2,57 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Authors\AuthorResource;
+use App\Http\Resources\Authors\AuthorDataResource;
 use App\Http\Resources\Authors\AuthorResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
-#[UseResource(AuthorResource::class)]
+/**
+ * @property int $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Book> $books
+ * @property-read int|null $books_count
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Author whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
+#[UseResource(AuthorDataResource::class)]
 #[UseResourceCollection(AuthorResourceCollection::class)]
 class Author extends Model
 {
-    public const string ID = 'id';
+    public const string TABLE_NAME = 'authors';
 
-    public const string FIRST_NAME = 'first_name';
+    public const string PARAM_ID = 'id';
 
-    public const string LAST_NAME = 'last_name';
+    public const string PARAM_FIRST_NAME = 'first_name';
 
-    protected $table = 'authors';
+    public const string PARAM_LAST_NAME = 'last_name';
 
-    protected $fillable = [self::FIRST_NAME, self::LAST_NAME];
+    protected $table = self::TABLE_NAME;
+
+    protected $fillable = [self::PARAM_FIRST_NAME, self::PARAM_LAST_NAME];
+
+    protected $perPage = 100;
+
+    protected $hidden = ['pivot'];
+
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class, 'author_books', 'author_id', 'book_id');
+    }
 }

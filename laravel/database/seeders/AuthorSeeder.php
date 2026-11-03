@@ -13,43 +13,71 @@ class AuthorSeeder extends Seeder
     public function run(): void
     {
         DB::table('authors')->insert([
-            Author::FIRST_NAME => 'Фёдор',
-            Author::LAST_NAME => 'Достоевский',
+            Author::PARAM_FIRST_NAME => 'Фёдор',
+            Author::PARAM_LAST_NAME => 'Достоевский',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('authors')->insert([
-            Author::FIRST_NAME => 'Рита',
-            Author::LAST_NAME => 'Хоффман',
+            Author::PARAM_FIRST_NAME => 'Рита',
+            Author::PARAM_LAST_NAME => 'Хоффман',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('authors')->insert([
-            Author::FIRST_NAME => 'Владимир',
-            Author::LAST_NAME => 'Торин',
+            Author::PARAM_FIRST_NAME => 'Владимир',
+            Author::PARAM_LAST_NAME => 'Торин',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('authors')->insert([
-            Author::FIRST_NAME => 'Крис',
-            Author::LAST_NAME => 'Райт',
+            Author::PARAM_FIRST_NAME => 'Крис',
+            Author::PARAM_LAST_NAME => 'Райт',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('authors')->insert([
-            Author::FIRST_NAME => 'Майк',
-            Author::LAST_NAME => 'Брукс',
+            Author::PARAM_FIRST_NAME => 'Майк',
+            Author::PARAM_LAST_NAME => 'Брукс',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('authors')->insert([
-            Author::FIRST_NAME => 'Робби',
-            Author::LAST_NAME => 'МакНивен',
+            Author::PARAM_FIRST_NAME => 'Робби',
+            Author::PARAM_LAST_NAME => 'МакНивен',
+            Model::CREATED_AT => Carbon::now(),
+            Model::UPDATED_AT => Carbon::now(),
+        ]);
+
+        DB::table('authors')->insert([
+            Author::PARAM_FIRST_NAME => 'Стивен',
+            Author::PARAM_LAST_NAME => 'Кинг',
+            Model::CREATED_AT => Carbon::now(),
+            Model::UPDATED_AT => Carbon::now(),
+        ]);
+
+        DB::table('authors')->insert([
+            Author::PARAM_FIRST_NAME => 'Катерина',
+            Author::PARAM_LAST_NAME => 'Глинистая',
+            Model::CREATED_AT => Carbon::now(),
+            Model::UPDATED_AT => Carbon::now(),
+        ]);
+
+        DB::table('authors')->insert([
+            Author::PARAM_FIRST_NAME => 'Саша',
+            Author::PARAM_LAST_NAME => 'Бакушкина',
+            Model::CREATED_AT => Carbon::now(),
+            Model::UPDATED_AT => Carbon::now(),
+        ]);
+
+        DB::table('authors')->insert([
+            Author::PARAM_FIRST_NAME => 'Аметисса',
+            Author::PARAM_LAST_NAME => 'Грэсс',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);

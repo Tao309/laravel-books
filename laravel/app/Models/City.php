@@ -7,18 +7,39 @@ use App\Http\Resources\Cities\CityResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $code
+ * @property string $title
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 #[UseResource(CityDataResource::class)]
 #[UseResourceCollection(CityResourceCollection::class)]
 class City extends Model
 {
+    public const string TABLE_NAME = 'cities';
+
     public const string ID = 'id';
 
     public const string CODE = 'code';
 
     public const string TITLE = 'title';
 
-    protected $table = 'cities';
+    protected $table = self::TABLE_NAME;
 
     protected $fillable = [self::CODE, self::TITLE];
 }

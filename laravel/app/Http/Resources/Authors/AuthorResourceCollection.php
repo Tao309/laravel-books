@@ -2,11 +2,20 @@
 
 namespace App\Http\Resources\Authors;
 
-use App\Http\Resources\CommonResourceCollection;
+use App\Http\Resources\AbstractResourceCollection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'AuthorCollection',
+    schema: 'AuthorResourceCollection',
+    description: 'Collection of authors',
+    type: 'object',
+    items: new OA\Items(
+        ref: '#/components/schemas/AuthorResource',
+        type: 'object'
+    )
+)]
+#[OA\Schema(
+    schema: 'AuthorDataResourceCollection',
     description: 'Collection of authors',
     properties: [
         new OA\Property(
@@ -20,4 +29,4 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class AuthorResourceCollection extends CommonResourceCollection {}
+class AuthorResourceCollection extends AbstractResourceCollection {}

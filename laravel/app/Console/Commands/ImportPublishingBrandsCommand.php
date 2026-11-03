@@ -32,6 +32,11 @@ class ImportPublishingBrandsCommand extends CommonImportCommand
         parent::__construct();
     }
 
+    protected function runBeforeImport(): void
+    {
+        PublishingBrand::unguard();
+    }
+
     protected function fillImportRow(array $row): void
     {
         $this->importData[] = [

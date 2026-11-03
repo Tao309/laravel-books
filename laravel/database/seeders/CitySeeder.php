@@ -5,13 +5,14 @@ namespace Database\Seeders;
 use App\Models\City;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CitySeeder extends Seeder
+class CitySeeder extends AbstractSeeder
 {
     public function run(): void
     {
+        City::unguard();
+
         DB::table('cities')->insert([
             City::ID => 1,
             City::CODE => 'КРР',
@@ -35,5 +36,7 @@ class CitySeeder extends Seeder
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
+
+        $this->updateLastId(City::TABLE_NAME);
     }
 }

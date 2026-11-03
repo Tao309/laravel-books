@@ -14,7 +14,6 @@ class BookSeriesProvider extends ServiceProvider
 {
     public function register(): void
     {
-
         $this->app->when(CreateBookSeriesHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(BookSeriesRepository::class);

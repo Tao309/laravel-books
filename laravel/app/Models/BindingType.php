@@ -3,20 +3,39 @@
 namespace App\Models;
 
 use App\Http\Resources\BindingTypes\BindingTypeDataResource;
-use App\Http\Resources\BindingTypes\BindingTypeResourceCollection;
+use App\Http\Resources\BindingTypes\BindingTypesResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $label
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 #[UseResource(BindingTypeDataResource::class)]
-#[UseResourceCollection(BindingTypeResourceCollection::class)]
+#[UseResourceCollection(BindingTypesResourceCollection::class)]
 class BindingType extends Model
 {
-    public const string ID = 'id';
+    public const string TABLE_NAME = 'binding_types';
 
-    public const string LABEL = 'label';
+    public const string PARAM_ID = 'id';
 
-    protected $table = 'binding_types';
+    public const string PARAM_LABEL = 'label';
 
-    protected $fillable = [self::LABEL];
+    protected $table = self::TABLE_NAME;
+
+    protected $fillable = [self::PARAM_LABEL];
 }

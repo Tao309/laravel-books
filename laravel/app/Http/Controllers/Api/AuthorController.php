@@ -27,7 +27,7 @@ class AuthorController extends ApiController
                 response: 200,
                 description: 'Get list of authors',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorCollection'
+                    ref: '#/components/schemas/AuthorResourceCollection'
                 )
             ),
         ]
@@ -53,7 +53,7 @@ class AuthorController extends ApiController
                 response: 200,
                 description: 'Get created Author',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorResourceData'
+                    ref: '#/components/schemas/AuthorDataResource'
                 )
             ),
         ]
@@ -86,7 +86,7 @@ class AuthorController extends ApiController
                 response: 200,
                 description: 'Get author by id',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorResourceData'
+                    ref: '#/components/schemas/AuthorDataResource'
                 )
             ),
         ]
@@ -125,7 +125,7 @@ class AuthorController extends ApiController
                 response: 200,
                 description: 'Update author by id',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorResourceData'
+                    ref: '#/components/schemas/AuthorDataResource'
                 )
             ),
         ]

@@ -17,7 +17,7 @@ abstract class AbstractAuthorRequest extends FormRequest implements RequestInter
     public function messages(): array
     {
         return [
-            Author::FIRST_NAME.'.unique' => 'An Author with this name already exists',
+            Author::PARAM_FIRST_NAME.'.unique' => 'An Author with this name already exists',
         ];
     }
 

@@ -13,14 +13,14 @@ class BindingTyperDTO implements DtoInterface
     public static function fromArray(array $data): self
     {
         return new self(
-            label: $data[BindingType::LABEL],
+            label: $data[BindingType::PARAM_LABEL],
         );
     }
 
     public function toArray(): array
     {
         return [
-            BindingType::LABEL => $this->label,
+            BindingType::PARAM_LABEL => $this->label,
         ];
     }
 }

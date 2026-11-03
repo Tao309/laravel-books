@@ -5,13 +5,14 @@ namespace Database\Seeders;
 use App\Models\Shop;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ShopSeeder extends Seeder
+class ShopSeeder extends AbstractSeeder
 {
     public function run(): void
     {
+        Shop::unguard();
+
         DB::table('shops')->insert([
             Shop::ID => 1,
             Shop::TYPE => 'ozon',
@@ -51,5 +52,7 @@ class ShopSeeder extends Seeder
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
+
+        $this->updateLastId(Shop::TABLE_NAME);
     }
 }

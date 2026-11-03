@@ -4,18 +4,9 @@ namespace App\CQRS\Handlers\BindingTypes;
 
 use App\CQRS\Commands\BindingTypes\DestroyBindingTypeCommand;
 use App\Exceptions\ApiException;
-use App\Repositories\BindingTypeRepository;
-use App\Repositories\Interfaces\RepositoryInterface;
 
-class DestroyBindingTypeHandler
+class DestroyBindingTypeHandler extends AbstractBindingTypeHandler
 {
-    /**
-     * @param  BindingTypeRepository  $repository
-     */
-    public function __construct(
-        public RepositoryInterface $repository,
-    ) {}
-
     /**
      * @throws ApiException
      */

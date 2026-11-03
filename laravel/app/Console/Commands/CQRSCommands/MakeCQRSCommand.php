@@ -64,7 +64,7 @@ class MakeCQRSCommand extends GeneratorCommand
         ]);
 
         $this->call('make:resource', [
-            'name' => Str::plural($upperName).'/'.$upperName.'CollectionResource',
+            'name' => Str::plural($upperName).'/'.Str::plural($upperName).'CollectionResource',
             '--collection' => true,
         ]);
 

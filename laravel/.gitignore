@@ -23,3 +23,5 @@ yarn-error.log
 /.zed
 /database/migrations/import/
 /storage/
+/.phpstorm.meta.php
+/_ide_helper.php

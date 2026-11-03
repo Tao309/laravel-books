@@ -4,6 +4,7 @@ namespace {{ namespace }};
 
 use App\CQRS\CommandBus;
 use {{ CreateModelCommandNamespace }};
+use {{ DestroyModelCommandNamespace }};
 use {{ UpdateModelCommandNamespace }};
 use {{ GetByIdModelQueryNamespace }};
 use {{ GetModelsQueryNamespace }};
@@ -45,5 +46,10 @@ readonly class {{ class }} implements ServiceInterface
         $command = new {{ UpdateModelCommandName }}($id, $dto);
 
         return $this->bus->dispatch($command);
+    }
+
+    public function deleteById(int $id): bool
+    {
+        return $this->bus->dispatch(new {{ DestroyModelCommandName }}($id));
     }
 }

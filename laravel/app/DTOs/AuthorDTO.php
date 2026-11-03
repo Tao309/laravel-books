@@ -14,16 +14,16 @@ class AuthorDTO implements DtoInterface
     public static function fromArray(array $data): self
     {
         return new self(
-            firstName: $data[Author::FIRST_NAME],
-            lastName: $data[Author::LAST_NAME],
+            firstName: $data[Author::PARAM_FIRST_NAME],
+            lastName: $data[Author::PARAM_LAST_NAME],
         );
     }
 
     public function toArray(): array
     {
         return [
-            Author::FIRST_NAME => $this->firstName,
-            Author::LAST_NAME => $this->lastName,
+            Author::PARAM_FIRST_NAME => $this->firstName,
+            Author::PARAM_LAST_NAME => $this->lastName,
         ];
     }
 }

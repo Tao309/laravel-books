@@ -18,3 +18,7 @@ down:
 	docker compose down
 cs-fix:
 	./vendor/bin/pint
+ide-helper:
+	php artisan ide-helper:generate && php artisan ide-helper:meta
+ide-helper-models:
+	php artisan ide-helper:models -RW

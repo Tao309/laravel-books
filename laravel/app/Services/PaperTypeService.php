@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Services;
+
+use App\CQRS\CommandBus;
+use App\CQRS\Commands\PaperTypes\CreatePaperTypeCommand;
+use App\CQRS\Commands\PaperTypes\DestroyPaperTypeCommand;
+use App\CQRS\Commands\PaperTypes\UpdatePaperTypeCommand;
+use App\CQRS\Queries\PaperTypes\GetByIdPaperTypeQuery;
+use App\CQRS\Queries\PaperTypes\GetPaperTypesQuery;
+use App\DTOs\DtoInterface;
+use App\Models\PaperType;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+readonly class PaperTypeService implements ServiceInterface
+{
+    public function __construct(
+        private CommandBus $bus,
+    ) {}
+
+    public function getList(): Collection
+    {
+        return $this->bus->dispatch(new GetPaperTypesQuery);
+    }
+
+    public function getListPaginate(): LengthAwarePaginator
+    {
+        return $this->bus->dispatch(new GetPaperTypesQuery);
+    }
+
+    public function getById(int $id): PaperType
+    {
+        return $this->bus->dispatch(new GetByIdPaperTypeQuery($id));
+    }
+
+    public function create(DtoInterface $dto): PaperType
+    {
+        $command = new CreatePaperTypeCommand($dto);
+
+        return $this->bus->dispatch($command);
+    }
+
+    public function updateById(int $id, DtoInterface $dto): PaperType
+    {
+        $command = new UpdatePaperTypeCommand($id, $dto);
+
+        return $this->bus->dispatch($command);
+    }
+
+    public function deleteById(int $id): bool
+    {
+        return $this->bus->dispatch(new DestroyPaperTypeCommand($id));
+    }
+}

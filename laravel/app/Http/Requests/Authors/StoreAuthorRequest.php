@@ -24,11 +24,11 @@ class StoreAuthorRequest extends AbstractAuthorRequest
     public function rules(): array
     {
         return [
-            Author::FIRST_NAME => ['required', 'string', 'min:2', 'max:100', Rule::unique('authors')
+            Author::PARAM_FIRST_NAME => ['required', 'string', 'min:2', 'max:100', Rule::unique('authors')
                 ->where(function (Builder $query) {
                     return $query->where('first_name', $this->first_name)->where('last_name', $this->last_name);
                 })],
-            Author::LAST_NAME => ['string', 'min:2', 'max:100'],
+            Author::PARAM_LAST_NAME => ['string', 'min:2', 'max:100'],
         ];
     }
 }

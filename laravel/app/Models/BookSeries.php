@@ -7,7 +7,24 @@ use App\Http\Resources\BookSeries\BookSeriesResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 #[UseResource(BookSeriesDataResource::class)]
 #[UseResourceCollection(BookSeriesResourceCollection::class)]
 class BookSeries extends Model

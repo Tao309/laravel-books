@@ -37,6 +37,7 @@ class RunAllImportsCommand extends Command
             'app:import:books_series',
             'app:import:publishing_brands',
             'app:import:publishing_houses',
+            'app:import:paper_types',
         ];
 
         try {

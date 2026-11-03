@@ -53,7 +53,7 @@ class BindingTypeController extends ApiController
                 response: 200,
                 description: 'Get created BindingType',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/BindingTypeResourceData'
+                    ref: '#/components/schemas/BindingTypeDataResource'
                 )
             ),
         ]
@@ -92,7 +92,7 @@ class BindingTypeController extends ApiController
                 response: 200,
                 description: 'Update BindingType by id',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/BindingTypeResourceData'
+                    ref: '#/components/schemas/BindingTypeDataResource'
                 )
             ),
         ]

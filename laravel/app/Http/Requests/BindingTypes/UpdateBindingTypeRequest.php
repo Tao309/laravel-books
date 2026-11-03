@@ -24,7 +24,7 @@ class UpdateBindingTypeRequest extends AbstractBindingTypeRequest
         $id = $this->route('binding_type');
 
         return [
-            BindingType::LABEL => [
+            BindingType::PARAM_LABEL => [
                 'required',
                 'string',
                 'min:5',

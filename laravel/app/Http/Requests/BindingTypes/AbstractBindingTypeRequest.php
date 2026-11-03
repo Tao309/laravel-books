@@ -17,7 +17,7 @@ abstract class AbstractBindingTypeRequest extends FormRequest implements Request
     public function messages(): array
     {
         return [
-            BindingType::LABEL.'.unique' => 'An Binding Type with this label already exists',
+            BindingType::PARAM_LABEL.'.unique' => 'An Binding Type with this label already exists',
         ];
     }
 

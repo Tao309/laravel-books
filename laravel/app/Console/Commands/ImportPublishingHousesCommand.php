@@ -32,6 +32,11 @@ class ImportPublishingHousesCommand extends CommonImportCommand
         parent::__construct();
     }
 
+    protected function runBeforeImport(): void
+    {
+        PublishingHouse::unguard();
+    }
+
     protected function fillImportRow(array $row): void
     {
         $this->importData[] = [

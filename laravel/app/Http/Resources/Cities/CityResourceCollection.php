@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Cities;
 
-use App\Http\Resources\CommonResourceCollection;
+use App\Http\Resources\AbstractResourceCollection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -20,4 +20,4 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class CityResourceCollection extends CommonResourceCollection {}
+class CityResourceCollection extends AbstractResourceCollection {}

@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\PublishingBrand;
 
+use App\Http\Resources\AbstractResource;
 use App\Models\PublishingBrand;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -19,12 +19,20 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class PublishingBrandResource extends JsonResource
+#[OA\Schema(
+    schema: 'PublishingBrandDataResource',
+    properties: [
+        new OA\Property(
+            property: 'data',
+            ref: '#/components/schemas/PublishingBrandResource',
+            type: 'object'
+        ),
+    ],
+    type: 'object'
+)]
+class PublishingBrandResource extends AbstractResource
 {
-    /**
-     * @return array<string, mixed>
-     */
-    public function toArray(Request $request): array
+    public function getArrayData(Request $request): array
     {
         return [
             PublishingBrand::ID => $this->id,

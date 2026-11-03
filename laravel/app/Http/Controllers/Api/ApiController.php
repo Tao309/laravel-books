@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestInterface;
+use App\Http\Resources\PaginateResource;
 use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -18,10 +19,19 @@ abstract class ApiController extends Controller
 {
     protected ServiceInterface $service;
 
+    protected string $resourceClass;
+
     protected function indexAction(): JsonResponse
     {
         return $this->toJson(
             $this->getService()->getList()->toResourceCollection()
+        );
+    }
+
+    protected function indexActionPaginate(): JsonResponse
+    {
+        return $this->toJson(
+            PaginateResource::make($this->getService()->getListPaginate(), $this->getResourceClass())
         );
     }
 
@@ -64,5 +74,14 @@ abstract class ApiController extends Controller
         }
 
         return $this->service;
+    }
+
+    protected function getResourceClass(): string
+    {
+        if (empty($this->resourceClass)) {
+            throw new \RuntimeException('ResourceClass not set for controller');
+        }
+
+        return $this->resourceClass;
     }
 }

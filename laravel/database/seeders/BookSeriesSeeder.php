@@ -41,5 +41,17 @@ class BookSeriesSeeder extends Seeder
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
+
+        DB::table(BookSeries::TABLE_NAME)->insert([
+            BookSeries::NAME => 'МИФ x Шуфлядка Писателя',
+            Model::CREATED_AT => Carbon::now(),
+            Model::UPDATED_AT => Carbon::now(),
+        ]);
+
+        DB::table(BookSeries::TABLE_NAME)->insert([
+            BookSeries::NAME => 'Кинг: книжная полка',
+            Model::CREATED_AT => Carbon::now(),
+            Model::UPDATED_AT => Carbon::now(),
+        ]);
     }
 }
