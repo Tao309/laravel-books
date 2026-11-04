@@ -2,22 +2,14 @@
 
 namespace {{ namespace }};
 
-use {{ GetCommandNamespace }};
+use {{ GetQueryNamespace }};
 use {{ RepositoryNamespace }};
-use App\Repositories\Interfaces\RepositoryInterface;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class {{ class }} extends {{ AbstractHandlerName }}
 {
-    /**
-     * @param  {{ RepositoryName }}  $repository
-     */
-    public function __construct(
-        public RepositoryInterface $repository,
-    ) {}
-
-    public function handle({{ GetCommandName }} $query): LengthAwarePaginator
+    public function handle({{ GetQueryName }} $query): Collection
     {
-        return $this->repository->getAllPaginate($query);
+        return $this->repository->getAll($query);
     }
 }

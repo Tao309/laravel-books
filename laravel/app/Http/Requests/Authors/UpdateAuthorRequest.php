@@ -36,7 +36,7 @@ class UpdateAuthorRequest extends AbstractAuthorRequest
                     })
                     ->ignore($id),
             ],
-            Author::PARAM_LAST_NAME => ['string', 'min:2', 'max:100'],
+            Author::PARAM_LAST_NAME => ['sometimes', 'nullable', 'string', 'min:2', 'max:100'],
         ];
     }
 }

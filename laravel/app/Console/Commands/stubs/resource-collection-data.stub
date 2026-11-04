@@ -1,0 +1,8 @@
+<?php
+
+namespace {{ namespace }};
+
+class {{ class }} extends {{ ModelNamePlural }}ResourceCollection
+{
+    protected bool $toWrap = true;
+}

@@ -1,0 +1,179 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Requests\{{ ModelNamePlural }}\Store{{ ModelNameSingular }}Request;
+use App\Http\Requests\{{ ModelNamePlural }}\Update{{ ModelNameSingular }}Request;
+use App\Http\Resources\{{ ModelNamePlural }}\{{ ModelNameSingular }}Resource;
+use App\Services\{{ ModelNameSingular }}Service;
+use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
+
+class {{ class }} extends ApiController
+{
+    protected string $resourceClass = {{ ModelNameSingular }}Resource::class;
+
+    public function __construct(
+        {{ ModelNameSingular }}Service $service,
+    ) {
+        $this->service = $service;
+    }
+
+    #[OA\Get(
+        path: '/api/{{ ModelNamePluralLower }}',
+        description: 'Get list of {{ ModelNamePlural }}',
+        summary: 'Get list of {{ ModelNamePlural }}',
+        requestBody: new OA\RequestBody,
+        tags: ['{{ ModelNamePlural }}'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Get list of {{ ModelNamePlural }}',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/{{ ModelNamePlural }}ResourceCollection'
+                )
+            ),
+        ]
+    )]
+    public function index(): JsonResponse
+    {
+        return $this->indexActionPaginate();
+    }
+
+    #[OA\Post(
+        path: '/api/{{ ModelNamePluralLower }}',
+        description: 'Create {{ ModelNameSingular }}',
+        summary: 'Create {{ ModelNameSingular }}',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: '#/components/schemas/Store{{ ModelNameSingular }}Request'
+            )
+        ),
+        tags: ['{{ ModelNamePlural }}'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Get created {{ ModelNameSingular }}',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/{{ ModelNameSingular }}DataResource'
+                )
+            ),
+        ]
+    )]
+    public function store(Store{{ ModelNameSingular }}Request $request): JsonResponse
+    {
+        return $this->storeAction($request);
+    }
+
+    #[OA\Get(
+        path: '/api/{{ ModelNamePluralLower }}/{id}',
+        description: 'Get {{ ModelNameSingular }} by id',
+        summary: 'Get {{ ModelNameSingular }} by id',
+        tags: ['{{ ModelNamePlural }}'],
+        parameters: [
+            new OA\Parameter(
+                parameter: 'id',
+                name: 'id',
+                description: 'Id of the {{ ModelNameSingular }}',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 4,
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Get {{ ModelNameSingular }} by id',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/{{ ModelNameSingular }}DataResource'
+                )
+            ),
+        ]
+    )]
+    public function show(int $id): JsonResponse
+    {
+        return $this->showAction($id);
+    }
+
+    #[OA\Patch(
+        path: '/api/{{ ModelNamePluralLower }}/{id}',
+        description: 'Update {{ ModelNameSingular }} by id',
+        summary: 'Update {{ ModelNameSingular }} by id',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: '#/components/schemas/Update{{ ModelNameSingular }}Request'
+            )
+        ),
+        tags: ['{{ ModelNamePlural }}'],
+        parameters: [
+            new OA\Parameter(
+                parameter: 'id',
+                name: 'id',
+                description: 'Id of the {{ ModelNameSingular }}',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 4,
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Update {{ ModelNameSingular }} by id',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/{{ ModelNameSingular }}DataResource'
+                )
+            ),
+        ]
+    )]
+    public function update(Update{{ ModelNameSingular }}Request $request, int $id): JsonResponse
+    {
+        return $this->updateAction($request, $id);
+    }
+
+    #[OA\Delete(
+        path: '/api/{{ ModelNamePluralLower }}/{id}',
+        description: 'Delete {{ ModelNameSingular }} by id',
+        summary: 'Delete {{ ModelNameSingular }} by id',
+        tags: ['{{ ModelNamePlural }}'],
+        parameters: [
+            new OA\Parameter(
+                parameter: 'id',
+                name: 'id',
+                description: 'Delete {{ ModelNameSingular }} by id',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 4,
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Delete {{ ModelNameSingular }} by id',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'success',
+                            type: 'boolean',
+                            example: true,
+                        ),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function destroy(int $id): JsonResponse
+    {
+        return $this->destroyAction($id);
+    }
+}

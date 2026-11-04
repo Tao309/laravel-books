@@ -5,17 +5,9 @@ namespace {{ namespace }};
 use {{ DestroyCommandNamespace }};
 use App\Exceptions\ApiException;
 use {{ RepositoryNamespace }};
-use App\Repositories\Interfaces\RepositoryInterface;
 
 class {{ class }} extends {{ AbstractHandlerName }}
 {
-    /**
-     * @param  {{ RepositoryName }}  $repository
-     */
-    public function __construct(
-        public RepositoryInterface $repository,
-    ) {}
-
     /**
      * @throws ApiException
      */

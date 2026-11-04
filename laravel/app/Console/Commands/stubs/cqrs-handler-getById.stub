@@ -2,21 +2,12 @@
 
 namespace {{ namespace }};
 
-use {{ GetByIdCommandNamespace }};
+use {{ GetByIdQueryNamespace }};
 use {{ ModelNamespace }};
-use {{ RepositoryNamespace }};
-use App\Repositories\Interfaces\RepositoryInterface;
 
 class {{ class }} extends {{ AbstractHandlerName }}
 {
-    /**
-     * @param  {{ RepositoryName }}  $repository
-     */
-    public function __construct(
-        public RepositoryInterface $repository,
-    ) {}
-
-    public function handle({{ GetByIdCommandName }} $query): {{ ModelName }}
+    public function handle({{ GetByIdQueryName }} $query): {{ ModelName }}
     {
         return $this->repository->get($query->id);
     }

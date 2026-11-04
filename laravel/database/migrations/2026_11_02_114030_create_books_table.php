@@ -37,7 +37,7 @@ return new class extends Migration
             $table->foreign('paper_type_id')->references(PaperType::PARAM_ID)->on(PaperType::TABLE_NAME)
                 ->onDelete('cascade');
 
-            $table->unsignedBigInteger('publishing_house_id');
+            $table->unsignedBigInteger('publishing_house_id')->nullable();
             $table->foreign('publishing_house_id')->references(PublishingHouse::ID)->on(PublishingHouse::TABLE_NAME)
                 ->onDelete('cascade');
 

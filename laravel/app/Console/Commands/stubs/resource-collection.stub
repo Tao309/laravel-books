@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Resources\AbstractResourceCollection;
+use OpenApi\Attributes as OA;
+
+#[OA\Schema(
+    schema: '{{ ModelNamePlural }}ResourceCollection',
+    description: 'Collection of {{ ModelNamePlural }}',
+    type: 'object',
+    items: new OA\Items(
+        ref: '#/components/schemas/{{ ModelNameSingular }}Resource',
+        type: 'object'
+    )
+)]
+#[OA\Schema(
+    schema: '{{ ModelNamePlural }}DataResourceCollection',
+    description: 'Collection of {{ ModelNamePlural }}',
+    properties: [
+        new OA\Property(
+            property: 'data',
+            type: 'array',
+            items: new OA\Items(
+                ref: '#/components/schemas/{{ ModelNameSingular }}Resource',
+                type: 'object'
+            )
+        ),
+    ],
+    type: 'object'
+)]
+class {{ class }} extends AbstractResourceCollection
+{
+    public $collects = {{ ModelNameSingular }}Resource::class;
+}

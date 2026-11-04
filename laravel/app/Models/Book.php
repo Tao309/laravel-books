@@ -173,7 +173,7 @@ class Book extends Model
 
     public function authors(): BelongsToMany
     {
-        return $this->belongsToMany(Author::class, 'author_books', 'book_id', 'author_id');
+        return $this->belongsToMany(Author::class, 'author_books', 'book_id', 'author_id')->withTimestamps();
     }
 
     public function bindingType(): BelongsTo
@@ -204,5 +204,12 @@ class Book extends Model
     public function userCreated(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_created_id');
+    }
+
+    public static function unguardField(string $fieldName): void
+    {
+        $guarded = Book::$guardableColumns;
+
+        dd($guarded);
     }
 }

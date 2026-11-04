@@ -1,0 +1,8 @@
+<?php
+
+namespace App\Http\Resources\{{ ModelNamePlural }};
+
+class {{ ModelNameSingular }}DataResource extends {{ ModelNameSingular }}Resource
+{
+    protected bool $toWrap = true;
+}

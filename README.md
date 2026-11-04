@@ -4,7 +4,7 @@ Laravel Books repository
 
 ### Действия после установки:
 
-1. `php artisan migrate:fresh --seed` (установка миграций с запуском сидеров)
+1. `php artisan migrate:fresh --seed` (установка миграций с запуском seeders)
 2. `php artisan app:import:run-all --fake=0 --just-check-parsing=0` (импорт данных)
 
 --------
@@ -15,12 +15,17 @@ Swagger документация по api доступна по адресу **/
 --------
 ### CLI commands
 
-- Запуск всех команд с импортом `php artisan app:import:run-all`
-- Импорт издательских домов `php artisan app:import:publishing_houses`
-- Импорт издательских брэндов `php artisan app:import:publishing_brands`
-- Импорт книжных серий `php artisan app:import:books_series`
-- Импорт типов бумаги `php artisan app:import:paper_types`
-- Импорт книг `php artisan app:import:books`
+- Импорт:
+  - Запуск всех команд с импортом `php artisan app:import:run-all`
+  - Импорт издательских домов `php artisan app:import:publishing_houses`
+  - Импорт издательских брэндов `php artisan app:import:publishing_brands`
+  - Импорт книжных серий `php artisan app:import:books_series`
+  - Импорт типов бумаги `php artisan app:import:paper_types`
+  - Импорт книг `php artisan app:import:books`
+  - Импорт авторов `php artisan app:import:authors`
+  - Импорт типов источников товаров `php artisan app:import:source_product_types`
+
+- Создание СQRS компонентов по модели `php artisan app:make:cqrs {modelName}`
 
 Доступные опции:
 
@@ -67,5 +72,9 @@ Swagger документация по api доступна по адресу **/
 ### Book (книга)
 
 - Добавить через seeder: `php artisan db:seed --class=BookSeeder`
+
+### SourceProductType (тип источника товара)
+
+- Добавить через seeder: `php artisan db:seed --class=SourceProductTypeSeeder`
 
 --------

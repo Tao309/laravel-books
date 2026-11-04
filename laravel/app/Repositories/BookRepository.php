@@ -15,22 +15,43 @@ class BookRepository implements RepositoryInterface
     public function create(array $data): Book
     {
         DB::beginTransaction();
+
         try {
-            $book = Book::create($data);
+            $book = Book::newModelInstance($data);
+
+            // @todo make more protected
+            if (! empty($data[Book::PARAM_ID])) {
+                $book->mergeFillable([Book::PARAM_ID]);
+            }
 
             $book->bindingType()->associate(Arr::get($data, Book::PARAM_BINDING_TYPE));
-            $book->paperType()->associate(Arr::get($data, Book::PARAM_PAPER_TYPE));
-            $book->publishingHouse()->associate(Arr::get($data, Book::PARAM_PUBLISHING_HOUSE));
-            $book->publishingBrand()->associate(Arr::get($data, Book::PARAM_PUBLISHING_BRAND));
-            $book->bookSeries()->associate(Arr::get($data, Book::PARAM_BOOK_SERIES));
-            $book->authors()->attach(Arr::get($data, Book::PARAM_AUTHORS));
+
+            if (Arr::has($data, Book::PARAM_PAPER_TYPE)) {
+                $book->paperType()->associate(Arr::get($data, Book::PARAM_PAPER_TYPE));
+            }
+
+            if (Arr::has($data, Book::PARAM_PUBLISHING_HOUSE)) {
+                $book->publishingHouse()->associate(Arr::get($data, Book::PARAM_PUBLISHING_HOUSE));
+            }
+
+            if (Arr::has($data, Book::PARAM_PUBLISHING_BRAND)) {
+                $book->publishingBrand()->associate(Arr::get($data, Book::PARAM_PUBLISHING_BRAND));
+            }
+
+            if (Arr::has($data, Book::PARAM_BOOK_SERIES)) {
+                $book->bookSeries()->associate(Arr::get($data, Book::PARAM_BOOK_SERIES));
+            }
 
             // @todo заменить на реального текущего пользователя
             $book->userCreated()->associate(1);
 
+            $book->save();
+
+            $book->authors()->attach(Arr::get($data, Book::PARAM_AUTHORS));
+
             DB::commit();
 
-            return Book::findOrFail($book->id);
+            return $book;
         } catch (\Exception $e) {
             DB::rollback();
 

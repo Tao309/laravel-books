@@ -7,10 +7,10 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
-#[AsCommand(name: 'make:service', description: 'Create a Service class.')]
+#[AsCommand(name: 'app:make:service', description: 'Create a Service class.')]
 class MakeServiceCommand extends GeneratorCommand
 {
-    protected $signature = 'make:service {name} {--f|force}';
+    protected $signature = 'app:make:service {name} {--f|force}';
 
     protected $description = 'Create a new Service class';
 

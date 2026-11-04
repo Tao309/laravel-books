@@ -102,8 +102,7 @@ class BookResource extends AbstractResource
             Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
             Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
             // > relations
-            // @todo проверить тут что передавать справа
-            Book::PARAM_AUTHORS => AuthorResource::collection($this->offsetGet($this->authors)),
+            Book::PARAM_AUTHORS => AuthorResource::collection($this->authors),
             Book::PARAM_BINDING_TYPE => BindingTypeResource::make($this->bindingType),
             Book::PARAM_PAPER_TYPE => PaperTypeResource::make($this->paperType),
             Book::PARAM_PUBLISHING_HOUSE => PublishingHouseResource::make($this->publishingHouse),

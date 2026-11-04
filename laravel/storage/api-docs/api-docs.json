@@ -1240,6 +1240,143 @@
                     }
                 }
             }
+        },
+        "/api/source_product_types": {
+            "get": {
+                "tags": [
+                    "SourceProductTypes"
+                ],
+                "summary": "Get list of SourceProductTypes",
+                "description": "Get list of SourceProductTypes",
+                "operationId": "561218f89fa26b9a9b7e504dd8e50d7f",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of SourceProductTypes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductTypesResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "SourceProductTypes"
+                ],
+                "summary": "Create SourceProductType",
+                "description": "Create SourceProductType",
+                "operationId": "bd6e6f7a0ad8175a517a5d48057d1fdd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreSourceProductTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created SourceProductType",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductTypeDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/source_product_types/{id}": {
+            "delete": {
+                "tags": [
+                    "SourceProductTypes"
+                ],
+                "summary": "Delete SourceProductType by id",
+                "description": "Delete SourceProductType by id",
+                "operationId": "9f42322a83b0c2b62b81f5a58e4c9d76",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete SourceProductType by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete SourceProductType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "SourceProductTypes"
+                ],
+                "summary": "Update SourceProductType by id",
+                "description": "Update SourceProductType by id",
+                "operationId": "16b8189bee1b39d0a316cf4a93a1fb5a",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the SourceProductType",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSourceProductTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update SourceProductType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductTypeDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1614,6 +1751,32 @@
                     "name": {
                         "type": "string",
                         "example": "АСТ"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreSourceProductTypeRequest": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "example": "toys"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Игрушки"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateSourceProductTypeRequest": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "example": "toys"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Игрушки"
                     }
                 },
                 "type": "object"
@@ -2149,6 +2312,58 @@
                 },
                 "type": "object"
             },
+            "SourceProductTypeResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "toys"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Игрушки"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "SourceProductTypeDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/SourceProductTypeResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SourceProductTypesResourceCollection": {
+                "description": "Collection of SourceProductTypes",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SourceProductTypeResource"
+                }
+            },
+            "SourceProductTypesDataResourceCollection": {
+                "description": "Collection of SourceProductTypes",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SourceProductTypeResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "UserResource": {
                 "properties": {
                     "id": {
@@ -2212,6 +2427,10 @@
         {
             "name": "Shops",
             "description": "Shops"
+        },
+        {
+            "name": "SourceProductTypes",
+            "description": "SourceProductTypes"
         }
     ]
 }

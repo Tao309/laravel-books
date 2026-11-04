@@ -4,10 +4,10 @@ namespace App\Console\Commands\CQRSCommands;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 
-#[AsCommand(name: 'make:cqrs:command', description: 'Create a CQRS Command classes.')]
+#[AsCommand(name: 'app:make:cqrs:command', description: 'Create a CQRS Command classes.')]
 class MakeCommandsActionCommand extends AbstractCQRSActionCommand
 {
-    protected $signature = 'make:cqrs:command {name} {action}';
+    protected $signature = 'app:make:cqrs:command {name} {action}';
 
     protected $description = 'Create a new CQRS Command classes';
 

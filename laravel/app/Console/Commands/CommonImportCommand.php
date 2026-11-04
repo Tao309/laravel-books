@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Exceptions\SkipRowImportException;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -96,6 +98,25 @@ abstract class CommonImportCommand extends Command
 
         if ($exists) {
             throw new \RuntimeException(\sprintf('Таблица %s должна быть пуста, очистите таблицу.', $this->seqTable));
+        }
+    }
+
+    protected function checkDateAndReturn(?string $date = null): Carbon
+    {
+        $io = $this->io;
+
+        if (empty($date) || $date === '0000-00-00 00:00:00') {
+            $io->warning('Дата не корректна: '.$date);
+
+            return Carbon::now();
+        }
+
+        try {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $date);
+        } catch (\Throwable $e) {
+            $io->warning('Дата не корректна: '.$date.': '.$e->getMessage());
+
+            return Carbon::now();
         }
     }
 
@@ -201,6 +222,8 @@ abstract class CommonImportCommand extends Command
             if (! $this->isFake) {
                 DB::rollBack();
             }
+
+            Log::error($e);
 
             throw new \RuntimeException('Ошибка при записи "'.static::COMMAND_LABEL.'" в БД: '.$e->getMessage());
         }

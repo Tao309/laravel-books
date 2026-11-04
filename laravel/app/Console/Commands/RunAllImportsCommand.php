@@ -34,10 +34,14 @@ class RunAllImportsCommand extends Command
         $justCheckParsing = (bool) ($input->getOption('just-check-parsing') ?? 1);
 
         $commandNames = [
+            'app:import:paper_types',
+            'app:import:authors',
             'app:import:books_series',
             'app:import:publishing_brands',
             'app:import:publishing_houses',
-            'app:import:paper_types',
+            'app:import:books',
+
+            'app:import:source_product_types',
         ];
 
         try {

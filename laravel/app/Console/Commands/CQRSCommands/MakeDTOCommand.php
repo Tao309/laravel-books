@@ -7,10 +7,10 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
-#[AsCommand(name: 'make:dto', description: 'Create a DTO class.')]
+#[AsCommand(name: 'app:make:dto', description: 'Create a DTO class.')]
 class MakeDTOCommand extends GeneratorCommand
 {
-    protected $signature = 'make:dto {name}';
+    protected $signature = 'app:make:dto {name}';
 
     protected $description = 'Create a new DTO class';
 

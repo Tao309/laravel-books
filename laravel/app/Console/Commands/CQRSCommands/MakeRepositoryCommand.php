@@ -8,10 +8,10 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-#[AsCommand(name: 'make:repository', description: 'Create a Repository class.')]
+#[AsCommand(name: 'app:make:repository', description: 'Create a Repository class.')]
 class MakeRepositoryCommand extends GeneratorCommand
 {
-    protected $signature = 'make:repository {name} {--f|force}';
+    protected $signature = 'app:make:repository {name} {--f|force}';
 
     protected $description = 'Create a new Repository class';
 

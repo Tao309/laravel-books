@@ -28,7 +28,7 @@ class StoreAuthorRequest extends AbstractAuthorRequest
                 ->where(function (Builder $query) {
                     return $query->where('first_name', $this->first_name)->where('last_name', $this->last_name);
                 })],
-            Author::PARAM_LAST_NAME => ['string', 'min:2', 'max:100'],
+            Author::PARAM_LAST_NAME => ['sometimes', 'nullable', 'string', 'min:2', 'max:100'],
         ];
     }
 }

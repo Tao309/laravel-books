@@ -12,7 +12,9 @@ class {{ class }} implements RepositoryInterface
 {
     public function create(array $data): {{ ModelName }}
     {
-        return {{ ModelName }}::create($data);
+        $model = {{ ModelName }}::newModelInstance($data);
+
+        return $model->save();
     }
 
     public function get(int $id): {{ ModelName }}

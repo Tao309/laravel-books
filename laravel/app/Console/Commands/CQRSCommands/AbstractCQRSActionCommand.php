@@ -62,6 +62,8 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
                 '{{ RepositoryName }}',
                 '{{ '.$searchAction.'CommandNamespace }}',
                 '{{ '.$searchAction.'CommandName }}',
+                '{{ '.$searchAction.'QueryNamespace }}',
+                '{{ '.$searchAction.'QueryName }}',
                 '{{ AbstractHandlerName }}',
             ],
         ];
@@ -76,6 +78,8 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
                     $singularName.'Repository',
                     'App\\CQRS\\Commands\\'.$pluralName.'\\'.$searchAction.$commandName.'Command',
                     $searchAction.$commandName.'Command',
+                    'App\\CQRS\\Queries\\'.$pluralName.'\\'.$searchAction.$commandName.'Query',
+                    $searchAction.$commandName.'Query',
                     'Abstract'.$singularName.'Handler',
                 ],
                 $stub
