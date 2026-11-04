@@ -1241,6 +1241,176 @@
                 }
             }
         },
+        "/api/source_products": {
+            "get": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Get list of SourceProducts",
+                "description": "Get list of SourceProducts",
+                "operationId": "2e6b4ce717c4d6333eee8143ec411b16",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of SourceProducts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductsResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Create SourceProduct",
+                "description": "Create SourceProduct",
+                "operationId": "34cb14c082f1b232fa869c16635ea45f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreSourceProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created SourceProduct",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/source_products/{id}": {
+            "get": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Get SourceProduct by id",
+                "description": "Get SourceProduct by id",
+                "operationId": "87ae213d1e5671704136bf88c1a8b40b",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the SourceProduct",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get SourceProduct by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Delete SourceProduct by id",
+                "description": "Delete SourceProduct by id",
+                "operationId": "2bc61b871647b98084859f010e3ac5dc",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete SourceProduct by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete SourceProduct by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Update SourceProduct by id",
+                "description": "Update SourceProduct by id",
+                "operationId": "efbca716da17e746673c282964da3e81",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the SourceProduct",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSourceProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update SourceProduct by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/source_product_types": {
             "get": {
                 "tags": [
@@ -1295,6 +1465,39 @@
             }
         },
         "/api/source_product_types/{id}": {
+            "get": {
+                "tags": [
+                    "SourceProductTypes"
+                ],
+                "summary": "Get SourceProductType by id",
+                "description": "Get SourceProductType by id",
+                "operationId": "d29dbc07b9829325693553c994198cd4",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the SourceProductType",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get SourceProductType by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductTypeDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "SourceProductTypes"
@@ -1781,6 +1984,42 @@
                 },
                 "type": "object"
             },
+            "StoreSourceProductRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Рубашка льняная с рукавами на лето"
+                    },
+                    "source_product_type": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateSourceProductRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Рубашка льняная с рукавами на лето"
+                    },
+                    "source_product_type": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "AuthorResource": {
                 "properties": {
                     "id": {
@@ -1978,6 +2217,14 @@
                         "format": "float",
                         "example": "4.28"
                     },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
                     "binding_type": {
                         "$ref": "#/components/schemas/BindingTypeResource"
                     },
@@ -1999,13 +2246,8 @@
                     "book_series": {
                         "$ref": "#/components/schemas/BookSeriesResource"
                     },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
+                    "user_created": {
+                        "$ref": "#/components/schemas/UserResource"
                     }
                 },
                 "type": "object"
@@ -2364,6 +2606,60 @@
                 },
                 "type": "object"
             },
+            "SourceProductResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Рубашка льняная с рукавами на лето"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "source_product_type": {
+                        "$ref": "#/components/schemas/SourceProductTypeResource"
+                    },
+                    "user_created": {
+                        "$ref": "#/components/schemas/UserResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SourceProductDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/SourceProductResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SourceProductsResourceCollection": {
+                "description": "Collection of SourceProducts",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SourceProductResource"
+                }
+            },
+            "SourceProductsDataResourceCollection": {
+                "description": "Collection of SourceProducts",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SourceProductResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "UserResource": {
                 "properties": {
                     "id": {
@@ -2427,6 +2723,10 @@
         {
             "name": "Shops",
             "description": "Shops"
+        },
+        {
+            "name": "SourceProducts",
+            "description": "SourceProducts"
         },
         {
             "name": "SourceProductTypes",

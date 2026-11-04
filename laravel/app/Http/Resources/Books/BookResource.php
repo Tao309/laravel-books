@@ -11,6 +11,7 @@ use App\Http\Resources\PublishingBrand\PublishingBrandResource;
 use App\Http\Resources\PublishingHouses\PublishingHouseResource;
 use App\Http\Resources\Users\UserResource;
 use App\Models\Book;
+use App\Models\SourceProduct;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -32,6 +33,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: Book::PARAM_FANTLAB_ID, type: 'integer', example: 'edition115331'),
         new OA\Property(property: Book::PARAM_LIVELIB_RATING, type: 'float', example: '4.4'),
         new OA\Property(property: Book::PARAM_GOODREADS_RATING, type: 'float', example: '4.28'),
+        new OA\Property(property: 'updated_at', type: 'string', example: '2026-09-10 10:10:19'),
+        new OA\Property(property: 'created_at', type: 'string', example: '2026-09-10 10:10:19'),
         new OA\Property(
             property: Book::PARAM_BINDING_TYPE,
             ref: '#/components/schemas/BindingTypeResource',
@@ -65,8 +68,11 @@ use OpenApi\Attributes as OA;
             ref: '#/components/schemas/BookSeriesResource',
             type: 'object'
         ),
-        new OA\Property(property: 'updated_at', type: 'string', example: '2026-09-10 10:10:19'),
-        new OA\Property(property: 'created_at', type: 'string', example: '2026-09-10 10:10:19'),
+        new OA\Property(
+            property: SourceProduct::PARAM_USER_CREATED,
+            ref: '#/components/schemas/UserResource',
+            type: 'object'
+        ),
     ],
     type: 'object',
 )]

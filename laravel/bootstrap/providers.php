@@ -10,6 +10,7 @@ use App\Providers\PaperTypeProvider;
 use App\Providers\PublishingBrandProvider;
 use App\Providers\PublishingHouseProvider;
 use App\Providers\ShopProvider;
+use App\Providers\SourceProductProvider;
 use App\Providers\SourceProductTypeProvider;
 
 return [
@@ -23,5 +24,6 @@ return [
     PublishingBrandProvider::class,
     PublishingHouseProvider::class,
     ShopProvider::class,
+    SourceProductProvider::class,
     SourceProductTypeProvider::class,
 ];

@@ -63,6 +63,39 @@ class SourceProductTypeController extends ApiController
         return $this->storeAction($request);
     }
 
+    #[OA\Get(
+        path: '/api/source_product_types/{id}',
+        description: 'Get SourceProductType by id',
+        summary: 'Get SourceProductType by id',
+        tags: ['SourceProductTypes'],
+        parameters: [
+            new OA\Parameter(
+                parameter: 'id',
+                name: 'id',
+                description: 'Id of the SourceProductType',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 4,
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Get SourceProductType by id',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/SourceProductTypeDataResource'
+                )
+            ),
+        ]
+    )]
+    public function show(int $id): JsonResponse
+    {
+        return $this->showAction($id);
+    }
+
     #[OA\Patch(
         path: '/api/source_product_types/{id}',
         description: 'Update SourceProductType by id',

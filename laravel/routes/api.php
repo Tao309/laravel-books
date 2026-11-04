@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PaperTypeController;
 use App\Http\Controllers\Api\PublishingBrandController;
 use App\Http\Controllers\Api\PublishingHouseController;
 use App\Http\Controllers\Api\ShopController;
+use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Controllers\Api\SourceProductTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,4 @@ Route::apiResource('/books_series', BookSeriesController::class)->except(['creat
 Route::apiResource('/books', BookController::class)->except(['create', 'edit']);
 Route::apiResource('/paper_types', PaperTypeController::class)->except(['create', 'edit']);
 Route::apiResource('/source_product_types', SourceProductTypeController::class)->except(['create', 'edit']);
+Route::apiResource('/source_products', SourceProductController::class)->except(['create', 'edit']);

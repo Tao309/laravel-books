@@ -205,11 +205,4 @@ class Book extends Model
     {
         return $this->belongsTo(User::class, 'user_created_id');
     }
-
-    public static function unguardField(string $fieldName): void
-    {
-        $guarded = Book::$guardableColumns;
-
-        dd($guarded);
-    }
 }

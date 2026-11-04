@@ -36,6 +36,7 @@ class SourceProductTypeSeeder extends Seeder
             ['bags', 'Сумки'],
             ['acoustics', 'Акустика'],
             ['technic', 'Техника'],
+            ['outerwear', 'Верхняя одежда'],
         ];
     }
 }

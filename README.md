@@ -24,6 +24,7 @@ Swagger документация по api доступна по адресу **/
   - Импорт книг `php artisan app:import:books`
   - Импорт авторов `php artisan app:import:authors`
   - Импорт типов источников товаров `php artisan app:import:source_product_types`
+  - Импорт источников товаров `php artisan app:import:source_products`
 
 - Создание СQRS компонентов по модели `php artisan app:make:cqrs {modelName}`
 
@@ -73,8 +74,12 @@ Swagger документация по api доступна по адресу **/
 
 - Добавить через seeder: `php artisan db:seed --class=BookSeeder`
 
-### SourceProductType (тип источника товара)
+### SourceProductType (тип источников товара)
 
 - Добавить через seeder: `php artisan db:seed --class=SourceProductTypeSeeder`
+
+### SourceProduct (источники товара)
+
+- Добавить через seeder: `php artisan db:seed --class=SourceProductSeeder`
 
 --------
