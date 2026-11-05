@@ -921,6 +921,176 @@
                 }
             }
         },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get list of Products",
+                "description": "Get list of Products",
+                "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Get list of Products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductsResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create Product",
+                "description": "Create Product",
+                "operationId": "785644b7d7dd38af4b51dafd0fbc1b6d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get created Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Product by id",
+                "description": "Get Product by id",
+                "operationId": "c87fb2e4d617e7b36c712cad358acdb8",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get Product by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete Product by id",
+                "description": "Delete Product by id",
+                "operationId": "b49ce9f3cb168b233245548fb4ef36d3",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Delete Product by id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete Product by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update Product by id",
+                "description": "Update Product by id",
+                "operationId": "7b6a99d3d6d5c75a1ef063b213e8d068",
+                "parameters": [
+                    {
+                        "parameter": "id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update Product by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/publishing_brands": {
             "get": {
                 "tags": [
@@ -1922,6 +2092,112 @@
                 },
                 "type": "object"
             },
+            "StoreProductRequest": {
+                "properties": {
+                    "shop_product_id": {
+                        "type": "string",
+                        "example": "3315320967"
+                    },
+                    "shop_product_code": {
+                        "type": "string",
+                        "example": "1903147507"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Хтонь за околицей. Книга первая"
+                    },
+                    "shop": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 2
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "city": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 4
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "book": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 4
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "source_product": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 4
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateProductRequest": {
+                "properties": {
+                    "shop_product_id": {
+                        "type": "string",
+                        "example": "3315320967"
+                    },
+                    "shop_product_code": {
+                        "type": "string",
+                        "example": "1903147507"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Хтонь за околицей. Книга первая"
+                    },
+                    "shop": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 2
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "city": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 4
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "book": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 4
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "source_product": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 4
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StorePublishingBrandRequest": {
                 "properties": {
                     "name": {
@@ -2398,6 +2674,74 @@
                 },
                 "type": "object"
             },
+            "ProductResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "shop_product_id": {
+                        "type": "integer",
+                        "example": "3315320967"
+                    },
+                    "shop_product_code": {
+                        "type": "integer",
+                        "example": "1903147507"
+                    },
+                    "title": {
+                        "type": "integer",
+                        "example": "Хтонь за околицей. Книга первая"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "shop": {
+                        "$ref": "#/components/schemas/ShopResource"
+                    },
+                    "city": {
+                        "$ref": "#/components/schemas/CityResource"
+                    },
+                    "book": {
+                        "$ref": "#/components/schemas/BookResource"
+                    },
+                    "source_product": {
+                        "$ref": "#/components/schemas/SourceProductResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ProductResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductsResourceCollection": {
+                "description": "Collection of Products",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/ProductResource"
+                }
+            },
+            "ProductsDataResourceCollection": {
+                "description": "Collection of Products",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "PublishingBrandResource": {
                 "properties": {
                     "id": {
@@ -2711,6 +3055,10 @@
         {
             "name": "PaperTypes",
             "description": "PaperTypes"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
         },
         {
             "name": "PublishingBrands",

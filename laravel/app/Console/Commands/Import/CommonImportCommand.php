@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Import;
 
 use App\Exceptions\SkipRowImportException;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -28,22 +30,26 @@ abstract class CommonImportCommand extends Command
 
     protected string $fileName = '';
 
-    // Обновить sequence по таблице, если она указана
-    protected ?string $seqTable = null;
+    // Таблица для импорта
+    protected ?string $tableName = null;
 
     // Идентификатор для таблицы
     protected string $idParam = 'id';
+
+    // Массив предупреждений, которые не влияют на парсинг
+    protected array $warnings = [];
+
+    // Массив для вставки в таблицу
+    protected array $insertBulkData = [];
 
     abstract protected function fillImportRow(array $row): void;
 
     /**
      * @throws SkipRowImportException
      */
-    abstract protected function createEntityByImportRowData(array $row): mixed;
+    abstract protected function createInsertingData(array $row): array;
 
     protected function runBeforeImport(): void {}
-
-    protected function runBeforeFlush(): void {}
 
     protected function runAtEnd(): void {}
 
@@ -66,9 +72,11 @@ abstract class CommonImportCommand extends Command
         $this->justCheckParsing = (bool) ($input->getOption('just-check-parsing') ?? 1);
 
         try {
+            $this->checkTable();
+            $this->runBeforeImport();
+
             $this->checkTableIsEmpty();
             $this->assembleImportData();
-            $this->runBeforeImport();
 
             if (! $this->justCheckParsing) {
                 $this->persistImportData();
@@ -89,24 +97,57 @@ abstract class CommonImportCommand extends Command
             $this->io->warning('Фейковый запуск команды');
         }
 
+        $this->showWarnings();
+
         return Command::SUCCESS;
+    }
+
+    protected function addWarning(string $message): void
+    {
+        $this->warnings[] = $message;
+    }
+
+    protected function showWarnings(): void
+    {
+        if (empty($this->warnings)) {
+            return;
+        }
+
+        $this->io->warning('// > Warnings: ('.count($this->warnings).')');
+
+        $i = 1;
+        foreach ($this->warnings as $error) {
+            $this->io->text($i++.'. '.$error);
+        }
+
+        $this->io->warning('// < Warnings: ('.count($this->warnings).')');
+
+    }
+
+    protected function checkTable(): void
+    {
+        if (empty($this->tableName)) {
+            throw new \RuntimeException('Название таблицы (tableName) должно быть указано');
+        }
+
+        if (! Schema::hasTable($this->tableName)) {
+            throw new \RuntimeException('Таблица "'.$this->tableName.'" не найдена');
+        }
     }
 
     protected function checkTableIsEmpty(): void
     {
-        $exists = (bool) DB::table($this->seqTable)->limit(1)->count();
+        $exists = (bool) DB::table($this->tableName)->limit(1)->count();
 
         if ($exists) {
-            throw new \RuntimeException(\sprintf('Таблица %s должна быть пуста, очистите таблицу.', $this->seqTable));
+            throw new \RuntimeException(\sprintf('Таблица %s должна быть пуста, очистите таблицу.', $this->tableName));
         }
     }
 
-    protected function checkDateAndReturn(?string $date = null): Carbon
+    protected function checkDateAndReturn(int $id, ?string $date = null): Carbon
     {
-        $io = $this->io;
-
         if (empty($date) || $date === '0000-00-00 00:00:00') {
-            $io->warning('Дата не корректна: '.$date);
+            $this->addWarning('Дата не корректна id = '.$id.': ('.$date.')');
 
             return Carbon::now();
         }
@@ -114,7 +155,7 @@ abstract class CommonImportCommand extends Command
         try {
             return Carbon::createFromFormat('Y-m-d H:i:s', $date);
         } catch (\Throwable $e) {
-            $io->warning('Дата не корректна: '.$date.': '.$e->getMessage());
+            $this->addWarning('Дата не корректна id = '.$id.': '.$date.': '.$e->getMessage());
 
             return Carbon::now();
         }
@@ -144,29 +185,44 @@ abstract class CommonImportCommand extends Command
 
         $headers = fgetcsv($handle, 0, ',');
         if ($this->showParsingLog) {
+            //            $this->io->progressStart();
             $io->writeln(
-                \sprintf('Заголовок: %s', implode(' | ', $headers))
+                \sprintf('Заголовки: %s', implode(' | ', $headers))
             );
+
+            $io->newLine();
+
+            $progressBar = new ProgressBar($this->output);
+            $progressBar->setFormat('Обработано строк: %current%');
+            $progressBar->start();
         }
 
         $rowCount = 0;
         while (($row = fgetcsv($handle, 0, ',')) !== false) {
             $rowCount++;
 
-            if ($this->showParsingLog) {
-                $io->writeln(
-                    \sprintf('Строка %d: %s', $rowCount, implode(' | ', $row))
-                );
-            }
-
             foreach ($row as $index => $rowData) {
                 $row[$index] = strtolower(trim($rowData)) === 'null' ? null : trim($rowData);
             }
 
             $this->fillImportRow($row);
+
+            if ($this->showParsingLog) {
+                $progressBar->setProgress($rowCount);
+                //                $this->io->progressAdvance();
+                //                $io->writeln(
+                //                    \sprintf('Строка %d: %s', $rowCount, implode(' | ', $row))
+                //                );
+            }
         }
 
         fclose($handle);
+
+        if ($this->showParsingLog) {
+            $progressBar->finish();
+            $io->newLine(2);
+            //            $this->io->progressFinish();
+        }
 
         if (! $rowCount) {
             throw new \RuntimeException('Не найдены строки в файле для парсинга.');
@@ -190,15 +246,12 @@ abstract class CommonImportCommand extends Command
             for ($i = 0; $i < $totalRecords; $i++) {
                 try {
                     $importData = $this->importData[$i];
-                    $entity = $this->createEntityByImportRowData($importData);
 
-                    if (! $entity) {
-                        continue;
-                    }
+                    $this->insertBulkData[] = $this->createInsertingData($importData);
 
                     if (($i % $batchSize) === 0) {
                         if (! $this->isFake) {
-                            $this->runBeforeFlush();
+                            $this->applyInsertBulkData();
                         }
                     }
 
@@ -214,9 +267,9 @@ abstract class CommonImportCommand extends Command
             }
 
             if (! $this->isFake) {
-                $this->runBeforeFlush();
-                DB::commit();
+                $this->applyInsertBulkData();
 
+                DB::commit();
             }
         } catch (\Throwable $e) {
             if (! $this->isFake) {
@@ -231,15 +284,22 @@ abstract class CommonImportCommand extends Command
         $this->io->progressFinish();
     }
 
+    private function applyInsertBulkData(): void
+    {
+        DB::table($this->tableName)->insert($this->insertBulkData);
+
+        $this->insertBulkData = [];
+    }
+
     protected function updateSequence(): void
     {
-        if (! $this->seqTable) {
+        if (! $this->tableName) {
             return;
         }
 
         $pdoDriverName = DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
-        $tableName = DB::getTablePrefix().$this->seqTable;
+        $tableName = DB::getTablePrefix().$this->tableName;
 
         if ($pdoDriverName === 'pgsql') {
             DB::update("SELECT setval(pg_get_serial_sequence('".$tableName."', 'id'), COALESCE(MAX(id), 0) + 1, false) FROM ".$tableName.';');

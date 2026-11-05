@@ -35,9 +35,9 @@ class CityDataResource extends JsonResource
     {
         return [
             'data' => [
-                City::ID => $this->id,
-                City::CODE => $this->code,
-                City::TITLE => $this->title,
+                City::PARAM_ID => $this->id,
+                City::PARAM_CODE => $this->code,
+                City::PARAM_TITLE => $this->title,
                 Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
                 Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
             ],

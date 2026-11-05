@@ -14,16 +14,16 @@ class CityDTO implements DtoInterface
     public static function fromArray(array $data): self
     {
         return new self(
-            code: $data[City::CODE],
-            title: $data[City::TITLE],
+            code: $data[City::PARAM_CODE],
+            title: $data[City::PARAM_TITLE],
         );
     }
 
     public function toArray(): array
     {
         return [
-            City::CODE => $this->code,
-            City::TITLE => $this->title,
+            City::PARAM_CODE => $this->code,
+            City::PARAM_TITLE => $this->title,
         ];
     }
 }

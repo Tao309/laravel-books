@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Requests\{{ ModelNamePlural }};
+
+use App\Models\{{ ModelNameSingular }};
+use Illuminate\Contracts\Validation\ValidationRule;
+use OpenApi\Attributes as OA;
+
+#[OA\Schema(
+    schema: 'Update{{ ModelNameSingular }}Request',
+    properties: [
+
+    ],
+    type: 'object'
+)]
+class Update{{ ModelNameSingular }}Request extends Abstract{{ ModelNameSingular }}Request
+{
+    /**
+     * @return array<string, ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        $id = $this->route('{{ ModelNameSnakeSingular }}');
+
+        return [
+
+        ];
+    }
+}

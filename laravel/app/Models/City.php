@@ -33,13 +33,13 @@ class City extends Model
 {
     public const string TABLE_NAME = 'cities';
 
-    public const string ID = 'id';
+    public const string PARAM_ID = 'id';
 
-    public const string CODE = 'code';
+    public const string PARAM_CODE = 'code';
 
-    public const string TITLE = 'title';
+    public const string PARAM_TITLE = 'title';
 
     protected $table = self::TABLE_NAME;
 
-    protected $fillable = [self::CODE, self::TITLE];
+    protected $fillable = [self::PARAM_CODE, self::PARAM_TITLE];
 }

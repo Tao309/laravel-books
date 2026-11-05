@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Import;
 
 use App\Models\Author;
-use App\Repositories\AuthorRepository;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'app:import:authors')]
 class ImportAuthorsCommand extends CommonImportCommand
 {
     public const string COMMAND_LABEL = 'Авторы';
@@ -22,21 +23,15 @@ class ImportAuthorsCommand extends CommonImportCommand
 
     protected string $fileName = 'authors.csv';
 
-    protected ?string $seqTable = 'authors';
+    protected ?string $tableName = Author::TABLE_NAME;
 
     protected $signature = 'app:import:authors';
 
     protected $description = 'Импортируем список авторов';
 
-    public function __construct(
-        private readonly AuthorRepository $repository
-    ) {
-        parent::__construct();
-    }
-
     protected function runBeforeImport(): void
     {
-        Author::unguard();
+        Author::truncate();
     }
 
     protected function fillImportRow(array $row): void
@@ -50,14 +45,14 @@ class ImportAuthorsCommand extends CommonImportCommand
         ];
     }
 
-    protected function createEntityByImportRowData(array $row): Author
+    protected function createInsertingData(array $row): array
     {
-        return $this->repository->create([
+        return [
             Author::PARAM_ID => $row[self::FIELD_ID],
             Author::PARAM_FIRST_NAME => $row[self::FIELD_FIRST_NAME],
             Author::PARAM_LAST_NAME => $row[self::FIELD_LAST_NAME],
-            Model::UPDATED_AT => $this->checkDateAndReturn($row[self::FIELD_DATE_UPDATED]),
-            Model::CREATED_AT => $this->checkDateAndReturn($row[self::FIELD_DATE_CREATED]),
-        ]);
+            Model::UPDATED_AT => $this->checkDateAndReturn($row[self::FIELD_ID], $row[self::FIELD_DATE_UPDATED]),
+            Model::CREATED_AT => $this->checkDateAndReturn($row[self::FIELD_ID], $row[self::FIELD_DATE_CREATED]),
+        ];
     }
 }

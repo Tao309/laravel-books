@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Import;
 
 use App\Models\PublishingBrand;
-use App\Repositories\PublishingBrandRepository;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'app:import:publishing_brands')]
 class ImportPublishingBrandsCommand extends CommonImportCommand
 {
     public const string COMMAND_LABEL = 'Издательские брэнды';
@@ -20,21 +21,15 @@ class ImportPublishingBrandsCommand extends CommonImportCommand
 
     protected string $fileName = 'publishing_brands.csv';
 
-    protected ?string $seqTable = 'publishing_brands';
+    protected ?string $tableName = PublishingBrand::TABLE_NAME;
 
     protected $signature = 'app:import:publishing_brands';
 
     protected $description = 'Импортируем список издательских брэндов';
 
-    public function __construct(
-        private readonly PublishingBrandRepository $repository
-    ) {
-        parent::__construct();
-    }
-
     protected function runBeforeImport(): void
     {
-        PublishingBrand::unguard();
+        PublishingBrand::truncate();
     }
 
     protected function fillImportRow(array $row): void
@@ -47,13 +42,13 @@ class ImportPublishingBrandsCommand extends CommonImportCommand
         ];
     }
 
-    protected function createEntityByImportRowData(array $row): PublishingBrand
+    protected function createInsertingData(array $row): array
     {
-        return $this->repository->create([
+        return [
             PublishingBrand::ID => $row[self::FIELD_ID],
             PublishingBrand::NAME => $row[self::FIELD_NAME],
             Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
-        ]);
+        ];
     }
 }

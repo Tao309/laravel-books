@@ -76,6 +76,7 @@ class MakeControllerCommand extends GeneratorCommand
                 '{{ ModelNameSingular }}',
                 '{{ ModelNamePlural }}',
                 '{{ ModelNamePluralLower }}',
+                '{{ ModelNameSnakePlural }}',
             ],
         ];
 
@@ -86,6 +87,7 @@ class MakeControllerCommand extends GeneratorCommand
                     Str::ucfirst($this->getNameInput()),
                     Str::plural(Str::ucfirst($this->getNameInput())),
                     Str::plural(Str::lower($this->getNameInput())),
+                    Str::snake(Str::plural($this->getNameInput())),
                 ],
                 $stub
             );

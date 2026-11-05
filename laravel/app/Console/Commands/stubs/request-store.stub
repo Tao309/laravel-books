@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Requests\{{ ModelNamePlural }};
+
+use App\Models\{{ ModelNameSingular }};
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Validation\Rule;
+use OpenApi\Attributes as OA;
+
+#[OA\Schema(
+    schema: 'Store{{ ModelNameSingular }}Request',
+    properties: [
+
+    ],
+    type: 'object'
+)]
+class Store{{ ModelNameSingular }}Request extends Abstract{{ ModelNameSingular }}Request
+{
+    /**
+     * @return array<string, ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+
+        ];
+    }
+}

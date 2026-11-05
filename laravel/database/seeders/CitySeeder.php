@@ -13,26 +13,26 @@ class CitySeeder extends AbstractSeeder
     {
         City::unguard();
 
-        DB::table('cities')->insert([
-            City::ID => 1,
-            City::CODE => 'КРР',
-            City::TITLE => 'Краснодар',
+        DB::table(City::TABLE_NAME)->insert([
+            City::PARAM_ID => 1,
+            City::PARAM_CODE => 'КРР',
+            City::PARAM_TITLE => 'Краснодар',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
-        DB::table('cities')->insert([
-            City::ID => 2,
-            City::CODE => 'МОВ',
-            City::TITLE => 'Москва',
+        DB::table(City::TABLE_NAME)->insert([
+            City::PARAM_ID => 2,
+            City::PARAM_CODE => 'МОВ',
+            City::PARAM_TITLE => 'Москва',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
-        DB::table('cities')->insert([
-            City::ID => 3,
-            City::CODE => 'СПТ',
-            City::TITLE => 'Санкт-Петербург',
+        DB::table(City::TABLE_NAME)->insert([
+            City::PARAM_ID => 3,
+            City::PARAM_CODE => 'СПТ',
+            City::PARAM_TITLE => 'Санкт-Петербург',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);

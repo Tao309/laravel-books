@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Import;
 
 use App\Models\SourceProduct;
-use App\Repositories\SourceProductRepository;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'app:import:source_products')]
 class ImportSourceProductsCommand extends CommonImportCommand
 {
     public const string COMMAND_LABEL = 'Источники товаров';
@@ -24,16 +25,15 @@ class ImportSourceProductsCommand extends CommonImportCommand
 
     protected string $fileName = 'source_products.csv';
 
-    protected ?string $seqTable = 'source_products';
+    protected ?string $tableName = SourceProduct::TABLE_NAME;
 
     protected $signature = 'app:import:source_products';
 
     protected $description = 'Импортируем список источников товаров';
 
-    public function __construct(
-        private readonly SourceProductRepository $repository
-    ) {
-        parent::__construct();
+    protected function runBeforeImport(): void
+    {
+        SourceProduct::truncate();
     }
 
     protected function fillImportRow(array $row): void
@@ -48,16 +48,18 @@ class ImportSourceProductsCommand extends CommonImportCommand
         ];
     }
 
-    protected function createEntityByImportRowData(array $row): SourceProduct
+    protected function createInsertingData(array $row): array
     {
-        return $this->repository->create([
+        return [
             SourceProduct::PARAM_ID => $row[self::FIELD_ID],
-            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => $row[self::FIELD_SOURCE_PRODUCT_ID],
             SourceProduct::PARAM_TITLE => $row[self::FIELD_TITLE],
-            // @todo записать реального пользователя
-            //            SourceProduct::PARAM_USER_CREATED => $row[self::FIELD_USER_CREATED_ID],
             Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
-        ]);
+            // > relations
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $row[self::FIELD_SOURCE_PRODUCT_ID],
+            // @todo записать реального пользователя
+            SourceProduct::PARAM_USER_CREATED_ID => 1,
+            // < relations
+        ];
     }
 }

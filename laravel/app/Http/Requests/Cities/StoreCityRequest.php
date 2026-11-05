@@ -23,14 +23,14 @@ class StoreCityRequest extends AbstractCityRequest
     public function rules(): array
     {
         return [
-            City::CODE => [
+            City::PARAM_CODE => [
                 'required',
                 'string',
                 'min:2',
                 'max:4',
                 Rule::unique('cities'),
             ],
-            City::TITLE => [
+            City::PARAM_TITLE => [
                 'string',
                 'min:2',
                 'max:100',

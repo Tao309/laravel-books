@@ -17,8 +17,8 @@ abstract class AbstractCityRequest extends FormRequest implements RequestInterfa
     public function messages(): array
     {
         return [
-            City::CODE.'.unique' => 'A City with this code already exists',
-            City::TITLE.'.unique' => 'A City with this title already exists',
+            City::PARAM_CODE.'.unique' => 'A City with this code already exists',
+            City::PARAM_TITLE.'.unique' => 'A City with this title already exists',
         ];
     }
 

@@ -14,41 +14,41 @@ class ShopSeeder extends AbstractSeeder
         Shop::unguard();
 
         DB::table('shops')->insert([
-            Shop::ID => 1,
-            Shop::TYPE => 'ozon',
-            Shop::DOMAIN => 'ozon.ru',
+            Shop::PARAM_ID => 1,
+            Shop::PARAM_TYPE => 'ozon',
+            Shop::PARAM_DOMAIN => 'ozon.ru',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('shops')->insert([
-            Shop::ID => 2,
-            Shop::TYPE => 'wildberries',
-            Shop::DOMAIN => 'wildberries.ru',
+            Shop::PARAM_ID => 2,
+            Shop::PARAM_TYPE => 'wildberries',
+            Shop::PARAM_DOMAIN => 'wildberries.ru',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('shops')->insert([
-            Shop::ID => 3,
-            Shop::TYPE => 'chitai-gorod',
-            Shop::DOMAIN => 'chitai-gorod.ru',
+            Shop::PARAM_ID => 3,
+            Shop::PARAM_TYPE => 'chitai-gorod',
+            Shop::PARAM_DOMAIN => 'chitai-gorod.ru',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('shops')->insert([
-            Shop::ID => 4,
-            Shop::TYPE => 'knigofan',
-            Shop::DOMAIN => 'knigofan.ru',
+            Shop::PARAM_ID => 4,
+            Shop::PARAM_TYPE => 'knigofan',
+            Shop::PARAM_DOMAIN => 'knigofan.ru',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);
 
         DB::table('shops')->insert([
-            Shop::ID => 5,
-            Shop::TYPE => 'ffan',
-            Shop::DOMAIN => 'ffan.ru',
+            Shop::PARAM_ID => 5,
+            Shop::PARAM_TYPE => 'ffan',
+            Shop::PARAM_DOMAIN => 'ffan.ru',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),
         ]);

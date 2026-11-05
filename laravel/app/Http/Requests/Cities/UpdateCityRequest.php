@@ -25,14 +25,14 @@ class UpdateCityRequest extends AbstractCityRequest
         $id = $this->route('city');
 
         return [
-            City::CODE => [
+            City::PARAM_CODE => [
                 'required',
                 'string',
                 'min:2',
                 'max:4',
                 Rule::unique('cities')->ignore($id),
             ],
-            City::TITLE => [
+            City::PARAM_TITLE => [
                 'string',
                 'min:2',
                 'max:100',

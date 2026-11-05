@@ -51,6 +51,17 @@ class SourceProductSeeder extends Seeder
         ]);
 
         SourceProduct::create([
+            SourceProduct::PARAM_TITLE => 'Куртка зимняя',
+            Model::CREATED_AT => Carbon::now(),
+            Model::UPDATED_AT => Carbon::now(),
+
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $sourceProductTypes->filter(function (SourceProductType $spt) {
+                return $spt->code === 'outerwear';
+            })->firstOrFail()->id,
+            SourceProduct::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+        ]);
+
+        SourceProduct::create([
             SourceProduct::PARAM_TITLE => 'Рубашка льняная с рукавами на лето',
             Model::CREATED_AT => Carbon::now(),
             Model::UPDATED_AT => Carbon::now(),

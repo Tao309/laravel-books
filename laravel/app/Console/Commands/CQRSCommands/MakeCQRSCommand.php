@@ -43,11 +43,31 @@ class MakeCQRSCommand extends GeneratorCommand
         $upperName = Str::ucfirst($this->getNameInput());
         $pluralName = Str::plural($this->getNameInput());
 
-        $this->call('make:model', [
+        $this->call('app:make:model', [
             'name' => $upperName,
-            '--migration' => true,
-            '--seed' => true,
-            '--requests' => true,
+        ]);
+
+        $this->call('make:migration', [
+            'name' => 'Create'.$pluralName.'Table',
+            '--table' => Str::snake($pluralName),
+            '--create' => true,
+        ]);
+
+        $this->call('make:seed', ['name' => $upperName.'Seeder']);
+
+        $this->call('app:make:request', [
+            'name' => $upperName,
+            '--abstract' => true,
+        ]);
+
+        $this->call('app:make:request', [
+            'name' => $upperName,
+            '--store' => true,
+        ]);
+
+        $this->call('app:make:request', [
+            'name' => $upperName,
+            '--update' => true,
         ]);
 
         $this->call('app:make:controller', [

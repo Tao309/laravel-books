@@ -35,13 +35,13 @@ class Shop extends Model
 {
     public const string TABLE_NAME = 'shops';
 
-    public const string ID = 'id';
+    public const string PARAM_ID = 'id';
 
-    public const string TYPE = 'type';
+    public const string PARAM_TYPE = 'type';
 
-    public const string DOMAIN = 'domain';
+    public const string PARAM_DOMAIN = 'domain';
 
-    public const string URL = 'url';
+    public const string PARAM_URL = 'url';
 
     protected $table = self::TABLE_NAME;
 }

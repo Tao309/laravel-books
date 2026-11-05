@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('fantlab_id')->nullable();
             $table->float('livelib_rating')->nullable();
             $table->float('goodreads_rating')->nullable();
+            $table->integer('on_sale_count')->default(0);
+            $table->timestampsTz();
 
             $table->unsignedBigInteger('binding_type_id');
             $table->foreign('binding_type_id')->references(BindingType::PARAM_ID)->on(BindingType::TABLE_NAME)
@@ -52,8 +54,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_created_id');
             $table->foreign('user_created_id')->references(User::PARAM_ID)->on(User::TABLE_NAME)
                 ->onDelete('cascade');
-
-            $table->timestampsTz();
         });
     }
 

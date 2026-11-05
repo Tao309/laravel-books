@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Requests\{{ ModelNamePlural }};
+
+use App\DTOs\{{ ModelNameSingular }}DTO;
+use App\Http\Requests\RequestInterface;
+use Illuminate\Foundation\Http\FormRequest;
+
+abstract class Abstract{{ ModelNameSingular }}Request extends FormRequest implements RequestInterface
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function messages(): array
+    {
+        return [
+
+        ];
+    }
+
+    public function toDTO(): {{ ModelNameSingular }}DTO
+    {
+        return {{ ModelNameSingular }}DTO::fromArray($this->validated());
+    }
+}

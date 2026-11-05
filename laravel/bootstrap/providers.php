@@ -7,6 +7,7 @@ use App\Providers\BookProvider;
 use App\Providers\BookSeriesProvider;
 use App\Providers\CityProvider;
 use App\Providers\PaperTypeProvider;
+use App\Providers\ProductProvider;
 use App\Providers\PublishingBrandProvider;
 use App\Providers\PublishingHouseProvider;
 use App\Providers\ShopProvider;
@@ -21,6 +22,7 @@ return [
     BookSeriesProvider::class,
     CityProvider::class,
     PaperTypeProvider::class,
+    ProductProvider::class,
     PublishingBrandProvider::class,
     PublishingHouseProvider::class,
     ShopProvider::class,

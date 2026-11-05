@@ -17,6 +17,15 @@ Swagger документация по api доступна по адресу **/
 
 - Импорт:
   - Запуск всех команд с импортом `php artisan app:import:run-all`
+Доступные опции:
+
+| Название | Описание      | Значение по умолчанию |
+|----------|----------|-----------------------|
+| `fake`     | Фейковый запрос, без записи в БД | Вкл |
+| `show-parsing-log`     | Показывать детали парсинга | Вкл |
+| `just-check-parsing`     | Проверить только парсинг, без создания новых сущностей | Вкл |
+| `import-name`     | Имя команды для импорта | null |
+
   - Импорт издательских домов `php artisan app:import:publishing_houses`
   - Импорт издательских брэндов `php artisan app:import:publishing_brands`
   - Импорт книжных серий `php artisan app:import:books_series`
@@ -25,8 +34,7 @@ Swagger документация по api доступна по адресу **/
   - Импорт авторов `php artisan app:import:authors`
   - Импорт типов источников товаров `php artisan app:import:source_product_types`
   - Импорт источников товаров `php artisan app:import:source_products`
-
-- Создание СQRS компонентов по модели `php artisan app:make:cqrs {modelName}`
+  - Импорт товаров `php artisan app:import:products`
 
 Доступные опции:
 
@@ -35,6 +43,8 @@ Swagger документация по api доступна по адресу **/
 | `fake`     | Фейковый запрос, без записи в БД | Вкл |
 | `show-parsing-log`     | Показывать детали парсинга | Вкл |
 | `just-check-parsing`     | Проверить только парсинг, без создания новых сущностей | Вкл |
+
+- Создание СQRS компонентов по модели `php artisan app:make:cqrs {modelName}`
 
 --------
 
@@ -81,5 +91,9 @@ Swagger документация по api доступна по адресу **/
 ### SourceProduct (источники товара)
 
 - Добавить через seeder: `php artisan db:seed --class=SourceProductSeeder`
+
+### Product (товар)
+
+- Добавить через seeder: `php artisan db:seed --class=ProductSeeder`
 
 --------

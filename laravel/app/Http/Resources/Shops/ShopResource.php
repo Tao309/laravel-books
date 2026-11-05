@@ -29,10 +29,10 @@ class ShopResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            Shop::ID => $this->id,
-            Shop::TYPE => $this->type,
-            Shop::DOMAIN => $this->domain,
-            Shop::URL => $this->url,
+            Shop::PARAM_ID => $this->id,
+            Shop::PARAM_TYPE => $this->type,
+            Shop::PARAM_DOMAIN => $this->domain,
+            Shop::PARAM_URL => $this->url,
             Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
             Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
         ];

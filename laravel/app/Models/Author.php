@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $first_name
- * @property string $last_name
+ * @property string|null $last_name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Book> $books
@@ -43,6 +43,12 @@ class Author extends Model
 
     public const string PARAM_LAST_NAME = 'last_name';
 
+    public const string PIVOT_AUTHOR_BOOKS_TABLE = 'author_books';
+
+    public const string PIVOT_AUTHOR_BOOKS_AUTHOR_ID = 'author_id';
+
+    public const string PIVOT_AUTHOR_BOOKS_BOOK_ID = 'book_id';
+
     protected $table = self::TABLE_NAME;
 
     protected $fillable = [self::PARAM_FIRST_NAME, self::PARAM_LAST_NAME];
@@ -53,6 +59,11 @@ class Author extends Model
 
     public function books(): BelongsToMany
     {
-        return $this->belongsToMany(Book::class, 'author_books', 'author_id', 'book_id');
+        return $this->belongsToMany(
+            Book::class,
+            self::PIVOT_AUTHOR_BOOKS_TABLE,
+            self::PIVOT_AUTHOR_BOOKS_AUTHOR_ID,
+            self::PIVOT_AUTHOR_BOOKS_BOOK_ID,
+        );
     }
 }

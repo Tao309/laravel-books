@@ -19,11 +19,6 @@ class BookRepository implements RepositoryInterface
         try {
             $book = Book::newModelInstance($data);
 
-            // @todo make more protected
-            if (! empty($data[Book::PARAM_ID])) {
-                $book->mergeFillable([Book::PARAM_ID]);
-            }
-
             $book->bindingType()->associate(Arr::get($data, Book::PARAM_BINDING_TYPE));
 
             if (Arr::has($data, Book::PARAM_PAPER_TYPE)) {

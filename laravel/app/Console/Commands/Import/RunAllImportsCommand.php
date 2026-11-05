@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Import;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Command\Command as CommandAlias;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -20,7 +21,8 @@ class RunAllImportsCommand extends Command
         $this
             ->addOption('show-parsing-log', null, InputArgument::OPTIONAL, 'Показывать детали парсинга?', 1)
             ->addOption('fake', null, InputArgument::OPTIONAL, 'Фейковый запрос без записи?', 1)
-            ->addOption('just-check-parsing', null, InputArgument::OPTIONAL, 'Проверить только парсинг?', 1);
+            ->addOption('just-check-parsing', null, InputArgument::OPTIONAL, 'Проверить только парсинг?', 1)
+            ->addOption('import-name', null, InputArgument::OPTIONAL, 'Имя команды для импорта', 1);
     }
 
     public function handle(): int
@@ -33,16 +35,36 @@ class RunAllImportsCommand extends Command
         $isFake = (bool) ($input->getOption('fake') ?? 1);
         $justCheckParsing = (bool) ($input->getOption('just-check-parsing') ?? 1);
 
-        $commandNames = [
-            'app:import:paper_types',
-            'app:import:authors',
-            'app:import:books_series',
-            'app:import:publishing_brands',
-            'app:import:publishing_houses',
-            'app:import:books',
+        $importName = $input->getOption('import-name') ?? null;
 
-            'app:import:source_product_types',
-        ];
+        if ($importName && ! array_key_exists('app:import:'.$importName, \Artisan::all())) {
+            $io->error(sprintf(
+                'Команда "%s" не найдена в списке artisan',
+                'app:import:'.$importName
+            ));
+
+            return CommandAlias::FAILURE;
+        }
+
+        $commandNames = $importName
+            ? ['app:import:'.$importName]
+            : [
+                'app:import:paper_types',
+
+                // > books
+                'app:import:authors',
+                'app:import:books_series',
+                'app:import:publishing_brands',
+                'app:import:publishing_houses',
+                'app:import:books',
+                // < books
+
+                // > products
+                'app:import:source_product_types',
+                'app:import:source_products',
+                'app:import:products',
+                // < products
+            ];
 
         try {
             foreach ($commandNames as $commandName) {
@@ -65,7 +87,7 @@ class RunAllImportsCommand extends Command
 
                 $returnCode = $command->run($subCommandInput, $output);
 
-                if ($returnCode === Command::SUCCESS) {
+                if ($returnCode === CommandAlias::SUCCESS) {
                     $io->success(\sprintf('Команда "%s" успешна завершена', $commandName));
 
                     continue;
@@ -74,11 +96,11 @@ class RunAllImportsCommand extends Command
                 throw new \RuntimeException(\sprintf('Команда "%s" завершена с ошибкой', $commandName));
             }
 
-            return Command::SUCCESS;
+            return CommandAlias::SUCCESS;
         } catch (\Throwable $e) {
             $io->error($e->getMessage());
 
-            return Command::FAILURE;
+            return CommandAlias::FAILURE;
         }
     }
 }

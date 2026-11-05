@@ -1,0 +1,26 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Resources\{{ ModelNamePlural }}\{{ ModelNameSingular }}DataResource;
+use App\Http\Resources\{{ ModelNamePlural }}\{{ ModelNamePlural }}DataResourceCollection;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Model;
+
+#[UseResource({{ ModelNameSingular }}DataResource::class)]
+#[UseResourceCollection({{ ModelNamePlural }}DataResourceCollection::class)]
+class {{ class }} extends Model
+{
+    public const string TABLE_NAME = '{{ ModelNameSnakePlural }}';
+
+    public const string PARAM_ID = 'id';
+
+    protected $table = self::TABLE_NAME;
+
+    protected $hidden = [];
+
+    protected $with = [];
+
+    protected $fillable = [];
+}

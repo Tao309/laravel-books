@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -28,7 +29,7 @@ use Illuminate\Support\Carbon;
  * @property float|null $goodreads_rating
  * @property int $binding_type_id
  * @property int|null $paper_type_id
- * @property int $publishing_house_id
+ * @property int|null $publishing_house_id
  * @property int|null $publishing_brand_id
  * @property int|null $book_series_id
  * @property int $user_created_id
@@ -39,8 +40,10 @@ use Illuminate\Support\Carbon;
  * @property-read BindingType $bindingType
  * @property-read BookSeries|null $bookSeries
  * @property-read PaperType|null $paperType
+ * @property-read Collection<int, Product> $products
+ * @property-read int|null $products_count
  * @property-read PublishingBrand|null $publishingBrand
- * @property-read PublishingHouse $publishingHouse
+ * @property-read PublishingHouse|null $publishingHouse
  * @property-read User $userCreated
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book newModelQuery()
@@ -102,6 +105,8 @@ class Book extends Model
 
     public const string PARAM_GOODREADS_RATING = 'goodreads_rating';
 
+    public const string PARAM_ON_SALE_COUNT = 'on_sale_count';
+
     public const string PARAM_AUTHORS = 'authors';
 
     public const string PARAM_BINDING_TYPE = 'binding_type';
@@ -151,6 +156,7 @@ class Book extends Model
     ];
 
     protected $fillable = [
+        self::PARAM_ID,
         self::PARAM_TITLE,
         self::PARAM_ORIGINAL_TITLE,
         self::PARAM_ISBN,
@@ -163,6 +169,7 @@ class Book extends Model
         self::PARAM_FANTLAB_ID,
         self::PARAM_LIVELIB_RATING,
         self::PARAM_GOODREADS_RATING,
+        self::PARAM_ON_SALE_COUNT,
         self::PARAM_BINDING_TYPE_ID,
         self::PARAM_PAPER_TYPE_ID,
         self::PARAM_PUBLISHING_HOUSE_ID,
@@ -173,7 +180,12 @@ class Book extends Model
 
     public function authors(): BelongsToMany
     {
-        return $this->belongsToMany(Author::class, 'author_books', 'book_id', 'author_id')->withTimestamps();
+        return $this->belongsToMany(
+            Author::class,
+            Author::PIVOT_AUTHOR_BOOKS_TABLE,
+            Author::PIVOT_AUTHOR_BOOKS_BOOK_ID,
+            Author::PIVOT_AUTHOR_BOOKS_AUTHOR_ID,
+        )->withTimestamps();
     }
 
     public function bindingType(): BelongsTo
@@ -204,5 +216,10 @@ class Book extends Model
     public function userCreated(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_created_id');
+    }
+
+    public function products(): MorphMany
+    {
+        return $this->morphMany(Product::class, Product::PARAM_SOURCE);
     }
 }

@@ -6,9 +6,36 @@ use App\Http\Resources\SourceProducts\SourceProductDataResource;
 use App\Http\Resources\SourceProducts\SourceProductsDataResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property int $source_product_type_id
+ * @property int $user_created_id
+ * @property-read Collection<int, Product> $products
+ * @property-read int|null $products_count
+ * @property-read SourceProductType $sourceProductType
+ * @property-read User $userCreated
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereSourceProductTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereUserCreatedId($value)
+ *
+ * @mixin \Eloquent
+ */
 #[UseResource(SourceProductDataResource::class)]
 #[UseResourceCollection(SourceProductsDataResourceCollection::class)]
 class SourceProduct extends Model
@@ -53,5 +80,10 @@ class SourceProduct extends Model
     public function userCreated(): BelongsTo
     {
         return $this->belongsTo(User::class, self::PARAM_USER_CREATED_ID);
+    }
+
+    public function products(): MorphMany
+    {
+        return $this->morphMany(Product::class, Product::PARAM_SOURCE);
     }
 }
