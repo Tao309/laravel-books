@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Books;
 
-class BooksResourceDataCollection extends BooksResourceCollection
+class BooksDataResourceCollection extends BooksResourceCollection
 {
     protected bool $toWrap = true;
 }

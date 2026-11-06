@@ -42,6 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -62,15 +66,20 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
-        ],
+        //        'users' => [
+        //            'driver' => 'eloquent',
+        //            'model' => env('AUTH_MODEL', User::class),
+        //        ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        //         'users' => [
+        //             'driver' => 'database',
+        //             'table' => 'users',
+        //         ],
+
+        'users' => [
+            'driver' => 'custom_auth_provider',
+            'table' => 'users',
+        ],
     ],
 
     /*

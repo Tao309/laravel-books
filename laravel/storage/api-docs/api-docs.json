@@ -21,7 +21,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorResourceCollection"
+                                    "$ref": "#/components/schemas/AuthorsPaginateResourceCollection"
                                 }
                             }
                         }
@@ -191,7 +191,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BindingTypeCollection"
+                                    "$ref": "#/components/schemas/BindingTypesDataResourceCollection"
                                 }
                             }
                         }
@@ -328,7 +328,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BooksResourceCollection"
+                                    "$ref": "#/components/schemas/BooksPaginateResourceCollection"
                                 }
                             }
                         }
@@ -498,7 +498,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BookSeriesResourceCollection"
+                                    "$ref": "#/components/schemas/BookSeriesDataResourceCollection"
                                 }
                             }
                         }
@@ -629,7 +629,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CityCollection"
+                                    "$ref": "#/components/schemas/CitiesDataResourceCollection"
                                 }
                             }
                         }
@@ -766,7 +766,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaperTypesResourceCollection"
+                                    "$ref": "#/components/schemas/PaperTypesDataResourceCollection"
                                 }
                             }
                         }
@@ -936,7 +936,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProductsResourceCollection"
+                                    "$ref": "#/components/schemas/ProductsDataResourceCollection"
                                 }
                             }
                         }
@@ -1106,7 +1106,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingBrandResourceCollection"
+                                    "$ref": "#/components/schemas/PublishingBrandsDataResourceCollection"
                                 }
                             }
                         }
@@ -1237,7 +1237,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingHouseResourceCollection"
+                                    "$ref": "#/components/schemas/PublishingHousesDataResourceCollection"
                                 }
                             }
                         }
@@ -1368,7 +1368,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ShopCollection"
+                                    "$ref": "#/components/schemas/ShopsDataResourceCollection"
                                 }
                             }
                         }
@@ -1426,7 +1426,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SourceProductsResourceCollection"
+                                    "$ref": "#/components/schemas/SourceProductsDataResourceCollection"
                                 }
                             }
                         }
@@ -1596,7 +1596,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SourceProductTypesResourceCollection"
+                                    "$ref": "#/components/schemas/SourceProductTypesDataResourceCollection"
                                 }
                             }
                         }
@@ -2325,25 +2325,93 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/AuthorResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
             },
             "AuthorResourceCollection": {
-                "description": "Collection of authors",
+                "description": "Collection of Authors",
                 "type": "array",
                 "items": {
                     "$ref": "#/components/schemas/AuthorResource"
                 }
             },
             "AuthorDataResourceCollection": {
-                "description": "Collection of authors",
+                "description": "Collection of Authors",
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/AuthorResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "AuthorsPaginateResourceCollection": {
+                "description": "Collection of Authors with paginate",
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthorResource"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=2"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://localhost/api/models"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2373,18 +2441,22 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/BindingTypeResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
             },
-            "BindingTypeCollection": {
+            "BindingTypesCollection": {
                 "description": "Collection of binding types",
                 "type": "array",
                 "items": {
                     "$ref": "#/components/schemas/BindingTypeResource"
                 }
             },
-            "BindingTypeDataResourceCollection": {
+            "BindingTypesDataResourceCollection": {
                 "description": "Collection of binding types",
                 "properties": {
                     "data": {
@@ -2392,6 +2464,10 @@
                         "items": {
                             "$ref": "#/components/schemas/BindingTypeResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2421,18 +2497,33 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/BookSeriesResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
             },
             "BookSeriesResourceCollection": {
-                "description": "Collection of Publishing Series",
+                "description": "Collection of BookSeries",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/BookSeriesResource"
+                }
+            },
+            "BookSeriesDataResourceCollection": {
+                "description": "Collection of BookSeries",
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/BookSeriesResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2532,6 +2623,10 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/BookResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2543,7 +2638,7 @@
                     "$ref": "#/components/schemas/BookResource"
                 }
             },
-            "BooksResourceDataCollection": {
+            "BooksDataResourceCollection": {
                 "description": "Collection of books",
                 "properties": {
                     "data": {
@@ -2551,36 +2646,93 @@
                         "items": {
                             "$ref": "#/components/schemas/BookResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
             },
-            "CityDataResource": {
+            "BooksPaginateResourceCollection": {
+                "description": "Collection of books with paginate",
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BookResource"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=2"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://localhost/api/models"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "CitiesResourceCollection": {
+                "description": "Collection of Cities",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/CityResource"
+                }
+            },
+            "CitiesDataResourceCollection": {
+                "description": "Collection of Cities",
                 "properties": {
                     "data": {
-                        "properties": {
-                            "id": {
-                                "type": "integer",
-                                "example": "1"
-                            },
-                            "code": {
-                                "type": "string",
-                                "example": "МОВ"
-                            },
-                            "title": {
-                                "type": "string",
-                                "example": "Москва"
-                            },
-                            "updated_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            },
-                            "created_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            }
-                        },
-                        "type": "object"
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CityResource"
+                        }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2610,14 +2762,14 @@
                 },
                 "type": "object"
             },
-            "CityCollection": {
-                "description": "Collection of Cities",
+            "CityDataResource": {
                 "properties": {
                     "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CityResource"
-                        }
+                        "$ref": "#/components/schemas/CityResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2651,6 +2803,10 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/PaperTypeResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2670,6 +2826,10 @@
                         "items": {
                             "$ref": "#/components/schemas/PaperTypeResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2719,6 +2879,10 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/ProductResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2738,6 +2902,10 @@
                         "items": {
                             "$ref": "#/components/schemas/ProductResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2767,17 +2935,32 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/PublishingBrandResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
             },
-            "PublishingBrandResourceCollection": {
+            "PublishingBrandsResourceCollection": {
+                "description": "Collection of PublishingBrands",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/PublishingBrandResource"
+                }
+            },
+            "PublishingBrandsDataResourceCollection": {
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/PublishingBrandResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2807,52 +2990,33 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/PublishingHouseResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
             },
-            "PublishingHouseResourceCollection": {
-                "description": "Collection of Publishing Houses",
+            "PublishingHousesResourceCollection": {
+                "description": "Collection of PublishingHouses",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/PublishingHouseResource"
+                }
+            },
+            "PublishingHousesDataResourceCollection": {
+                "description": "Collection of PublishingHouses",
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/PublishingHouseResource"
                         }
-                    }
-                },
-                "type": "object"
-            },
-            "ShopDataResource": {
-                "properties": {
-                    "data": {
-                        "properties": {
-                            "id": {
-                                "type": "integer",
-                                "example": "1"
-                            },
-                            "type": {
-                                "type": "string",
-                                "example": "ozon"
-                            },
-                            "domain": {
-                                "type": "string",
-                                "example": "ozon.ru"
-                            },
-                            "url": {
-                                "type": "string",
-                                "example": "https://www.ozon.ru"
-                            },
-                            "updated_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            },
-                            "created_at": {
-                                "type": "string",
-                                "example": "2026-09-10 10:10:19"
-                            }
-                        },
-                        "type": "object"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2886,7 +3050,26 @@
                 },
                 "type": "object"
             },
-            "ShopCollection": {
+            "ShopDataResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ShopResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "ShopsResourceCollection": {
+                "description": "Collection of Shops",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/ShopResource"
+                }
+            },
+            "ShopsDataResourceCollection": {
                 "description": "Collection of Shops",
                 "properties": {
                     "data": {
@@ -2894,6 +3077,10 @@
                         "items": {
                             "$ref": "#/components/schemas/ShopResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2927,6 +3114,10 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/SourceProductTypeResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2946,6 +3137,10 @@
                         "items": {
                             "$ref": "#/components/schemas/SourceProductTypeResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -2981,6 +3176,10 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/SourceProductResource"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -3000,6 +3199,10 @@
                         "items": {
                             "$ref": "#/components/schemas/SourceProductResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"

@@ -84,6 +84,7 @@ use OpenApi\Attributes as OA;
             ref: '#/components/schemas/BookResource',
             type: 'object'
         ),
+        new OA\Property(property: 'success', type: 'bool', example: true),
     ],
     type: 'object'
 )]
@@ -92,7 +93,7 @@ class BookResource extends AbstractResource
     public function getArrayData(Request $request): array
     {
         return [
-            Book::PARAM_ID => $this->id,
+            Book::PARAM_ID => $this->offsetGet(Book::PARAM_ID),
             Book::PARAM_TITLE => $this->offsetGet(Book::PARAM_TITLE),
             Book::PARAM_ORIGINAL_TITLE => $this->offsetGet(Book::PARAM_ORIGINAL_TITLE),
             Book::PARAM_ISBN => $this->offsetGet(Book::PARAM_ISBN),

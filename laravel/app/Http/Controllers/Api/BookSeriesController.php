@@ -27,7 +27,7 @@ class BookSeriesController extends ApiController
                 response: 200,
                 description: 'Get list of Book Series',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/BookSeriesResourceCollection'
+                    ref: '#/components/schemas/BookSeriesDataResourceCollection'
                 )
             ),
         ]

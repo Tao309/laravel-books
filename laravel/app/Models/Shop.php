@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\Shops\ShopDataResource;
-use App\Http\Resources\Shops\ShopResourceCollection;
+use App\Http\Resources\Shops\ShopsDataResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +30,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(ShopDataResource::class)]
-#[UseResourceCollection(ShopResourceCollection::class)]
+#[UseResourceCollection(ShopsDataResourceCollection::class)]
 class Shop extends Model
 {
     public const string TABLE_NAME = 'shops';
@@ -44,4 +44,11 @@ class Shop extends Model
     public const string PARAM_URL = 'url';
 
     protected $table = self::TABLE_NAME;
+
+    protected $fillable = [
+        self::PARAM_ID,
+        self::PARAM_TYPE,
+        self::PARAM_DOMAIN,
+        self::PARAM_URL,
+    ];
 }

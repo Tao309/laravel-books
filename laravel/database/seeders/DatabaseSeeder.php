@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             BindingTypeSeeder::class,
             CitySeeder::class,
             ShopSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

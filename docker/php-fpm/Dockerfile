@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 
 #RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
-#RUN pecl install ${XDEBUG_VERSION} && docker-php-ext-enable xdebug
+RUN pecl install ${XDEBUG_VERSION} && docker-php-ext-enable xdebug
 
 RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \

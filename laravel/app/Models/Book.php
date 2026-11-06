@@ -27,14 +27,15 @@ use Illuminate\Support\Carbon;
  * @property string|null $fantlab_id
  * @property float|null $livelib_rating
  * @property float|null $goodreads_rating
+ * @property int $on_sale_count
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $binding_type_id
  * @property int|null $paper_type_id
  * @property int|null $publishing_house_id
  * @property int|null $publishing_brand_id
  * @property int|null $book_series_id
  * @property int $user_created_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
  * @property-read Collection<int, Author> $authors
  * @property-read int|null $authors_count
  * @property-read BindingType $bindingType
@@ -60,6 +61,7 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereIsbn($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereLivelibId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereLivelibRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereOnSaleCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereOriginalTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book wherePages($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book wherePaperTypeId($value)

@@ -27,7 +27,7 @@ class SourceProductTypeController extends ApiController
                 response: 200,
                 description: 'Get list of SourceProductTypes',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/SourceProductTypesResourceCollection'
+                    ref: '#/components/schemas/SourceProductTypesDataResourceCollection'
                 )
             ),
         ]

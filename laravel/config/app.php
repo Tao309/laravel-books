@@ -123,4 +123,8 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'auth' => [
+        'x_requested_with' => env('X_REQUESTED_WITH'),
+        'price_checker_id' => env('PRICE_CHECKER_ID'),
+    ],
 ];

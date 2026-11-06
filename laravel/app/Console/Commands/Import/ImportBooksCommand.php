@@ -137,8 +137,7 @@ class ImportBooksCommand extends CommonImportCommand
             Book::PARAM_PUBLISHING_HOUSE_ID => $row[self::FIELD_PUBLISHING_HOUSE_ID],
             Book::PARAM_PUBLISHING_BRAND_ID => $row[self::FIELD_PUBLISHING_BRAND_ID],
             Book::PARAM_BOOK_SERIES_ID => $row[self::FIELD_PUBLISHING_BRAND_ID],
-            // @todo записать реального пользователя
-            Book::PARAM_USER_CREATED_ID => 1,
+            Book::PARAM_USER_CREATED_ID => $row[self::FIELD_USER_CREATED_ID],
             // < relations
         ];
     }

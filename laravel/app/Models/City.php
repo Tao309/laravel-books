@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Resources\Cities\CitiesDataResourceCollection;
 use App\Http\Resources\Cities\CityDataResource;
-use App\Http\Resources\Cities\CityResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +28,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(CityDataResource::class)]
-#[UseResourceCollection(CityResourceCollection::class)]
+#[UseResourceCollection(CitiesDataResourceCollection::class)]
 class City extends Model
 {
     public const string TABLE_NAME = 'cities';

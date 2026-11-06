@@ -27,7 +27,7 @@ class PublishingBrandController extends ApiController
                 response: 200,
                 description: 'Get list of Publishing Brands',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/PublishingBrandResourceCollection'
+                    ref: '#/components/schemas/PublishingBrandsDataResourceCollection'
                 )
             ),
         ]

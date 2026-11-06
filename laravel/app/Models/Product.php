@@ -18,12 +18,15 @@ use Illuminate\Support\Carbon;
  * @property string $title
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property string $source_type
- * @property int $source_id
+ * @property string|null $source_type
+ * @property int|null $source_id
  * @property int $shop_id
  * @property int|null $city_id
  * @property int $user_created_id
- * @property-read Model|\Eloquent $source
+ * @property-read City|null $city
+ * @property-read Shop $shop
+ * @property-read Model|\Eloquent|null $source
+ * @property-read User $userCreated
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()

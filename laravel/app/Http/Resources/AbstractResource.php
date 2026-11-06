@@ -21,6 +21,7 @@ abstract class AbstractResource extends JsonResource
         if ($this->toWrap) {
             return [
                 'data' => $data,
+                'success' => true,
             ];
         }
 

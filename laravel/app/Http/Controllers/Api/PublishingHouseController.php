@@ -27,7 +27,7 @@ class PublishingHouseController extends ApiController
                 response: 200,
                 description: 'Get list of Publishing Houses',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/PublishingHouseResourceCollection'
+                    ref: '#/components/schemas/PublishingHousesDataResourceCollection'
                 )
             ),
         ]

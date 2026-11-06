@@ -25,7 +25,7 @@ class ShopController extends ApiController
                 response: 200,
                 description: 'Get list of shops',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/ShopCollection'
+                    ref: '#/components/schemas/ShopsDataResourceCollection'
                 )
             ),
         ]

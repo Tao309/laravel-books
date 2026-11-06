@@ -27,7 +27,7 @@ class PaperTypeController extends ApiController
                 response: 200,
                 description: 'Get list of PaperTypes',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/PaperTypesResourceCollection'
+                    ref: '#/components/schemas/PaperTypesDataResourceCollection'
                 )
             ),
         ]

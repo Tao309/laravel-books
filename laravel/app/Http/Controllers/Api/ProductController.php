@@ -30,7 +30,7 @@ class ProductController extends ApiController
                 response: 200,
                 description: 'Get list of Products',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/ProductsResourceCollection'
+                    ref: '#/components/schemas/ProductsDataResourceCollection'
                 )
             ),
         ]

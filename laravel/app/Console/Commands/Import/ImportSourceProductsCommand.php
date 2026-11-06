@@ -55,10 +55,10 @@ class ImportSourceProductsCommand extends CommonImportCommand
             SourceProduct::PARAM_TITLE => $row[self::FIELD_TITLE],
             Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
+
             // > relations
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $row[self::FIELD_SOURCE_PRODUCT_ID],
-            // @todo записать реального пользователя
-            SourceProduct::PARAM_USER_CREATED_ID => 1,
+            SourceProduct::PARAM_USER_CREATED_ID => $row[self::FIELD_USER_CREATED_ID],
             // < relations
         ];
     }

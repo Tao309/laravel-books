@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\BookSeries\BookSeriesDataResource;
-use App\Http\Resources\BookSeries\BookSeriesResourceCollection;
+use App\Http\Resources\BookSeries\BookSeriesDataResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(BookSeriesDataResource::class)]
-#[UseResourceCollection(BookSeriesResourceCollection::class)]
+#[UseResourceCollection(BookSeriesDataResourceCollection::class)]
 class BookSeries extends Model
 {
     public const string TABLE_NAME = 'books_series';

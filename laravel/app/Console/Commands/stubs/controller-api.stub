@@ -30,7 +30,7 @@ class {{ class }} extends ApiController
                 response: 200,
                 description: 'Get list of {{ ModelNamePlural }}',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/{{ ModelNamePlural }}ResourceCollection'
+                    ref: '#/components/schemas/{{ ModelNamePlural }}DataResourceCollection'
                 )
             ),
         ]

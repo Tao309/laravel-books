@@ -33,6 +33,7 @@ class PaginateResource extends JsonResource
             'prev_page_url' => $this->previousPageUrl(),
             'to' => $this->lastItem(),
             'total' => $this->total(),
+            'success' => true,
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\BindingTypes\BindingTypeDataResource;
-use App\Http\Resources\BindingTypes\BindingTypesResourceCollection;
+use App\Http\Resources\BindingTypes\BindingTypesDataResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(BindingTypeDataResource::class)]
-#[UseResourceCollection(BindingTypesResourceCollection::class)]
+#[UseResourceCollection(BindingTypesDataResourceCollection::class)]
 class BindingType extends Model
 {
     public const string TABLE_NAME = 'binding_types';

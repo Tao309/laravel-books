@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 /**
  * @property int $id
@@ -21,6 +24,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -40,7 +45,7 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     public const string TABLE_NAME = 'users';
 
@@ -50,39 +55,34 @@ class User extends Authenticatable
 
     public const string PARAM_EMAIL = 'email';
 
+    public const string PARAM_EMAIL_VERIFIED_AT = 'email_verified_at';
+
+    public const string PARAM_PASSWORD = 'password';
+
+    public const string PARAM_REMEMBER_TOKEN = 'remember_token';
+
     protected $table = self::TABLE_NAME;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        self::PARAM_NAME,
+        self::PARAM_EMAIL,
+        self::PARAM_PASSWORD,
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
-        'password',
-        'remember_token',
+        self::PARAM_PASSWORD,
+        self::PARAM_REMEMBER_TOKEN,
+        self::PARAM_EMAIL_VERIFIED_AT,
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            self::PARAM_EMAIL_VERIFIED_AT => 'datetime',
+            self::PARAM_PASSWORD => 'hashed',
         ];
     }
 }

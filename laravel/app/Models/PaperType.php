@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\PaperTypes\PaperTypeDataResource;
-use App\Http\Resources\PaperTypes\PaperTypesResourceCollection;
+use App\Http\Resources\PaperTypes\PaperTypesDataResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +28,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(PaperTypeDataResource::class)]
-#[UseResourceCollection(PaperTypesResourceCollection::class)]
+#[UseResourceCollection(PaperTypesDataResourceCollection::class)]
 class PaperType extends Model
 {
     public const string TABLE_NAME = 'paper_types';

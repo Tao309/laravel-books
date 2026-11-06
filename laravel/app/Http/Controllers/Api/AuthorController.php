@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Authors\StoreAuthorRequest;
 use App\Http\Requests\Authors\UpdateAuthorRequest;
+use App\Http\Resources\Authors\AuthorResource;
 use App\Services\AuthorService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class AuthorController extends ApiController
 {
+    protected string $resourceClass = AuthorResource::class;
+
     public function __construct(
         AuthorService $service,
     ) {
@@ -27,14 +30,14 @@ class AuthorController extends ApiController
                 response: 200,
                 description: 'Get list of authors',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorResourceCollection'
+                    ref: '#/components/schemas/AuthorsPaginateResourceCollection'
                 )
             ),
         ]
     )]
     public function index(): JsonResponse
     {
-        return $this->indexAction();
+        return $this->indexActionPaginate();
     }
 
     #[OA\Post(

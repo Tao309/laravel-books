@@ -26,6 +26,7 @@ use OpenApi\Attributes as OA;
                 type: 'object'
             )
         ),
+        new OA\Property(property: 'success', type: 'bool', example: true),
     ],
     type: 'object'
 )]

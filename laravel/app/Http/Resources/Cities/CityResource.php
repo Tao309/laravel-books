@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\Cities;
 
+use App\Http\Resources\AbstractResource;
 use App\Models\City;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -20,12 +20,24 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class CityResource extends JsonResource
+#[OA\Schema(
+    schema: 'CityDataResource',
+    properties: [
+        new OA\Property(
+            property: 'data',
+            ref: '#/components/schemas/CityResource',
+            type: 'object'
+        ),
+        new OA\Property(property: 'success', type: 'bool', example: true),
+    ],
+    type: 'object'
+)]
+class CityResource extends AbstractResource
 {
     /**
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function getArrayData(Request $request): array
     {
         return [
             City::PARAM_ID => $this->id,

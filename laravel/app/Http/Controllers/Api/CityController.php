@@ -27,7 +27,7 @@ class CityController extends ApiController
                 response: 200,
                 description: 'Get list of cities',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/CityCollection'
+                    ref: '#/components/schemas/CitiesDataResourceCollection'
                 )
             ),
         ]

@@ -90,8 +90,7 @@ class ImportProductsCommand extends CommonImportCommand
             Product::PARAM_SOURCE_ID => $sourceId,
             Product::PARAM_SHOP_ID => $row[self::PARAM_SHOP_ID],
             Product::PARAM_CITY_ID => $row[self::PARAM_CITY_ID],
-            // @todo записать реального пользователя
-            Product::PARAM_USER_CREATED_ID => 1,
+            Product::PARAM_USER_CREATED_ID => $row[self::FIELD_USER_CREATED_ID],
             // < relations
         ];
     }

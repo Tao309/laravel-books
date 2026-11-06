@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\PublishingBrand\PublishingBrandDataResource;
-use App\Http\Resources\PublishingBrand\PublishingBrandResourceCollection;
+use App\Http\Resources\PublishingBrand\PublishingBrandsDataResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(PublishingBrandDataResource::class)]
-#[UseResourceCollection(PublishingBrandResourceCollection::class)]
+#[UseResourceCollection(PublishingBrandsDataResourceCollection::class)]
 class PublishingBrand extends Model
 {
     public const string TABLE_NAME = 'publishing_brands';

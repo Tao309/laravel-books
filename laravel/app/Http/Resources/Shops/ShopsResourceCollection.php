@@ -6,7 +6,16 @@ use App\Http\Resources\AbstractResourceCollection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'ShopCollection',
+    schema: 'ShopsResourceCollection',
+    description: 'Collection of Shops',
+    type: 'object',
+    items: new OA\Items(
+        ref: '#/components/schemas/ShopResource',
+        type: 'object'
+    )
+)]
+#[OA\Schema(
+    schema: 'ShopsDataResourceCollection',
     description: 'Collection of Shops',
     properties: [
         new OA\Property(
@@ -17,7 +26,8 @@ use OpenApi\Attributes as OA;
                 type: 'object'
             )
         ),
+        new OA\Property(property: 'success', type: 'bool', example: true),
     ],
     type: 'object'
 )]
-class ShopResourceCollection extends AbstractResourceCollection {}
+class ShopsResourceCollection extends AbstractResourceCollection {}

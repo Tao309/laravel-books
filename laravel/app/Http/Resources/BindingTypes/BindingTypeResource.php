@@ -27,6 +27,7 @@ use OpenApi\Attributes as OA;
             ref: '#/components/schemas/BindingTypeResource',
             type: 'object'
         ),
+        new OA\Property(property: 'success', type: 'bool', example: true),
     ],
     type: 'object'
 )]

@@ -27,3 +27,5 @@ yarn-error.log
 /_ide_helper.php
 /resources/views/vendor/l5-swagger/
 /config/l5-swagger.php
+/.env.local
+/.env.*.local

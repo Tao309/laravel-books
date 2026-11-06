@@ -6,7 +6,7 @@ use App\Http\Resources\AbstractResourceCollection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'BindingTypeCollection',
+    schema: 'BindingTypesCollection',
     description: 'Collection of binding types',
     type: 'object',
     items: new OA\Items(
@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'BindingTypeDataResourceCollection',
+    schema: 'BindingTypesDataResourceCollection',
     description: 'Collection of binding types',
     properties: [
         new OA\Property(
@@ -26,6 +26,7 @@ use OpenApi\Attributes as OA;
                 type: 'object'
             )
         ),
+        new OA\Property(property: 'success', type: 'bool', example: true),
     ],
     type: 'object'
 )]

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\PublishingHouses\PublishingHouseDataResource;
-use App\Http\Resources\PublishingHouses\PublishingHouseResourceCollection;
+use App\Http\Resources\PublishingHouses\PublishingHousesDataResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(PublishingHouseDataResource::class)]
-#[UseResourceCollection(PublishingHouseResourceCollection::class)]
+#[UseResourceCollection(PublishingHousesDataResourceCollection::class)]
 class PublishingHouse extends Model
 {
     public const string TABLE_NAME = 'publishing_houses';

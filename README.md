@@ -4,7 +4,7 @@ Laravel Books repository
 
 ### Действия после установки:
 
-1. `php artisan migrate:fresh --seed` (установка миграций с запуском seeders)
+1. `php artisan migrate:fresh --seed` (установка миграций с запуском seeders: UserSeeder, ShopSeeder, CitySeeder, BindingTypeSeeder)
 2. `php artisan app:import:run-all --fake=0 --just-check-parsing=0` (импорт данных)
 
 --------

@@ -27,7 +27,7 @@ class BindingTypeController extends ApiController
                 response: 200,
                 description: 'Get list of binding types',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/BindingTypeCollection'
+                    ref: '#/components/schemas/BindingTypesDataResourceCollection'
                 )
             ),
         ]
