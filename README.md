@@ -35,6 +35,7 @@ Swagger документация по api доступна по адресу **/
   - Импорт типов источников товаров `php artisan app:import:source_product_types`
   - Импорт источников товаров `php artisan app:import:source_products`
   - Импорт товаров `php artisan app:import:products`
+  - Импорт BookUserData `php artisan app:import:book_user_data`
 
 Доступные опции:
 
@@ -95,5 +96,9 @@ Swagger документация по api доступна по адресу **/
 ### Product (товар)
 
 - Добавить через seeder: `php artisan db:seed --class=ProductSeeder`
+
+### BookUserData (данные пользователя по книге)
+
+- Добавить через seeder: `php artisan db:seed --class=BookUserDataSeeder`
 
 --------

@@ -8,15 +8,22 @@ use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BookRepository implements RepositoryInterface
 {
+    public function __construct(
+        private readonly BookUserDataRepository $bookUserDataRepository,
+    ) {}
+
     public function create(array $data): Book
     {
         DB::beginTransaction();
 
         try {
+            $userId = Auth::id();
+
             $book = Book::newModelInstance($data);
 
             $book->bindingType()->associate(Arr::get($data, Book::PARAM_BINDING_TYPE));
@@ -37,12 +44,16 @@ class BookRepository implements RepositoryInterface
                 $book->bookSeries()->associate(Arr::get($data, Book::PARAM_BOOK_SERIES));
             }
 
-            // @todo заменить на реального текущего пользователя
-            $book->userCreated()->associate(1);
+            $book->userCreated()->associate($userId);
 
             $book->save();
 
             $book->authors()->attach(Arr::get($data, Book::PARAM_AUTHORS));
+
+            $this->bookUserDataRepository->create(
+                $book->id,
+                Arr::get($data, Book::PARAM_BOOK_USER_DATA, [])
+            );
 
             DB::commit();
 
@@ -80,6 +91,11 @@ class BookRepository implements RepositoryInterface
 
             $book->update($data);
 
+            $this->bookUserDataRepository->update(
+                $book->id,
+                Arr::get($data, Book::PARAM_BOOK_USER_DATA, [])
+            );
+
             DB::commit();
 
             return Book::findOrFail($book->id);
@@ -108,6 +124,8 @@ class BookRepository implements RepositoryInterface
     public function delete($id): bool
     {
         $entity = Book::findOrFail($id);
+
+        $this->bookUserDataRepository->delete($id);
 
         return $entity->delete();
     }

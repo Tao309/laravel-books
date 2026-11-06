@@ -7,6 +7,7 @@ use App\Models\Book;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:import:books')]
@@ -68,6 +69,10 @@ class ImportBooksCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список книг';
 
+    private array $authorData = [];
+
+    private array $insertBulkAuthorData = [];
+
     protected function runBeforeImport(): void
     {
         Book::truncate();
@@ -106,12 +111,12 @@ class ImportBooksCommand extends CommonImportCommand
 
     protected function createInsertingData(array $row): array
     {
-        DB::table(Author::PIVOT_AUTHOR_BOOKS_TABLE)->insert([
+        $this->authorData[] = [
             Author::PIVOT_AUTHOR_BOOKS_AUTHOR_ID => $row[self::FIELD_BOOK_AUTHOR_ID],
             Author::PIVOT_AUTHOR_BOOKS_BOOK_ID => $row[self::FIELD_ID],
             Model::UPDATED_AT => Carbon::now(),
             Model::CREATED_AT => Carbon::now(),
-        ]);
+        ];
 
         return [
             Book::PARAM_ID => $row[self::FIELD_ID],
@@ -140,5 +145,74 @@ class ImportBooksCommand extends CommonImportCommand
             Book::PARAM_USER_CREATED_ID => $row[self::FIELD_USER_CREATED_ID],
             // < relations
         ];
+    }
+
+    protected function runAfterImport(): void
+    {
+        if ($this->justCheckParsing) {
+            return;
+        }
+
+        $this->io->title('Авторы по книгам => Запись в БД...');
+
+        $batchSize = 500;
+        $totalRecords = \count($this->authorData);
+
+        $this->io->progressStart($totalRecords);
+
+        if (! $this->isFake) {
+            DB::beginTransaction();
+        }
+
+        $added = 0;
+
+        try {
+            for ($i = 0; $i < $totalRecords; $i++) {
+                try {
+                    $importData = $this->authorData[$i];
+
+                    $this->insertBulkAuthorData[] = $importData;
+
+                    if (($i % $batchSize) === 0) {
+                        if (! $this->isFake) {
+                            $this->applyInsertBulkAuthorData();
+                        }
+                    }
+
+                    $added++;
+                    $this->io->progressAdvance();
+                } catch (\Throwable $e) {
+                    $this->io->error(json_encode($importData, \JSON_PRETTY_PRINT));
+
+                    throw $e;
+                }
+            }
+
+            if (! $this->isFake) {
+                $this->applyInsertBulkAuthorData();
+
+                DB::commit();
+            }
+        } catch (\Throwable $e) {
+            if (! $this->isFake) {
+                DB::rollBack();
+            }
+
+            Log::error($e);
+
+            throw new \RuntimeException('Ошибка при записи "'.static::COMMAND_LABEL.'" в БД: '.$e->getMessage());
+        }
+
+        $this->io->progressFinish();
+
+        $this->io->title('Завершение импорта: Авторы по книгам');
+        $this->io->section('Добавлено: '.$added);
+    }
+
+    private function applyInsertBulkAuthorData(): void
+    {
+        DB::table(Author::PIVOT_AUTHOR_BOOKS_TABLE)->insert($this->insertBulkAuthorData);
+
+        $this->insertBulkAuthorData = [];
     }
 }

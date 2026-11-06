@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\BindingType;
 use App\Models\Book;
 use App\Models\BookSeries;
+use App\Models\BookUserData;
 use App\Models\PaperType;
 use App\Models\PublishingBrand;
 use App\Models\PublishingHouse;
@@ -71,6 +72,15 @@ use OpenApi\Attributes as OA;
             property: Book::PARAM_BOOK_SERIES,
             properties: [
                 new OA\Property(property: 'id', type: 'integer', example: '1'),
+            ],
+            type: 'object'
+        ),
+        new OA\Property(
+            property: Book::PARAM_BOOK_USER_DATA,
+            properties: [
+                new OA\Property(property: BookUserData::PARAM_RELEASE_DATE, type: 'string', example: '2026-10-24'),
+                new OA\Property(property: BookUserData::PARAM_LISTEN_PRICE_VALUE, type: 'integer', example: 500),
+                new OA\Property(property: BookUserData::PARAM_COMMENT, type: 'string', example: 'Ждём пока отзывы'),
             ],
             type: 'object'
         ),
@@ -173,6 +183,23 @@ class StoreBookRequest extends AbstractBookRequest
             ],
             Book::PARAM_BOOK_SERIES => [
                 Rule::exists(BookSeries::TABLE_NAME, 'id'),
+            ],
+            Book::PARAM_BOOK_USER_DATA => [
+                'sometimes',
+                'array',
+            ],
+            Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_RELEASE_DATE => [
+                'sometimes',
+                'date_format:Y.m.d',
+            ],
+            Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_LISTEN_PRICE_VALUE => [
+                'sometimes',
+                'integer',
+            ],
+            Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_COMMENT => [
+                'sometimes',
+                'string',
+                'max:300',
             ],
             // < relations
         ];

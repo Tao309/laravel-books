@@ -6,10 +6,12 @@ use App\Models\Author;
 use App\Models\BindingType;
 use App\Models\Book;
 use App\Models\BookSeries;
+use App\Models\BookUserData;
 use App\Models\PaperType;
 use App\Models\PublishingBrand;
 use App\Models\PublishingHouse;
 use App\Models\User;
+use App\Repositories\BookUserDataRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +19,10 @@ use Illuminate\Database\Seeder;
 
 class BookSeeder extends Seeder
 {
+    public function __construct(
+        private readonly BookUserDataRepository $bookUserDataRepository
+    ) {}
+
     public function run(): void
     {
         $authors = $this->getAuthors();
@@ -25,7 +31,7 @@ class BookSeeder extends Seeder
         $series = $this->getBookSeries();
         $bindingTypes = $this->getBindingTypes();
         $paperTypes = $this->getPaperTypes();
-        $users = $this->getUsers();
+        $user = $this->getFirstUser();
 
         $firstBook = Book::create([
             Book::PARAM_TITLE => 'Ловец Чудес',
@@ -52,7 +58,7 @@ class BookSeeder extends Seeder
             Book::PARAM_PAPER_TYPE_ID => $paperTypes->filter(function (PaperType $paperType) {
                 return $paperType->label === 'Офсет пухлый';
             })->firstOrFail()->id,
-            Book::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            Book::PARAM_USER_CREATED_ID => $user->id,
         ]);
 
         $firstBook->authors()->attach(
@@ -60,6 +66,10 @@ class BookSeeder extends Seeder
                 return $author->first_name === 'Рита' && $author->last_name === 'Хоффман';
             })->firstOrFail()->id
         );
+
+        $this->bookUserDataRepository->create($firstBook->id, [
+            BookUserData::PARAM_COMMENT => 'Комментарий для '.$firstBook->title,
+        ]);
 
         $secondBook = Book::create([
             Book::PARAM_TITLE => 'Хтонь за околицей',
@@ -83,7 +93,7 @@ class BookSeeder extends Seeder
             Book::PARAM_PAPER_TYPE_ID => $paperTypes->filter(function (PaperType $paperType) {
                 return $paperType->label === 'Типографская';
             })->firstOrFail()->id,
-            Book::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            Book::PARAM_USER_CREATED_ID => $user->id,
         ]);
 
         $secondBook->authors()->attach([
@@ -96,6 +106,10 @@ class BookSeeder extends Seeder
             $authors->filter(function (Author $author) {
                 return $author->first_name === 'Аметисса' && $author->last_name === 'Грэсс';
             })->firstOrFail()->id,
+        ]);
+
+        $this->bookUserDataRepository->create($secondBook->id, [
+            BookUserData::PARAM_COMMENT => 'Комментарий для '.$secondBook->title,
         ]);
 
         $thirdBook = Book::create([
@@ -126,13 +140,17 @@ class BookSeeder extends Seeder
             Book::PARAM_PAPER_TYPE_ID => $paperTypes->filter(function (PaperType $paperType) {
                 return $paperType->label === 'Офсет';
             })->firstOrFail()->id,
-            Book::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            Book::PARAM_USER_CREATED_ID => $user->id,
         ]);
 
         $thirdBook->authors()->attach([
             $authors->filter(function (Author $author) {
                 return $author->first_name === 'Стивен' && $author->last_name === 'Кинг';
             })->firstOrFail()->id,
+        ]);
+
+        $this->bookUserDataRepository->create($thirdBook->id, [
+            BookUserData::PARAM_COMMENT => 'Комментарий для '.$thirdBook->title,
         ]);
     }
 
@@ -166,8 +184,8 @@ class BookSeeder extends Seeder
         return PaperType::all();
     }
 
-    private function getUsers(): Collection
+    private function getFirstUser(): User
     {
-        return User::all();
+        return User::firstOrFail();
     }
 }

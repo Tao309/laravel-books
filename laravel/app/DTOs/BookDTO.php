@@ -26,6 +26,7 @@ class BookDTO implements DtoInterface
         public ?array $publishingBrand,
         public ?array $bookSeries,
         public ?array $paperType,
+        public ?array $bookUserData,
     ) {}
 
     public static function fromArray(array $data): self
@@ -49,6 +50,7 @@ class BookDTO implements DtoInterface
             publishingBrand: $data[Book::PARAM_PUBLISHING_BRAND] ?? null,
             bookSeries: $data[Book::PARAM_BOOK_SERIES] ?? null,
             paperType: $data[Book::PARAM_PAPER_TYPE] ?? null,
+            bookUserData: $data[Book::PARAM_BOOK_USER_DATA] ?? [],
         );
     }
 
@@ -74,6 +76,7 @@ class BookDTO implements DtoInterface
             Book::PARAM_PUBLISHING_BRAND => $this->publishingBrand['id'] ?? null,
             Book::PARAM_BOOK_SERIES => $this->bookSeries['id'] ?? null,
             Book::PARAM_AUTHORS => Arr::pluck($this->authors, 'id'),
+            Book::PARAM_BOOK_USER_DATA => $this->bookUserData,
             // < relations
         ];
     }

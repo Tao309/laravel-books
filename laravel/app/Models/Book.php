@@ -10,8 +10,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property int $id
@@ -135,6 +137,8 @@ class Book extends Model
 
     public const string PARAM_USER_CREATED_ID = 'user_created_id';
 
+    public const string PARAM_BOOK_USER_DATA = 'book_user_data';
+
     protected $table = self::TABLE_NAME;
 
     protected $perPage = 100;
@@ -155,6 +159,7 @@ class Book extends Model
         'publishingBrand',
         'bookSeries',
         'userCreated',
+        'bookUserData',
     ];
 
     protected $fillable = [
@@ -223,5 +228,12 @@ class Book extends Model
     public function products(): MorphMany
     {
         return $this->morphMany(Product::class, Product::PARAM_SOURCE);
+    }
+
+    public function bookUserData(): HasOne
+    {
+        return $this->hasOne(BookUserData::class, BookUserData::PARAM_BOOK_ID, self::PARAM_ID)->where([
+            BookUserData::PARAM_USER_ID => Auth::user()->id,
+        ]);
     }
 }

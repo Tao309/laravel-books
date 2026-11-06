@@ -614,6 +614,41 @@
                 }
             }
         },
+        "/api/book_user_data/{book_id}": {
+            "get": {
+                "tags": [
+                    "BookUserData"
+                ],
+                "summary": "Get BookUserData by Book ID",
+                "description": "Get BookUserData by id",
+                "operationId": "9f1a8565873d23659b82883d5385284f",
+                "parameters": [
+                    {
+                        "parameter": "book_id",
+                        "name": "book_id",
+                        "in": "path",
+                        "description": "Id of the Book",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get BookUserData by book_id and user_id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookUserDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/cities": {
             "get": {
                 "tags": [
@@ -1924,6 +1959,23 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "book_user_data": {
+                        "properties": {
+                            "release_date": {
+                                "type": "string",
+                                "example": "2026-10-24"
+                            },
+                            "listen_price_value": {
+                                "type": "integer",
+                                "example": 500
+                            },
+                            "comment": {
+                                "type": "string",
+                                "example": "Ждём пока отзывы"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -2528,6 +2580,31 @@
                 },
                 "type": "object"
             },
+            "BookUserDataResource": {
+                "properties": {
+                    "release_date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "listen_price_value": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Ожидаем отзывы"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
             "BookResource": {
                 "properties": {
                     "id": {
@@ -2615,6 +2692,9 @@
                     },
                     "user_created": {
                         "$ref": "#/components/schemas/UserResource"
+                    },
+                    "book_user_data": {
+                        "$ref": "#/components/schemas/BookUserDataResource"
                     }
                 },
                 "type": "object"
@@ -3250,6 +3330,10 @@
         {
             "name": "BookSeries",
             "description": "BookSeries"
+        },
+        {
+            "name": "BookUserData",
+            "description": "BookUserData"
         },
         {
             "name": "Cities",

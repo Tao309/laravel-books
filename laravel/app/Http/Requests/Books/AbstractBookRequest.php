@@ -19,7 +19,7 @@ abstract class AbstractBookRequest extends FormRequest implements RequestInterfa
         return [
             Book::PARAM_TITLE.'.unique' => 'A Book with this title already exists',
             Book::PARAM_ORIGINAL_TITLE.'.unique' => 'A Book with this original title already exists',
-            Book::PARAM_ISBN.'.unique' => 'A Book with this isbn already exists',
+            Book::PARAM_ISBN.'.unique' => 'A Book with this ISBN already exists',
             Book::PARAM_BINDING_TYPE.'.id.unique' => 'BindingType is required',
             Book::PARAM_BINDING_TYPE.'.id.exists' => 'BindingType is not found',
             Book::PARAM_PAPER_TYPE.'.id.exists' => 'PaperType is not found',

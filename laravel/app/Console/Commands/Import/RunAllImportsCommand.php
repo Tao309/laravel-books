@@ -22,7 +22,7 @@ class RunAllImportsCommand extends Command
             ->addOption('show-parsing-log', null, InputArgument::OPTIONAL, 'Показывать детали парсинга?', 1)
             ->addOption('fake', null, InputArgument::OPTIONAL, 'Фейковый запрос без записи?', 1)
             ->addOption('just-check-parsing', null, InputArgument::OPTIONAL, 'Проверить только парсинг?', 1)
-            ->addOption('import-name', null, InputArgument::OPTIONAL, 'Имя команды для импорта', 1);
+            ->addOption('import-name', null, InputArgument::OPTIONAL, 'Имя команды для импорта');
     }
 
     public function handle(): int
@@ -49,14 +49,14 @@ class RunAllImportsCommand extends Command
         $commandNames = $importName
             ? ['app:import:'.$importName]
             : [
-                'app:import:paper_types',
-
                 // > books
-                'app:import:authors',
+                'app:import:paper_types',
                 'app:import:books_series',
                 'app:import:publishing_brands',
                 'app:import:publishing_houses',
+                'app:import:authors',
                 'app:import:books',
+                'app:import:book_user_data',
                 // < books
 
                 // > products

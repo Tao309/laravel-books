@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Import;
 
-use App\Exceptions\SkipRowImportException;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -42,16 +41,19 @@ abstract class CommonImportCommand extends Command
     // Массив для вставки в таблицу
     protected array $insertBulkData = [];
 
+    // Размер батча при обработке записи в БД
+    protected int $batchSize = 500;
+
+    // Обновлять sequence
+    protected bool $requireUpdateSequence = true;
+
     abstract protected function fillImportRow(array $row): void;
 
-    /**
-     * @throws SkipRowImportException
-     */
     abstract protected function createInsertingData(array $row): array;
 
     protected function runBeforeImport(): void {}
 
-    protected function runAtEnd(): void {}
+    protected function runAfterImport(): void {}
 
     protected function configure(): void
     {
@@ -83,7 +85,6 @@ abstract class CommonImportCommand extends Command
             }
 
             $this->updateSequence();
-            $this->runAtEnd();
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
 
@@ -96,6 +97,8 @@ abstract class CommonImportCommand extends Command
         if ($this->isFake) {
             $this->io->warning('Фейковый запуск команды');
         }
+
+        $this->runAfterImport();
 
         $this->showWarnings();
 
@@ -144,7 +147,7 @@ abstract class CommonImportCommand extends Command
         }
     }
 
-    protected function checkDateAndReturn(int $id, ?string $date = null): Carbon
+    protected function checkDateAndReturn(int|string $id, ?string $date = null): Carbon
     {
         if (empty($date) || $date === '0000-00-00 00:00:00') {
             $this->addWarning('Дата не корректна id = '.$id.': ('.$date.')');
@@ -185,7 +188,6 @@ abstract class CommonImportCommand extends Command
 
         $headers = fgetcsv($handle, 0, ',');
         if ($this->showParsingLog) {
-            //            $this->io->progressStart();
             $io->writeln(
                 \sprintf('Заголовки: %s', implode(' | ', $headers))
             );
@@ -209,10 +211,6 @@ abstract class CommonImportCommand extends Command
 
             if ($this->showParsingLog) {
                 $progressBar->setProgress($rowCount);
-                //                $this->io->progressAdvance();
-                //                $io->writeln(
-                //                    \sprintf('Строка %d: %s', $rowCount, implode(' | ', $row))
-                //                );
             }
         }
 
@@ -221,7 +219,6 @@ abstract class CommonImportCommand extends Command
         if ($this->showParsingLog) {
             $progressBar->finish();
             $io->newLine(2);
-            //            $this->io->progressFinish();
         }
 
         if (! $rowCount) {
@@ -233,7 +230,6 @@ abstract class CommonImportCommand extends Command
     {
         $this->io->title(static::COMMAND_LABEL.' => Запись в БД...');
 
-        $batchSize = 500;
         $totalRecords = \count($this->importData);
 
         $this->io->progressStart($totalRecords);
@@ -249,7 +245,7 @@ abstract class CommonImportCommand extends Command
 
                     $this->insertBulkData[] = $this->createInsertingData($importData);
 
-                    if (($i % $batchSize) === 0) {
+                    if (($i % $this->batchSize) === 0) {
                         if (! $this->isFake) {
                             $this->applyInsertBulkData();
                         }
@@ -257,8 +253,6 @@ abstract class CommonImportCommand extends Command
 
                     $this->added++;
                     $this->io->progressAdvance();
-                } catch (SkipRowImportException) {
-                    continue;
                 } catch (\Throwable $e) {
                     $this->io->error(json_encode($importData, \JSON_PRETTY_PRINT));
 
@@ -293,7 +287,7 @@ abstract class CommonImportCommand extends Command
 
     protected function updateSequence(): void
     {
-        if (! $this->tableName) {
+        if (! $this->tableName || ! $this->requireUpdateSequence) {
             return;
         }
 

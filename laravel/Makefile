@@ -22,3 +22,5 @@ ide-helper:
 	php artisan ide-helper:generate && php artisan ide-helper:meta
 ide-helper-models:
 	php artisan ide-helper:models -RW
+post-update-cmd:
+	composer run post-update-cmd

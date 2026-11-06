@@ -6,12 +6,12 @@ use App\Http\Resources\AbstractResource;
 use App\Http\Resources\Authors\AuthorResource;
 use App\Http\Resources\BindingTypes\BindingTypeResource;
 use App\Http\Resources\BookSeries\BookSeriesResource;
+use App\Http\Resources\BookUserDatas\BookUserDataResource;
 use App\Http\Resources\PaperTypes\PaperTypeResource;
 use App\Http\Resources\PublishingBrand\PublishingBrandResource;
 use App\Http\Resources\PublishingHouses\PublishingHouseResource;
 use App\Http\Resources\Users\UserResource;
 use App\Models\Book;
-use App\Models\SourceProduct;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -69,8 +69,13 @@ use OpenApi\Attributes as OA;
             type: 'object'
         ),
         new OA\Property(
-            property: SourceProduct::PARAM_USER_CREATED,
+            property: Book::PARAM_USER_CREATED,
             ref: '#/components/schemas/UserResource',
+            type: 'object'
+        ),
+        new OA\Property(
+            property: Book::PARAM_BOOK_USER_DATA,
+            ref: '#/components/schemas/BookUserDataResource',
             type: 'object'
         ),
     ],
@@ -116,6 +121,7 @@ class BookResource extends AbstractResource
             Book::PARAM_PUBLISHING_BRAND => PublishingBrandResource::make($this->publishingBrand),
             Book::PARAM_BOOK_SERIES => BookSeriesResource::make($this->bookSeries),
             Book::PARAM_USER_CREATED => UserResource::make($this->userCreated),
+            Book::PARAM_BOOK_USER_DATA => BookUserDataResource::make($this->bookUserData),
             // < relations
         ];
     }

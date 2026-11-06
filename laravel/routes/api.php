@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BindingTypeController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\BookSeriesController;
+use App\Http\Controllers\Api\BookUserDataController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\PaperTypeController;
 use App\Http\Controllers\Api\ProductController;
@@ -27,6 +28,7 @@ Route::middleware([UserSecurity::class])->group(function () {
     Route::apiResource('/publishing_houses', PublishingHouseController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/authors', AuthorController::class)->except(['create', 'edit']);
     Route::apiResource('/books', BookController::class)->except(['create', 'edit']);
+    Route::get('/book_user_data/{book_id}', [BookUserDataController::class, 'show']);
     // < books
 
     // > products
