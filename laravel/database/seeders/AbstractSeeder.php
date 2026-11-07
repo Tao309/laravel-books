@@ -2,11 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 abstract class AbstractSeeder extends Seeder
 {
+    protected function getFirstUser(): User
+    {
+        return User::firstOrFail();
+    }
+
     protected function updateLastId(string $tableName, $paramId = 'id'): void
     {
 

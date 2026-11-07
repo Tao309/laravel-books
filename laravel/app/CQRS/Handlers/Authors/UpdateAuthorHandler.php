@@ -5,23 +5,14 @@ namespace App\CQRS\Handlers\Authors;
 use App\CQRS\Commands\Authors\UpdateAuthorCommand;
 use App\Exceptions\ApiException;
 use App\Models\Author;
-use App\Repositories\AuthorRepository;
-use App\Repositories\Interfaces\RepositoryInterface;
 
-class UpdateAuthorHandler
+class UpdateAuthorHandler extends AbstractAuthorHandler
 {
-    /**
-     * @param  AuthorRepository  $repository
-     */
-    public function __construct(
-        public RepositoryInterface $repository,
-    ) {}
-
     /**
      * @throws ApiException
      */
     public function handle(UpdateAuthorCommand $command): Author
     {
-        return $this->repository->update($command->id, $command->dto->toArray());
+        return $this->repository->update($command->id, $command->dto);
     }
 }

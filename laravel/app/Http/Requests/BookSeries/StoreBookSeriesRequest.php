@@ -22,7 +22,7 @@ class StoreBookSeriesRequest extends AbstractBookSeriesRequest
     public function rules(): array
     {
         return [
-            BookSeries::NAME => [
+            BookSeries::PARAM_NAME => [
                 'required',
                 'string',
                 'min:2',

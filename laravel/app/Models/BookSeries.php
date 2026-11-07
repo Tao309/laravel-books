@@ -31,11 +31,11 @@ class BookSeries extends Model
 {
     public const string TABLE_NAME = 'books_series';
 
-    public const string ID = 'id';
+    public const string PARAM_ID = 'id';
 
-    public const string NAME = 'name';
+    public const string PARAM_NAME = 'name';
 
     protected $table = self::TABLE_NAME;
 
-    protected $fillable = [self::ID, self::NAME];
+    protected $fillable = [self::PARAM_ID, self::PARAM_NAME];
 }

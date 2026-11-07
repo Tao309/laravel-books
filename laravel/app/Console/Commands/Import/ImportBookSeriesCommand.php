@@ -45,8 +45,8 @@ class ImportBookSeriesCommand extends CommonImportCommand
     protected function createInsertingData(array $row): array
     {
         return [
-            BookSeries::ID => $row[self::FIELD_ID],
-            BookSeries::NAME => $row[self::FIELD_NAME],
+            BookSeries::PARAM_ID => $row[self::FIELD_ID],
+            BookSeries::PARAM_NAME => $row[self::FIELD_NAME],
             Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
         ];

@@ -5,7 +5,7 @@ namespace App\DTOs;
 use App\Models\SourceProduct;
 use Illuminate\Support\Arr;
 
-class SourceProductDTO implements DtoInterface
+class SourceProductDTO extends AbstractDTO
 {
     public function __construct(
         public string $title,
@@ -22,14 +22,18 @@ class SourceProductDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             SourceProduct::PARAM_TITLE => $this->title,
-            // > relations
+        ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => Arr::get($this->sourceProductType, 'id'),
             SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => $this->sourceProductUserData,
-            // < relations
         ];
     }
 }

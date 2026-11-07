@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\SourceProductType;
 
-class SourceProductTypeDTO implements DtoInterface
+class SourceProductTypeDTO extends AbstractDTO
 {
     public function __construct(
         public string $code,
@@ -19,11 +19,16 @@ class SourceProductTypeDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             SourceProductType::PARAM_CODE => $this->code,
             SourceProductType::PARAM_NAME => $this->name,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

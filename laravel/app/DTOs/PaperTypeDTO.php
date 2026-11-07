@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\PaperType;
 
-class PaperTypeDTO implements DtoInterface
+class PaperTypeDTO extends AbstractDTO
 {
     public function __construct(
         public string $label,
@@ -19,11 +19,16 @@ class PaperTypeDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             PaperType::PARAM_LABEL => $this->label,
             PaperType::PARAM_DESCRIPTION => $this->description,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

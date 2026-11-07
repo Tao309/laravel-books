@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\City;
 
-class CityDTO implements DtoInterface
+class CityDTO extends AbstractDTO
 {
     public function __construct(
         public string $code,
@@ -19,11 +19,16 @@ class CityDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             City::PARAM_CODE => $this->code,
             City::PARAM_TITLE => $this->title,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

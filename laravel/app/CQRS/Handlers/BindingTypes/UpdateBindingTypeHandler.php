@@ -13,6 +13,6 @@ class UpdateBindingTypeHandler extends AbstractBindingTypeHandler
      */
     public function handle(UpdateBindingTypeCommand $command): BindingType
     {
-        return $this->repository->update($command->id, $command->dto->toArray());
+        return $this->repository->update($command->id, $command->dto);
     }
 }

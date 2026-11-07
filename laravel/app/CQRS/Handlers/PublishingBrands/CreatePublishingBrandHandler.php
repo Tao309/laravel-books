@@ -13,6 +13,6 @@ class CreatePublishingBrandHandler extends AbstractPublishingBrandHandler
      */
     public function handle(CreatePublishingBrandCommand $command): PublishingBrand
     {
-        return $this->repository->create($command->dto->toArray());
+        return $this->repository->create($command->dto);
     }
 }

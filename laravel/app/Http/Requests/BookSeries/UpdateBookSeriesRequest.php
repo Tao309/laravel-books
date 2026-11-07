@@ -24,7 +24,7 @@ class UpdateBookSeriesRequest extends AbstractBookSeriesRequest
         $id = $this->route('books_series');
 
         return [
-            BookSeries::NAME => [
+            BookSeries::PARAM_NAME => [
                 'required',
                 'string',
                 'min:2',

@@ -13,6 +13,6 @@ class UpdateSourceProductTypeHandler extends AbstractSourceProductTypeHandler
      */
     public function handle(UpdateSourceProductTypeCommand $command): SourceProductType
     {
-        return $this->repository->update($command->id, $command->dto->toArray());
+        return $this->repository->update($command->id, $command->dto);
     }
 }

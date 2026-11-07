@@ -13,6 +13,6 @@ class UpdateBookSeriesHandler extends AbstractBookSeriesHandler
      */
     public function handle(UpdateBookSeriesCommand $command): BookSeries
     {
-        return $this->repository->update($command->id, $command->dto->toArray());
+        return $this->repository->update($command->id, $command->dto);
     }
 }

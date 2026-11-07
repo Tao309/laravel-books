@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\BookSeries;
 
-class BookSeriesDTO implements DtoInterface
+class BookSeriesDTO extends AbstractDTO
 {
     public function __construct(
         public string $name,
@@ -13,14 +13,19 @@ class BookSeriesDTO implements DtoInterface
     public static function fromArray(array $data): self
     {
         return new self(
-            name: $data[BookSeries::NAME],
+            name: $data[BookSeries::PARAM_NAME],
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
-            BookSeries::NAME => $this->name,
+            BookSeries::PARAM_NAME => $this->name,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

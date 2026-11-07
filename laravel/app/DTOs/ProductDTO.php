@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Shop;
 use Illuminate\Support\Arr;
 
-class ProductDTO implements DtoInterface
+class ProductDTO extends AbstractDTO
 {
     public function __construct(
         public string $shopProductId,
@@ -32,12 +32,18 @@ class ProductDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             Product::PARAM_SHOP_PRODUCT_ID => $this->shopProductId,
             Product::PARAM_SHOP_PRODUCT_CODE => $this->shopProductCode,
             Product::PARAM_TITLE => $this->title,
+        ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [
             Product::PARAM_SHOP => Arr::get($this->shop, Shop::PARAM_ID),
             Product::PARAM_CITY => $this->city[City::PARAM_ID] ?? null,
             Product::PARAM_BOOK => $this->book[City::PARAM_ID] ?? null,

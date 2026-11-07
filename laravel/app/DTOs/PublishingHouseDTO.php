@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\PublishingHouse;
 
-class PublishingHouseDTO implements DtoInterface
+class PublishingHouseDTO extends AbstractDTO
 {
     public function __construct(
         public string $name,
@@ -17,10 +17,15 @@ class PublishingHouseDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             PublishingHouse::NAME => $this->name,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

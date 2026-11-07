@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\Auth;
  * @property-read int|null $authors_count
  * @property-read BindingType $bindingType
  * @property-read BookSeries|null $bookSeries
+ * @property-read BookUserData|null $bookUserData
  * @property-read PaperType|null $paperType
  * @property-read Collection<int, Product> $products
  * @property-read int|null $products_count
@@ -163,7 +164,6 @@ class Book extends Model
     ];
 
     protected $fillable = [
-        self::PARAM_ID,
         self::PARAM_TITLE,
         self::PARAM_ORIGINAL_TITLE,
         self::PARAM_ISBN,
@@ -233,7 +233,7 @@ class Book extends Model
     public function bookUserData(): HasOne
     {
         return $this->hasOne(BookUserData::class, BookUserData::PARAM_BOOK_ID, self::PARAM_ID)->where([
-            BookUserData::PARAM_USER_ID => Auth::user()->id,
+            BookUserData::PARAM_USER_ID => Auth::id() ?? null,
         ]);
     }
 }

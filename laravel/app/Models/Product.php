@@ -99,7 +99,6 @@ class Product extends Model
     ];
 
     protected $fillable = [
-        //        self::PARAM_ID,
         self::PARAM_SHOP_PRODUCT_ID,
         self::PARAM_SHOP_PRODUCT_CODE,
         self::PARAM_TITLE,

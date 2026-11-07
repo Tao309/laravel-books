@@ -2,22 +2,23 @@
 
 namespace Database\Seeders;
 
+use App\DTOs\SourceProductTypeDTO;
 use App\Models\SourceProductType;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Seeder;
+use App\Repositories\SourceProductTypeRepository;
 
-class SourceProductTypeSeeder extends Seeder
+class SourceProductTypeSeeder extends AbstractSeeder
 {
+    public function __construct(
+        private readonly SourceProductTypeRepository $repo,
+    ) {}
+
     public function run(): void
     {
         foreach ($this->getSeedData() as $data) {
-            SourceProductType::create([
+            $this->repo->create(SourceProductTypeDTO::fromArray([
                 SourceProductType::PARAM_CODE => $data[0],
                 SourceProductType::PARAM_NAME => $data[1],
-                Model::CREATED_AT => Carbon::now(),
-                Model::UPDATED_AT => Carbon::now(),
-            ]);
+            ]));
         }
     }
 

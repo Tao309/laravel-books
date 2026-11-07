@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\BookUserDataDTO;
+use App\DTOs\DtoInterface;
 use App\Models\Book;
+use App\Models\BookUserData;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -17,42 +20,47 @@ class BookRepository implements RepositoryInterface
         private readonly BookUserDataRepository $bookUserDataRepository,
     ) {}
 
-    public function create(array $data): Book
+    public function create(DtoInterface $dto): Book
     {
         DB::beginTransaction();
+
+        $relationData = $dto->getRelationsData();
 
         try {
             $userId = Auth::id();
 
-            $book = Book::newModelInstance($data);
+            $book = Book::newModelInstance($dto->getEntityData());
 
-            $book->bindingType()->associate(Arr::get($data, Book::PARAM_BINDING_TYPE));
+            $book->bindingType()->associate(Arr::get($relationData, Book::PARAM_BINDING_TYPE));
 
-            if (Arr::has($data, Book::PARAM_PAPER_TYPE)) {
-                $book->paperType()->associate(Arr::get($data, Book::PARAM_PAPER_TYPE));
+            if (Arr::has($relationData, Book::PARAM_PAPER_TYPE)) {
+                $book->paperType()->associate(Arr::get($relationData, Book::PARAM_PAPER_TYPE));
             }
 
-            if (Arr::has($data, Book::PARAM_PUBLISHING_HOUSE)) {
-                $book->publishingHouse()->associate(Arr::get($data, Book::PARAM_PUBLISHING_HOUSE));
+            if (Arr::has($relationData, Book::PARAM_PUBLISHING_HOUSE)) {
+                $book->publishingHouse()->associate(Arr::get($relationData, Book::PARAM_PUBLISHING_HOUSE));
             }
 
-            if (Arr::has($data, Book::PARAM_PUBLISHING_BRAND)) {
-                $book->publishingBrand()->associate(Arr::get($data, Book::PARAM_PUBLISHING_BRAND));
+            if (Arr::has($relationData, Book::PARAM_PUBLISHING_BRAND)) {
+                $book->publishingBrand()->associate(Arr::get($relationData, Book::PARAM_PUBLISHING_BRAND));
             }
 
-            if (Arr::has($data, Book::PARAM_BOOK_SERIES)) {
-                $book->bookSeries()->associate(Arr::get($data, Book::PARAM_BOOK_SERIES));
+            if (Arr::has($relationData, Book::PARAM_BOOK_SERIES)) {
+                $book->bookSeries()->associate(Arr::get($relationData, Book::PARAM_BOOK_SERIES));
             }
 
             $book->userCreated()->associate($userId);
 
             $book->save();
 
-            $book->authors()->attach(Arr::get($data, Book::PARAM_AUTHORS));
+            $book->authors()->attach(Arr::get($relationData, Book::PARAM_AUTHORS));
 
             $this->bookUserDataRepository->create(
                 $book->id,
-                Arr::get($data, Book::PARAM_BOOK_USER_DATA, [])
+                BookUserDataDTO::fromArray([
+                    BookUserData::PARAM_BOOK_ID => $book->id,
+                    ...Arr::get($relationData, Book::PARAM_BOOK_USER_DATA, []),
+                ])
             );
 
             DB::commit();
@@ -65,35 +73,40 @@ class BookRepository implements RepositoryInterface
         }
     }
 
-    public function update(int $id, array $data): Book
+    public function update(int $id, DtoInterface $dto): Book
     {
+        $relationData = $dto->getRelationsData();
+
         DB::beginTransaction();
         try {
             $book = Book::findOrFail($id);
 
             $book->bindingType()->dissociate();
-            $book->bindingType()->associate(Arr::get($data, Book::PARAM_BINDING_TYPE));
+            $book->bindingType()->associate(Arr::get($relationData, Book::PARAM_BINDING_TYPE));
 
             $book->paperType()->dissociate();
-            $book->paperType()->associate(Arr::get($data, Book::PARAM_PAPER_TYPE));
+            $book->paperType()->associate(Arr::get($relationData, Book::PARAM_PAPER_TYPE));
 
             $book->publishingHouse()->dissociate();
-            $book->publishingHouse()->associate(Arr::get($data, Book::PARAM_PUBLISHING_HOUSE));
+            $book->publishingHouse()->associate(Arr::get($relationData, Book::PARAM_PUBLISHING_HOUSE));
 
             $book->publishingBrand()->dissociate();
-            $book->publishingBrand()->associate(Arr::get($data, Book::PARAM_PUBLISHING_BRAND));
+            $book->publishingBrand()->associate(Arr::get($relationData, Book::PARAM_PUBLISHING_BRAND));
 
             $book->bookSeries()->dissociate();
-            $book->bookSeries()->associate(Arr::get($data, Book::PARAM_BOOK_SERIES));
+            $book->bookSeries()->associate(Arr::get($relationData, Book::PARAM_BOOK_SERIES));
 
             $book->authors()->detach();
-            $book->authors()->attach(Arr::get($data, Book::PARAM_AUTHORS));
+            $book->authors()->attach(Arr::get($relationData, Book::PARAM_AUTHORS));
 
-            $book->update($data);
+            $book->update($dto->getEntityData());
 
             $this->bookUserDataRepository->update(
                 $book->id,
-                Arr::get($data, Book::PARAM_BOOK_USER_DATA, [])
+                BookUserDataDTO::fromArray([
+                    BookUserData::PARAM_BOOK_ID => $book->id,
+                    ...Arr::get($relationData, Book::PARAM_BOOK_USER_DATA, []),
+                ])
             );
 
             DB::commit();

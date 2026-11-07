@@ -17,7 +17,7 @@ abstract class AbstractBookSeriesRequest extends FormRequest implements RequestI
     public function messages(): array
     {
         return [
-            BookSeries::NAME.'.unique' => 'A BookSeries with this name already exists',
+            BookSeries::PARAM_NAME.'.unique' => 'A BookSeries with this name already exists',
         ];
     }
 

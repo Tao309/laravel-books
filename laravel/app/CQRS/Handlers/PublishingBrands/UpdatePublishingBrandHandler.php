@@ -13,6 +13,6 @@ class UpdatePublishingBrandHandler extends AbstractPublishingBrandHandler
      */
     public function handle(UpdatePublishingBrandCommand $command): PublishingBrand
     {
-        return $this->repository->update($command->id, $command->dto->toArray());
+        return $this->repository->update($command->id, $command->dto);
     }
 }

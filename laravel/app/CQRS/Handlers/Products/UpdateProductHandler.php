@@ -13,6 +13,6 @@ class UpdateProductHandler extends AbstractProductHandler
      */
     public function handle(UpdateProductCommand $command): Product
     {
-        return $this->repository->update($command->id, $command->dto->toArray());
+        return $this->repository->update($command->id, $command->dto);
     }
 }

@@ -3,13 +3,14 @@
 namespace App\Repositories\Interfaces;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RepositoryInterface
 {
-    public function create(array $data): Model;
+    public function create(DtoInterface $dto): Model;
 
     public function get(int $id): Model;
 
@@ -17,7 +18,7 @@ interface RepositoryInterface
 
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator;
 
-    public function update(int $id, array $data): Model;
+    public function update(int $id, DtoInterface $dto): Model;
 
     public function delete($id): bool;
 }

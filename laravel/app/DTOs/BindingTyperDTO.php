@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\BindingType;
 
-class BindingTyperDTO implements DtoInterface
+class BindingTyperDTO extends AbstractDTO
 {
     public function __construct(
         public string $label,
@@ -17,10 +17,15 @@ class BindingTyperDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             BindingType::PARAM_LABEL => $this->label,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

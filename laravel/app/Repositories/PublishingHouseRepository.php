@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\PublishingHouse;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PublishingHouseRepository implements RepositoryInterface
 {
-    public function create(array $data): PublishingHouse
+    public function create(DtoInterface $dto): PublishingHouse
     {
-        return PublishingHouse::create($data);
+        return PublishingHouse::create($dto->getEntityData());
     }
 
     public function get(int $id): PublishingHouse
@@ -30,10 +31,10 @@ class PublishingHouseRepository implements RepositoryInterface
         return PublishingHouse::paginate();
     }
 
-    public function update(int $id, array $data): PublishingHouse
+    public function update(int $id, DtoInterface $dto): PublishingHouse
     {
         $entity = PublishingHouse::findOrFail($id);
-        $entity->update($data);
+        $entity->update($dto->getEntityData());
 
         return $entity;
     }

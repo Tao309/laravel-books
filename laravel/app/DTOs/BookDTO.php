@@ -5,7 +5,7 @@ namespace App\DTOs;
 use App\Models\Book;
 use Illuminate\Support\Arr;
 
-class BookDTO implements DtoInterface
+class BookDTO extends AbstractDTO
 {
     public function __construct(
         public string $title,
@@ -54,7 +54,7 @@ class BookDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             Book::PARAM_TITLE => $this->title,
@@ -69,7 +69,12 @@ class BookDTO implements DtoInterface
             Book::PARAM_FANTLAB_ID => $this->fantlabId,
             Book::PARAM_LIVELIB_RATING => $this->livelibRating,
             Book::PARAM_GOODREADS_RATING => $this->goodreadsRating,
-            // > relations
+        ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [
             Book::PARAM_BINDING_TYPE => Arr::get($this->bindingType, 'id'),
             Book::PARAM_PAPER_TYPE => $this->paperType['id'] ?? null,
             Book::PARAM_PUBLISHING_HOUSE => $this->publishingHouse['id'] ?? null,
@@ -77,7 +82,6 @@ class BookDTO implements DtoInterface
             Book::PARAM_BOOK_SERIES => $this->bookSeries['id'] ?? null,
             Book::PARAM_AUTHORS => Arr::pluck($this->authors, 'id'),
             Book::PARAM_BOOK_USER_DATA => $this->bookUserData,
-            // < relations
         ];
     }
 }

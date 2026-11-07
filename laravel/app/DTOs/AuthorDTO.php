@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\Author;
 
-class AuthorDTO implements DtoInterface
+class AuthorDTO extends AbstractDTO
 {
     public function __construct(
         public string $firstName,
@@ -19,11 +19,16 @@ class AuthorDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             Author::PARAM_FIRST_NAME => $this->firstName,
             Author::PARAM_LAST_NAME => $this->lastName,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\PaperType;
+use Illuminate\Support\Facades\DB;
 
 class PaperTypeSeeder extends AbstractSeeder
 {
@@ -11,7 +12,7 @@ class PaperTypeSeeder extends AbstractSeeder
         PaperType::unguard();
 
         foreach ($this->getSeedData() as $data) {
-            PaperType::create([
+            DB::table(PaperType::TABLE_NAME)->insert([
                 PaperType::PARAM_ID => $data[0],
                 PaperType::PARAM_LABEL => $data[1],
                 PaperType::PARAM_DESCRIPTION => $data[2],

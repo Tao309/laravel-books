@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\City;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class CityRepository implements RepositoryInterface
 {
-    public function create(array $data): City
+    public function create(DtoInterface $dto): City
     {
-        return City::create($data);
+        return City::create($dto->getEntityData());
     }
 
     public function get(int $id): City
@@ -30,10 +31,10 @@ class CityRepository implements RepositoryInterface
         return City::paginate();
     }
 
-    public function update(int $id, array $data): City
+    public function update(int $id, DtoInterface $dto): City
     {
         $entity = City::findOrFail($id);
-        $entity->update($data);
+        $entity->update($dto->getEntityData());
 
         return $entity;
     }

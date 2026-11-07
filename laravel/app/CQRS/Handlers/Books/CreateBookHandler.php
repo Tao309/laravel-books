@@ -13,6 +13,6 @@ class CreateBookHandler extends AbstractBookHandler
      */
     public function handle(CreateBookCommand $command): Book
     {
-        return $this->repository->create($command->dto->toArray());
+        return $this->repository->create($command->dto);
     }
 }

@@ -46,7 +46,6 @@ class Shop extends Model
     protected $table = self::TABLE_NAME;
 
     protected $fillable = [
-        self::PARAM_ID,
         self::PARAM_TYPE,
         self::PARAM_DOMAIN,
         self::PARAM_URL,

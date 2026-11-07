@@ -13,6 +13,6 @@ class UpdateBookHandler extends AbstractBookHandler
      */
     public function handle(UpdateBookCommand $command): Book
     {
-        return $this->repository->update($command->id, $command->dto->toArray());
+        return $this->repository->update($command->id, $command->dto);
     }
 }

@@ -2,56 +2,35 @@
 
 namespace Database\Seeders;
 
+use App\DTOs\BookSeriesDTO;
 use App\Models\BookSeries;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\BookSeriesRepository;
 
-class BookSeriesSeeder extends Seeder
+class BookSeriesSeeder extends AbstractSeeder
 {
+    public function __construct(
+        private readonly BookSeriesRepository $repo
+    ) {}
+
     public function run(): void
     {
-        DB::table(BookSeries::TABLE_NAME)->insert([
-            BookSeries::NAME => 'Звезды научной фантастики',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
+        foreach ($this->getData() as $name) {
+            $this->repo->create(BookSeriesDTO::fromArray([
+                BookSeries::PARAM_NAME => $name,
+            ]));
+        }
+    }
 
-        DB::table(BookSeries::TABLE_NAME)->insert([
-            BookSeries::NAME => 'НоваФикшн. Фантастика: XXI век',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table(BookSeries::TABLE_NAME)->insert([
-            BookSeries::NAME => 'Nova Fiction. Русская городская фэнтези',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table(BookSeries::TABLE_NAME)->insert([
-            BookSeries::NAME => 'Young Adult. Корейские романы',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table(BookSeries::TABLE_NAME)->insert([
-            BookSeries::NAME => 'Red Violet. Темные миры',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table(BookSeries::TABLE_NAME)->insert([
-            BookSeries::NAME => 'МИФ x Шуфлядка Писателя',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table(BookSeries::TABLE_NAME)->insert([
-            BookSeries::NAME => 'Кинг: книжная полка',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
+    public function getData(): array
+    {
+        return [
+            'Звезды научной фантастики',
+            'НоваФикшн. Фантастика: XXI век',
+            'Nova Fiction. Русская городская фэнтези',
+            'Young Adult. Корейские романы',
+            'Red Violet. Темные миры',
+            'МИФ x Шуфлядка Писателя',
+            'Кинг: книжная полка',
+        ];
     }
 }

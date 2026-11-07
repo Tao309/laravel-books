@@ -36,8 +36,8 @@ class BookSeriesResource extends AbstractResource
     public function getArrayData(Request $request): array
     {
         return [
-            BookSeries::ID => $this->id,
-            BookSeries::NAME => $this->name,
+            BookSeries::PARAM_ID => $this->id,
+            BookSeries::PARAM_NAME => $this->name,
             Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
             Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
         ];

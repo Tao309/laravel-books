@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use App\Models\PublishingBrand;
 
-class PublishingBrandDTO implements DtoInterface
+class PublishingBrandDTO extends AbstractDTO
 {
     public function __construct(
         public string $name,
@@ -17,10 +17,15 @@ class PublishingBrandDTO implements DtoInterface
         );
     }
 
-    public function toArray(): array
+    public function getEntityData(): array
     {
         return [
             PublishingBrand::NAME => $this->name,
         ];
+    }
+
+    public function getRelationsData(): array
+    {
+        return [];
     }
 }

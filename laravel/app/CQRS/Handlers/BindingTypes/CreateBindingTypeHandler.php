@@ -13,6 +13,6 @@ class CreateBindingTypeHandler extends AbstractBindingTypeHandler
      */
     public function handle(CreateBindingTypeCommand $command): BindingType
     {
-        return $this->repository->create($command->dto->toArray());
+        return $this->repository->create($command->dto);
     }
 }

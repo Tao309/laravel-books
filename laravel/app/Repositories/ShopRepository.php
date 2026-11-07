@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\Shop;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ShopRepository implements RepositoryInterface
 {
-    public function create(array $data): Shop
+    public function create(DtoInterface $dto): Shop
     {
-        return Shop::create($data);
+        return Shop::create($dto->getEntityData());
     }
 
     public function get(int $id): Shop
@@ -30,10 +31,10 @@ class ShopRepository implements RepositoryInterface
         return Shop::paginate();
     }
 
-    public function update(int $id, array $data): Shop
+    public function update(int $id, DtoInterface $dto): Shop
     {
         $entity = Shop::findOrFail($id);
-        $entity->update($data);
+        $entity->update($dto->getEntityData());
 
         return $entity;
     }

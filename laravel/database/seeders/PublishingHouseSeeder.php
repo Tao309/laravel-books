@@ -2,44 +2,33 @@
 
 namespace Database\Seeders;
 
+use App\DTOs\PublishingHouseDTO;
 use App\Models\PublishingHouse;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\PublishingHouseRepository;
 
-class PublishingHouseSeeder extends Seeder
+class PublishingHouseSeeder extends AbstractSeeder
 {
+    public function __construct(
+        private readonly PublishingHouseRepository $repo
+    ) {}
+
     public function run(): void
     {
-        DB::table('publishing_houses')->insert([
-            PublishingHouse::NAME => 'АСТ',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
+        foreach ($this->getData() as $name) {
+            $this->repo->create(PublishingHouseDTO::fromArray([
+                PublishingHouse::NAME => $name,
+            ]));
+        }
+    }
 
-        DB::table('publishing_houses')->insert([
-            PublishingHouse::NAME => 'Эксмо',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table('publishing_houses')->insert([
-            PublishingHouse::NAME => 'Манн, Иванов и Фербер',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table('publishing_houses')->insert([
-            PublishingHouse::NAME => 'Альпина Паблишер',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
-
-        DB::table('publishing_houses')->insert([
-            PublishingHouse::NAME => 'Росмэн',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-        ]);
+    public function getData(): array
+    {
+        return [
+            'АСТ',
+            'Эксмо',
+            'Манн, Иванов и Фербер',
+            'Альпина Паблишер',
+            'Росмэн',
+        ];
     }
 }

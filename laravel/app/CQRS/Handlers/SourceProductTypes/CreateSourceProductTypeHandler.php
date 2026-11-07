@@ -13,6 +13,6 @@ class CreateSourceProductTypeHandler extends AbstractSourceProductTypeHandler
      */
     public function handle(CreateSourceProductTypeCommand $command): SourceProductType
     {
-        return $this->repository->create($command->dto->toArray());
+        return $this->repository->create($command->dto);
     }
 }

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
  * @property-read Collection<int, Product> $products
  * @property-read int|null $products_count
  * @property-read SourceProductType $sourceProductType
+ * @property-read SourceProductUserData|null $sourceProductUserData
  * @property-read User $userCreated
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct newModelQuery()
@@ -95,7 +96,7 @@ class SourceProduct extends Model
     {
         return $this->hasOne(SourceProductUserData::class, SourceProductUserData::PARAM_SOURCE_PRODUCT_ID, self::PARAM_ID)
             ->where([
-                SourceProductUserData::PARAM_USER_ID => Auth::user()->id,
+                SourceProductUserData::PARAM_USER_ID => Auth::id() ?? null,
             ]);
     }
 }

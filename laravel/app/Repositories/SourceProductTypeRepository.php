@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\SourceProductType;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SourceProductTypeRepository implements RepositoryInterface
 {
-    public function create(array $data): SourceProductType
+    public function create(DtoInterface $dto): SourceProductType
     {
-        return SourceProductType::create($data);
+        return SourceProductType::create($dto->getEntityData());
     }
 
     public function get(int $id): SourceProductType
@@ -30,10 +31,10 @@ class SourceProductTypeRepository implements RepositoryInterface
         return SourceProductType::paginate();
     }
 
-    public function update(int $id, array $data): SourceProductType
+    public function update(int $id, DtoInterface $dto): SourceProductType
     {
         $entity = SourceProductType::findOrFail($id);
-        $entity->update($data);
+        $entity->update($dto->getEntityData());
 
         return $entity;
     }

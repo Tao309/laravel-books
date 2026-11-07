@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\Author;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class AuthorRepository implements RepositoryInterface
 {
-    public function create(array $data): Author
+    public function create(DtoInterface $dto): Author
     {
-        return Author::create($data);
+        return Author::create($dto->getEntityData());
     }
 
     public function get(int $id): Author
@@ -30,10 +31,10 @@ class AuthorRepository implements RepositoryInterface
         return Author::paginate();
     }
 
-    public function update(int $id, array $data): Author
+    public function update(int $id, DtoInterface $dto): Author
     {
         $entity = Author::findOrFail($id);
-        $entity->update($data);
+        $entity->update($dto->getEntityData());
 
         return $entity;
     }

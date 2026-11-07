@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\Book;
 use App\Models\Product;
 use App\Models\SourceProduct;
@@ -10,26 +11,30 @@ use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements RepositoryInterface
 {
-    public function create(array $data): Product
+    public function create(DtoInterface $dto): Product
     {
+        $relationData = $dto->getRelationsData();
+
         DB::beginTransaction();
         try {
-            $entity = Product::newModelInstance($data);
+            $userId = Auth::id();
 
-            $this->setSourceToModel($entity, $data);
+            $entity = Product::newModelInstance($dto->getEntityData());
 
-            $entity->shop()->associate(Arr::get($data, Product::PARAM_SHOP));
+            $this->setSourceToModel($entity, $relationData);
 
-            if (Arr::has($data, Product::PARAM_CITY)) {
-                $entity->city()->associate(Arr::get($data, Product::PARAM_CITY));
+            $entity->shop()->associate(Arr::get($relationData, Product::PARAM_SHOP));
+
+            if (Arr::has($relationData, Product::PARAM_CITY)) {
+                $entity->city()->associate(Arr::get($relationData, Product::PARAM_CITY));
             }
 
-            // @todo заменить на реального текущего пользователя
-            $entity->userCreated()->associate(1);
+            $entity->userCreated()->associate($userId);
 
             $entity->save();
 
@@ -58,25 +63,27 @@ class ProductRepository implements RepositoryInterface
         return Product::paginate();
     }
 
-    public function update(int $id, array $data): Product
+    public function update(int $id, DtoInterface $dto): Product
     {
+        $relationData = $dto->getRelationsData();
+
         DB::beginTransaction();
         try {
             $entity = Product::findOrFail($id);
 
-            $this->setSourceToModel($entity, $data);
+            $this->setSourceToModel($entity, $relationData);
 
-            if (Arr::has($data, Product::PARAM_SHOP)) {
+            if (Arr::has($relationData, Product::PARAM_SHOP)) {
                 $entity->shop()->dissociate();
-                $entity->shop()->associate(Arr::get($data, Product::PARAM_SHOP));
+                $entity->shop()->associate(Arr::get($relationData, Product::PARAM_SHOP));
             }
 
-            if (Arr::has($data, Product::PARAM_CITY)) {
+            if (Arr::has($relationData, Product::PARAM_CITY)) {
                 $entity->city()->dissociate();
-                $entity->city()->associate(Arr::get($data, Product::PARAM_CITY));
+                $entity->city()->associate(Arr::get($relationData, Product::PARAM_CITY));
             }
 
-            $entity->update($data);
+            $entity->update($dto->getEntityData());
 
             DB::commit();
 

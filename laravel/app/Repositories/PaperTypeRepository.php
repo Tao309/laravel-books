@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\PaperType;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaperTypeRepository implements RepositoryInterface
 {
-    public function create(array $data): PaperType
+    public function create(DtoInterface $dto): PaperType
     {
-        return PaperType::create($data);
+        return PaperType::create($dto->getEntityData());
     }
 
     public function get(int $id): PaperType
@@ -30,10 +31,10 @@ class PaperTypeRepository implements RepositoryInterface
         return PaperType::paginate();
     }
 
-    public function update(int $id, array $data): PaperType
+    public function update(int $id, DtoInterface $dto): PaperType
     {
         $entity = PaperType::findOrFail($id);
-        $entity->update($data);
+        $entity->update($dto->getEntityData());
 
         return $entity;
     }

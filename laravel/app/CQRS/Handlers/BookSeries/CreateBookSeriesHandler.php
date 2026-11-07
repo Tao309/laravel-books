@@ -13,6 +13,6 @@ class CreateBookSeriesHandler extends AbstractBookSeriesHandler
      */
     public function handle(CreateBookSeriesCommand $command): BookSeries
     {
-        return $this->repository->create($command->dto->toArray());
+        return $this->repository->create($command->dto);
     }
 }

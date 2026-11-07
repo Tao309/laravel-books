@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
 use App\Models\BindingType;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class BindingTypeRepository implements RepositoryInterface
 {
-    public function create(array $data): BindingType
+    public function create(DtoInterface $dto): BindingType
     {
-        return BindingType::create($data);
+        return BindingType::create($dto->getEntityData());
     }
 
     public function get(int $id): BindingType
@@ -30,10 +31,10 @@ class BindingTypeRepository implements RepositoryInterface
         return BindingType::paginate();
     }
 
-    public function update(int $id, array $data): BindingType
+    public function update(int $id, DtoInterface $dto): BindingType
     {
         $entity = BindingType::findOrFail($id);
-        $entity->update($data);
+        $entity->update($dto->getEntityData());
 
         return $entity;
     }

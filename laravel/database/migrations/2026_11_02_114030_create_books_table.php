@@ -48,7 +48,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->unsignedBigInteger('book_series_id')->nullable();
-            $table->foreign('book_series_id')->references(BookSeries::ID)->on(BookSeries::TABLE_NAME)
+            $table->foreign('book_series_id')->references(BookSeries::PARAM_ID)->on(BookSeries::TABLE_NAME)
                 ->onDelete('cascade');
 
             $table->unsignedBigInteger('user_created_id');

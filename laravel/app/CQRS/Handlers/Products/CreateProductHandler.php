@@ -13,6 +13,6 @@ class CreateProductHandler extends AbstractProductHandler
      */
     public function handle(CreateProductCommand $command): Product
     {
-        return $this->repository->create($command->dto->toArray());
+        return $this->repository->create($command->dto);
     }
 }

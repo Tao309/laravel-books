@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\DTOs\DtoInterface;
+use App\DTOs\SourceProductUserDataDTO;
 use App\Models\SourceProduct;
+use App\Models\SourceProductUserData;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -17,24 +20,27 @@ class SourceProductRepository implements RepositoryInterface
         private readonly SourceProductUserDataRepository $spudRepository
     ) {}
 
-    public function create(array $data): SourceProduct
+    public function create(DtoInterface $dto): SourceProduct
     {
+        $relationData = $dto->getRelationsData();
+
         DB::beginTransaction();
 
         try {
             $userId = Auth::id();
-            $entity = SourceProduct::newModelInstance([
-                SourceProduct::PARAM_TITLE => $data[SourceProduct::PARAM_TITLE],
-            ]);
+            $entity = SourceProduct::newModelInstance($dto->getEntityData());
 
-            $entity->sourceProductType()->associate(Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
+            $entity->sourceProductType()->associate(Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
             $entity->userCreated()->associate($userId);
 
             $entity->save();
 
             $this->spudRepository->create(
                 $entity->id,
-                Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, [])
+                SourceProductUserDataDTO::fromArray([
+                    SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $entity->id,
+                    ...Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, []),
+                ])
             );
 
             DB::commit();
@@ -62,23 +68,26 @@ class SourceProductRepository implements RepositoryInterface
         return SourceProduct::paginate();
     }
 
-    public function update(int $id, array $data): SourceProduct
+    public function update(int $id, DtoInterface $dto): SourceProduct
     {
+        $relationData = $dto->getRelationsData();
+
         DB::beginTransaction();
 
         try {
             $entity = SourceProduct::findOrFail($id);
 
             $entity->sourceProductType()->dissociate();
-            $entity->sourceProductType()->associate(Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
+            $entity->sourceProductType()->associate(Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
 
-            $entity->update([
-                SourceProduct::PARAM_TITLE => $data[SourceProduct::PARAM_TITLE],
-            ]);
+            $entity->update($dto->getEntityData());
 
             $this->spudRepository->update(
                 $entity->id,
-                Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, [])
+                SourceProductUserDataDTO::fromArray([
+                    SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $entity->id,
+                    ...Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, []),
+                ])
             );
 
             DB::commit();

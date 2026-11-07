@@ -4,18 +4,9 @@ namespace App\CQRS\Handlers\Cities;
 
 use App\CQRS\Commands\Cities\DestroyCityCommand;
 use App\Exceptions\ApiException;
-use App\Repositories\CityRepository;
-use App\Repositories\Interfaces\RepositoryInterface;
 
-class DestroyCityHandler
+class DestroyCityHandler extends AbstractCityHandler
 {
-    /**
-     * @param  CityRepository  $repository
-     */
-    public function __construct(
-        public RepositoryInterface $repository,
-    ) {}
-
     /**
      * @throws ApiException
      */
