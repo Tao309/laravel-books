@@ -2,74 +2,81 @@
 
 namespace Database\Seeders;
 
+use App\Auth\CustomUserProvider;
 use App\Models\SourceProduct;
 use App\Models\SourceProductType;
+use App\Models\SourceProductUserData;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Repositories\SourceProductRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 
 class SourceProductSeeder extends Seeder
 {
+    public function __construct(
+        private readonly SourceProductRepository $sourceProductRepository,
+    ) {}
+
     public function run(): void
     {
-        $users = $this->getUsers();
+        $user = $this->getUsers()->firstOrFail();
         $sourceProductTypes = $this->getSourceProductTypes();
 
-        SourceProduct::create([
-            SourceProduct::PARAM_TITLE => 'Кроссовки для бега Strobbs',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
+        Auth::attempt([
+            CustomUserProvider::TOKEN => $user->remember_token,
+        ], true);
 
-            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $sourceProductTypes->filter(function (SourceProductType $spt) {
+        $this->sourceProductRepository->create([
+            SourceProduct::PARAM_TITLE => 'Кроссовки для бега Strobbs',
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => $sourceProductTypes->filter(function (SourceProductType $spt) {
                 return $spt->code === 'shoes';
             })->firstOrFail()->id,
-            SourceProduct::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => [
+            SourceProductUserData::PARAM_COMMENT => 'Комментарий для Кроссовки для бега Strobbs',
+            SourceProductUserData::PARAM_LISTEN_PRICE_VALUE => 5200,
+            ],
         ]);
 
-        SourceProduct::create([
+        $this->sourceProductRepository->create([
             SourceProduct::PARAM_TITLE => 'Гранола 1 кг',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-
-            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $sourceProductTypes->filter(function (SourceProductType $spt) {
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => $sourceProductTypes->filter(function (SourceProductType $spt) {
                 return $spt->code === 'food';
             })->firstOrFail()->id,
-            SourceProduct::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => [
+                SourceProductUserData::PARAM_COMMENT => 'Комментарий для Гранола 1 кг',
+            ],
         ]);
 
-        SourceProduct::create([
+        $this->sourceProductRepository->create([
             SourceProduct::PARAM_TITLE => 'Пальто демисезонное',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-
-            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $sourceProductTypes->filter(function (SourceProductType $spt) {
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => $sourceProductTypes->filter(function (SourceProductType $spt) {
                 return $spt->code === 'outerwear';
             })->firstOrFail()->id,
-            SourceProduct::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => [
+                SourceProductUserData::PARAM_COMMENT => 'Комментарий для Гранола 1 кг',
+                SourceProductUserData::PARAM_LISTEN_PRICE_VALUE => 620,
+            ],
         ]);
 
-        SourceProduct::create([
+        $this->sourceProductRepository->create([
             SourceProduct::PARAM_TITLE => 'Куртка зимняя',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-
-            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $sourceProductTypes->filter(function (SourceProductType $spt) {
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => $sourceProductTypes->filter(function (SourceProductType $spt) {
                 return $spt->code === 'outerwear';
             })->firstOrFail()->id,
-            SourceProduct::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => [
+                SourceProductUserData::PARAM_COMMENT => 'Комментарий для Куртка зимняя',
+            ],
         ]);
 
-        SourceProduct::create([
+        $this->sourceProductRepository->create([
             SourceProduct::PARAM_TITLE => 'Рубашка льняная с рукавами на лето',
-            Model::CREATED_AT => Carbon::now(),
-            Model::UPDATED_AT => Carbon::now(),
-
-            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $sourceProductTypes->filter(function (SourceProductType $spt) {
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => $sourceProductTypes->filter(function (SourceProductType $spt) {
                 return $spt->code === 'shirts';
             })->firstOrFail()->id,
-            SourceProduct::PARAM_USER_CREATED_ID => $users->firstOrFail()->id,
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => [
+                SourceProductUserData::PARAM_COMMENT => 'Комментарий для Рубашка льняная с рукавами на лето',
+            ],
         ]);
     }
 

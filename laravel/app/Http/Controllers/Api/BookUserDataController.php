@@ -33,7 +33,7 @@ class BookUserDataController extends ApiController
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Get BookUserData by book_id and user_id',
+                description: 'Get BookUserData by book_id',
                 content: new OA\JsonContent(
                     ref: '#/components/schemas/BookUserDataResource'
                 )

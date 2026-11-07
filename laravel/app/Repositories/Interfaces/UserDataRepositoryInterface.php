@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 interface UserDataRepositoryInterface
 {
-    public function get(int $bookId): Model;
+    public function get(int $relatedEntityId): Model;
 
-    public function create(int $bookId, array $data): Model;
+    public function create(int $relatedEntityId, array $data): Model;
 
-    public function update(int $bookId, array $data): int;
+    public function update(int $relatedEntityId, array $data): int;
 
-    public function delete(int $bookId): void;
+    public function delete(int $relatedEntityId): void;
 }

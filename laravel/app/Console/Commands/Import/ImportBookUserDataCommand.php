@@ -33,7 +33,7 @@ class ImportBookUserDataCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список BookUserData';
 
-    protected int $batchSize = 1;
+    protected int $batchSize = 200;
 
     protected bool $requireUpdateSequence = false;
 

@@ -4,6 +4,7 @@ namespace App\Http\Resources\SourceProducts;
 
 use App\Http\Resources\AbstractResource;
 use App\Http\Resources\SourceProductTypes\SourceProductTypeResource;
+use App\Http\Resources\SourceProductUserDatas\SourceProductUserDataResource;
 use App\Http\Resources\Users\UserResource;
 use App\Models\SourceProduct;
 use Carbon\Carbon;
@@ -26,6 +27,11 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: SourceProduct::PARAM_USER_CREATED,
             ref: '#/components/schemas/UserResource',
+            type: 'object'
+        ),
+        new OA\Property(
+            property: SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA,
+            ref: '#/components/schemas/SourceProductUserDataResource',
             type: 'object'
         ),
     ],
@@ -55,6 +61,7 @@ class SourceProductResource extends AbstractResource
 
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => SourceProductTypeResource::make($this->sourceProductType),
             SourceProduct::PARAM_USER_CREATED => UserResource::make($this->userCreated),
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => SourceProductUserDataResource::make($this->sourceProductUserData),
         ];
     }
 }

@@ -59,9 +59,13 @@ class RunAllImportsCommand extends Command
                 'app:import:book_user_data',
                 // < books
 
-                // > products
+                // > source_products
                 'app:import:source_product_types',
                 'app:import:source_products',
+                'app:import:source_product_user_data',
+                // < source_products
+
+                // > products
                 'app:import:products',
                 // < products
             ];

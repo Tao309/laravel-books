@@ -26,16 +26,21 @@ Swagger документация по api доступна по адресу **/
 | `just-check-parsing`     | Проверить только парсинг, без создания новых сущностей | Вкл |
 | `import-name`     | Имя команды для импорта | null |
 
-  - Импорт издательских домов `php artisan app:import:publishing_houses`
-  - Импорт издательских брэндов `php artisan app:import:publishing_brands`
-  - Импорт книжных серий `php artisan app:import:books_series`
   - Импорт типов бумаги `php artisan app:import:paper_types`
-  - Импорт книг `php artisan app:import:books`
+  - Импорт книжных серий `php artisan app:import:books_series`
+  - Импорт издательских брэндов `php artisan app:import:publishing_brands`
+  - Импорт издательских домов `php artisan app:import:publishing_houses`
   - Импорт авторов `php artisan app:import:authors`
+  - Импорт книг `php artisan app:import:books`
+  - Импорт BookUserData `php artisan app:import:book_user_data`
+  
+
   - Импорт типов источников товаров `php artisan app:import:source_product_types`
   - Импорт источников товаров `php artisan app:import:source_products`
+  - Импорт SourceProductUserData `php artisan app:import:source_product_user_data`
+
+
   - Импорт товаров `php artisan app:import:products`
-  - Импорт BookUserData `php artisan app:import:book_user_data`
 
 Доступные опции:
 
@@ -99,6 +104,10 @@ Swagger документация по api доступна по адресу **/
 
 ### BookUserData (данные пользователя по книге)
 
-- Добавить через seeder: `php artisan db:seed --class=BookUserDataSeeder`
+- Добавление через seeder происходит в BookSeeder
+
+### SourceProductUserData (данные пользователя по источникам товаров)
+
+- Добавление через seeder происходит в SourceProductSeeder
 
 --------

@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property int $id
@@ -54,6 +56,8 @@ class SourceProduct extends Model
 
     public const string PARAM_USER_CREATED_ID = 'user_created_id';
 
+    public const string PARAM_SOURCE_PRODUCT_USER_DATA = 'source_product_user_data';
+
     protected $table = self::TABLE_NAME;
 
     protected $hidden = [
@@ -85,5 +89,13 @@ class SourceProduct extends Model
     public function products(): MorphMany
     {
         return $this->morphMany(Product::class, Product::PARAM_SOURCE);
+    }
+
+    public function sourceProductUserData(): HasOne
+    {
+        return $this->hasOne(SourceProductUserData::class, SourceProductUserData::PARAM_SOURCE_PRODUCT_ID, self::PARAM_ID)
+            ->where([
+                SourceProductUserData::PARAM_USER_ID => Auth::user()->id,
+            ]);
     }
 }

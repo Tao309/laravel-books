@@ -8,26 +8,34 @@ use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SourceProductRepository implements RepositoryInterface
 {
+    public function __construct(
+        private readonly SourceProductUserDataRepository $spudRepository
+    ) {}
+
     public function create(array $data): SourceProduct
     {
         DB::beginTransaction();
-        try {
-            $entity = SourceProduct::newModelInstance($data);
 
-            // @todo make more protected
-            if (! empty($data[SourceProduct::PARAM_ID])) {
-                $entity->mergeFillable([SourceProduct::PARAM_ID]);
-            }
+        try {
+            $userId = Auth::id();
+            $entity = SourceProduct::newModelInstance([
+                SourceProduct::PARAM_TITLE => $data[SourceProduct::PARAM_TITLE],
+            ]);
 
             $entity->sourceProductType()->associate(Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
-            // @todo заменить на реального текущего пользователя
-            $entity->userCreated()->associate(1);
+            $entity->userCreated()->associate($userId);
 
             $entity->save();
+
+            $this->spudRepository->create(
+                $entity->id,
+                Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, [])
+            );
 
             DB::commit();
 
@@ -57,13 +65,21 @@ class SourceProductRepository implements RepositoryInterface
     public function update(int $id, array $data): SourceProduct
     {
         DB::beginTransaction();
+
         try {
             $entity = SourceProduct::findOrFail($id);
 
             $entity->sourceProductType()->dissociate();
             $entity->sourceProductType()->associate(Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
 
-            $entity->update($data);
+            $entity->update([
+                SourceProduct::PARAM_TITLE => $data[SourceProduct::PARAM_TITLE],
+            ]);
+
+            $this->spudRepository->update(
+                $entity->id,
+                Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, [])
+            );
 
             DB::commit();
 

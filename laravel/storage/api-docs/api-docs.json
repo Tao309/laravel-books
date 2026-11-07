@@ -637,7 +637,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Get BookUserData by book_id and user_id",
+                        "description": "Get BookUserData by book_id",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1779,6 +1779,41 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SourceProductTypeDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/source_product_user_data/{source_product_id}": {
+            "get": {
+                "tags": [
+                    "SourceProductUserData"
+                ],
+                "summary": "Get SourceProduct by Book ID",
+                "description": "Get SourceProduct by id",
+                "operationId": "f0d468daf72678b6dc5b060d47a5f807",
+                "parameters": [
+                    {
+                        "parameter": "source_product_id",
+                        "name": "source_product_id",
+                        "in": "path",
+                        "description": "Id of the Book",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get SourceProduct by source_product_id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductUserDataResource"
                                 }
                             }
                         }
@@ -3225,6 +3260,27 @@
                 },
                 "type": "object"
             },
+            "SourceProductUserDataResource": {
+                "properties": {
+                    "listen_price_value": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Ожидаем отзывы"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
             "SourceProductResource": {
                 "properties": {
                     "id": {
@@ -3248,6 +3304,9 @@
                     },
                     "user_created": {
                         "$ref": "#/components/schemas/UserResource"
+                    },
+                    "source_product_user_data": {
+                        "$ref": "#/components/schemas/SourceProductUserDataResource"
                     }
                 },
                 "type": "object"
@@ -3366,6 +3425,10 @@
         {
             "name": "SourceProductTypes",
             "description": "SourceProductTypes"
+        },
+        {
+            "name": "SourceProductUserData",
+            "description": "SourceProductUserData"
         }
     ]
 }

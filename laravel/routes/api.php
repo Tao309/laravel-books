@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\PublishingHouseController;
 use App\Http\Controllers\Api\ShopController;
 use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Controllers\Api\SourceProductTypeController;
+use App\Http\Controllers\Api\SourceProductUserDataController;
 use App\Http\Middleware\UserSecurity;
 use Illuminate\Support\Facades\Route;
 
@@ -31,9 +32,13 @@ Route::middleware([UserSecurity::class])->group(function () {
     Route::get('/book_user_data/{book_id}', [BookUserDataController::class, 'show']);
     // < books
 
-    // > products
+    // > source_products
     Route::apiResource('/source_product_types', SourceProductTypeController::class)->except(['create', 'edit']);
     Route::apiResource('/source_products', SourceProductController::class)->except(['create', 'edit']);
+    Route::get('/source_product_user_data/{source_product_id}', [SourceProductUserDataController::class, 'show']);
+    // < source_products
+
+    // > products
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
     // < products
 });

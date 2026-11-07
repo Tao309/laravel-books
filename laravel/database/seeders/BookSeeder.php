@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Auth\CustomUserProvider;
 use App\Models\Author;
 use App\Models\BindingType;
 use App\Models\Book;
@@ -16,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 
 class BookSeeder extends Seeder
 {
@@ -32,6 +34,10 @@ class BookSeeder extends Seeder
         $bindingTypes = $this->getBindingTypes();
         $paperTypes = $this->getPaperTypes();
         $user = $this->getFirstUser();
+
+        Auth::attempt([
+            CustomUserProvider::TOKEN => $user->remember_token,
+        ], true);
 
         $firstBook = Book::create([
             Book::PARAM_TITLE => 'Ловец Чудес',
