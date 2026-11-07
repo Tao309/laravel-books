@@ -4,7 +4,7 @@ namespace App\Http\Resources\Cities;
 
 use App\Http\Resources\AbstractResource;
 use App\Models\City;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -43,8 +43,8 @@ class CityResource extends AbstractResource
             City::PARAM_ID => $this->id,
             City::PARAM_CODE => $this->code,
             City::PARAM_TITLE => $this->title,
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
         ];
     }
 }

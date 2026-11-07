@@ -971,7 +971,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProductsDataResourceCollection"
+                                    "$ref": "#/components/schemas/ProductsPaginateResourceCollection"
                                 }
                             }
                         }
@@ -1119,6 +1119,41 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product_user_data/{product_id}": {
+            "get": {
+                "tags": [
+                    "ProductUserData"
+                ],
+                "summary": "Get ProductUserData by Product ID",
+                "description": "Get ProductUserData by id",
+                "operationId": "1dffb6a9bbcd4acee180addb4fe8a145",
+                "parameters": [
+                    {
+                        "parameter": "product_id",
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Id of the Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get ProductUserData by product_id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductUserDataResource"
                                 }
                             }
                         }
@@ -2949,6 +2984,51 @@
                 },
                 "type": "object"
             },
+            "ProductUserDataResource": {
+                "properties": {
+                    "available": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "not_available_date_from": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "available_date_from": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "listen_price_value": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "listen_qty_value": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "release_date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "is_archive": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Ожидаем отзывы"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
             "ProductResource": {
                 "properties": {
                     "id": {
@@ -2986,6 +3066,9 @@
                     },
                     "source_product": {
                         "$ref": "#/components/schemas/SourceProductResource"
+                    },
+                    "product_user_data": {
+                        "$ref": "#/components/schemas/ProductUserDataResource"
                     }
                 },
                 "type": "object"
@@ -3017,6 +3100,66 @@
                         "items": {
                             "$ref": "#/components/schemas/ProductResource"
                         }
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "ProductsPaginateResourceCollection": {
+                "description": "Collection of Products with paginate",
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductResource"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=2"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://localhost/api/models"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/models?page=1"
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 3
                     },
                     "success": {
                         "type": "boolean",
@@ -3405,6 +3548,10 @@
         {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "ProductUserData",
+            "description": "ProductUserData"
         },
         {
             "name": "PublishingBrands",

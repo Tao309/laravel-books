@@ -7,7 +7,7 @@ use App\Http\Resources\SourceProductTypes\SourceProductTypeResource;
 use App\Http\Resources\SourceProductUserDatas\SourceProductUserDataResource;
 use App\Http\Resources\Users\UserResource;
 use App\Models\SourceProduct;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -56,8 +56,8 @@ class SourceProductResource extends AbstractResource
         return [
             SourceProduct::PARAM_ID => $this->offsetGet(SourceProduct::PARAM_ID),
             SourceProduct::PARAM_TITLE => $this->offsetGet(SourceProduct::PARAM_TITLE),
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
 
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => SourceProductTypeResource::make($this->sourceProductType),
             SourceProduct::PARAM_USER_CREATED => UserResource::make($this->userCreated),

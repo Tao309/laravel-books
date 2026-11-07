@@ -17,6 +17,7 @@ class ProductDTO extends AbstractDTO
         public ?array $city,
         public ?array $book,
         public ?array $sourceProduct,
+        public ?array $productUserData,
     ) {}
 
     public static function fromArray(array $data): self
@@ -29,6 +30,7 @@ class ProductDTO extends AbstractDTO
             city: $data[Product::PARAM_CITY] ?? null,
             book: $data[Product::PARAM_BOOK] ?? null,
             sourceProduct: $data[Product::PARAM_SOURCE_PRODUCT] ?? null,
+            productUserData: $data[Product::PARAM_PRODUCT_USER_DATA] ?? null,
         );
     }
 
@@ -48,6 +50,7 @@ class ProductDTO extends AbstractDTO
             Product::PARAM_CITY => $this->city[City::PARAM_ID] ?? null,
             Product::PARAM_BOOK => $this->book[City::PARAM_ID] ?? null,
             Product::PARAM_SOURCE_PRODUCT => $this->sourceProduct[City::PARAM_ID] ?? null,
+            Product::PARAM_PRODUCT_USER_DATA => $this->productUserData,
         ];
     }
 }

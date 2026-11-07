@@ -4,8 +4,10 @@ namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
+use App\DTOs\ProductUserDataDTO;
 use App\Models\Book;
 use App\Models\Product;
+use App\Models\ProductUserData;
 use App\Models\SourceProduct;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +18,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements RepositoryInterface
 {
+    public function __construct(
+        private readonly ProductUserDataRepository $pudRepo
+    ) {}
+
     public function create(DtoInterface $dto): Product
     {
         $relationData = $dto->getRelationsData();
@@ -37,6 +43,14 @@ class ProductRepository implements RepositoryInterface
             $entity->userCreated()->associate($userId);
 
             $entity->save();
+
+            $this->pudRepo->create(
+                $entity->id,
+                ProductUserDataDTO::fromArray([
+                    ProductUserData::PARAM_PRODUCT_ID => $entity->id,
+                    ...Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []),
+                ])
+            );
 
             DB::commit();
 
@@ -84,6 +98,14 @@ class ProductRepository implements RepositoryInterface
             }
 
             $entity->update($dto->getEntityData());
+
+            $this->pudRepo->update(
+                $entity->id,
+                ProductUserDataDTO::fromArray([
+                    ProductUserData::PARAM_PRODUCT_ID => $entity->id,
+                    ...Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []),
+                ])
+            );
 
             DB::commit();
 

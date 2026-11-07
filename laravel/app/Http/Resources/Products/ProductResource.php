@@ -5,12 +5,13 @@ namespace App\Http\Resources\Products;
 use App\Http\Resources\AbstractResource;
 use App\Http\Resources\Books\BookResource;
 use App\Http\Resources\Cities\CityResource;
+use App\Http\Resources\ProductUserDatas\ProductUserDataResource;
 use App\Http\Resources\Shops\ShopResource;
 use App\Http\Resources\SourceProducts\SourceProductResource;
 use App\Models\Book;
 use App\Models\Product;
 use App\Models\SourceProduct;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -45,6 +46,11 @@ use OpenApi\Attributes as OA;
             ref: '#/components/schemas/SourceProductResource',
             type: 'object'
         ),
+        new OA\Property(
+            property: Product::PARAM_PRODUCT_USER_DATA,
+            ref: '#/components/schemas/ProductUserDataResource',
+            type: 'object'
+        ),
         // < relations
     ],
     type: 'object'
@@ -74,8 +80,8 @@ class ProductResource extends AbstractResource
             Product::PARAM_SHOP_PRODUCT_CODE => $this->offsetGet(Product::PARAM_SHOP_PRODUCT_CODE),
             Product::PARAM_TITLE => $this->offsetGet(Product::PARAM_TITLE),
 
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
 
             // > relations
             Product::PARAM_SHOP => ShopResource::make($this->shop),
@@ -83,6 +89,7 @@ class ProductResource extends AbstractResource
 
             Product::PARAM_BOOK => $book ? BookResource::make($book) : null,
             Product::PARAM_SOURCE_PRODUCT => $sourceProduct ? SourceProductResource::make($sourceProduct) : null,
+            Product::PARAM_PRODUCT_USER_DATA => ProductUserDataResource::make($this->productUserData),
             // < relations
         ];
     }

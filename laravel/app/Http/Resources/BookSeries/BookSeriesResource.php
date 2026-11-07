@@ -4,7 +4,7 @@ namespace App\Http\Resources\BookSeries;
 
 use App\Http\Resources\AbstractResource;
 use App\Models\BookSeries;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -38,8 +38,8 @@ class BookSeriesResource extends AbstractResource
         return [
             BookSeries::PARAM_ID => $this->id,
             BookSeries::PARAM_NAME => $this->name,
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
         ];
     }
 }

@@ -6,9 +6,11 @@ use App\Auth\CustomUserProvider;
 use App\DTOs\ProductDTO;
 use App\Models\Book;
 use App\Models\Product;
+use App\Models\ProductUserData;
 use App\Models\Shop;
 use App\Models\SourceProduct;
 use App\Repositories\ProductRepository;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +47,16 @@ class ProductSeeder extends AbstractSeeder
                     return $shop->type === 'ozon';
                 })->firstOrFail()->id,
             ],
+            Product::PARAM_PRODUCT_USER_DATA => [
+                ProductUserData::PARAM_AVAILABLE => false,
+                ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM => $this->createDate('2026.11.01'),
+                ProductUserData::PARAM_AVAILABLE_DATE_FROM => $this->createDate('2026.11.07'),
+                ProductUserData::PARAM_LISTEN_PRICE_VALUE => 5400,
+                ProductUserData::PARAM_LISTEN_QTY_VALUE => 4,
+                ProductUserData::PARAM_RELEASE_DATE => null,
+                ProductUserData::PARAM_IS_ARCHIVE => false,
+                ProductUserData::PARAM_COMMENT => 'Комментарий для: Куртка Зимняя',
+            ],
         ]));
 
         $book = $books->filter(function (Book $book) {
@@ -62,6 +74,13 @@ class ProductSeeder extends AbstractSeeder
                 Shop::PARAM_ID => $shops->filter(function (Shop $shop) {
                     return $shop->type === 'ozon';
                 })->firstOrFail()->id,
+            ],
+            Product::PARAM_PRODUCT_USER_DATA => [
+                ProductUserData::PARAM_AVAILABLE => true,
+                ProductUserData::PARAM_LISTEN_PRICE_VALUE => 650,
+                ProductUserData::PARAM_LISTEN_QTY_VALUE => 20,
+                ProductUserData::PARAM_RELEASE_DATE => $this->createDate('2026.09.14'),
+                ProductUserData::PARAM_COMMENT => 'Комментарий для: Ловец Чудес. #1',
             ],
         ]));
 
@@ -83,6 +102,14 @@ class ProductSeeder extends AbstractSeeder
                     return $shop->type === 'wildberries';
                 })->firstOrFail()->id,
             ],
+            Product::PARAM_PRODUCT_USER_DATA => [
+                ProductUserData::PARAM_AVAILABLE => true,
+                ProductUserData::PARAM_AVAILABLE_DATE_FROM => $this->createDate('2026.08.12'),
+                ProductUserData::PARAM_LISTEN_PRICE_VALUE => 580,
+                ProductUserData::PARAM_LISTEN_QTY_VALUE => 10,
+                ProductUserData::PARAM_RELEASE_DATE => $this->createDate('2026.09.26'),
+                ProductUserData::PARAM_COMMENT => 'Комментарий для: Ловец Чудес #2',
+            ],
         ]));
 
         $book = $books->filter(function (Book $book) {
@@ -103,6 +130,13 @@ class ProductSeeder extends AbstractSeeder
                     return $shop->type === 'wildberries';
                 })->firstOrFail()->id,
             ],
+            Product::PARAM_PRODUCT_USER_DATA => [
+                ProductUserData::PARAM_AVAILABLE => true,
+                ProductUserData::PARAM_LISTEN_PRICE_VALUE => 450,
+                ProductUserData::PARAM_LISTEN_QTY_VALUE => 10,
+                ProductUserData::PARAM_IS_ARCHIVE => false,
+                ProductUserData::PARAM_COMMENT => 'Комментарий для: Хтонь за околицей. Книга первая',
+            ],
         ]));
     }
 
@@ -119,5 +153,10 @@ class ProductSeeder extends AbstractSeeder
     private function getShops(): Collection
     {
         return Shop::all();
+    }
+
+    private function createDate(string $date): string
+    {
+        return DateService::createFromDate($date, 'Y.m.d');
     }
 }

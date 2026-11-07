@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property int $id
@@ -24,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $city_id
  * @property int $user_created_id
  * @property-read City|null $city
+ * @property-read ProductUserData|null $productUserData
  * @property-read Shop $shop
  * @property-read Model|\Eloquent|null $source
  * @property-read User $userCreated
@@ -83,6 +86,8 @@ class Product extends Model
     public const string PARAM_USER_CREATED = 'user_created';
 
     public const string PARAM_USER_CREATED_ID = 'user_created_id';
+
+    public const string PARAM_PRODUCT_USER_DATA = 'product_user_data';
     // < relations
 
     protected $table = self::TABLE_NAME;
@@ -128,5 +133,12 @@ class Product extends Model
     public function userCreated(): BelongsTo
     {
         return $this->belongsTo(User::class, self::PARAM_USER_CREATED_ID);
+    }
+
+    public function productUserData(): HasOne
+    {
+        return $this->hasOne(ProductUserData::class, ProductUserData::PARAM_PRODUCT_ID, self::PARAM_ID)->where([
+            ProductUserData::PARAM_USER_ID => Auth::id() ?? null,
+        ]);
     }
 }

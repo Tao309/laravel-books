@@ -4,7 +4,7 @@ namespace App\Http\Resources\Authors;
 
 use App\Http\Resources\AbstractResource;
 use App\Models\Author;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -40,8 +40,8 @@ class AuthorResource extends AbstractResource
             Author::PARAM_ID => $this->id,
             Author::PARAM_FIRST_NAME => $this->first_name,
             Author::PARAM_LAST_NAME => $this->last_name,
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
         ];
     }
 }

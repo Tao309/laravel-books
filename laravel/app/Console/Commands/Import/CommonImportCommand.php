@@ -174,7 +174,7 @@ abstract class CommonImportCommand extends Command
         }
 
         $io->section('Поиск данных для импорта из файла');
-        $filePath = base_path().'/database/migrations/import/'.$this->fileName;
+        $filePath = base_path().'/app/Console/Commands/Import/csv/'.$this->fileName;
 
         if (empty($this->fileName) || ! file_exists($filePath) || ! is_readable($filePath)) {
             throw new \RuntimeException(\sprintf('Файл "%s" не найден или недоступен к чтению.', $filePath));

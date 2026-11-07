@@ -4,7 +4,7 @@ namespace App\Http\Resources\Shops;
 
 use App\Http\Resources\AbstractResource;
 use App\Models\Shop;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -45,8 +45,8 @@ class ShopResource extends AbstractResource
             Shop::PARAM_TYPE => $this->type,
             Shop::PARAM_DOMAIN => $this->domain,
             Shop::PARAM_URL => $this->url,
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
         ];
     }
 }

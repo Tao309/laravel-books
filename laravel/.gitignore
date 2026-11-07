@@ -21,7 +21,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-/database/migrations/import/
 /storage/
 /.phpstorm.meta.php
 /_ide_helper.php
@@ -29,3 +28,4 @@ yarn-error.log
 /config/l5-swagger.php
 /.env.local
 /.env.*.local
+/app/Console/Commands/Import/csv/

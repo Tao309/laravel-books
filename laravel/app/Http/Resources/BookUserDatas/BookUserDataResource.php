@@ -4,7 +4,7 @@ namespace App\Http\Resources\BookUserDatas;
 
 use App\Http\Resources\AbstractResource;
 use App\Models\BookUserData;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -27,13 +27,13 @@ class BookUserDataResource extends AbstractResource
     {
         return [
             BookUserData::PARAM_RELEASE_DATE => $this->offsetGet(BookUserData::PARAM_RELEASE_DATE)
-                ? Carbon::createFromDate($this->offsetGet(Model::UPDATED_AT))->format('Y-m-d H:i:s')
+                ? DateService::createFromDate($this->offsetGet(BookUserData::PARAM_RELEASE_DATE))
                 : null,
             BookUserData::PARAM_LISTEN_PRICE_VALUE => $this->offsetGet(BookUserData::PARAM_LISTEN_PRICE_VALUE),
             BookUserData::PARAM_COMMENT => $this->offsetGet(BookUserData::PARAM_COMMENT),
 
-            Model::UPDATED_AT => Carbon::createFromDate($this->offsetGet(Model::UPDATED_AT))->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->offsetGet(Model::CREATED_AT))->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->offsetGet(Model::UPDATED_AT)),
+            Model::CREATED_AT => DateService::createFromDate($this->offsetGet(Model::CREATED_AT)),
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources\PaperTypes;
 
 use App\Http\Resources\AbstractResource;
 use App\Models\PaperType;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -44,8 +44,8 @@ class PaperTypeResource extends AbstractResource
             PaperType::PARAM_ID => $this->offsetGet(PaperType::PARAM_ID),
             PaperType::PARAM_LABEL => $this->offsetGet(PaperType::PARAM_LABEL),
             PaperType::PARAM_DESCRIPTION => $this->offsetGet(PaperType::PARAM_DESCRIPTION),
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
         ];
     }
 }

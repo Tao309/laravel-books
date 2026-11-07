@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(BookUserData::TABLE_NAME, function (Blueprint $table) {
-            $table->dateTimeTz(BookUserData::PARAM_RELEASE_DATE)->nullable();
+            $table->timestampTz(BookUserData::PARAM_RELEASE_DATE)->nullable();
             $table->integer(BookUserData::PARAM_LISTEN_PRICE_VALUE)->nullable();
             $table->text(BookUserData::PARAM_COMMENT)->nullable();
             $table->timestampsTz();

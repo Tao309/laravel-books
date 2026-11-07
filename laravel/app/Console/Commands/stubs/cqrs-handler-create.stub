@@ -14,6 +14,6 @@ class {{ class }} extends {{ AbstractHandlerName }}
      */
     public function handle({{ CreateCommandName }} $command): {{ ModelName }}
     {
-        return $this->repository->create($command->dto->toArray());
+        return $this->repository->create($command->dto);
     }
 }

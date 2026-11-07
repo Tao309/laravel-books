@@ -41,6 +41,7 @@ Swagger документация по api доступна по адресу **/
 
 
   - Импорт товаров `php artisan app:import:products`
+  - Импорт ProductUserData `php artisan app:import:product_user_data`
 
 Доступные опции:
 
@@ -109,5 +110,9 @@ Swagger документация по api доступна по адресу **/
 ### SourceProductUserData (данные пользователя по источникам товаров)
 
 - Добавление через seeder происходит в SourceProductSeeder
+
+### ProductUserData (данные пользователя по товарам)
+
+- Добавление через seeder происходит в ProductSeeder
 
 --------

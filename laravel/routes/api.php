@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\BookUserDataController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\PaperTypeController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProductUserDataController;
 use App\Http\Controllers\Api\PublishingBrandController;
 use App\Http\Controllers\Api\PublishingHouseController;
 use App\Http\Controllers\Api\ShopController;
@@ -40,5 +41,6 @@ Route::middleware([UserSecurity::class])->group(function () {
 
     // > products
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
+    Route::get('/product_user_data/{product_id}', [ProductUserDataController::class, 'show']);
     // < products
 });

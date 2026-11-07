@@ -3,7 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\BookUserData;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Support\Arr;
 
 class BookUserDataDTO implements UserDataDtoInterface
@@ -27,10 +27,8 @@ class BookUserDataDTO implements UserDataDtoInterface
 
     public function getEntityData(): array
     {
-        $releaseDate = $this->releaseDate ? Carbon::createFromFormat('Y.m.d', $this->releaseDate) : null;
-
         return [
-            BookUserData::PARAM_RELEASE_DATE => $releaseDate,
+            BookUserData::PARAM_RELEASE_DATE => DateService::createFromDate($this->releaseDate),
             BookUserData::PARAM_LISTEN_PRICE_VALUE => $this->listenPriceValue,
             BookUserData::PARAM_COMMENT => $this->comment,
         ];

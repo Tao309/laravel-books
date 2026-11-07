@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class BookRepository implements RepositoryInterface
 {
     public function __construct(
-        private readonly BookUserDataRepository $bookUserDataRepository,
+        private readonly BookUserDataRepository $budRepository,
     ) {}
 
     public function create(DtoInterface $dto): Book
@@ -55,7 +55,7 @@ class BookRepository implements RepositoryInterface
 
             $book->authors()->attach(Arr::get($relationData, Book::PARAM_AUTHORS));
 
-            $this->bookUserDataRepository->create(
+            $this->budRepository->create(
                 $book->id,
                 BookUserDataDTO::fromArray([
                     BookUserData::PARAM_BOOK_ID => $book->id,
@@ -101,7 +101,7 @@ class BookRepository implements RepositoryInterface
 
             $book->update($dto->getEntityData());
 
-            $this->bookUserDataRepository->update(
+            $this->budRepository->update(
                 $book->id,
                 BookUserDataDTO::fromArray([
                     BookUserData::PARAM_BOOK_ID => $book->id,
@@ -138,7 +138,7 @@ class BookRepository implements RepositoryInterface
     {
         $entity = Book::findOrFail($id);
 
-        $this->bookUserDataRepository->delete($id);
+        $this->budRepository->delete($id);
 
         return $entity->delete();
     }

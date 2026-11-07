@@ -30,14 +30,14 @@ class ProductController extends ApiController
                 response: 200,
                 description: 'Get list of Products',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/ProductsDataResourceCollection'
+                    ref: '#/components/schemas/ProductsPaginateResourceCollection'
                 )
             ),
         ]
     )]
     public function index(): JsonResponse
     {
-        return $this->indexAction();
+        return $this->indexActionPaginate();
     }
 
     #[OA\Post(

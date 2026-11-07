@@ -4,7 +4,7 @@ namespace App\Http\Resources\SourceProductUserDatas;
 
 use App\Http\Resources\AbstractResource;
 use App\Models\SourceProductUserData;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -28,8 +28,8 @@ class SourceProductUserDataResource extends AbstractResource
             SourceProductUserData::PARAM_LISTEN_PRICE_VALUE => $this->offsetGet(SourceProductUserData::PARAM_LISTEN_PRICE_VALUE),
             SourceProductUserData::PARAM_COMMENT => $this->offsetGet(SourceProductUserData::PARAM_COMMENT),
 
-            Model::UPDATED_AT => Carbon::createFromDate($this->offsetGet(Model::UPDATED_AT))->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->offsetGet(Model::CREATED_AT))->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->offsetGet(Model::UPDATED_AT)),
+            Model::CREATED_AT => DateService::createFromDate($this->offsetGet(Model::CREATED_AT)),
         ];
     }
 }

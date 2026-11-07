@@ -12,7 +12,7 @@ use App\Http\Resources\PublishingBrand\PublishingBrandResource;
 use App\Http\Resources\PublishingHouses\PublishingHouseResource;
 use App\Http\Resources\Users\UserResource;
 use App\Models\Book;
-use Carbon\Carbon;
+use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -111,8 +111,8 @@ class BookResource extends AbstractResource
             Book::PARAM_FANTLAB_ID => $this->offsetGet(Book::PARAM_FANTLAB_ID),
             Book::PARAM_LIVELIB_RATING => $this->offsetGet(Book::PARAM_LIVELIB_RATING),
             Book::PARAM_GOODREADS_RATING => $this->offsetGet(Book::PARAM_GOODREADS_RATING),
-            Model::UPDATED_AT => Carbon::createFromDate($this->updated_at)->format('Y-m-d H:i:s'),
-            Model::CREATED_AT => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i:s'),
+            Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
+            Model::CREATED_AT => DateService::createFromDate($this->created_at),
             // > relations
             Book::PARAM_AUTHORS => AuthorResource::collection($this->authors),
             Book::PARAM_BINDING_TYPE => BindingTypeResource::make($this->bindingType),

@@ -24,3 +24,5 @@ ide-helper-models:
 	php artisan ide-helper:models -RW
 post-update-cmd:
 	composer run post-update-cmd
+swagger-generate:
+	php artisan l5-swagger:generate

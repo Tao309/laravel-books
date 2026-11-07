@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @property string|null $release_date
+ * @property Carbon|null $release_date
  * @property int|null $listen_price_value
  * @property string|null $comment
  * @property Carbon|null $created_at
@@ -66,6 +66,13 @@ class BookUserData extends Model
         self::PARAM_LISTEN_PRICE_VALUE,
         self::PARAM_COMMENT,
     ];
+
+    protected function casts(): array
+    {
+        return [
+            self::PARAM_RELEASE_DATE => 'datetime',
+        ];
+    }
 
     public function book(): BelongsTo
     {
