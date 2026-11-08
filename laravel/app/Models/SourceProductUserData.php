@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
+ * @property int $source_product_id
+ * @property int $user_id
  * @property int|null $listen_price_value
  * @property string|null $comment
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property int $source_product_id
- * @property int $user_id
  * @property-read SourceProduct $book
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProductUserData newModelQuery()

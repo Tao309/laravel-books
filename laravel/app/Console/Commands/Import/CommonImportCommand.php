@@ -47,7 +47,18 @@ abstract class CommonImportCommand extends Command
     // Обновлять sequence
     protected bool $requireUpdateSequence = true;
 
-    abstract protected function fillImportRow(array $row): void;
+    // Во что конвертировать поля
+    protected array $convertSchema = [
+        // 'field_name' => self::SCHEMA_FORCE_INTEGER, => convertToInteger с force
+        // 'field_name' => self::SCHEMA_INTEGER, => convertToInteger без force
+        // 'field_name' => self::SCHEMA_BOOL, => convertToBool
+    ];
+
+    protected const string SCHEMA_FORCE_INTEGER = 'force_integer';
+
+    protected const string SCHEMA_INTEGER = 'integer';
+
+    protected const string SCHEMA_BOOL = 'boolean';
 
     abstract protected function createInsertingData(array $row): array;
 
@@ -72,6 +83,8 @@ abstract class CommonImportCommand extends Command
         $this->showParsingLog = (bool) ($input->getOption('show-parsing-log') ?? 1);
         $this->isFake = (bool) ($input->getOption('fake') ?? 1);
         $this->justCheckParsing = (bool) ($input->getOption('just-check-parsing') ?? 1);
+
+        $start = microtime(true);
 
         try {
             $this->checkTable();
@@ -101,6 +114,19 @@ abstract class CommonImportCommand extends Command
         $this->runAfterImport();
 
         $this->showWarnings();
+
+        $elapsed = microtime(true) - $start;
+
+        $minutes = floor(($elapsed % 3600) / 60);
+        $seconds = floor($elapsed % 60);
+        $milliseconds = round(($elapsed - floor($elapsed)) * 1000);
+
+        $this->io->section(sprintf(
+            'Время выполнения: %02d мин. %02d сек. %03d мс.',
+            $minutes,
+            $seconds,
+            $milliseconds,
+        ));
 
         return Command::SUCCESS;
     }
@@ -164,6 +190,11 @@ abstract class CommonImportCommand extends Command
         }
     }
 
+    protected function fillImportRow(array $data): void
+    {
+        $this->importData[] = $data;
+    }
+
     protected function assembleImportData(): void
     {
         $io = $this->io;
@@ -202,12 +233,17 @@ abstract class CommonImportCommand extends Command
         $rowCount = 0;
         while (($row = fgetcsv($handle, 0, ',')) !== false) {
             $rowCount++;
+            $rowData = array_combine($headers, $row);
 
-            foreach ($row as $index => $rowData) {
-                $row[$index] = strtolower(trim($rowData)) === 'null' ? null : trim($rowData);
+            foreach ($rowData as $index => $data) {
+                $rowData[$index] = strtolower(trim($data)) === 'null' ? null : trim($data);
+
+                if (! empty($this->convertSchema[$index])) {
+                    $rowData[$index] = $this->convertField($this->convertSchema[$index], $rowData[$index]);
+                }
             }
 
-            $this->fillImportRow($row);
+            $this->fillImportRow($rowData);
 
             if ($this->showParsingLog) {
                 $progressBar->setProgress($rowCount);
@@ -309,5 +345,25 @@ abstract class CommonImportCommand extends Command
     protected function getLastId(string $tableName, $paramId = 'id'): int
     {
         return (int) DB::table($tableName)->max($paramId);
+    }
+
+    private function convertField($convertType, $field = null)
+    {
+        return match ($convertType) {
+            self::SCHEMA_FORCE_INTEGER => $this->convertToInteger($field, true),
+            self::SCHEMA_INTEGER => $this->convertToInteger($field),
+            self::SCHEMA_BOOL => $this->convertToBool($field),
+            default => $field,
+        };
+    }
+
+    protected function convertToInteger(?string $value, $force = false): ?int
+    {
+        return $force ? (int) $value : ($value ? (int) $value : null);
+    }
+
+    protected function convertToBool(?string $value): bool
+    {
+        return (bool) $value;
     }
 }

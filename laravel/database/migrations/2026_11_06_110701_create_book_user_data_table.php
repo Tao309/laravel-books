@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(BookUserData::TABLE_NAME, function (Blueprint $table) {
-            $table->timestampTz(BookUserData::PARAM_RELEASE_DATE)->nullable();
-            $table->integer(BookUserData::PARAM_LISTEN_PRICE_VALUE)->nullable();
-            $table->text(BookUserData::PARAM_COMMENT)->nullable();
-            $table->timestampsTz();
-
             $table->unsignedBigInteger(BookUserData::PARAM_BOOK_ID);
             $table->foreign(BookUserData::PARAM_BOOK_ID)->references(Book::PARAM_ID)->on(Book::TABLE_NAME);
 
             $table->unsignedBigInteger(BookUserData::PARAM_USER_ID);
             $table->foreign(BookUserData::PARAM_USER_ID)->references(User::PARAM_ID)->on(User::TABLE_NAME);
+
+            $table->timestampTz(BookUserData::PARAM_RELEASE_DATE)->nullable();
+            $table->integer(BookUserData::PARAM_LISTEN_PRICE_VALUE)->nullable();
+            $table->text(BookUserData::PARAM_COMMENT)->nullable();
+            $table->timestampsTz();
 
             $table->primary([BookUserData::PARAM_BOOK_ID, BookUserData::PARAM_USER_ID]);
             $table->unique([BookUserData::PARAM_BOOK_ID, BookUserData::PARAM_USER_ID]);

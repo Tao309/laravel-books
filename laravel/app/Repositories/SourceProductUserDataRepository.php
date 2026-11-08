@@ -37,6 +37,7 @@ class SourceProductUserDataRepository implements UserDataRepositoryInterface
     {
         SourceProductUserData::where([
             SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $relEntityId,
+            SourceProductUserData::PARAM_USER_ID => Auth::id(),
         ])->delete();
     }
 }

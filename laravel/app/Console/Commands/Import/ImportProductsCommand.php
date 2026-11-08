@@ -43,26 +43,18 @@ class ImportProductsCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список товаров';
 
+    protected array $convertSchema = [
+        self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
+        self::PARAM_SOURCE_PRODUCT_ID => self::SCHEMA_INTEGER,
+        self::PARAM_BOOK_ID => self::SCHEMA_INTEGER,
+        self::PARAM_SHOP_ID => self::SCHEMA_INTEGER,
+        self::PARAM_CITY_ID => self::SCHEMA_INTEGER,
+        self::FIELD_USER_CREATED_ID => self::SCHEMA_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         Product::truncate();
-    }
-
-    protected function fillImportRow(array $row): void
-    {
-        $this->importData[] = [
-            self::FIELD_ID => (int) $row[0],
-            self::PARAM_SHOP_PRODUCT_ID => $row[1],
-            self::PARAM_SHOP_PRODUCT_CODE => $row[2] ?? null,
-            self::PARAM_SOURCE_PRODUCT_ID => $row[3] ? (int) $row[3] : null,
-            self::PARAM_BOOK_ID => $row[4] ? (int) $row[4] : null,
-            self::PARAM_SHOP_ID => $row[5] ? (int) $row[5] : null,
-            self::PARAM_CITY_ID => $row[6] ? (int) $row[6] : null,
-            self::PARAM_TITLE => $row[7],
-            self::FIELD_USER_CREATED_ID => $row[8] ? (int) $row[8] : null,
-            self::FIELD_DATE_UPDATED => $row[9],
-            self::FIELD_DATE_CREATED => $row[10],
-        ];
     }
 
     protected function createInsertingData(array $row): array

@@ -5,6 +5,8 @@ namespace App\Http\Resources\Products;
 use App\Http\Resources\AbstractResource;
 use App\Http\Resources\Books\BookResource;
 use App\Http\Resources\Cities\CityResource;
+use App\Http\Resources\ProductPrices\ProductPriceResource;
+use App\Http\Resources\ProductStocks\ProductStockResource;
 use App\Http\Resources\ProductUserDatas\ProductUserDataResource;
 use App\Http\Resources\Shops\ShopResource;
 use App\Http\Resources\SourceProducts\SourceProductResource;
@@ -51,6 +53,22 @@ use OpenApi\Attributes as OA;
             ref: '#/components/schemas/ProductUserDataResource',
             type: 'object'
         ),
+        new OA\Property(
+            property: Product::PARAM_PRICES,
+            type: 'array',
+            items: new OA\Items(
+                ref: '#/components/schemas/ProductPriceResource',
+                type: 'object'
+            )
+        ),
+        new OA\Property(
+            property: Product::PARAM_STOCKS,
+            type: 'array',
+            items: new OA\Items(
+                ref: '#/components/schemas/ProductStockResource',
+                type: 'object'
+            )
+        ),
         // < relations
     ],
     type: 'object'
@@ -86,10 +104,11 @@ class ProductResource extends AbstractResource
             // > relations
             Product::PARAM_SHOP => ShopResource::make($this->shop),
             Product::PARAM_CITY => CityResource::make($this->city),
-
             Product::PARAM_BOOK => $book ? BookResource::make($book) : null,
             Product::PARAM_SOURCE_PRODUCT => $sourceProduct ? SourceProductResource::make($sourceProduct) : null,
             Product::PARAM_PRODUCT_USER_DATA => ProductUserDataResource::make($this->productUserData),
+            Product::PARAM_PRICES => ProductPriceResource::collection($this->prices),
+            Product::PARAM_STOCKS => ProductStockResource::collection($this->stocks),
             // < relations
         ];
     }

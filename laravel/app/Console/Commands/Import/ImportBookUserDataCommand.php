@@ -37,22 +37,15 @@ class ImportBookUserDataCommand extends CommonImportCommand
 
     protected bool $requireUpdateSequence = false;
 
+    protected array $convertSchema = [
+        self::FIELD_BOOK_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_USER_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_LISTEN_PRICE_VALUE => self::SCHEMA_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         BookUserData::truncate();
-    }
-
-    protected function fillImportRow(array $row): void
-    {
-        $this->importData[] = [
-            self::FIELD_BOOK_ID => (int) $row[0],
-            self::FIELD_USER_ID => (int) $row[1],
-            self::FIELD_RELEASE_DATE => $row[2],
-            self::FIELD_LISTEN_PRICE_VALUE => $row[3] ? (int) $row[3] : null,
-            self::FIELD_COMMENT => $row[4],
-            self::FIELD_DATE_UPDATED => $row[5],
-            self::FIELD_DATE_CREATED => $row[6],
-        ];
     }
 
     protected function createInsertingData(array $row): array

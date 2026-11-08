@@ -35,21 +35,15 @@ class ImportSourceProductUserDataCommand extends CommonImportCommand
 
     protected bool $requireUpdateSequence = false;
 
+    protected array $convertSchema = [
+        self::FIELD_SOURCE_PRODUCT_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_USER_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_LISTEN_PRICE_VALUE => self::SCHEMA_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         SourceProductUserData::truncate();
-    }
-
-    protected function fillImportRow(array $row): void
-    {
-        $this->importData[] = [
-            self::FIELD_SOURCE_PRODUCT_ID => (int) $row[0],
-            self::FIELD_USER_ID => (int) $row[1],
-            self::FIELD_LISTEN_PRICE_VALUE => $row[2] ? (int) $row[2] : null,
-            self::FIELD_COMMENT => $row[3],
-            self::FIELD_DATE_UPDATED => $row[4],
-            self::FIELD_DATE_CREATED => $row[5],
-        ];
     }
 
     protected function createInsertingData(array $row): array

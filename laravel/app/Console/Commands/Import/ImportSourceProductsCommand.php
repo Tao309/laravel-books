@@ -13,7 +13,7 @@ class ImportSourceProductsCommand extends CommonImportCommand
 
     private const string FIELD_ID = 'id';
 
-    private const string FIELD_SOURCE_PRODUCT_ID = 'source_product_id';
+    private const string FIELD_SOURCE_PRODUCT_TYPE_ID = 'source_product_type_id';
 
     private const string FIELD_TITLE = 'title';
 
@@ -31,21 +31,15 @@ class ImportSourceProductsCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список источников товаров';
 
+    protected array $convertSchema = [
+        self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_SOURCE_PRODUCT_TYPE_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_USER_CREATED_ID => self::SCHEMA_FORCE_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         SourceProduct::truncate();
-    }
-
-    protected function fillImportRow(array $row): void
-    {
-        $this->importData[] = [
-            self::FIELD_ID => (int) $row[0],
-            self::FIELD_SOURCE_PRODUCT_ID => (int) $row[1],
-            self::FIELD_TITLE => $row[2],
-            self::FIELD_USER_CREATED_ID => (int) $row[3],
-            self::FIELD_DATE_UPDATED => $row[4],
-            self::FIELD_DATE_CREATED => $row[5],
-        ];
     }
 
     protected function createInsertingData(array $row): array
@@ -57,7 +51,7 @@ class ImportSourceProductsCommand extends CommonImportCommand
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
 
             // > relations
-            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $row[self::FIELD_SOURCE_PRODUCT_ID],
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $row[self::FIELD_SOURCE_PRODUCT_TYPE_ID],
             SourceProduct::PARAM_USER_CREATED_ID => $row[self::FIELD_USER_CREATED_ID],
             // < relations
         ];

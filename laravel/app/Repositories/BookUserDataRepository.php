@@ -37,6 +37,7 @@ class BookUserDataRepository implements UserDataRepositoryInterface
     {
         BookUserData::where([
             BookUserData::PARAM_BOOK_ID => $relEntityId,
+            BookUserData::PARAM_USER_ID => Auth::id(),
         ])->delete();
     }
 }

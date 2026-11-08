@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
+ * @property int $product_id
+ * @property int $user_id
  * @property bool $available
  * @property Carbon|null $not_available_date_from
  * @property Carbon|null $available_date_from
@@ -19,8 +21,6 @@ use Illuminate\Support\Carbon;
  * @property string|null $comment
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property int $product_id
- * @property int $user_id
  * @property-read Product $product
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductUserData newModelQuery()

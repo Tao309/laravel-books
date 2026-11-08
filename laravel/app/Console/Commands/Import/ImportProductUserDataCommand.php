@@ -47,28 +47,18 @@ class ImportProductUserDataCommand extends CommonImportCommand
 
     protected bool $requireUpdateSequence = false;
 
+    protected array $convertSchema = [
+        self::FIELD_PRODUCT_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_USER_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_AVAILABLE => self::SCHEMA_BOOL,
+        self::FIELD_LISTEN_PRICE_VALUE => self::SCHEMA_INTEGER,
+        self::FIELD_LISTEN_QTY_VALUE => self::SCHEMA_INTEGER,
+        self::FIELD_IS_ARCHIVE => self::SCHEMA_BOOL,
+    ];
+
     protected function runBeforeImport(): void
     {
         ProductUserData::truncate();
-    }
-
-    protected function fillImportRow(array $row): void
-    {
-        $this->importData[] = [
-            self::FIELD_PRODUCT_ID => (int) $row[0],
-            self::FIELD_USER_ID => (int) $row[1],
-
-            self::FIELD_AVAILABLE => (bool) $row[2],
-            self::FIELD_NOT_AVAILABLE_DATE_FROM => $row[3],
-            self::FIELD_AVAILABLE_DATE_FROM => $row[4],
-            self::FIELD_LISTEN_PRICE_VALUE => $row[5] ? (int) $row[5] : null,
-            self::FIELD_LISTEN_QTY_VALUE => $row[6] ? (int) $row[6] : null,
-            self::FIELD_RELEASE_DATE => $row[7],
-            self::FIELD_IS_ARCHIVE => (bool) $row[8],
-            self::FIELD_COMMENT => $row[9],
-            self::FIELD_DATE_UPDATED => $row[10],
-            self::FIELD_DATE_CREATED => $row[11],
-        ];
     }
 
     protected function createInsertingData(array $row): array

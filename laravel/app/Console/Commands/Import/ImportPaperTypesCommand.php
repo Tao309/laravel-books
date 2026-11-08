@@ -26,18 +26,13 @@ class ImportPaperTypesCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список типов бумаги';
 
+    protected array $convertSchema = [
+        self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         PaperType::truncate();
-    }
-
-    protected function fillImportRow(array $row): void
-    {
-        $this->importData[] = [
-            self::FIELD_ID => (int) $row[0],
-            self::FIELD_NAME => $row[1],
-            self::FIELD_DESCRIPTION => $row[2],
-        ];
     }
 
     protected function createInsertingData(array $row): array

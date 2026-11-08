@@ -27,19 +27,13 @@ class ImportBookSeriesCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список книжных серий';
 
+    protected array $convertSchema = [
+        self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         BookSeries::truncate();
-    }
-
-    protected function fillImportRow(array $row): void
-    {
-        $this->importData[] = [
-            self::FIELD_ID => (int) $row[0],
-            self::FIELD_NAME => $row[1],
-            self::FIELD_DATE_UPDATED => $row[2],
-            self::FIELD_DATE_CREATED => $row[3],
-        ];
     }
 
     protected function createInsertingData(array $row): array

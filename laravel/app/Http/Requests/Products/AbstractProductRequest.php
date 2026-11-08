@@ -7,6 +7,8 @@ use App\Http\Requests\RequestInterface;
 use App\Models\Book;
 use App\Models\City;
 use App\Models\Product;
+use App\Models\ProductPrice;
+use App\Models\ProductStock;
 use App\Models\ProductUserData;
 use App\Models\Shop;
 use App\Models\SourceProduct;
@@ -131,6 +133,38 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
                 'max:300',
             ],
             // < user_data
+            // > prices
+            Product::PARAM_PRICES => [
+                'sometimes',
+                'array',
+            ],
+            Product::PARAM_PRICES.'.*.'.ProductPrice::PARAM_PRICE => [
+                'sometimes',
+                'integer',
+            ],
+            Product::PARAM_PRICES.'.*.'.ProductPrice::PARAM_DATE => [
+                'sometimes',
+                'date_format:Y-m-d H:i:s',
+            ],
+            // < prices
+            // > stocks
+            Product::PARAM_STOCKS => [
+                'sometimes',
+                'array',
+            ],
+            Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_QTY => [
+                'sometimes',
+                'integer',
+            ],
+            Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_DATE => [
+                'sometimes',
+                'date_format:Y-m-d H:i:s',
+            ],
+            Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_LOG => [
+                'sometimes',
+                'string',
+            ],
+            // < stocks
         ];
     }
 }

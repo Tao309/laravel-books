@@ -73,40 +73,26 @@ class ImportBooksCommand extends CommonImportCommand
 
     private array $insertBulkAuthorData = [];
 
+    protected array $convertSchema = [
+        self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
+        self::FIELD_PAGES => self::SCHEMA_INTEGER,
+        self::FIELD_CIRCULATION => self::SCHEMA_INTEGER,
+        self::FIELD_BINDING_TYPE_ID => self::SCHEMA_INTEGER,
+        self::FIELD_PUBLISHING_HOUSE_ID => self::SCHEMA_INTEGER,
+        self::FIELD_PUBLISHING_BRAND_ID => self::SCHEMA_INTEGER,
+        self::FIELD_BOOK_SERIES_ID => self::SCHEMA_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         Book::truncate();
     }
 
-    protected function fillImportRow(array $row): void
+    protected function fillImportRow(array $data): void
     {
-        $this->importData[] = [
-            self::FIELD_ID => (int) $row[0],
-            self::FIELD_TITLE => $row[1],
-            // Пропустить $row[2] = author
-            self::FIELD_ORIGINAL_TITLE => $row[3],
-            // Пропустить $row[4] = original_author
-            self::FIELD_ISBN => $row[5] ?? '-',
-            self::FIELD_PAGES => $row[6] ? (int) $row[6] : null,
-            self::FIELD_CIRCULATION => $row[7] ? (int) $row[7] : null,
-            self::FIELD_SIZE => $row[8],
-            self::FIELD_BINDING_TYPE_ID => $row[9] ? (int) $row[9] : null,
-            self::FIELD_PUBLISHING_HOUSE_ID => $row[10] ? (int) $row[10] : null,
-            self::FIELD_PUBLISHING_BRAND_ID => $row[11] ? (int) $row[11] : null,
-            self::FIELD_BOOK_SERIES_ID => $row[12] ? (int) $row[12] : null,
-            self::FIELD_PUBLISH_YEAR => $row[13] ? (int) $row[13] : null,
-            self::FIELD_LIVELIB_ID => $row[14],
-            self::FIELD_GOODREADS_ID => $row[15],
-            self::FIELD_FANTLAB_ID => $row[16],
-            self::FIELD_LIVELIB_RATING => $row[17] ? (float) $row[17] : null,
-            self::FIELD_GOODREADS_RATING => $row[18] ? (float) $row[18] : null,
-            self::FIELD_USER_CREATED_ID => (int) $row[19],
-            self::FIELD_DATE_UPDATED => $row[20],
-            self::FIELD_DATE_CREATED => $row[21],
-            self::FIELD_BOOK_AUTHOR_ID => (int) $row[22],
-            self::FIELD_PAPER_TYPE_ID => $row[23],
-            self::FIELD_ON_SALE_COUNT => $row[24] ? (int) $row[24] : 0,
-        ];
+        $data[self::FIELD_ISBN] = $data[self::FIELD_ISBN] ?? '-';
+
+        $this->importData[] = $data;
     }
 
     protected function createInsertingData(array $row): array

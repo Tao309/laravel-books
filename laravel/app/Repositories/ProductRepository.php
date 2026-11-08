@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\DB;
 class ProductRepository implements RepositoryInterface
 {
     public function __construct(
+        private readonly ProductPriceRepository $ppRepository,
+        private readonly ProductStockRepository $psRepository,
         private readonly ProductUserDataRepository $pudRepo
     ) {}
 
@@ -50,6 +52,16 @@ class ProductRepository implements RepositoryInterface
                     ProductUserData::PARAM_PRODUCT_ID => $entity->id,
                     ...Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []),
                 ])
+            );
+
+            $this->ppRepository->massCreate(
+                $entity->id,
+                Arr::get($relationData, Product::PARAM_PRICES, [])
+            );
+
+            $this->psRepository->massCreate(
+                $entity->id,
+                Arr::get($relationData, Product::PARAM_STOCKS, [])
             );
 
             DB::commit();
@@ -105,6 +117,16 @@ class ProductRepository implements RepositoryInterface
                     ProductUserData::PARAM_PRODUCT_ID => $entity->id,
                     ...Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []),
                 ])
+            );
+
+            $this->ppRepository->massUpdate(
+                $entity->id,
+                Arr::get($relationData, Product::PARAM_PRICES, [])
+            );
+
+            $this->psRepository->massUpdate(
+                $entity->id,
+                Arr::get($relationData, Product::PARAM_STOCKS, [])
             );
 
             DB::commit();

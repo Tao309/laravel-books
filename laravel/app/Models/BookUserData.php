@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
+ * @property int $book_id
+ * @property int $user_id
  * @property Carbon|null $release_date
  * @property int|null $listen_price_value
  * @property string|null $comment
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property int $book_id
- * @property int $user_id
  * @property-read Book $book
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookUserData newModelQuery()

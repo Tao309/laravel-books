@@ -49,6 +49,10 @@ readonly class UserSecurity
 
         Auth::attempt([CustomUserProvider::TOKEN => $request->bearerToken()], true);
 
+        if (! Auth::check()) {
+            throw new AccessDeniedHttpException('Access denied, please authenticate first');
+        }
+
         return $next($request);
     }
 }

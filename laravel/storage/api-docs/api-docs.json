@@ -2984,6 +2984,36 @@
                 },
                 "type": "object"
             },
+            "ProductPriceResource": {
+                "properties": {
+                    "price": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductStockResource": {
+                "properties": {
+                    "qty": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "log": {
+                        "type": "string",
+                        "example": "{json}"
+                    }
+                },
+                "type": "object"
+            },
             "ProductUserDataResource": {
                 "properties": {
                     "available": {
@@ -3069,6 +3099,18 @@
                     },
                     "product_user_data": {
                         "$ref": "#/components/schemas/ProductUserDataResource"
+                    },
+                    "prices": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductPriceResource"
+                        }
+                    },
+                    "stocks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductStockResource"
+                        }
                     }
                 },
                 "type": "object"

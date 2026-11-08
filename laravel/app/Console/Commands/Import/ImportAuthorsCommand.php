@@ -29,20 +29,18 @@ class ImportAuthorsCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список авторов';
 
+    protected array $convertSchema = [
+        self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
+    ];
+
     protected function runBeforeImport(): void
     {
         Author::truncate();
     }
 
-    protected function fillImportRow(array $row): void
+    protected function fillImportRow(array $data): void
     {
-        $this->importData[] = [
-            self::FIELD_ID => (int) $row[0],
-            self::FIELD_FIRST_NAME => $row[1],
-            self::FIELD_LAST_NAME => $row[2],
-            self::FIELD_DATE_UPDATED => $row[3],
-            self::FIELD_DATE_CREATED => $row[4],
-        ];
+        $this->importData[] = $data;
     }
 
     protected function createInsertingData(array $row): array

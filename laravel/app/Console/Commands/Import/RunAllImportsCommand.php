@@ -68,6 +68,8 @@ class RunAllImportsCommand extends Command
                 // > products
                 'app:import:products',
                 'app:import:product_user_data',
+                'app:import:product_prices',
+                'app:import:product_stocks',
                 // < products
             ];
 

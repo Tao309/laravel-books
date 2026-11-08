@@ -6,6 +6,8 @@ use App\Auth\CustomUserProvider;
 use App\DTOs\ProductDTO;
 use App\Models\Book;
 use App\Models\Product;
+use App\Models\ProductPrice;
+use App\Models\ProductStock;
 use App\Models\ProductUserData;
 use App\Models\Shop;
 use App\Models\SourceProduct;
@@ -57,6 +59,38 @@ class ProductSeeder extends AbstractSeeder
                 ProductUserData::PARAM_IS_ARCHIVE => false,
                 ProductUserData::PARAM_COMMENT => 'Комментарий для: Куртка Зимняя',
             ],
+            Product::PARAM_PRICES => [
+                [
+                    ProductPrice::PARAM_PRICE => 800,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.01'),
+                ],
+                [
+                    ProductPrice::PARAM_PRICE => 700,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.02'),
+                ],
+                [
+                    ProductPrice::PARAM_PRICE => 600,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.03'),
+                ],
+                [
+                    ProductPrice::PARAM_PRICE => 500,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.04'),
+                ],
+            ],
+            Product::PARAM_STOCKS => [
+                [
+                    ProductStock::PARAM_QTY => 100,
+                    ProductStock::PARAM_DATE => $this->createDate('2026.11.01'),
+                ],
+                [
+                    ProductStock::PARAM_QTY => 80,
+                    ProductStock::PARAM_DATE => $this->createDate('2026.11.02'),
+                ],
+                [
+                    ProductStock::PARAM_QTY => 40,
+                    ProductStock::PARAM_DATE => $this->createDate('2026.11.03'),
+                ],
+            ],
         ]));
 
         $book = $books->filter(function (Book $book) {
@@ -82,6 +116,34 @@ class ProductSeeder extends AbstractSeeder
                 ProductUserData::PARAM_RELEASE_DATE => $this->createDate('2026.09.14'),
                 ProductUserData::PARAM_COMMENT => 'Комментарий для: Ловец Чудес. #1',
             ],
+            Product::PARAM_PRICES => [
+                [
+                    ProductPrice::PARAM_PRICE => 1200,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.11'),
+                ],
+                [
+                    ProductPrice::PARAM_PRICE => 1000,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.15'),
+                ],
+                [
+                    ProductPrice::PARAM_PRICE => 800,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.21'),
+                ],
+            ],
+            Product::PARAM_STOCKS => [
+                [
+                    ProductStock::PARAM_QTY => 6,
+                    ProductStock::PARAM_DATE => $this->createDate('2026.10.07'),
+                ],
+                [
+                    ProductStock::PARAM_QTY => 5,
+                    ProductStock::PARAM_DATE => $this->createDate('2026.10.14'),
+                ],
+                [
+                    ProductStock::PARAM_QTY => 2,
+                    ProductStock::PARAM_DATE => $this->createDate('2026.10.23'),
+                ],
+            ],
         ]));
 
         $book = $books->filter(function (Book $book) {
@@ -91,7 +153,7 @@ class ProductSeeder extends AbstractSeeder
         $this->repo->create(ProductDTO::fromArray([
             Product::PARAM_SHOP_PRODUCT_ID => '3300252850',
             Product::PARAM_SHOP_PRODUCT_CODE => '1894528868',
-            Product::PARAM_TITLE => 'Ловец Чудес #2',
+            Product::PARAM_TITLE => 'Ловец Чудес #2 (без цен и стоков)',
 
             Product::PARAM_BOOK => [
                 Book::PARAM_ID => $book->id,
@@ -108,7 +170,7 @@ class ProductSeeder extends AbstractSeeder
                 ProductUserData::PARAM_LISTEN_PRICE_VALUE => 580,
                 ProductUserData::PARAM_LISTEN_QTY_VALUE => 10,
                 ProductUserData::PARAM_RELEASE_DATE => $this->createDate('2026.09.26'),
-                ProductUserData::PARAM_COMMENT => 'Комментарий для: Ловец Чудес #2',
+                ProductUserData::PARAM_COMMENT => 'Комментарий для: Ловец Чудес #2 (без цен и стоков)',
             ],
         ]));
 
@@ -136,6 +198,34 @@ class ProductSeeder extends AbstractSeeder
                 ProductUserData::PARAM_LISTEN_QTY_VALUE => 10,
                 ProductUserData::PARAM_IS_ARCHIVE => false,
                 ProductUserData::PARAM_COMMENT => 'Комментарий для: Хтонь за околицей. Книга первая',
+            ],
+            Product::PARAM_PRICES => [
+                [
+                    ProductPrice::PARAM_PRICE => 20000,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.05.10'),
+                ],
+                [
+                    ProductPrice::PARAM_PRICE => 19900,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.08.22'),
+                ],
+                [
+                    ProductPrice::PARAM_PRICE => 18900,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.14'),
+                ],
+            ],
+            Product::PARAM_STOCKS => [
+                [
+                    ProductStock::PARAM_QTY => 1420,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.05.10'),
+                ],
+                [
+                    ProductStock::PARAM_QTY => 640,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.08.28'),
+                ],
+                [
+                    ProductStock::PARAM_QTY => 520,
+                    ProductPrice::PARAM_DATE => $this->createDate('2026.09.15'),
+                ],
             ],
         ]));
     }
