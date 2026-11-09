@@ -39,8 +39,8 @@ class ImportPublishingHousesCommand extends CommonImportCommand
     protected function createInsertingData(array $row): array
     {
         return [
-            PublishingHouse::ID => $row[self::FIELD_ID],
-            PublishingHouse::NAME => $row[self::FIELD_NAME],
+            PublishingHouse::PARAM_ID => $row[self::FIELD_ID],
+            PublishingHouse::PARAM_NAME => $row[self::FIELD_NAME],
             Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
         ];

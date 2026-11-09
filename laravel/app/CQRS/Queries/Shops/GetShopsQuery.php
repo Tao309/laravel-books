@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\Shops;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetShopsQuery implements GetCollectionQueryInterface {}
+class GetShopsQuery extends AbstractGetCollectionQuery {}

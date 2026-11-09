@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cache;
+namespace App\CacheProviders;
 
 use App\Models\PublishingHouse;
 
@@ -14,6 +14,6 @@ class PublishingHousesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return PublishingHouse::all()->toArray();
+        return PublishingHouse::all(PublishingHouse::PARAM_ID, PublishingHouse::PARAM_NAME)->toArray();
     }
 }

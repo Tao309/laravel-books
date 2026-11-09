@@ -123,8 +123,20 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // ##> price_checker info ###
+    'app_version' => env('APP_VERSION', 'not-found-version'),
+
     'auth' => [
         'x_requested_with' => env('X_REQUESTED_WITH'),
         'price_checker_id' => env('PRICE_CHECKER_ID'),
     ],
+
+    'shop_urls' => [
+        'wb' => env('URL_WB'),
+        'ozon' => env('URL_OZON'),
+        'chitai_gorod' => env('URL_CHITAI_GOROD'),
+        'ffan' => env('URL_FFAN'),
+        'knigofan' => env('URL_KNIGOFAN'),
+    ],
+    // ##< price_checker info ###
 ];

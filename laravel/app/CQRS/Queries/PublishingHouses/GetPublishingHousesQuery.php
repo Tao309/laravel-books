@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\PublishingHouses;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetPublishingHousesQuery implements GetCollectionQueryInterface {}
+class GetPublishingHousesQuery extends AbstractGetCollectionQuery {}

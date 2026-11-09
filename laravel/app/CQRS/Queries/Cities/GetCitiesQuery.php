@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\Cities;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetCitiesQuery implements GetCollectionQueryInterface {}
+class GetCitiesQuery extends AbstractGetCollectionQuery {}

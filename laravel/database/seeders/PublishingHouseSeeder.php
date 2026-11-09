@@ -16,7 +16,7 @@ class PublishingHouseSeeder extends AbstractSeeder
     {
         foreach ($this->getData() as $name) {
             $this->repo->create(PublishingHouseDTO::fromArray([
-                PublishingHouse::NAME => $name,
+                PublishingHouse::PARAM_NAME => $name,
             ]));
         }
     }

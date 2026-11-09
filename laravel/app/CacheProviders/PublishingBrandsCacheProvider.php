@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cache;
+namespace App\CacheProviders;
 
 use App\Models\PublishingBrand;
 
@@ -14,6 +14,6 @@ class PublishingBrandsCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return PublishingBrand::all()->toArray();
+        return PublishingBrand::all(PublishingBrand::PARAM_ID, PublishingBrand::PARAM_NAME)->toArray();
     }
 }

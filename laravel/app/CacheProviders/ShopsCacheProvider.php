@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cache;
+namespace App\CacheProviders;
 
 use App\Models\Shop;
 

@@ -786,6 +786,98 @@
                 }
             }
         },
+        "/api/products/link_book/{product_id}/{book_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Link Book to Product",
+                "description": "Link Book to Product",
+                "operationId": "a0faeb5bb2063502f8651de810b9d3c8",
+                "parameters": [
+                    {
+                        "parameter": "product_id",
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Id of the Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    },
+                    {
+                        "parameter": "book_id",
+                        "name": "book_id",
+                        "in": "path",
+                        "description": "Id of the Book",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 6
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Link Book to Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/link_source_product/{product_id}/{source_product_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Link SourceProduct to Product",
+                "description": "Link SourceProduct to Product",
+                "operationId": "e0cd04435c93a5369933d2235af9de3c",
+                "parameters": [
+                    {
+                        "parameter": "product_id",
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Id of the Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    },
+                    {
+                        "parameter": "source_product_id",
+                        "name": "source_product_id",
+                        "in": "path",
+                        "description": "Id of the SourceProduct",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 6
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Link SourceProduct to Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/paper_types": {
             "get": {
                 "tags": [
@@ -1423,6 +1515,41 @@
                 }
             }
         },
+        "/api/books/search/{value}": {
+            "post": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Search Books by value",
+                "description": "Search Books by value",
+                "operationId": "04f59aa17b02d5885e760a005fcc9688",
+                "parameters": [
+                    {
+                        "parameter": "value",
+                        "name": "value",
+                        "in": "path",
+                        "description": "Some words for search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Дом"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search Books by value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BooksDataResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/shops": {
             "get": {
                 "tags": [
@@ -1849,6 +1976,76 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SourceProductUserDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/unlink/{product_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Unlink from Product",
+                "description": "Unlink from Product",
+                "operationId": "6bf5f4af34a2cff505b0844a81de5aef",
+                "parameters": [
+                    {
+                        "parameter": "product_id",
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Id of the Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unlink from Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/source_products/search/{value}": {
+            "post": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Search SourceProducts by value",
+                "description": "Search SourceProducts by value",
+                "operationId": "8f4d50b371b7bec2619ae46079f9fefa",
+                "parameters": [
+                    {
+                        "parameter": "value",
+                        "name": "value",
+                        "in": "path",
+                        "description": "Some words for search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Игрушка"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search SourceProducts by value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductsDataResourceCollection"
                                 }
                             }
                         }
@@ -3584,12 +3781,12 @@
             "description": "Cities"
         },
         {
-            "name": "PaperTypes",
-            "description": "PaperTypes"
-        },
-        {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "PaperTypes",
+            "description": "PaperTypes"
         },
         {
             "name": "ProductUserData",

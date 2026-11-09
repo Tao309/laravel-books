@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cache;
+namespace App\CacheProviders;
 
 use App\Models\BindingType;
 
@@ -14,6 +14,6 @@ class BindingTypesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return BindingType::all()->toArray();
+        return BindingType::all(BindingType::PARAM_ID, BindingType::PARAM_LABEL)->toArray();
     }
 }

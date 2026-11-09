@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\BookUserDataDTO;
 use App\DTOs\DtoInterface;
+use App\Filters\BookFilter;
 use App\Models\Book;
 use App\Models\BookUserData;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -18,6 +19,7 @@ class BookRepository implements RepositoryInterface
 {
     public function __construct(
         private readonly BookUserDataRepository $budRepository,
+        private readonly BookFilter $filter,
     ) {}
 
     public function create(DtoInterface $dto): Book
@@ -126,12 +128,18 @@ class BookRepository implements RepositoryInterface
 
     public function getAll(GetCollectionQueryInterface $query): Collection
     {
-        return Book::all();
+        return $this->filter->apply(
+            Book::query(),
+            $query->toArray()
+        )->get();
     }
 
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
-        return Book::paginate();
+        return $this->filter->apply(
+            Book::query(),
+            $query->toArray()
+        )->paginate();
     }
 
     public function delete($id): bool

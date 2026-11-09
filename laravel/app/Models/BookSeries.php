@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Http\Resources\BookSeries\BookSeriesDataResource;
 use App\Http\Resources\BookSeries\BookSeriesDataResourceCollection;
+use App\Observers\BookSeriesObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +29,7 @@ use Illuminate\Support\Carbon;
  */
 #[UseResource(BookSeriesDataResource::class)]
 #[UseResourceCollection(BookSeriesDataResourceCollection::class)]
+#[ObservedBy([BookSeriesObserver::class])]
 class BookSeries extends Model
 {
     public const string TABLE_NAME = 'books_series';

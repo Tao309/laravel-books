@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Http\Resources\SourceProductTypes\SourceProductTypeDataResource;
 use App\Http\Resources\SourceProductTypes\SourceProductTypesDataResourceCollection;
+use App\Observers\SourceProductTypeObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +31,7 @@ use Illuminate\Support\Carbon;
  */
 #[UseResource(SourceProductTypeDataResource::class)]
 #[UseResourceCollection(SourceProductTypesDataResourceCollection::class)]
+#[ObservedBy([SourceProductTypeObserver::class])]
 class SourceProductType extends Model
 {
     public const string TABLE_NAME = 'source_product_types';

@@ -17,6 +17,7 @@ abstract class AbstractResourceCollection extends ResourceCollection
     {
         if ($this->toWrap) {
             return [
+                'count' => $this->collection->count(),
                 'data' => $this->collection,
                 'success' => true,
             ];

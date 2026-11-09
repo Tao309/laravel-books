@@ -39,8 +39,8 @@ class ImportPublishingBrandsCommand extends CommonImportCommand
     protected function createInsertingData(array $row): array
     {
         return [
-            PublishingBrand::ID => $row[self::FIELD_ID],
-            PublishingBrand::NAME => $row[self::FIELD_NAME],
+            PublishingBrand::PARAM_ID => $row[self::FIELD_ID],
+            PublishingBrand::PARAM_NAME => $row[self::FIELD_NAME],
             Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
             Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
         ];

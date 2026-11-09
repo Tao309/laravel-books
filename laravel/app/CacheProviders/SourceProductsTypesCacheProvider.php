@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cache;
+namespace App\CacheProviders;
 
 use App\Models\SourceProductType;
 
@@ -14,6 +14,10 @@ class SourceProductsTypesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return SourceProductType::all()->toArray();
+        return SourceProductType::all(
+            SourceProductType::PARAM_ID,
+            SourceProductType::PARAM_CODE,
+            SourceProductType::PARAM_NAME
+        )->toArray();
     }
 }

@@ -46,12 +46,12 @@ class BookSeeder extends AbstractSeeder
             Book::PARAM_PUBLISH_YEAR => 2024,
 
             Book::PARAM_PUBLISHING_HOUSE => [
-                PublishingHouse::ID => $houses->filter(function (PublishingHouse $house) {
+                PublishingHouse::PARAM_ID => $houses->filter(function (PublishingHouse $house) {
                     return $house->name === 'Манн, Иванов и Фербер';
                 })->firstOrFail()->id,
             ],
             Book::PARAM_PUBLISHING_BRAND => [
-                PublishingBrand::ID => $brands->filter(function (PublishingBrand $brand) {
+                PublishingBrand::PARAM_ID => $brands->filter(function (PublishingBrand $brand) {
                     return $brand->name === 'Молодежная литература. Фантастика и фэнтези';
                 })->firstOrFail()->id,
             ],
@@ -92,7 +92,7 @@ class BookSeeder extends AbstractSeeder
             Book::PARAM_PUBLISH_YEAR => 2026,
 
             Book::PARAM_PUBLISHING_HOUSE => [
-                PublishingHouse::ID => $houses->filter(function (PublishingHouse $house) {
+                PublishingHouse::PARAM_ID => $houses->filter(function (PublishingHouse $house) {
                     return $house->name === 'Манн, Иванов и Фербер';
                 })->firstOrFail()->id,
             ],
@@ -149,7 +149,7 @@ class BookSeeder extends AbstractSeeder
             Book::PARAM_GOODREADS_RATING => 4.28,
 
             Book::PARAM_PUBLISHING_HOUSE => [
-                PublishingHouse::ID => $houses->filter(function (PublishingHouse $house) {
+                PublishingHouse::PARAM_ID => $houses->filter(function (PublishingHouse $house) {
                     return $house->name === 'АСТ';
                 })->firstOrFail()->id,
             ],

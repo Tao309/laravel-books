@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\BookSeries;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetBookSeriesQuery implements GetCollectionQueryInterface {}
+class GetBookSeriesQuery extends AbstractGetCollectionQuery {}

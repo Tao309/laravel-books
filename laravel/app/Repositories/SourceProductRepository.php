@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
 use App\DTOs\SourceProductUserDataDTO;
+use App\Filters\SourceProductFilter;
 use App\Models\SourceProduct;
 use App\Models\SourceProductUserData;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\DB;
 class SourceProductRepository implements RepositoryInterface
 {
     public function __construct(
-        private readonly SourceProductUserDataRepository $spudRepository
+        private readonly SourceProductUserDataRepository $spudRepository,
+        private readonly SourceProductFilter $filter,
     ) {}
 
     public function create(DtoInterface $dto): SourceProduct
@@ -60,12 +62,18 @@ class SourceProductRepository implements RepositoryInterface
 
     public function getAll(GetCollectionQueryInterface $query): Collection
     {
-        return SourceProduct::all();
+        return $this->filter->apply(
+            SourceProduct::query(),
+            $query->toArray()
+        )->get();
     }
 
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
-        return SourceProduct::paginate();
+        return $this->filter->apply(
+            SourceProduct::query(),
+            $query->toArray()
+        )->paginate();
     }
 
     public function update(int $id, DtoInterface $dto): SourceProduct

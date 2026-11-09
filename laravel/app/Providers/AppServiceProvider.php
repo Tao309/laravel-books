@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Auth\CustomUserProvider;
-use App\Cache\CacheProviderInterface;
+use App\CacheProviders\CacheProviderInterface;
 use App\CQRS\CommandBus;
 use App\Services\SessionShopService;
 use Illuminate\Support\Facades\Auth;

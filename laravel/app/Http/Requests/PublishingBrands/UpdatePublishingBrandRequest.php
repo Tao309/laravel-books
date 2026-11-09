@@ -24,7 +24,7 @@ class UpdatePublishingBrandRequest extends AbstractPublishingBrandRequest
         $id = $this->route('publishing_brand');
 
         return [
-            PublishingBrand::NAME => [
+            PublishingBrand::PARAM_NAME => [
                 'required',
                 'string',
                 'min:5',

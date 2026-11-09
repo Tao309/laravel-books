@@ -6,6 +6,7 @@ use App\CQRS\CommandBus;
 use App\CQRS\Commands\Books\CreateBookCommand;
 use App\CQRS\Commands\Books\DestroyBookCommand;
 use App\CQRS\Commands\Books\UpdateBookCommand;
+use App\CQRS\Queries\Books\GetBooksPaginateQuery;
 use App\CQRS\Queries\Books\GetBooksQuery;
 use App\CQRS\Queries\Books\GetByIdBookQuery;
 use App\DTOs\DtoInterface;
@@ -26,7 +27,7 @@ readonly class BookService implements ServiceInterface
 
     public function getListPaginate(): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetBooksQuery);
+        return $this->bus->dispatch(new GetBooksPaginateQuery);
     }
 
     public function getById(int $id): Book

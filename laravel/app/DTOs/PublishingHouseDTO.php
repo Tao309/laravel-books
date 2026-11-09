@@ -13,14 +13,14 @@ class PublishingHouseDTO extends AbstractDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            name: $data[PublishingHouse::NAME],
+            name: $data[PublishingHouse::PARAM_NAME],
         );
     }
 
     public function getEntityData(): array
     {
         return [
-            PublishingHouse::NAME => $this->name,
+            PublishingHouse::PARAM_NAME => $this->name,
         ];
     }
 

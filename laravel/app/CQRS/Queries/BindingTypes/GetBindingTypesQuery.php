@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\BindingTypes;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetBindingTypesQuery implements GetCollectionQueryInterface {}
+class GetBindingTypesQuery extends AbstractGetCollectionQuery {}

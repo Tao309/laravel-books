@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Auth\CustomUserProvider;
-use App\Cache\ShopsCacheProvider;
+use App\CacheProviders\ShopsCacheProvider;
 use App\Services\SessionShopService;
 use Closure;
 use Illuminate\Http\Request;

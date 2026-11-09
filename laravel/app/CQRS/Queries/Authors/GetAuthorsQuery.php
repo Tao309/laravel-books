@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\Authors;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetAuthorsQuery implements GetCollectionQueryInterface {}
+class GetAuthorsQuery extends AbstractGetCollectionQuery {}

@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\PaperTypes;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetPaperTypesQuery implements GetCollectionQueryInterface {}
+class GetPaperTypesQuery extends AbstractGetCollectionQuery {}

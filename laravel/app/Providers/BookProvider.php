@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\CQRS\Handlers\Books\CreateBookHandler;
 use App\CQRS\Handlers\Books\DestroyBookHandler;
 use App\CQRS\Handlers\Books\GetBooksHandler;
+use App\CQRS\Handlers\Books\GetBooksPaginateHandler;
 use App\CQRS\Handlers\Books\GetByIdBookHandler;
 use App\CQRS\Handlers\Books\UpdateBookHandler;
 use App\Repositories\BookRepository;
@@ -20,6 +21,10 @@ class BookProvider extends ServiceProvider
             ->give(BookRepository::class);
 
         $this->app->when(GetBooksHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(BookRepository::class);
+
+        $this->app->when(GetBooksPaginateHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(BookRepository::class);
 

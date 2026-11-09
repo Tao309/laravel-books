@@ -22,7 +22,7 @@ class StorePublishingBrandRequest extends AbstractPublishingBrandRequest
     public function rules(): array
     {
         return [
-            PublishingBrand::NAME => [
+            PublishingBrand::PARAM_NAME => [
                 'required',
                 'string',
                 'min:2',

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Http\Resources\BindingTypes\BindingTypeDataResource;
 use App\Http\Resources\BindingTypes\BindingTypesDataResourceCollection;
+use App\Observers\BindingTypeObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +29,7 @@ use Illuminate\Support\Carbon;
  */
 #[UseResource(BindingTypeDataResource::class)]
 #[UseResourceCollection(BindingTypesDataResourceCollection::class)]
+#[ObservedBy([BindingTypeObserver::class])]
 class BindingType extends Model
 {
     public const string TABLE_NAME = 'binding_types';

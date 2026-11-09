@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Http\Resources\PublishingHouses\PublishingHouseDataResource;
 use App\Http\Resources\PublishingHouses\PublishingHousesDataResourceCollection;
+use App\Observers\PublishingHouseObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -27,15 +29,16 @@ use Illuminate\Support\Carbon;
  */
 #[UseResource(PublishingHouseDataResource::class)]
 #[UseResourceCollection(PublishingHousesDataResourceCollection::class)]
+#[ObservedBy([PublishingHouseObserver::class])]
 class PublishingHouse extends Model
 {
     public const string TABLE_NAME = 'publishing_houses';
 
-    public const string ID = 'id';
+    public const string PARAM_ID = 'id';
 
-    public const string NAME = 'name';
+    public const string PARAM_NAME = 'name';
 
     protected $table = self::TABLE_NAME;
 
-    protected $fillable = [self::NAME];
+    protected $fillable = [self::PARAM_NAME];
 }

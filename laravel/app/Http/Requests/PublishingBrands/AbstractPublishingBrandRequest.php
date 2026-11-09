@@ -17,7 +17,7 @@ abstract class AbstractPublishingBrandRequest extends FormRequest implements Req
     public function messages(): array
     {
         return [
-            PublishingBrand::NAME.'.unique' => 'A PublishingBrand with this name already exists',
+            PublishingBrand::PARAM_NAME.'.unique' => 'A PublishingBrand with this name already exists',
         ];
     }
 

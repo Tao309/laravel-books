@@ -68,6 +68,12 @@ class Product extends Model
 
     public const string PARAM_TITLE = 'title';
 
+    public const string PARAM_MIN_PRICE = 'min_price';
+
+    public const string PARAM_LAST_QTY = 'last_qty';
+
+    public const string PARAM_LAST_STOCK = 'last_stock';
+
     // > morphs
     public const string PARAM_SOURCE = 'source';
 
@@ -124,6 +130,14 @@ class Product extends Model
         'source_id',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'minPrice' => 'integer',
+            'lastQty' => 'integer',
+        ];
+    }
+
     // Book, SourceProduct
     public function source(): MorphTo
     {
@@ -164,5 +178,20 @@ class Product extends Model
         return $this->hasMany(ProductStock::class, ProductStock::PARAM_PRODUCT_ID, self::PARAM_ID)->where([
             ProductStock::PARAM_USER_ID => Auth::id() ?? null,
         ])->orderBy(ProductStock::PARAM_DATE);
+    }
+
+    public function minPrice(): ?int
+    {
+        return $this->prices()->count() ? $this->prices()->min(ProductPrice::PARAM_PRICE) : null;
+    }
+
+    public function lastQty(): ?int
+    {
+        return $this->stocks()->count() ? $this->stocks->last()->qty : null;
+    }
+
+    public function lastStock(): ?ProductStock
+    {
+        return $this->stocks()->count() ? $this->stocks->last() : null;
     }
 }

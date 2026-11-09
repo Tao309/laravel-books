@@ -16,7 +16,7 @@ class PublishingBrandSeeder extends AbstractSeeder
     {
         foreach ($this->getData() as $name) {
             $this->repo->create(PublishingBrandDTO::fromArray([
-                PublishingBrand::NAME => $name,
+                PublishingBrand::PARAM_NAME => $name,
             ]));
         }
     }

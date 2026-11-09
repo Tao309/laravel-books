@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\PublishingBrands;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetPublishingBrandsQuery implements GetCollectionQueryInterface {}
+class GetPublishingBrandsQuery extends AbstractGetCollectionQuery {}

@@ -17,7 +17,7 @@ abstract class AbstractPublishingHouseRequest extends FormRequest implements Req
     public function messages(): array
     {
         return [
-            PublishingHouse::NAME.'.unique' => 'A PublishingHouse with this name already exists',
+            PublishingHouse::PARAM_NAME.'.unique' => 'A PublishingHouse with this name already exists',
         ];
     }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cache;
+namespace App\CacheProviders;
 
 use App\Models\BookSeries;
 
@@ -14,6 +14,6 @@ class BookSeriesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return BookSeries::all()->toArray();
+        return BookSeries::all(BookSeries::PARAM_ID, BookSeries::PARAM_NAME)->toArray();
     }
 }

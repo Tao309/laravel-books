@@ -40,11 +40,11 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->unsignedBigInteger('publishing_house_id')->nullable();
-            $table->foreign('publishing_house_id')->references(PublishingHouse::ID)->on(PublishingHouse::TABLE_NAME)
+            $table->foreign('publishing_house_id')->references(PublishingHouse::PARAM_ID)->on(PublishingHouse::TABLE_NAME)
                 ->onDelete('cascade');
 
             $table->unsignedBigInteger('publishing_brand_id')->nullable();
-            $table->foreign('publishing_brand_id')->references(PublishingBrand::ID)->on(PublishingBrand::TABLE_NAME)
+            $table->foreign('publishing_brand_id')->references(PublishingBrand::PARAM_ID)->on(PublishingBrand::TABLE_NAME)
                 ->onDelete('cascade');
 
             $table->unsignedBigInteger('book_series_id')->nullable();

@@ -22,7 +22,7 @@ class StorePublishingHouseRequest extends AbstractPublishingHouseRequest
     public function rules(): array
     {
         return [
-            PublishingHouse::NAME => [
+            PublishingHouse::PARAM_NAME => [
                 'required',
                 'string',
                 'min:2',

@@ -13,14 +13,14 @@ class PublishingBrandDTO extends AbstractDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            name: $data[PublishingBrand::NAME],
+            name: $data[PublishingBrand::PARAM_NAME],
         );
     }
 
     public function getEntityData(): array
     {
         return [
-            PublishingBrand::NAME => $this->name,
+            PublishingBrand::PARAM_NAME => $this->name,
         ];
     }
 

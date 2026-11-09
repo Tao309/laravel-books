@@ -36,8 +36,8 @@ class PublishingHouseResource extends AbstractResource
     public function getArrayData(Request $request): array
     {
         return [
-            PublishingHouse::ID => $this->id,
-            PublishingHouse::NAME => $this->name,
+            PublishingHouse::PARAM_ID => $this->id,
+            PublishingHouse::PARAM_NAME => $this->name,
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
         ];

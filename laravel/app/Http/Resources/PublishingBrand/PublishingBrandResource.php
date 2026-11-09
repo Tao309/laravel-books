@@ -36,8 +36,8 @@ class PublishingBrandResource extends AbstractResource
     public function getArrayData(Request $request): array
     {
         return [
-            PublishingBrand::ID => $this->id,
-            PublishingBrand::NAME => $this->name,
+            PublishingBrand::PARAM_ID => $this->id,
+            PublishingBrand::PARAM_NAME => $this->name,
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
         ];

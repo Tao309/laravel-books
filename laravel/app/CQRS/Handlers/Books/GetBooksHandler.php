@@ -3,12 +3,12 @@
 namespace App\CQRS\Handlers\Books;
 
 use App\CQRS\Queries\Books\GetBooksQuery;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class GetBooksHandler extends AbstractBookHandler
 {
-    public function handle(GetBooksQuery $query): LengthAwarePaginator
+    public function handle(GetBooksQuery $query): Collection
     {
-        return $this->repository->getAllPaginate($query);
+        return $this->repository->getAll($query);
     }
 }

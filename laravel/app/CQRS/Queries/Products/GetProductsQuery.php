@@ -2,6 +2,6 @@
 
 namespace App\CQRS\Queries\Products;
 
-use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\AbstractGetCollectionQuery;
 
-class GetProductsQuery implements GetCollectionQueryInterface {}
+class GetProductsQuery extends AbstractGetCollectionQuery {}

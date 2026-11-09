@@ -24,7 +24,7 @@ class UpdatePublishingHouseRequest extends AbstractPublishingHouseRequest
         $id = $this->route('publishing_house');
 
         return [
-            PublishingHouse::NAME => [
+            PublishingHouse::PARAM_NAME => [
                 'required',
                 'string',
                 'min:2',
