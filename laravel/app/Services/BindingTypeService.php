@@ -7,6 +7,7 @@ use App\CQRS\Commands\BindingTypes\CreateBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\DestroyBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\UpdateBindingTypeCommand;
 use App\CQRS\Queries\BindingTypes\GetBindingTypesQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\BindingType;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,9 +20,9 @@ readonly class BindingTypeService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetBindingTypesQuery);
+        return $this->bus->dispatch(new GetBindingTypesQuery($dto));
     }
 
     public function create(DtoInterface $dto): BindingType
@@ -43,7 +44,7 @@ readonly class BindingTypeService implements ServiceInterface
         return $this->bus->dispatch(new DestroyBindingTypeCommand($id));
     }
 
-    public function getListPaginate(): ?LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
     {
         return null;
     }

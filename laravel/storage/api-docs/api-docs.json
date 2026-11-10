@@ -321,7 +321,17 @@
                 "summary": "Get list of books",
                 "description": "Get list of books",
                 "operationId": "9017a3fa89d6636329067c858b27a6fa",
-                "requestBody": {},
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Get list of books",
@@ -1508,111 +1518,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PublishingHouseDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/authors/search/{value}": {
-            "post": {
-                "tags": [
-                    "Authors"
-                ],
-                "summary": "Search Authors by value",
-                "description": "Search Authors by value",
-                "operationId": "e3192043e600f9a6b8ce26eb7304f338",
-                "parameters": [
-                    {
-                        "parameter": "value",
-                        "name": "value",
-                        "in": "path",
-                        "description": "Some words for search",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Лев"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Search Authors by value",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthorsDataResourceCollection"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/books/search/{value}": {
-            "post": {
-                "tags": [
-                    "Books"
-                ],
-                "summary": "Search Books by value",
-                "description": "Search Books by value",
-                "operationId": "04f59aa17b02d5885e760a005fcc9688",
-                "parameters": [
-                    {
-                        "parameter": "value",
-                        "name": "value",
-                        "in": "path",
-                        "description": "Some words for search",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Дом"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Search Books by value",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BooksDataResourceCollection"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/source_products/search/{value}": {
-            "post": {
-                "tags": [
-                    "SourceProducts"
-                ],
-                "summary": "Search SourceProducts by value",
-                "description": "Search SourceProducts by value",
-                "operationId": "07ff01ecfcf9e00e85825b2614ed3221",
-                "parameters": [
-                    {
-                        "parameter": "value",
-                        "name": "value",
-                        "in": "path",
-                        "description": "Some words for search",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Игрушка"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Search SourceProducts by value",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SourceProductsDataResourceCollection"
                                 }
                             }
                         }
@@ -3788,6 +3693,39 @@
                 },
                 "type": "object"
             }
+        },
+        "parameters": {
+            "Limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Number of records to return",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 20,
+                    "maximum": 100,
+                    "minimum": 1
+                }
+            },
+            "Search": {
+                "name": "search",
+                "in": "query",
+                "description": "Search query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "Ids": {
+                "name": "ids",
+                "in": "query",
+                "description": "List of model IDs separated by commas",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "1,2,3"
+                }
+            }
         }
     },
     "tags": [
@@ -3836,12 +3774,12 @@
             "description": "PublishingHouses"
         },
         {
-            "name": "SourceProducts",
-            "description": "SourceProducts"
-        },
-        {
             "name": "Shops",
             "description": "Shops"
+        },
+        {
+            "name": "SourceProducts",
+            "description": "SourceProducts"
         },
         {
             "name": "SourceProductTypes",

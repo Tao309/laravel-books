@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\PublishingHouses\StorePublishingHouseRequest;
 use App\Http\Requests\PublishingHouses\UpdatePublishingHouseRequest;
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Services\PublishingHouseService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -22,6 +23,11 @@ class PublishingHouseController extends ApiController
         summary: 'Get list of Publishing Houses',
         requestBody: new OA\RequestBody,
         tags: ['PublishingHouses'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -32,9 +38,9 @@ class PublishingHouseController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexAction();
+        return $this->indexAction($request);
     }
 
     #[OA\Post(

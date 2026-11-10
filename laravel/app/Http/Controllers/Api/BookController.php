@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Books\StoreBookRequest;
 use App\Http\Requests\Books\UpdateBookRequest;
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Http\Resources\Books\BookResource;
 use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
@@ -23,8 +24,12 @@ class BookController extends ApiController
         path: '/api/books',
         description: 'Get list of books',
         summary: 'Get list of books',
-        requestBody: new OA\RequestBody,
         tags: ['Books'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -35,9 +40,9 @@ class BookController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexActionPaginate();
+        return $this->indexActionPaginate($request);
     }
 
     #[OA\Post(

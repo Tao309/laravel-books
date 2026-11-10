@@ -155,7 +155,7 @@ class MakeCQRSCommand extends GeneratorCommand
     {
         $name = $this->getNameInput();
 
-        foreach (['abstract', 'create', 'destroy', 'get', 'getById', 'update'] as $action) {
+        foreach (['abstract', 'create', 'destroy', 'get', 'getPaginate', 'getById', 'update'] as $action) {
             $this->call('app:make:cqrs:handler', [
                 'name' => $name,
                 'action' => $action,

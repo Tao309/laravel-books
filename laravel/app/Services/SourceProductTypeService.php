@@ -8,6 +8,7 @@ use App\CQRS\Commands\SourceProductTypes\DestroySourceProductTypeCommand;
 use App\CQRS\Commands\SourceProductTypes\UpdateSourceProductTypeCommand;
 use App\CQRS\Queries\SourceProductTypes\GetByIdSourceProductTypeQuery;
 use App\CQRS\Queries\SourceProductTypes\GetSourceProductTypesQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\SourceProductType;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,14 +20,14 @@ readonly class SourceProductTypeService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetSourceProductTypesQuery);
+        return $this->bus->dispatch(new GetSourceProductTypesQuery($dto));
     }
 
-    public function getListPaginate(): LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetSourceProductTypesQuery);
+        return $this->bus->dispatch(new GetSourceProductTypesQuery($dto));
     }
 
     public function getById(int $id): SourceProductType

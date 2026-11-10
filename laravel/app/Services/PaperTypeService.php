@@ -8,6 +8,7 @@ use App\CQRS\Commands\PaperTypes\DestroyPaperTypeCommand;
 use App\CQRS\Commands\PaperTypes\UpdatePaperTypeCommand;
 use App\CQRS\Queries\PaperTypes\GetByIdPaperTypeQuery;
 use App\CQRS\Queries\PaperTypes\GetPaperTypesQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\PaperType;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,14 +20,14 @@ readonly class PaperTypeService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetPaperTypesQuery);
+        return $this->bus->dispatch(new GetPaperTypesQuery($dto));
     }
 
-    public function getListPaginate(): LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetPaperTypesQuery);
+        return $this->bus->dispatch(new GetPaperTypesQuery($dto));
     }
 
     public function getById(int $id): PaperType

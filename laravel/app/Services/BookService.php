@@ -9,6 +9,7 @@ use App\CQRS\Commands\Books\UpdateBookCommand;
 use App\CQRS\Queries\Books\GetBooksPaginateQuery;
 use App\CQRS\Queries\Books\GetBooksQuery;
 use App\CQRS\Queries\Books\GetByIdBookQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,14 +21,14 @@ readonly class BookService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetBooksQuery);
+        return $this->bus->dispatch(new GetBooksQuery($dto));
     }
 
-    public function getListPaginate(): LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetBooksPaginateQuery);
+        return $this->bus->dispatch(new GetBooksPaginateQuery($dto));
     }
 
     public function getById(int $id): Book

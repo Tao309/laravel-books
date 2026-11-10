@@ -5,9 +5,9 @@ namespace App\Repositories;
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
 use App\DTOs\SourceProductUserDataDTO;
+use App\Http\QueryFilters\SourceProductQueryFilter;
 use App\Models\SourceProduct;
 use App\Models\SourceProductUserData;
-use App\QueryFilters\SourceProductQueryFilter;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -64,7 +64,7 @@ class SourceProductRepository implements RepositoryInterface
     {
         return $this->queryFilter->apply(
             SourceProduct::query(),
-            $query->toArray()
+            $query->getDTO()
         )->get();
     }
 
@@ -72,7 +72,7 @@ class SourceProductRepository implements RepositoryInterface
     {
         return $this->queryFilter->apply(
             SourceProduct::query(),
-            $query->toArray()
+            $query->getDTO()
         )->paginate();
     }
 

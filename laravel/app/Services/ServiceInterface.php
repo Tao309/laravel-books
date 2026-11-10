@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -9,9 +10,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ServiceInterface
 {
-    public function getListPaginate(): ?LengthAwarePaginator;
+    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator;
 
-    public function getList(): ?Collection;
+    public function getList(CollectionQueryDtoInterface $dto): ?Collection;
 
     public function getById(int $id): ?Model;
 

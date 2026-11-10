@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Cities\StoreCityRequest;
 use App\Http\Requests\Cities\UpdateCityRequest;
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Services\CityService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -22,6 +23,11 @@ class CityController extends ApiController
         summary: 'Get list of cities',
         requestBody: new OA\RequestBody,
         tags: ['Cities'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -32,9 +38,9 @@ class CityController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexAction();
+        return $this->indexAction($request);
     }
 
     #[OA\Post(

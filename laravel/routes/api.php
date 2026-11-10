@@ -14,9 +14,6 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductUserDataController;
 use App\Http\Controllers\Api\PublishingBrandController;
 use App\Http\Controllers\Api\PublishingHouseController;
-use App\Http\Controllers\Api\SearchAuthorsController;
-use App\Http\Controllers\Api\SearchBooksController;
-use App\Http\Controllers\Api\SearchSourceProductsController;
 use App\Http\Controllers\Api\ShopController;
 use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Controllers\Api\SourceProductTypeController;
@@ -33,20 +30,17 @@ Route::middleware([UserSecurity::class, ApiResponse::class])->group(function () 
     Route::apiResource('/shops', ShopController::class)->only(['index', 'show']);
 
     // > books
-    Route::get('/books/search/{value}', SearchBooksController::class);
     Route::apiResource('/paper_types', PaperTypeController::class)->except(['create', 'edit']);
     Route::apiResource('/binding_types', BindingTypeController::class)->except(['create', 'edit', 'show']);
     Route::apiResource('/books_series', BookSeriesController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/publishing_brands', PublishingBrandController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/publishing_houses', PublishingHouseController::class)->except(['create', 'edit', 'destroy']);
-    Route::get('/authors/search/{value}', SearchAuthorsController::class);
     Route::apiResource('/authors', AuthorController::class)->except(['create', 'edit']);
     Route::apiResource('/books', BookController::class)->except(['create', 'edit']);
     Route::get('/book_user_data/{book_id}', [BookUserDataController::class, 'show']);
     // < books
 
     // > source_products
-    Route::get('/source_products/search/{value}', SearchSourceProductsController::class);
     Route::apiResource('/source_product_types', SourceProductTypeController::class)->except(['create', 'edit']);
     Route::apiResource('/source_products', SourceProductController::class)->except(['create', 'edit']);
     Route::get('/source_product_user_data/{source_product_id}', [SourceProductUserDataController::class, 'show']);

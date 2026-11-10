@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Http\Resources\Products\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +26,11 @@ class ProductController extends ApiController
         summary: 'Get list of Products',
         requestBody: new OA\RequestBody,
         tags: ['Products'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -35,9 +41,9 @@ class ProductController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexActionPaginate();
+        return $this->indexActionPaginate($request);
     }
 
     #[OA\Post(

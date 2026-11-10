@@ -1,6 +1,6 @@
 <?php
 
-namespace App\QueryFilters;
+namespace App\Http\QueryFilters;
 
 use App\Models\Author;
 use App\Services\AuthorService;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\BindingTypes\StoreBindingTypeRequest;
 use App\Http\Requests\BindingTypes\UpdateBindingTypeRequest;
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Services\BindingTypeService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -22,6 +23,11 @@ class BindingTypeController extends ApiController
         summary: 'Get list of binding types',
         requestBody: new OA\RequestBody,
         tags: ['BindingTypes'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -32,9 +38,9 @@ class BindingTypeController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexAction();
+        return $this->indexAction($request);
     }
 
     #[OA\Post(

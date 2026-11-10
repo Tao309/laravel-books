@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
+use App\Http\QueryFilters\AuthorQueryFilter;
 use App\Models\Author;
-use App\QueryFilters\AuthorQueryFilter;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -30,7 +30,7 @@ class AuthorRepository implements RepositoryInterface
     {
         return $this->queryFilter->apply(
             Author::query(),
-            $query->toArray()
+            $query->getDTO()
         )->get();
     }
 
@@ -38,7 +38,7 @@ class AuthorRepository implements RepositoryInterface
     {
         return $this->queryFilter->apply(
             Author::query(),
-            $query->toArray()
+            $query->getDTO()
         )->paginate();
     }
 

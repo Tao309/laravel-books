@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\CQRS\CommandBus;
 use App\CQRS\Queries\Authors\GetAuthorsQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 
 readonly class SearchAuthorsService
 {
@@ -11,8 +12,8 @@ readonly class SearchAuthorsService
         private CommandBus $bus,
     ) {}
 
-    public function searchByValue(string $value)
+    public function searchByValue(CollectionQueryDtoInterface $dto)
     {
-        return $this->bus->dispatch(new GetAuthorsQuery(search: $value));
+        return $this->bus->dispatch(new GetAuthorsQuery($dto));
     }
 }

@@ -21,6 +21,12 @@ class ApiResponse
             $responseData = $response->getData(true);
 
             if (is_array($responseData)) {
+                if (isset($responseData[self::SUCCESS]) && ! $responseData[self::SUCCESS]) {
+                    $response->setData($responseData);
+
+                    return $response;
+                }
+
                 $data = [];
 
                 if (! isset($responseData[self::DATA])) {

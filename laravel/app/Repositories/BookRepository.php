@@ -5,9 +5,9 @@ namespace App\Repositories;
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\BookUserDataDTO;
 use App\DTOs\DtoInterface;
+use App\Http\QueryFilters\BookQueryFilter;
 use App\Models\Book;
 use App\Models\BookUserData;
-use App\QueryFilters\BookQueryFilter;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -130,7 +130,7 @@ class BookRepository implements RepositoryInterface
     {
         return $this->queryFilter->apply(
             Book::query(),
-            $query->toArray()
+            $query->getDTO()
         )->get();
     }
 
@@ -138,7 +138,7 @@ class BookRepository implements RepositoryInterface
     {
         return $this->queryFilter->apply(
             Book::query(),
-            $query->toArray()
+            $query->getDTO()
         )->paginate();
     }
 

@@ -7,6 +7,7 @@ use App\CQRS\Commands\PublishingBrands\CreatePublishingBrandCommand;
 use App\CQRS\Commands\PublishingBrands\UpdatePublishingBrandCommand;
 use App\CQRS\Queries\PublishingBrands\GetPublishingBrandByIdQuery;
 use App\CQRS\Queries\PublishingBrands\GetPublishingBrandsQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\PublishingBrand;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,9 +19,9 @@ readonly class PublishingBrandService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetPublishingBrandsQuery);
+        return $this->bus->dispatch(new GetPublishingBrandsQuery($dto));
     }
 
     public function getById(int $id): PublishingBrand
@@ -40,7 +41,7 @@ readonly class PublishingBrandService implements ServiceInterface
         return $this->bus->dispatch($command);
     }
 
-    public function getListPaginate(): ?LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
     {
         return null;
     }

@@ -7,6 +7,7 @@ use App\CQRS\Commands\BookSeries\CreateBookSeriesCommand;
 use App\CQRS\Commands\BookSeries\UpdateBookSeriesCommand;
 use App\CQRS\Queries\BookSeries\GetBookSeriesByIdQuery;
 use App\CQRS\Queries\BookSeries\GetBookSeriesQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\BookSeries;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,9 +19,9 @@ readonly class BookSeriesService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetBookSeriesQuery);
+        return $this->bus->dispatch(new GetBookSeriesQuery($dto));
     }
 
     public function getById(int $id): BookSeries
@@ -42,7 +43,7 @@ readonly class BookSeriesService implements ServiceInterface
         return $this->bus->dispatch($command);
     }
 
-    public function getListPaginate(): ?LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
     {
         return null;
     }

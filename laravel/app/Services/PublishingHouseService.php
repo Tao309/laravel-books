@@ -7,6 +7,7 @@ use App\CQRS\Commands\PublishingHouses\CreatePublishingHouseCommand;
 use App\CQRS\Commands\PublishingHouses\UpdatePublishingHouseCommand;
 use App\CQRS\Queries\PublishingHouses\GetPublishingHouseByIdQuery;
 use App\CQRS\Queries\PublishingHouses\GetPublishingHousesQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\PublishingHouse;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,9 +19,9 @@ readonly class PublishingHouseService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetPublishingHousesQuery);
+        return $this->bus->dispatch(new GetPublishingHousesQuery($dto));
     }
 
     public function getById(int $id): PublishingHouse
@@ -42,7 +43,7 @@ readonly class PublishingHouseService implements ServiceInterface
         return $this->bus->dispatch($command);
     }
 
-    public function getListPaginate(): ?LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
     {
         return null;
     }

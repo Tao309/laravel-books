@@ -5,6 +5,7 @@ namespace App\Services;
 use App\CQRS\CommandBus;
 use App\CQRS\Queries\Shops\GetShopByIdQuery;
 use App\CQRS\Queries\Shops\GetShopsQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Shop;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,12 +23,12 @@ readonly class ShopService implements ServiceInterface
         return $this->bus->dispatch(new GetShopByIdQuery($id));
     }
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetShopsQuery);
+        return $this->bus->dispatch(new GetShopsQuery($dto));
     }
 
-    public function getListPaginate(): ?LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
     {
         return null;
     }

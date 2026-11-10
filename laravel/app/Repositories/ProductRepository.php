@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
 use App\DTOs\ProductUserDataDTO;
+use App\Http\QueryFilters\ProductQueryFilter;
 use App\Models\Book;
 use App\Models\Product;
 use App\Models\ProductUserData;
@@ -21,7 +22,8 @@ class ProductRepository implements RepositoryInterface
     public function __construct(
         private readonly ProductPriceRepository $ppRepository,
         private readonly ProductStockRepository $psRepository,
-        private readonly ProductUserDataRepository $pudRepo
+        private readonly ProductUserDataRepository $pudRepo,
+        private readonly ProductQueryFilter $queryFilter,
     ) {}
 
     public function create(DtoInterface $dto): Product
@@ -81,12 +83,18 @@ class ProductRepository implements RepositoryInterface
 
     public function getAll(GetCollectionQueryInterface $query): Collection
     {
-        return Product::all();
+        return $this->queryFilter->apply(
+            Product::query(),
+            $query->getDTO()
+        )->get();
     }
 
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
-        return Product::paginate();
+        return $this->queryFilter->apply(
+            Product::query(),
+            $query->getDTO()
+        )->paginate();
     }
 
     public function update(int $id, DtoInterface $dto): Product

@@ -7,6 +7,7 @@ use App\CQRS\Commands\Cities\CreateCityCommand;
 use App\CQRS\Commands\Cities\DestroyCityCommand;
 use App\CQRS\Commands\Cities\UpdateCityCommand;
 use App\CQRS\Queries\Cities\GetCitiesQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\City;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,9 +20,9 @@ readonly class CityService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetCitiesQuery);
+        return $this->bus->dispatch(new GetCitiesQuery($dto));
     }
 
     public function create(DtoInterface $dto): City
@@ -43,7 +44,7 @@ readonly class CityService implements ServiceInterface
         return $this->bus->dispatch(new DestroyCityCommand($id));
     }
 
-    public function getListPaginate(): ?LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
     {
         return null;
     }

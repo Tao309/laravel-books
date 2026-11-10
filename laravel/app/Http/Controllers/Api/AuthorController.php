@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Authors\StoreAuthorRequest;
 use App\Http\Requests\Authors\UpdateAuthorRequest;
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Http\Resources\Authors\AuthorResource;
 use App\Services\AuthorService;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +26,11 @@ class AuthorController extends ApiController
         summary: 'Get list of authors',
         requestBody: new OA\RequestBody,
         tags: ['Authors'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -35,9 +41,9 @@ class AuthorController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexActionPaginate();
+        return $this->indexActionPaginate($request);
     }
 
     #[OA\Post(

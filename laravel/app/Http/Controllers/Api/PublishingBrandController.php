@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\PublishingBrands\StorePublishingBrandRequest;
 use App\Http\Requests\PublishingBrands\UpdatePublishingBrandRequest;
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Services\PublishingBrandService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -22,6 +23,11 @@ class PublishingBrandController extends ApiController
         summary: 'Get list of Publishing Brands',
         requestBody: new OA\RequestBody,
         tags: ['PublishingBrands'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -32,9 +38,9 @@ class PublishingBrandController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexAction();
+        return $this->indexAction($request);
     }
 
     #[OA\Post(

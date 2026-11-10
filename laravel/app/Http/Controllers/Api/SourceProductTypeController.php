@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Http\Requests\SourceProductTypes\StoreSourceProductTypeRequest;
 use App\Http\Requests\SourceProductTypes\UpdateSourceProductTypeRequest;
 use App\Services\SourceProductTypeService;
@@ -22,6 +23,11 @@ class SourceProductTypeController extends ApiController
         summary: 'Get list of SourceProductTypes',
         requestBody: new OA\RequestBody,
         tags: ['SourceProductTypes'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/Ids'),
+            new OA\Parameter(ref: '#/components/parameters/Limit'),
+            new OA\Parameter(ref: '#/components/parameters/Search'),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -32,9 +38,9 @@ class SourceProductTypeController extends ApiController
             ),
         ]
     )]
-    public function index(): JsonResponse
+    public function index(QueryQueryCollectionRequest $request): JsonResponse
     {
-        return $this->indexAction();
+        return $this->indexAction($request);
     }
 
     #[OA\Post(

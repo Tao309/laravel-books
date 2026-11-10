@@ -21,7 +21,7 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
         $name = $this->argument('name');
         $action = $this->argument('action');
 
-        if ($action === 'get') {
+        if ($action === 'get' || $action === 'getPaginate') {
             $name = Str::plural($name);
         }
 

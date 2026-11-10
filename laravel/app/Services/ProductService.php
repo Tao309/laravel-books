@@ -7,7 +7,9 @@ use App\CQRS\Commands\Products\CreateProductCommand;
 use App\CQRS\Commands\Products\DestroyProductCommand;
 use App\CQRS\Commands\Products\UpdateProductCommand;
 use App\CQRS\Queries\Products\GetByIdProductQuery;
+use App\CQRS\Queries\Products\GetProductsPaginateQuery;
 use App\CQRS\Queries\Products\GetProductsQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,14 +21,14 @@ readonly class ProductService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): Collection
+    public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetProductsQuery);
+        return $this->bus->dispatch(new GetProductsQuery($dto));
     }
 
-    public function getListPaginate(): LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetProductsQuery);
+        return $this->bus->dispatch(new GetProductsPaginateQuery($dto));
     }
 
     public function getById(int $id): Product

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\CQRS\CommandBus;
 use App\CQRS\Queries\SourceProducts\GetSourceProductsQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 
 readonly class SearchSourceProductsService
 {
@@ -11,8 +12,8 @@ readonly class SearchSourceProductsService
         private CommandBus $bus,
     ) {}
 
-    public function searchByValue(string $value)
+    public function searchByValue(CollectionQueryDtoInterface $dto)
     {
-        return $this->bus->dispatch(new GetSourceProductsQuery(search: $value));
+        return $this->bus->dispatch(new GetSourceProductsQuery($dto));
     }
 }

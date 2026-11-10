@@ -8,6 +8,7 @@ use App\CQRS\Commands\Authors\DestroyAuthorCommand;
 use App\CQRS\Commands\Authors\UpdateAuthorCommand;
 use App\CQRS\Queries\Authors\GetAuthorByIdQuery;
 use App\CQRS\Queries\Authors\GetAuthorsQuery;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,14 +20,14 @@ readonly class AuthorService implements ServiceInterface
         private CommandBus $bus,
     ) {}
 
-    public function getList(): ?Collection
+    public function getList(CollectionQueryDtoInterface $dto): ?Collection
     {
         return null;
     }
 
-    public function getListPaginate(): LengthAwarePaginator
+    public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetAuthorsQuery);
+        return $this->bus->dispatch(new GetAuthorsQuery($dto));
     }
 
     public function getById(int $id): Author

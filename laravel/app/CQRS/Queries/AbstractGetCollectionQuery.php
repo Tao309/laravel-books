@@ -2,22 +2,17 @@
 
 namespace App\CQRS\Queries;
 
+use App\DTOs\CollectionQueryDto;
+use App\DTOs\CollectionQueryDtoInterface;
+
 abstract class AbstractGetCollectionQuery implements GetCollectionQueryInterface
 {
-    public const string SEARCH = 'search';
-
-    public const string LIMIT = 'limit';
-
     public function __construct(
-        public ?string $search = null,
-        public int $limit = 30,
+        public CollectionQueryDtoInterface $dto,
     ) {}
 
-    public function toArray(): array
+    public function getDTO(): CollectionQueryDto
     {
-        return [
-            self::SEARCH => $this->search,
-            self::LIMIT => $this->limit,
-        ];
+        return $this->dto;
     }
 }
