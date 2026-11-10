@@ -1515,6 +1515,41 @@
                 }
             }
         },
+        "/api/authors/search/{value}": {
+            "post": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Search Authors by value",
+                "description": "Search Authors by value",
+                "operationId": "e3192043e600f9a6b8ce26eb7304f338",
+                "parameters": [
+                    {
+                        "parameter": "value",
+                        "name": "value",
+                        "in": "path",
+                        "description": "Some words for search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Лев"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search Authors by value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthorsDataResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/books/search/{value}": {
             "post": {
                 "tags": [
@@ -1543,6 +1578,41 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BooksDataResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/source_products/search/{value}": {
+            "post": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Search SourceProducts by value",
+                "description": "Search SourceProducts by value",
+                "operationId": "07ff01ecfcf9e00e85825b2614ed3221",
+                "parameters": [
+                    {
+                        "parameter": "value",
+                        "name": "value",
+                        "in": "path",
+                        "description": "Some words for search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Игрушка"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search SourceProducts by value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductsDataResourceCollection"
                                 }
                             }
                         }
@@ -2011,41 +2081,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProductDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/source_products/search/{value}": {
-            "post": {
-                "tags": [
-                    "SourceProducts"
-                ],
-                "summary": "Search SourceProducts by value",
-                "description": "Search SourceProducts by value",
-                "operationId": "8f4d50b371b7bec2619ae46079f9fefa",
-                "parameters": [
-                    {
-                        "parameter": "value",
-                        "name": "value",
-                        "in": "path",
-                        "description": "Some words for search",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Игрушка"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Search SourceProducts by value",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SourceProductsDataResourceCollection"
                                 }
                             }
                         }
@@ -2652,14 +2687,14 @@
                 },
                 "type": "object"
             },
-            "AuthorResourceCollection": {
+            "AuthorsResourceCollection": {
                 "description": "Collection of Authors",
                 "type": "array",
                 "items": {
                     "$ref": "#/components/schemas/AuthorResource"
                 }
             },
-            "AuthorDataResourceCollection": {
+            "AuthorsDataResourceCollection": {
                 "description": "Collection of Authors",
                 "properties": {
                     "data": {
@@ -3801,12 +3836,12 @@
             "description": "PublishingHouses"
         },
         {
-            "name": "Shops",
-            "description": "Shops"
-        },
-        {
             "name": "SourceProducts",
             "description": "SourceProducts"
+        },
+        {
+            "name": "Shops",
+            "description": "Shops"
         },
         {
             "name": "SourceProductTypes",

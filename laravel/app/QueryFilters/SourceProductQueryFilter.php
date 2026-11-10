@@ -1,27 +1,12 @@
 <?php
 
-namespace App\Filters;
+namespace App\QueryFilters;
 
 use App\Models\SourceProduct;
 use Illuminate\Database\Eloquent\Builder;
 
-class SourceProductFilter implements FilterInterface
+class SourceProductQueryFilter extends AbstractQueryFilter
 {
-    public const string SEARCH = 'search';
-
-    public const string LIMIT = 'limit';
-
-    public function apply(Builder $query, array $filters): Builder
-    {
-        return $query
-            ->when($filters[self::SEARCH] ?? null, function ($query, $value) {
-                $this->applySearchFilter($query, $value);
-            })
-            ->when($filters[self::LIMIT] ?? null, function ($query, $value) {
-                $query->limit($value);
-            });
-    }
-
     public function applySearchFilter(Builder $query, $value): Builder
     {
         $titleField = SourceProduct::PARAM_TITLE;
@@ -65,6 +50,8 @@ class SourceProductFilter implements FilterInterface
 
             $query->orWhereRaw("LOWER({$titleField}) LIKE ?", "%{$splitTitlesJoin}%");
         }
+
+        $query->limit(7);
 
         return $query;
     }

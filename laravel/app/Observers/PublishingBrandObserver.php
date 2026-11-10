@@ -12,25 +12,30 @@ readonly class PublishingBrandObserver
 
     public function created(): void
     {
-        $this->cacheProvider->delete();
+        $this->deleteCache();
     }
 
     public function updated(): void
     {
-        $this->cacheProvider->delete();
+        $this->deleteCache();
     }
 
     public function deleted(): void
     {
-        $this->cacheProvider->delete();
+        $this->deleteCache();
     }
 
     public function restored(): void
     {
-        $this->cacheProvider->delete();
+        $this->deleteCache();
     }
 
     public function forceDeleted(): void
+    {
+        $this->deleteCache();
+    }
+
+    private function deleteCache(): void
     {
         $this->cacheProvider->delete();
     }

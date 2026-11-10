@@ -6,7 +6,7 @@ use App\Http\Resources\AbstractResourceCollection;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'AuthorResourceCollection',
+    schema: 'AuthorsResourceCollection',
     description: 'Collection of Authors',
     type: 'object',
     items: new OA\Items(
@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'AuthorDataResourceCollection',
+    schema: 'AuthorsDataResourceCollection',
     description: 'Collection of Authors',
     properties: [
         new OA\Property(
@@ -57,4 +57,7 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class AuthorResourceCollection extends AbstractResourceCollection {}
+class AuthorsResourceCollection extends AbstractResourceCollection
+{
+    public $collects = AuthorResource::class;
+}

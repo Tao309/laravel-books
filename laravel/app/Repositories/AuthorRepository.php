@@ -5,12 +5,17 @@ namespace App\Repositories;
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Author;
+use App\QueryFilters\AuthorQueryFilter;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class AuthorRepository implements RepositoryInterface
 {
+    public function __construct(
+        private readonly AuthorQueryFilter $queryFilter,
+    ) {}
+
     public function create(DtoInterface $dto): Author
     {
         return Author::create($dto->getEntityData());
@@ -23,12 +28,18 @@ class AuthorRepository implements RepositoryInterface
 
     public function getAll(GetCollectionQueryInterface $query): Collection
     {
-        return Author::all();
+        return $this->queryFilter->apply(
+            Author::query(),
+            $query->toArray()
+        )->get();
     }
 
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
-        return Author::paginate();
+        return $this->queryFilter->apply(
+            Author::query(),
+            $query->toArray()
+        )->paginate();
     }
 
     public function update(int $id, DtoInterface $dto): Author

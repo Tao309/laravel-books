@@ -52,4 +52,26 @@ readonly class AuthorService implements ServiceInterface
     {
         return $this->bus->dispatch(new DestroyAuthorCommand($id));
     }
+
+    public function splitAuthorFullName(string $authorFullName): array
+    {
+        $authorFullName = trim($authorFullName);
+
+        if (str_contains($authorFullName, ',')) {
+            return [$authorFullName, null];
+        }
+
+        $authorSplit = explode(' ', $authorFullName);
+
+        if (\count($authorSplit) > 1) {
+            $firstNameSplit = \array_slice($authorSplit, 0, -1);
+
+            return [
+                trim(implode(' ', $firstNameSplit)),
+                trim(end($authorSplit)),
+            ];
+        }
+
+        return [$authorFullName, null];
+    }
 }

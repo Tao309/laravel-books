@@ -18,11 +18,15 @@ class ApiResponse
         $response = $next($request);
 
         if ($response instanceof JsonResponse) {
-            $data = $response->getData(true);
+            $responseData = $response->getData(true);
 
-            if (is_array($data)) {
-                if (! isset($data[self::DATA])) {
-                    $data[self::DATA] = $data;
+            if (is_array($responseData)) {
+                $data = [];
+
+                if (! isset($responseData[self::DATA])) {
+                    $data[self::DATA] = $responseData;
+                } else {
+                    $data = $responseData;
                 }
 
                 $data[self::SUCCESS] = true;

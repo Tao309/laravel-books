@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\SearchValueRequest;
-use App\Http\Resources\SourceProducts\SourceProductsDataResourceCollection;
-use App\Services\SearchSourceProductsService;
+use App\Http\Resources\Authors\AuthorsDataResourceCollection;
+use App\Services\SearchAuthorsService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
-class SearchSourceProductsController extends ApiController
+class SearchAuthorsController extends ApiController
 {
     public function __construct(
-        private readonly SearchSourceProductsService $searchService,
+        private readonly SearchAuthorsService $searchService,
     ) {}
 
     #[OA\Post(
-        path: '/api/source_products/search/{value}',
-        description: 'Search SourceProducts by value',
-        summary: 'Search SourceProducts by value',
-        tags: ['SourceProducts'],
+        path: '/api/authors/search/{value}',
+        description: 'Search Authors by value',
+        summary: 'Search Authors by value',
+        tags: ['Authors'],
         parameters: [
             new OA\Parameter(
                 parameter: 'value',
@@ -29,16 +28,16 @@ class SearchSourceProductsController extends ApiController
                 required: true,
                 schema: new OA\Schema(
                     type: 'string',
-                    example: 'Игрушка',
+                    example: 'Лев',
                 )
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Search SourceProducts by value',
+                description: 'Search Authors by value',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/SourceProductsDataResourceCollection'
+                    ref: '#/components/schemas/AuthorsDataResourceCollection'
                 )
             ),
         ]
@@ -47,7 +46,7 @@ class SearchSourceProductsController extends ApiController
         SearchValueRequest $request
     ): JsonResponse {
         return $this->toJson(
-            SourceProductsDataResourceCollection::make(
+            AuthorsDataResourceCollection::make(
                 $this->searchService->searchByValue($request->validated(SearchValueRequest::FIELD_VALUE))
             )
         );

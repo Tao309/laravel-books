@@ -1,27 +1,12 @@
 <?php
 
-namespace App\Filters;
+namespace App\QueryFilters;
 
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 
-class BookFilter implements FilterInterface
+class BookQueryFilter extends AbstractQueryFilter
 {
-    public const string SEARCH = 'search';
-
-    public const string LIMIT = 'limit';
-
-    public function apply(Builder $query, array $filters): Builder
-    {
-        return $query
-            ->when($filters[self::SEARCH] ?? null, function ($query, $value) {
-                $this->applySearchFilter($query, $value);
-            })
-            ->when($filters[self::LIMIT] ?? null, function ($query, $value) {
-                $query->limit($value);
-            });
-    }
-
     public function applySearchFilter(Builder $query, $value): Builder
     {
         $toRemove = [
@@ -75,6 +60,8 @@ class BookFilter implements FilterInterface
 
             $query->orWhereRaw("LOWER({$titleField}) LIKE ?", "%{$splitTitlesJoin}%");
         }
+
+        $query->limit(7);
 
         return $query;
     }

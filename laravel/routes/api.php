@@ -14,19 +14,20 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductUserDataController;
 use App\Http\Controllers\Api\PublishingBrandController;
 use App\Http\Controllers\Api\PublishingHouseController;
+use App\Http\Controllers\Api\SearchAuthorsController;
 use App\Http\Controllers\Api\SearchBooksController;
+use App\Http\Controllers\Api\SearchSourceProductsController;
 use App\Http\Controllers\Api\ShopController;
 use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Controllers\Api\SourceProductTypeController;
 use App\Http\Controllers\Api\SourceProductUserDataController;
 use App\Http\Controllers\Api\UnlinkFromProductController;
-use App\Http\Controllers\SearchSourceProductsController;
 use App\Http\Middleware\ApiResponse;
 use App\Http\Middleware\UserSecurity;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware([UserSecurity::class, ApiResponse::class])->group(function () {
-    Route::get('/config', ConfigController::class)->middleware(ApiResponse::class);
+    Route::get('/config', ConfigController::class);
 
     Route::apiResource('/cities', CityController::class)->except(['create', 'edit', 'show']);
     Route::apiResource('/shops', ShopController::class)->only(['index', 'show']);
@@ -38,6 +39,7 @@ Route::middleware([UserSecurity::class, ApiResponse::class])->group(function () 
     Route::apiResource('/books_series', BookSeriesController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/publishing_brands', PublishingBrandController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/publishing_houses', PublishingHouseController::class)->except(['create', 'edit', 'destroy']);
+    Route::get('/authors/search/{value}', SearchAuthorsController::class);
     Route::apiResource('/authors', AuthorController::class)->except(['create', 'edit']);
     Route::apiResource('/books', BookController::class)->except(['create', 'edit']);
     Route::get('/book_user_data/{book_id}', [BookUserDataController::class, 'show']);

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\Authors\AuthorDataResource;
-use App\Http\Resources\Authors\AuthorResourceCollection;
+use App\Http\Resources\Authors\AuthorsResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,7 +32,7 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  */
 #[UseResource(AuthorDataResource::class)]
-#[UseResourceCollection(AuthorResourceCollection::class)]
+#[UseResourceCollection(AuthorsResourceCollection::class)]
 class Author extends Model
 {
     public const string TABLE_NAME = 'authors';
