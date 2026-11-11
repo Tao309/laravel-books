@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\QueryCollectionRequestInterface;
+use App\Http\Requests\IndexRequestInterface;
 use App\Http\Requests\RequestInterface;
 use App\Http\Resources\PaginateResource;
 use App\Services\ServiceInterface;
@@ -22,14 +22,14 @@ abstract class ApiController extends Controller
 
     protected string $resourceClass;
 
-    protected function indexAction(QueryCollectionRequestInterface $request): JsonResponse
+    protected function indexAction(IndexRequestInterface $request): JsonResponse
     {
         return $this->toJson(
             $this->getService()->getList($request->toDTO())->toResourceCollection()
         );
     }
 
-    protected function indexActionPaginate(QueryCollectionRequestInterface $request): JsonResponse
+    protected function indexActionPaginate(IndexRequestInterface $request): JsonResponse
     {
         if ($request->toDTO()->hasFilters()) {
             return $this->indexAction($request);

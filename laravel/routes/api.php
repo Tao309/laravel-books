@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArchiveProductController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BindingTypeController;
 use App\Http\Controllers\Api\BookController;
@@ -49,6 +50,7 @@ Route::middleware([UserSecurity::class, ApiResponse::class])->group(function () 
     // > products
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
     Route::get('/product_user_data/{product_id}', [ProductUserDataController::class, 'show']);
+    Route::post('/products/archive', ArchiveProductController::class);
 
     Route::post('/products/link_book/{product_id}/{book_id}', LinkBookController::class);
     Route::post('/products/link_source_product/{product_id}/{source_product_id}', LinkSourceProductController::class);

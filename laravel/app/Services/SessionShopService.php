@@ -4,16 +4,24 @@ namespace App\Services;
 
 use App\Enums\ShopType;
 use App\Models\Shop;
+use Illuminate\Support\Facades\App;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class SessionShopService
 {
     public function __construct(
-        private ?Shop $shop
+        private ?Shop $shop = null
     ) {}
 
-    public function getShop(): ?Shop
+    public static function getShopId(): int
     {
-        return $this->shop;
+        $instance = App::make(SessionShopService::class);
+
+        if (! $instance->shop || ! $instance->shop->id) {
+            throw new AccessDeniedHttpException('Shop for session is not set');
+        }
+
+        return $instance->shop->id;
     }
 
     public function setShop(Shop $shop): static
@@ -25,6 +33,6 @@ class SessionShopService
 
     public function isWildberriesShopType(): bool
     {
-        return $this->getShop()->type === ShopType::Wildberries->value;
+        return $this->shop->type === ShopType::Wildberries->value;
     }
 }

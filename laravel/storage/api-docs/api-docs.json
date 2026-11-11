@@ -6,6 +6,38 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/products/archive": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Archive to Product",
+                "description": "Archive Product",
+                "operationId": "67acacc3a68e98b9a60939efe71fd5d6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ArchiveProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Archive Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/authors": {
             "get": {
                 "tags": [
@@ -14,6 +46,17 @@
                 "summary": "Get list of authors",
                 "description": "Get list of authors",
                 "operationId": "b1de4facd6962392c6fde61f8a7b097a",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -184,6 +227,17 @@
                 "summary": "Get list of binding types",
                 "description": "Get list of binding types",
                 "operationId": "fd06c9b8bf02a14c9c16d60510bfe730",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -501,6 +555,17 @@
                 "summary": "Get list of Book Series",
                 "description": "Get list of Book Series",
                 "operationId": "88d03acf1fea2e34de0012a4f350f8b7",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -667,6 +732,17 @@
                 "summary": "Get list of cities",
                 "description": "Get list of cities",
                 "operationId": "185d0aefb5fd6e9d4e5f1263e2734df4",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -896,6 +972,17 @@
                 "summary": "Get list of PaperTypes",
                 "description": "Get list of PaperTypes",
                 "operationId": "95aa8e7c44fdf7b35459cebb3357ca5b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -1066,6 +1153,17 @@
                 "summary": "Get list of Products",
                 "description": "Get list of Products",
                 "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -1271,6 +1369,17 @@
                 "summary": "Get list of Publishing Brands",
                 "description": "Get list of Publishing Brands",
                 "operationId": "392c654a67106cf15e0dd80568bc2669",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -1402,6 +1511,17 @@
                 "summary": "Get list of Publishing Houses",
                 "description": "Get list of Publishing Houses",
                 "operationId": "c6d6bdfa6a5eb4a1b4d5d4bbbbb14d9c",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -1533,6 +1653,17 @@
                 "summary": "Get list of shops",
                 "description": "Get list of shops",
                 "operationId": "27017e83e03c95e6a4fb951511513cda",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -1591,6 +1722,17 @@
                 "summary": "Get list of SourceProducts",
                 "description": "Get list of SourceProducts",
                 "operationId": "2e6b4ce717c4d6333eee8143ec411b16",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -1761,6 +1903,17 @@
                 "summary": "Get list of SourceProductTypes",
                 "description": "Get list of SourceProductTypes",
                 "operationId": "561218f89fa26b9a9b7e504dd8e50d7f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
                 "requestBody": {},
                 "responses": {
                     "200": {
@@ -2347,6 +2500,19 @@
                     "description": {
                         "type": "string",
                         "example": "Бумага средней плотности, светло-серая, слегка шероховатая"
+                    }
+                },
+                "type": "object"
+            },
+            "ArchiveProductRequest": {
+                "properties": {
+                    "shop_product_id": {
+                        "type": "string",
+                        "example": "3315320967"
+                    },
+                    "is_archive": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -3730,6 +3896,10 @@
     },
     "tags": [
         {
+            "name": "Products",
+            "description": "Products"
+        },
+        {
             "name": "Authors",
             "description": "Authors"
         },
@@ -3752,10 +3922,6 @@
         {
             "name": "Cities",
             "description": "Cities"
-        },
-        {
-            "name": "Products",
-            "description": "Products"
         },
         {
             "name": "PaperTypes",

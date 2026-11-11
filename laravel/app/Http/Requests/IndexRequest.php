@@ -7,7 +7,7 @@ use App\DTOs\CollectionQueryDtoInterface;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class QueryQueryCollectionRequest extends FormRequest implements QueryCollectionRequestInterface
+class IndexRequest extends FormRequest implements IndexRequestInterface
 {
     public const string FIELD_SEARCH = 'search';
 

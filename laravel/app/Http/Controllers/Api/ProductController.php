@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
-use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Http\Resources\Products\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -41,7 +41,7 @@ class ProductController extends ApiController
             ),
         ]
     )]
-    public function index(QueryQueryCollectionRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexActionPaginate($request);
     }

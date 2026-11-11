@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\DTOs\CollectionQueryDtoInterface;
 
-interface QueryCollectionRequestInterface
+interface IndexRequestInterface
 {
     public function messages(): array;
 

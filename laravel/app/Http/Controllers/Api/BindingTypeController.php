@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\BindingTypes\StoreBindingTypeRequest;
 use App\Http\Requests\BindingTypes\UpdateBindingTypeRequest;
-use App\Http\Requests\QueryQueryCollectionRequest;
+use App\Http\Requests\IndexRequest;
 use App\Services\BindingTypeService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -38,7 +38,7 @@ class BindingTypeController extends ApiController
             ),
         ]
     )]
-    public function index(QueryQueryCollectionRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexAction($request);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Authors\StoreAuthorRequest;
 use App\Http\Requests\Authors\UpdateAuthorRequest;
-use App\Http\Requests\QueryQueryCollectionRequest;
+use App\Http\Requests\IndexRequest;
 use App\Http\Resources\Authors\AuthorResource;
 use App\Services\AuthorService;
 use Illuminate\Http\JsonResponse;
@@ -41,7 +41,7 @@ class AuthorController extends ApiController
             ),
         ]
     )]
-    public function index(QueryQueryCollectionRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexActionPaginate($request);
     }

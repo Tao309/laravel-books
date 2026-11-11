@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\PaperTypes\StorePaperTypeRequest;
 use App\Http\Requests\PaperTypes\UpdatePaperTypeRequest;
-use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Services\PaperTypeService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -38,7 +38,7 @@ class PaperTypeController extends ApiController
             ),
         ]
     )]
-    public function index(QueryQueryCollectionRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexAction($request);
     }

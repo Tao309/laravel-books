@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Books\StoreBookRequest;
 use App\Http\Requests\Books\UpdateBookRequest;
-use App\Http\Requests\QueryQueryCollectionRequest;
+use App\Http\Requests\IndexRequest;
 use App\Http\Resources\Books\BookResource;
 use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
@@ -40,7 +40,7 @@ class BookController extends ApiController
             ),
         ]
     )]
-    public function index(QueryQueryCollectionRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexActionPaginate($request);
     }

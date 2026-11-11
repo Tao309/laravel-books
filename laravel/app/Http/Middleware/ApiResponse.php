@@ -13,6 +13,8 @@ class ApiResponse
 
     public const string SUCCESS = 'success';
 
+    public const string MESSAGE = 'message';
+
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
@@ -29,13 +31,20 @@ class ApiResponse
 
                 $data = [];
 
+                $message = $responseData[self::MESSAGE] ?? null;
+                unset($responseData[self::MESSAGE]);
+
                 if (! isset($responseData[self::DATA])) {
                     $data[self::DATA] = $responseData;
                 } else {
                     $data = $responseData;
                 }
 
-                $data[self::SUCCESS] = true;
+                if (! isset($data[self::SUCCESS])) {
+                    $data[self::SUCCESS] = true;
+                }
+
+                $data[self::MESSAGE] = $message;
 
                 $response->setData($data);
             }

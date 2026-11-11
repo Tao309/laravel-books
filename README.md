@@ -12,6 +12,8 @@ Laravel Books repository
 
 Swagger документация по api доступна по адресу **/api/documentation/**
 
+[API Docs Json](laravel/storage/api-docs/api-docs.json)
+
 --------
 ### CLI commands
 

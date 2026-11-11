@@ -19,7 +19,12 @@ abstract class AbstractQueryFilter implements QueryFilterInterface
                 $query->limit($value);
             })
             ->when($dto->getIds(), function ($query, $value) {
-                $query->whereIn('id', $value);
+                $this->applyIdsFilter($query, $value);
             });
+    }
+
+    protected function applyIdsFilter(Builder $query, $value): Builder
+    {
+        return $query->whereIn($query->getModel()->getKey(), $value);
     }
 }

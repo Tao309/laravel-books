@@ -11,7 +11,9 @@ use App\Models\Product;
 use App\Models\ProductUserData;
 use App\Models\SourceProduct;
 use App\Repositories\Interfaces\RepositoryInterface;
+use App\Services\SessionShopService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -78,7 +80,16 @@ class ProductRepository implements RepositoryInterface
 
     public function get(int $id): Product
     {
-        return Product::findOrFail($id);
+        $product = Product::where([
+            Product::PARAM_ID => $id,
+            Product::PARAM_SHOP => SessionShopService::getShopId(),
+        ])->first();
+
+        if (! $product) {
+            throw new ModelNotFoundException("Product by id = {$id} not found");
+        }
+
+        return $product;
     }
 
     public function getAll(GetCollectionQueryInterface $query): Collection
@@ -152,6 +163,14 @@ class ProductRepository implements RepositoryInterface
         $entity = Product::findOrFail($id);
 
         return $entity->delete();
+    }
+
+    public function findByShopProductId(string|int $shopProductId): ?Product
+    {
+        return Product::where([
+            Product::PARAM_SHOP_PRODUCT_ID => $shopProductId,
+            Product::PARAM_SHOP_ID => SessionShopService::getShopId(),
+        ])->first();
     }
 
     private function setSourceToModel(Product $entity, array $data): void

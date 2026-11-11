@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\QueryQueryCollectionRequest;
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\SourceProductTypes\StoreSourceProductTypeRequest;
 use App\Http\Requests\SourceProductTypes\UpdateSourceProductTypeRequest;
 use App\Services\SourceProductTypeService;
@@ -38,7 +38,7 @@ class SourceProductTypeController extends ApiController
             ),
         ]
     )]
-    public function index(QueryQueryCollectionRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexAction($request);
     }

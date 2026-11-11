@@ -21,8 +21,8 @@ class ShopsCacheProvider extends CommonCacheProvider
         $validShopId = null;
 
         foreach ($this->get() as $shopData) {
-            if ($shopType && $shopData['type'] === $shopType) {
-                $validShopId = $shopData['id'];
+            if ($shopType && $shopData[Shop::PARAM_TYPE] === $shopType) {
+                $validShopId = $shopData[Shop::PARAM_ID];
                 break;
             }
         }
@@ -39,7 +39,7 @@ class ShopsCacheProvider extends CommonCacheProvider
         $validShopData = null;
 
         foreach ($this->get() as $shopData) {
-            if ($shopType && $shopData['type'] === $shopType) {
+            if ($shopType && $shopData[Shop::PARAM_TYPE] === $shopType) {
                 $validShopData = $shopData;
                 break;
             }
@@ -50,11 +50,10 @@ class ShopsCacheProvider extends CommonCacheProvider
         }
 
         return new Shop([
-            Shop::PARAM_ID => $validShopData['id'],
             Shop::PARAM_DOMAIN => $validShopData['domain'],
             Shop::PARAM_TYPE => $validShopData['type'],
             Shop::PARAM_URL => $validShopData['url'],
-        ]);
+        ])->setAttribute(Shop::PARAM_ID, $validShopData['id']);
     }
 
     protected function generateData(): array

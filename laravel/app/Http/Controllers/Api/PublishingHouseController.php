@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\PublishingHouses\StorePublishingHouseRequest;
 use App\Http\Requests\PublishingHouses\UpdatePublishingHouseRequest;
-use App\Http\Requests\QueryQueryCollectionRequest;
 use App\Services\PublishingHouseService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -38,7 +38,7 @@ class PublishingHouseController extends ApiController
             ),
         ]
     )]
-    public function index(QueryQueryCollectionRequest $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexAction($request);
     }

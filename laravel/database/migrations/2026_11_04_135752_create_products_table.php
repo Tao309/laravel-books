@@ -33,7 +33,7 @@ return new class extends Migration
             $table->foreign(Product::PARAM_USER_CREATED_ID)->references(User::PARAM_ID)->on(User::TABLE_NAME)
                 ->onDelete('cascade');
 
-            $table->unique([Product::PARAM_SHOP_ID, Product::PARAM_SHOP_PRODUCT_ID]);
+            $table->unique([Product::PARAM_SHOP_PRODUCT_ID, Product::PARAM_SHOP_ID]);
         });
     }
 
