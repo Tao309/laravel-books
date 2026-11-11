@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTOs\ProductStockDTO;
+use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,10 +14,7 @@ class ProductStockRepository
         foreach ($stocksData as $stockData) {
             $dto = ProductStockDTO::fromArray($stockData);
 
-            ProductStock::create(array_merge([
-                ProductStock::PARAM_PRODUCT_ID => $relEntityId,
-                ProductStock::PARAM_USER_ID => Auth::id(),
-            ], $dto->getEntityData()));
+            $this->create($relEntityId, $dto->getEntityData());
         }
 
         return true;
@@ -27,10 +25,19 @@ class ProductStockRepository
         foreach ($stocksData as $stockData) {
             $dto = ProductStockDTO::fromArray($stockData);
 
-            ProductStock::where([
+            $model = ProductStock::where([
                 ProductStock::PARAM_PRODUCT_ID => $relEntityId,
                 ProductStock::PARAM_USER_ID => Auth::id(),
-            ])->update($dto->getEntityData());
+                ProductPrice::PARAM_DATE => $dto->getEntityData()[ProductStock::PARAM_DATE],
+            ]);
+
+            if ($model->exists()) {
+                $model->update($dto->getEntityData());
+
+                continue;
+            }
+
+            $this->create($relEntityId, $dto->getEntityData());
         }
 
         return true;
@@ -42,5 +49,13 @@ class ProductStockRepository
             ProductStock::PARAM_PRODUCT_ID => $relEntityId,
             ProductStock::PARAM_USER_ID => Auth::id(),
         ])->delete();
+    }
+
+    private function create(int $relEntityId, array $data): ProductStock
+    {
+        return ProductStock::create(array_merge([
+            ProductStock::PARAM_PRODUCT_ID => $relEntityId,
+            ProductStock::PARAM_USER_ID => Auth::id(),
+        ], $data));
     }
 }

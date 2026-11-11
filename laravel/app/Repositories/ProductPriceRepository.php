@@ -13,10 +13,7 @@ class ProductPriceRepository
         foreach ($pricesData as $priceData) {
             $dto = ProductPriceDTO::fromArray($priceData);
 
-            ProductPrice::create(array_merge([
-                ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
-                ProductPrice::PARAM_USER_ID => Auth::id(),
-            ], $dto->getEntityData()));
+            $this->create($relEntityId, $dto->getEntityData());
         }
 
         return true;
@@ -27,10 +24,19 @@ class ProductPriceRepository
         foreach ($pricesData as $priceData) {
             $dto = ProductPriceDTO::fromArray($priceData);
 
-            ProductPrice::where([
+            $model = ProductPrice::where([
                 ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
                 ProductPrice::PARAM_USER_ID => Auth::id(),
-            ])->update($dto->getEntityData());
+                ProductPrice::PARAM_DATE => $dto->getEntityData()[ProductPrice::PARAM_DATE],
+            ]);
+
+            if ($model->exists()) {
+                $model->update($dto->getEntityData());
+
+                continue;
+            }
+
+            $this->create($relEntityId, $dto->getEntityData());
         }
 
         return true;
@@ -42,5 +48,13 @@ class ProductPriceRepository
             ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
             ProductPrice::PARAM_USER_ID => Auth::id(),
         ])->delete();
+    }
+
+    public function create(int $relEntityId, array $data): ProductPrice
+    {
+        return ProductPrice::create(array_merge([
+            ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
+            ProductPrice::PARAM_USER_ID => Auth::id(),
+        ], $data));
     }
 }

@@ -964,6 +964,38 @@
                 }
             }
         },
+        "/api/products/mass-save": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Mass Save Products",
+                "description": "Mass Save Products",
+                "operationId": "5e3ec32f77d2957988277d9d20f7bf29",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MassSaveProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mass Save Products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDataResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/paper_types": {
             "get": {
                 "tags": [
@@ -2517,7 +2549,53 @@
                 },
                 "type": "object"
             },
+            "MassSaveProductRequest": {
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/StoreProductRequest"
+                                },
+                                {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "shop_product_id": {
+                                            "type": "integer",
+                                            "example": "2624422"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            ],
+                            "anyOf": [
+                                {
+                                    "required": [
+                                        "id"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "shop_product_id"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "StoreProductRequest": {
+                "required": [
+                    "shop_product_id",
+                    "shop",
+                    "title"
+                ],
                 "properties": {
                     "shop_product_id": {
                         "type": "string",
@@ -2571,6 +2649,11 @@
                 "type": "object"
             },
             "UpdateProductRequest": {
+                "required": [
+                    "shop_product_id",
+                    "shop",
+                    "title"
+                ],
                 "properties": {
                     "shop_product_id": {
                         "type": "string",

@@ -35,9 +35,11 @@ readonly class ApiResponse
             return;
         }
 
-        $data = [
-            ResponseContext::DATA => $data,
-        ];
+        if ($this->context->isSuccess()) {
+            $data = [
+                ResponseContext::DATA => $data,
+            ];
+        }
 
         if ($this->context->getMessage()) {
             $data[ResponseContext::MESSAGE] = $this->context->getMessage();

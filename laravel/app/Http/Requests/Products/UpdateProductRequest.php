@@ -12,6 +12,11 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: 'UpdateProductRequest',
+    required: [
+        Product::PARAM_SHOP_PRODUCT_ID,
+        Product::PARAM_SHOP,
+        Product::PARAM_TITLE,
+    ],
     properties: [
         new OA\Property(
             property: Product::PARAM_SHOP_PRODUCT_ID,
@@ -68,7 +73,7 @@ class UpdateProductRequest extends AbstractProductRequest
      */
     public function rules(): array
     {
-        $id = $this->route('product');
+        $id = $this->productId ?? $this->route('product');
 
         return [
             Product::PARAM_SHOP_PRODUCT_ID => [
@@ -76,16 +81,20 @@ class UpdateProductRequest extends AbstractProductRequest
                 'string',
                 'min:5',
                 'max:30',
-                Rule::unique(Product::TABLE_NAME)->where(function ($query) {
-                    return $query->where(Product::PARAM_SHOP_ID, $this->shop['id']);
-                })->ignore($id),
+                ...$this->addRuleIfProductIdEmpty(
+                    Rule::unique(Product::TABLE_NAME)->where(function ($query) {
+                        return $query->where(Product::PARAM_SHOP_ID, $this->shop['id']);
+                    })->ignore($id)
+                ),
             ],
             Product::PARAM_SHOP => [
                 'required',
-                Rule::exists(Shop::TABLE_NAME, Shop::PARAM_ID),
-                Rule::unique(Product::TABLE_NAME, Product::PARAM_SHOP_ID)->where(function ($query) {
-                    return $query->where(Product::PARAM_SHOP_PRODUCT_ID, $this->shop_product_id);
-                })->ignore($id),
+                ...$this->addRuleIfProductIdEmpty(Rule::exists(Shop::TABLE_NAME, Shop::PARAM_ID)),
+                ...$this->addRuleIfProductIdEmpty(
+                    Rule::unique(Product::TABLE_NAME, Product::PARAM_SHOP_ID)->where(function ($query) {
+                        return $query->where(Product::PARAM_SHOP_PRODUCT_ID, $this->shop_product_id);
+                    })->ignore($id)
+                ),
             ],
             ...$this->getCommonRules(),
         ];

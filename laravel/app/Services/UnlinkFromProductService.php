@@ -12,7 +12,7 @@ readonly class UnlinkFromProductService
         private ProductRepository $productRepo,
     ) {}
 
-    public function unlink(int $productId): Product
+    public function process(int $productId): Product
     {
         $product = $this->productRepo->get($productId);
 

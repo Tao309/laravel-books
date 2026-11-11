@@ -44,7 +44,7 @@ class ArchiveProductController extends ApiController
     )]
     public function __invoke(ArchiveProductRequest $request): JsonResponse
     {
-        $result = $this->archiveProductService->archive($request->validated());
+        $result = $this->archiveProductService->process($request->validated());
 
         if (! $result) {
             $this->context->setMessage('Product is not exists');

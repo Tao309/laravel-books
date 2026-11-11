@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\ConfigController;
 use App\Http\Controllers\Api\LinkBookController;
 use App\Http\Controllers\Api\LinkSourceProductController;
+use App\Http\Controllers\Api\MassSaveProductController;
 use App\Http\Controllers\Api\PaperTypeController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductUserDataController;
@@ -49,10 +50,11 @@ Route::middleware([UserSecurity::class])->group(function () {
     // > products
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
     Route::get('/product_user_data/{product_id}', [ProductUserDataController::class, 'show']);
-    Route::post('/products/archive', ArchiveProductController::class);
 
+    Route::post('/products/archive', ArchiveProductController::class);
     Route::post('/products/link_book/{product_id}/{book_id}', LinkBookController::class);
     Route::post('/products/link_source_product/{product_id}/{source_product_id}', LinkSourceProductController::class);
     Route::post('/products/unlink/{product_id}', UnlinkFromProductController::class);
+    Route::post('/products/mass-save', MassSaveProductController::class);
     // < products
 });

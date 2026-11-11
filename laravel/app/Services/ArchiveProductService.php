@@ -14,7 +14,7 @@ readonly class ArchiveProductService
         private ProductRepository $productRepo,
     ) {}
 
-    public function archive(array $data): Product|bool
+    public function process(array $data): Product|bool
     {
         $product = $this->productRepo->findByShopProductId($data[Product::PARAM_SHOP_PRODUCT_ID]);
 

@@ -52,7 +52,7 @@ class UnlinkFromProductController extends ApiController
     ): JsonResponse {
         return $this->toJson([
             'success' => true,
-            'data' => $this->unlinkFromProductService->unlink($productId),
+            'data' => $this->unlinkFromProductService->process($productId),
         ]);
 
     }

@@ -17,6 +17,20 @@ use Illuminate\Validation\Rule;
 
 abstract class AbstractProductRequest extends FormRequest implements RequestInterface
 {
+    protected ?int $productId = null {
+        get {
+            return $this->productId;
+        }
+        set {
+            $this->productId = $value;
+        }
+    }
+
+    protected function addRuleIfProductIdEmpty($rule): array
+    {
+        return ! $this->productId ? [$rule] : [];
+    }
+
     public function authorize(): bool
     {
         return true;
@@ -62,7 +76,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             Product::PARAM_CITY => [
                 'sometimes',
                 'nullable',
-                Rule::exists(City::TABLE_NAME, City::PARAM_ID),
+                ...$this->addRuleIfProductIdEmpty(Rule::exists(City::TABLE_NAME, City::PARAM_ID)),
             ],
             Product::PARAM_CITY.'.'.City::PARAM_ID => [
                 'sometimes',
@@ -73,7 +87,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             Product::PARAM_BOOK => [
                 'sometimes',
                 'nullable',
-                Rule::exists(Book::TABLE_NAME, Book::PARAM_ID),
+                ...$this->addRuleIfProductIdEmpty(Rule::exists(Book::TABLE_NAME, Book::PARAM_ID)),
             ],
             Product::PARAM_BOOK.'.'.Book::PARAM_ID => [
                 'sometimes',
@@ -84,7 +98,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             Product::PARAM_SOURCE_PRODUCT => [
                 'sometimes',
                 'nullable',
-                Rule::exists(SourceProduct::TABLE_NAME, SourceProduct::PARAM_ID),
+                ...$this->addRuleIfProductIdEmpty(Rule::exists(SourceProduct::TABLE_NAME, SourceProduct::PARAM_ID)),
             ],
             Product::PARAM_SOURCE_PRODUCT.'.'.SourceProduct::PARAM_ID => [
                 'sometimes',
@@ -105,22 +119,27 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM => [
                 'sometimes',
+                'nullable',
                 'date_format:Y.m.d',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_AVAILABLE_DATE_FROM => [
                 'sometimes',
+                'nullable',
                 'date_format:Y.m.d',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_LISTEN_PRICE_VALUE => [
                 'sometimes',
+                'nullable',
                 'integer',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_LISTEN_QTY_VALUE => [
                 'sometimes',
+                'nullable',
                 'integer',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_RELEASE_DATE => [
                 'sometimes',
+                'nullable',
                 'date_format:Y.m.d',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_IS_ARCHIVE => [
@@ -129,6 +148,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_COMMENT => [
                 'sometimes',
+                'nullable',
                 'string',
                 'max:300',
             ],
@@ -162,6 +182,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_LOG => [
                 'sometimes',
+                'nullable',
                 'string',
             ],
             // < stocks
