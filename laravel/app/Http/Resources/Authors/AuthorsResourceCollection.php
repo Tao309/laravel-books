@@ -36,7 +36,7 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: 'current_page', type: 'integer', example: 1),
         new OA\Property(
-            property: 'data',
+            property: 'items',
             type: 'array',
             items: new OA\Items(
                 ref: '#/components/schemas/AuthorResource',

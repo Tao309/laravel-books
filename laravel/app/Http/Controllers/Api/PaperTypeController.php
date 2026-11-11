@@ -5,18 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\PaperTypes\StorePaperTypeRequest;
 use App\Http\Requests\PaperTypes\UpdatePaperTypeRequest;
-use App\Services\PaperTypeService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class PaperTypeController extends ApiController
 {
-    public function __construct(
-        PaperTypeService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/paper_types',
         description: 'Get list of PaperTypes',

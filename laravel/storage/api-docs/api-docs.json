@@ -2788,7 +2788,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "data": {
+                    "items": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/AuthorResource"
@@ -3114,7 +3114,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "data": {
+                    "items": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/BookResource"
@@ -3460,7 +3460,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "data": {
+                    "items": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/ProductResource"

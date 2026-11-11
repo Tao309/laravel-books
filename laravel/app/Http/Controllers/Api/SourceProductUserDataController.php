@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Response\ResponseContext;
 use App\Repositories\SourceProductUserDataRepository;
+use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
@@ -10,7 +12,12 @@ class SourceProductUserDataController extends ApiController
 {
     public function __construct(
         private readonly SourceProductUserDataRepository $repository,
-    ) {}
+        ResponseContext $context,
+        ?string $resourceClass,
+        ?ServiceInterface $service = null,
+    ) {
+        parent::__construct($context, $service, $resourceClass);
+    }
 
     #[OA\Get(
         path: '/api/source_product_user_data/{source_product_id}',

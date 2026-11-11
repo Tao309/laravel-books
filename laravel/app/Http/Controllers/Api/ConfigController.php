@@ -8,6 +8,8 @@ use App\CacheProviders\PublishingBrandsCacheProvider;
 use App\CacheProviders\PublishingHousesCacheProvider;
 use App\CacheProviders\SourceProductsTypesCacheProvider;
 use App\Enums\ShopType;
+use App\Http\Response\ResponseContext;
+use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Config;
 
@@ -19,7 +21,12 @@ class ConfigController extends ApiController
         private readonly PublishingHousesCacheProvider $bookPublishingHouseCacheProvider,
         private readonly BindingTypesCacheProvider $bindingTypesCacheProvider,
         private readonly SourceProductsTypesCacheProvider $sourceProductTypesCacheProvider,
-    ) {}
+        ResponseContext $context,
+        ?string $resourceClass,
+        ?ServiceInterface $service = null,
+    ) {
+        parent::__construct($context, $service, $resourceClass);
+    }
 
     public function __invoke(): JsonResponse
     {

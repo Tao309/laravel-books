@@ -5,18 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\BindingTypes\StoreBindingTypeRequest;
 use App\Http\Requests\BindingTypes\UpdateBindingTypeRequest;
 use App\Http\Requests\IndexRequest;
-use App\Services\BindingTypeService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class BindingTypeController extends ApiController
 {
-    public function __construct(
-        BindingTypeService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/binding_types',
         description: 'Get list of binding types',

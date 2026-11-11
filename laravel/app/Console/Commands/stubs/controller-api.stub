@@ -12,14 +12,6 @@ use OpenApi\Attributes as OA;
 
 class {{ class }} extends ApiController
 {
-    protected string $resourceClass = {{ ModelNameSingular }}Resource::class;
-
-    public function __construct(
-        {{ ModelNameSingular }}Service $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/{{ ModelNameSnakePlural }}',
         description: 'Get list of {{ ModelNamePlural }}',

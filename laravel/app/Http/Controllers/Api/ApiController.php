@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\IndexRequestInterface;
 use App\Http\Requests\RequestInterface;
 use App\Http\Resources\PaginateResource;
+use App\Http\Response\ResponseContext;
 use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -18,9 +19,11 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 )]
 abstract class ApiController extends Controller
 {
-    protected ServiceInterface $service;
-
-    protected string $resourceClass;
+    public function __construct(
+        protected readonly ResponseContext $context,
+        protected ?ServiceInterface $service,
+        protected ?string $resourceClass
+    ) {}
 
     protected function indexAction(IndexRequestInterface $request): JsonResponse
     {
@@ -50,7 +53,7 @@ abstract class ApiController extends Controller
 
     protected function showAction(int $id): JsonResponse
     {
-        return $this->toJson($this->service->getById($id)->toResource());
+        return $this->toJson($this->getService()->getById($id)->toResource());
     }
 
     protected function updateAction(RequestInterface $request, int $id): JsonResponse
@@ -69,6 +72,8 @@ abstract class ApiController extends Controller
 
     protected function toJson($data, int $status = ResponseAlias::HTTP_OK): JsonResponse
     {
+        $this->context->setSuccess(true);
+
         return response()->json($data, $status);
     }
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Middleware\ApiResponse;
 use App\Http\Requests\Products\ArchiveProductRequest;
+use App\Http\Response\ResponseContext;
 use App\Services\ArchiveProductService;
+use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
@@ -12,7 +13,12 @@ class ArchiveProductController extends ApiController
 {
     public function __construct(
         private readonly ArchiveProductService $archiveProductService,
-    ) {}
+        ResponseContext $context,
+        ?string $resourceClass,
+        ?ServiceInterface $service = null,
+    ) {
+        parent::__construct($context, $service, $resourceClass);
+    }
 
     #[OA\Post(
         path: '/api/products/archive',
@@ -40,10 +46,13 @@ class ArchiveProductController extends ApiController
     {
         $result = $this->archiveProductService->archive($request->validated());
 
+        if (! $result) {
+            $this->context->setMessage('Product is not exists');
+        }
+
         return $this->toJson(
             $result
                 ?: [
-                    ApiResponse::MESSAGE => 'Product is not exists',
                     ArchiveProductService::REQUIRE_TO_CREATE => true,
                 ]
         );

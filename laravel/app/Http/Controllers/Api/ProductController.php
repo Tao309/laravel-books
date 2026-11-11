@@ -5,21 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
-use App\Http\Resources\Products\ProductResource;
-use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class ProductController extends ApiController
 {
-    protected string $resourceClass = ProductResource::class;
-
-    public function __construct(
-        ProductService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/products',
         description: 'Get list of Products',

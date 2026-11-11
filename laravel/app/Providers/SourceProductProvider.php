@@ -7,8 +7,12 @@ use App\CQRS\Handlers\SourceProducts\DestroySourceProductHandler;
 use App\CQRS\Handlers\SourceProducts\GetByIdSourceProductHandler;
 use App\CQRS\Handlers\SourceProducts\GetSourceProductsHandler;
 use App\CQRS\Handlers\SourceProducts\UpdateSourceProductHandler;
+use App\Http\Controllers\Api\SourceProductController;
+use App\Http\Resources\SourceProducts\SourceProductResource;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\SourceProductRepository;
+use App\Services\ServiceInterface;
+use App\Services\SourceProductService;
 use Illuminate\Support\ServiceProvider;
 
 class SourceProductProvider extends ServiceProvider
@@ -34,6 +38,12 @@ class SourceProductProvider extends ServiceProvider
         $this->app->when(DestroySourceProductHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(SourceProductRepository::class);
+
+        $this->app->when(SourceProductController::class)
+            ->needs(ServiceInterface::class)
+            ->give(SourceProductService::class)
+            ->needs('$resourceClass')
+            ->give(SourceProductResource::class);
     }
 
     public function boot(): void {}

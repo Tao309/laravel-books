@@ -5,18 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Cities\StoreCityRequest;
 use App\Http\Requests\Cities\UpdateCityRequest;
 use App\Http\Requests\IndexRequest;
-use App\Services\CityService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class CityController extends ApiController
 {
-    public function __construct(
-        CityService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/cities',
         description: 'Get list of cities',

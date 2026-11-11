@@ -5,21 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Authors\StoreAuthorRequest;
 use App\Http\Requests\Authors\UpdateAuthorRequest;
 use App\Http\Requests\IndexRequest;
-use App\Http\Resources\Authors\AuthorResource;
-use App\Services\AuthorService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class AuthorController extends ApiController
 {
-    protected string $resourceClass = AuthorResource::class;
-
-    public function __construct(
-        AuthorService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/authors',
         description: 'Get list of authors',

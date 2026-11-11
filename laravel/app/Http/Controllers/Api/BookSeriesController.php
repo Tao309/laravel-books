@@ -5,18 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\BookSeries\StoreBookSeriesRequest;
 use App\Http\Requests\BookSeries\UpdateBookSeriesRequest;
 use App\Http\Requests\IndexRequest;
-use App\Services\BookSeriesService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class BookSeriesController extends ApiController
 {
-    public function __construct(
-        BookSeriesService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/books_series',
         description: 'Get list of Book Series',

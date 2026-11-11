@@ -6,8 +6,11 @@ use App\CQRS\Handlers\PublishingBrands\CreatePublishingBrandHandler;
 use App\CQRS\Handlers\PublishingBrands\GetPublishingBrandByIdHandler;
 use App\CQRS\Handlers\PublishingBrands\GetPublishingBrandsHandler;
 use App\CQRS\Handlers\PublishingBrands\UpdatePublishingBrandHandler;
+use App\Http\Controllers\Api\PublishingBrandController;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\PublishingBrandRepository;
+use App\Services\PublishingBrandService;
+use App\Services\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class PublishingBrandProvider extends ServiceProvider
@@ -29,6 +32,10 @@ class PublishingBrandProvider extends ServiceProvider
         $this->app->when(UpdatePublishingBrandHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(PublishingBrandRepository::class);
+
+        $this->app->when(PublishingBrandController::class)
+            ->needs(ServiceInterface::class)
+            ->give(PublishingBrandService::class);
     }
 
     public function boot(): void {}

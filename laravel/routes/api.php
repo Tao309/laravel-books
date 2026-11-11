@@ -20,11 +20,10 @@ use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Controllers\Api\SourceProductTypeController;
 use App\Http\Controllers\Api\SourceProductUserDataController;
 use App\Http\Controllers\Api\UnlinkFromProductController;
-use App\Http\Middleware\ApiResponse;
 use App\Http\Middleware\UserSecurity;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware([UserSecurity::class, ApiResponse::class])->group(function () {
+Route::middleware([UserSecurity::class])->group(function () {
     Route::get('/config', ConfigController::class);
 
     Route::apiResource('/cities', CityController::class)->except(['create', 'edit', 'show']);

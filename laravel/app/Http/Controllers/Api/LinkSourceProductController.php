@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Response\ResponseContext;
 use App\Services\LinkToProductService;
+use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
@@ -10,7 +12,12 @@ class LinkSourceProductController extends ApiController
 {
     public function __construct(
         private readonly LinkToProductService $linkProductService,
-    ) {}
+        ResponseContext $context,
+        ?string $resourceClass,
+        ?ServiceInterface $service = null,
+    ) {
+        parent::__construct($context, $service, $resourceClass);
+    }
 
     #[OA\Post(
         path: '/api/products/link_source_product/{product_id}/{source_product_id}',

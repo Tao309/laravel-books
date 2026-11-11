@@ -7,8 +7,12 @@ use App\CQRS\Handlers\Authors\DestroyAuthorHandler;
 use App\CQRS\Handlers\Authors\GetAuthorByIdHandler;
 use App\CQRS\Handlers\Authors\GetAuthorsHandler;
 use App\CQRS\Handlers\Authors\UpdateAuthorHandler;
+use App\Http\Controllers\Api\AuthorController;
+use App\Http\Resources\Authors\AuthorResource;
 use App\Repositories\AuthorRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
+use App\Services\AuthorService;
+use App\Services\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AuthorProvider extends ServiceProvider
@@ -34,6 +38,12 @@ class AuthorProvider extends ServiceProvider
         $this->app->when(DestroyAuthorHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(AuthorRepository::class);
+
+        $this->app->when(AuthorController::class)
+            ->needs(ServiceInterface::class)
+            ->give(AuthorService::class)
+            ->needs('$resourceClass')
+            ->give(AuthorResource::class);
     }
 
     public function boot(): void {}

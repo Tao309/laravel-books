@@ -5,21 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Books\StoreBookRequest;
 use App\Http\Requests\Books\UpdateBookRequest;
 use App\Http\Requests\IndexRequest;
-use App\Http\Resources\Books\BookResource;
-use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class BookController extends ApiController
 {
-    protected string $resourceClass = BookResource::class;
-
-    public function __construct(
-        BookService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/books',
         description: 'Get list of books',

@@ -6,8 +6,11 @@ use App\CQRS\Handlers\BindingTypes\CreateBindingTypeHandler;
 use App\CQRS\Handlers\BindingTypes\DestroyBindingTypeHandler;
 use App\CQRS\Handlers\BindingTypes\GetBindingTypesHandler;
 use App\CQRS\Handlers\BindingTypes\UpdateBindingTypeHandler;
+use App\Http\Controllers\Api\BindingTypeController;
 use App\Repositories\BindingTypeRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
+use App\Services\BindingTypeService;
+use App\Services\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class BindingTypeProvider extends ServiceProvider
@@ -29,6 +32,10 @@ class BindingTypeProvider extends ServiceProvider
         $this->app->when(DestroyBindingTypeHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(BindingTypeRepository::class);
+
+        $this->app->when(BindingTypeController::class)
+            ->needs(ServiceInterface::class)
+            ->give(BindingTypeService::class);
     }
 
     public function boot(): void {}

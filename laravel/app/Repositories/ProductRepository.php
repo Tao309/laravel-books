@@ -82,7 +82,7 @@ class ProductRepository implements RepositoryInterface
     {
         $product = Product::where([
             Product::PARAM_ID => $id,
-            Product::PARAM_SHOP => SessionShopService::getShopId(),
+            Product::PARAM_SHOP_ID => SessionShopService::getShopId(),
         ])->first();
 
         if (! $product) {

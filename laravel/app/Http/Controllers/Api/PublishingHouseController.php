@@ -5,18 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\PublishingHouses\StorePublishingHouseRequest;
 use App\Http\Requests\PublishingHouses\UpdatePublishingHouseRequest;
-use App\Services\PublishingHouseService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class PublishingHouseController extends ApiController
 {
-    public function __construct(
-        PublishingHouseService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/publishing_houses',
         description: 'Get list of Publishing Houses',

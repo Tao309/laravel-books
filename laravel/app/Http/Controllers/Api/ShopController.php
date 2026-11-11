@@ -3,18 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\IndexRequest;
-use App\Services\ShopService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class ShopController extends ApiController
 {
-    public function __construct(
-        ShopService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/shops',
         description: 'Get list of shops',

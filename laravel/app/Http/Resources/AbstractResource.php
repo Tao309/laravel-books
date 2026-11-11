@@ -16,15 +16,6 @@ abstract class AbstractResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = $this->getArrayData($request);
-
-        if ($this->toWrap) {
-            return [
-                'data' => $data,
-                'success' => true,
-            ];
-        }
-
-        return $data;
+        return $this->getArrayData($request);
     }
 }

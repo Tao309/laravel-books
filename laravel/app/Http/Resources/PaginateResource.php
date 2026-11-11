@@ -22,7 +22,7 @@ class PaginateResource extends JsonResource
     {
         return [
             'current_page' => $this->currentPage(),
-            'data' => $this->collect($this->items()),
+            'items' => $this->collect($this->items()),
             'first_page_url' => $this->url(1),
             'from' => $this->firstItem(),
             'last_page' => $this->lastPage(),

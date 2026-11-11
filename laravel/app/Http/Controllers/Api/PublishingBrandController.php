@@ -5,18 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\PublishingBrands\StorePublishingBrandRequest;
 use App\Http\Requests\PublishingBrands\UpdatePublishingBrandRequest;
-use App\Services\PublishingBrandService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class PublishingBrandController extends ApiController
 {
-    public function __construct(
-        PublishingBrandService $service,
-    ) {
-        $this->service = $service;
-    }
-
     #[OA\Get(
         path: '/api/publishing_brands',
         description: 'Get list of Publishing Brands',

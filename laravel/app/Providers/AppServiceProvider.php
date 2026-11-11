@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Auth\CustomUserProvider;
 use App\CacheProviders\CacheProviderInterface;
 use App\CQRS\CommandBus;
+use App\Http\Response\ResponseContext;
 use App\Services\SessionShopService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CacheProviderInterface::class);
 
         $this->app->singleton(SessionShopService::class);
+
+        $this->app->scoped(ResponseContext::class);
     }
 
     public function boot(): void
