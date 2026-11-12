@@ -6,16 +6,7 @@ use App\Models\Author;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
-use OpenApi\Attributes as OA;
 
-#[OA\Schema(
-    schema: 'StoreAuthorRequest',
-    properties: [
-        new OA\Property(property: 'first_name', type: 'string', example: 'Фёдор'),
-        new OA\Property(property: 'last_name', type: 'string', example: 'Достоевский'),
-    ],
-    type: 'object'
-)]
 class StoreAuthorRequest extends AbstractAuthorRequest
 {
     /**

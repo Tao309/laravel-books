@@ -5,15 +5,7 @@ namespace App\Http\Requests\PublishingHouses;
 use App\Models\PublishingHouse;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
-use OpenApi\Attributes as OA;
 
-#[OA\Schema(
-    schema: 'UpdatePublishingHouseRequest',
-    properties: [
-        new OA\Property(property: 'name', type: 'string', example: 'АСТ'),
-    ],
-    type: 'object'
-)]
 class UpdatePublishingHouseRequest extends AbstractPublishingHouseRequest
 {
     /**

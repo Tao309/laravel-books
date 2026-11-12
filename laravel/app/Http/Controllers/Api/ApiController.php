@@ -9,14 +9,8 @@ use App\Http\Resources\PaginateResource;
 use App\Http\Response\ResponseContext;
 use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
-use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-#[OA\Info(
-    version: '1.0',
-    description: 'Laravel Books API',
-    title: 'Books API'
-)]
 abstract class ApiController extends Controller
 {
     public function __construct(

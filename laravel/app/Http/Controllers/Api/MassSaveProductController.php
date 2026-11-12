@@ -7,7 +7,6 @@ use App\Http\Response\ResponseContext;
 use App\Services\MassSaveProductsService;
 use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
-use OpenApi\Attributes as OA;
 
 class MassSaveProductController extends ApiController
 {
@@ -20,28 +19,6 @@ class MassSaveProductController extends ApiController
         parent::__construct($context, $service, $resourceClass);
     }
 
-    #[OA\Post(
-        path: '/api/products/mass-save',
-        description: 'Mass Save Products',
-        summary: 'Mass Save Products',
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                ref: '#/components/schemas/MassSaveProductRequest'
-            )
-        ),
-
-        tags: ['Products'],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Mass Save Products',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/ProductDataResource'
-                )
-            ),
-        ]
-    )]
     public function __invoke(MassSaveProductRequest $request): JsonResponse
     {
         $result = $this->massSaveService->process($request->validated()['items']);

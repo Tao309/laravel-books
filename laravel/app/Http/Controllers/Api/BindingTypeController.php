@@ -6,135 +6,24 @@ use App\Http\Requests\BindingTypes\StoreBindingTypeRequest;
 use App\Http\Requests\BindingTypes\UpdateBindingTypeRequest;
 use App\Http\Requests\IndexRequest;
 use Illuminate\Http\JsonResponse;
-use OpenApi\Attributes as OA;
 
 class BindingTypeController extends ApiController
 {
-    #[OA\Get(
-        path: '/api/binding_types',
-        description: 'Get list of binding types',
-        summary: 'Get list of binding types',
-        requestBody: new OA\RequestBody,
-        tags: ['BindingTypes'],
-        parameters: [
-            new OA\Parameter(ref: '#/components/parameters/Ids'),
-            new OA\Parameter(ref: '#/components/parameters/Limit'),
-            new OA\Parameter(ref: '#/components/parameters/Search'),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Get list of binding types',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/BindingTypesDataResourceCollection'
-                )
-            ),
-        ]
-    )]
     public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexAction($request);
     }
 
-    #[OA\Post(
-        path: '/api/binding_types',
-        description: 'Create BindingType',
-        summary: 'Create BindingType',
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                ref: '#/components/schemas/StoreBindingTypeRequest'
-            )
-        ),
-        tags: ['BindingTypes'],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Get created BindingType',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/BindingTypeDataResource'
-                )
-            ),
-        ]
-    )]
     public function store(StoreBindingTypeRequest $request): JsonResponse
     {
         return $this->storeAction($request);
     }
 
-    #[OA\Patch(
-        path: '/api/binding_types/{id}',
-        description: 'Update BindingType by id',
-        summary: 'Update BindingType by id',
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                ref: '#/components/schemas/UpdateBindingTypeRequest'
-            )
-        ),
-        tags: ['BindingTypes'],
-        parameters: [
-            new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
-                description: 'Id of the BindingType',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(
-                    type: 'integer',
-                    example: 4,
-                )
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Update BindingType by id',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/BindingTypeDataResource'
-                )
-            ),
-        ]
-    )]
     public function update(UpdateBindingTypeRequest $request, int $id): JsonResponse
     {
         return $this->updateAction($request, $id);
     }
 
-    #[OA\Delete(
-        path: '/api/binding_types/{id}',
-        description: 'Delete BindingType by id',
-        summary: 'Delete BindingType by id',
-        tags: ['BindingTypes'],
-        parameters: [
-            new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
-                description: 'Delete BindingType by id',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(
-                    type: 'integer',
-                    example: 4,
-                )
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Delete BindingType by id',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'success',
-                            type: 'boolean',
-                            example: true,
-                        ),
-                    ]
-                )
-            ),
-        ]
-    )]
     public function destroy(int $id): JsonResponse
     {
         return $this->destroyAction($id);

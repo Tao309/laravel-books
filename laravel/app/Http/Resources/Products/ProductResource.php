@@ -16,75 +16,7 @@ use App\Models\SourceProduct;
 use App\Services\DateService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use OpenApi\Attributes as OA;
 
-#[OA\Schema(
-    schema: 'ProductResource',
-    properties: [
-        new OA\Property(property: Product::PARAM_ID, type: 'integer', example: 1),
-        new OA\Property(property: Product::PARAM_SHOP_PRODUCT_ID, type: 'integer', example: '3315320967'),
-        new OA\Property(property: Product::PARAM_SHOP_PRODUCT_CODE, type: 'integer', example: '1903147507'),
-        new OA\Property(property: Product::PARAM_TITLE, type: 'integer', example: 'Хтонь за околицей. Книга первая'),
-        new OA\Property(property: Model::UPDATED_AT, type: 'string', example: '2026-09-10 10:10:19'),
-        new OA\Property(property: Model::CREATED_AT, type: 'string', example: '2026-09-10 10:10:19'),
-        // > relations
-        new OA\Property(
-            property: Product::PARAM_SHOP,
-            ref: '#/components/schemas/ShopResource',
-            type: 'object'
-        ),
-        new OA\Property(
-            property: Product::PARAM_CITY,
-            ref: '#/components/schemas/CityResource',
-            type: 'object'
-        ),
-        new OA\Property(
-            property: Product::PARAM_BOOK,
-            ref: '#/components/schemas/BookResource',
-            type: 'object'
-        ),
-        new OA\Property(
-            property: Product::PARAM_SOURCE_PRODUCT,
-            ref: '#/components/schemas/SourceProductResource',
-            type: 'object'
-        ),
-        new OA\Property(
-            property: Product::PARAM_PRODUCT_USER_DATA,
-            ref: '#/components/schemas/ProductUserDataResource',
-            type: 'object'
-        ),
-        new OA\Property(
-            property: Product::PARAM_PRICES,
-            type: 'array',
-            items: new OA\Items(
-                ref: '#/components/schemas/ProductPriceResource',
-                type: 'object'
-            )
-        ),
-        new OA\Property(
-            property: Product::PARAM_STOCKS,
-            type: 'array',
-            items: new OA\Items(
-                ref: '#/components/schemas/ProductStockResource',
-                type: 'object'
-            )
-        ),
-        // < relations
-    ],
-    type: 'object'
-)]
-#[OA\Schema(
-    schema: 'ProductDataResource',
-    properties: [
-        new OA\Property(
-            property: 'data',
-            ref: '#/components/schemas/ProductResource',
-            type: 'object'
-        ),
-        new OA\Property(property: 'success', type: 'bool', example: true),
-    ],
-    type: 'object'
-)]
 class ProductResource extends AbstractResource
 {
     public function getArrayData(Request $request): array

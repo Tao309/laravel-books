@@ -7,37 +7,81 @@ use OpenApi\Attributes as OA;
 #[OA\Components(
     parameters: [
         new OA\Parameter(
-            parameter: 'Limit',
-            name: 'limit',
-            description: 'Number of records to return',
-            in: 'query',
-            required: false,
+            description: 'Model id',
+            in: 'path',
+            name: 'id',
+            parameter: 'Id',
+            required: true,
             schema: new OA\Schema(
+                example: 4,
                 type: 'integer',
-                default: 20,
-                maximum: 100,
-                minimum: 1
             )
         ),
         new OA\Parameter(
-            parameter: 'Search',
-            name: 'search',
+            description: 'Number of records to return',
+            in: 'query',
+            name: 'limit',
+            parameter: 'Limit',
+            required: false,
+            schema: new OA\Schema(
+                default: 20,
+                maximum: 100,
+                minimum: 1,
+                type: 'integer'
+            )
+        ),
+        new OA\Parameter(
             description: 'Search query',
             in: 'query',
+            name: 'search',
+            parameter: 'Search',
             required: false,
             schema: new OA\Schema(
                 type: 'string'
             )
         ),
         new OA\Parameter(
-            parameter: 'Ids',
-            name: 'ids',
             description: 'List of model IDs separated by commas',
             in: 'query',
+            name: 'ids',
+            parameter: 'Ids',
             required: false,
             schema: new OA\Schema(
-                type: 'string',
-                example: '1,2,3'
+                example: '1,2,3',
+                type: 'string'
+            )
+        ),
+        new OA\Parameter(
+            description: 'Id of the Book',
+            in: 'path',
+            name: 'book_id',
+            parameter: 'BookId',
+            required: true,
+            schema: new OA\Schema(
+                example: 2,
+                type: 'integer',
+            )
+        ),
+        new OA\Parameter(
+            description: 'Id of the Product',
+            in: 'path',
+            name: 'product_id',
+            parameter: 'ProductId',
+            required: true,
+            schema: new OA\Schema(
+                example: 2,
+                type: 'integer',
+            )
+        ),
+        new OA\Parameter(
+            description: 'Id of the SourceProduct',
+            in: 'path',
+            name: 'source_product_id',
+            parameter: 'SourceProductId',
+            required: true,
+            schema: new OA\Schema(
+                example: 2,
+                type: 'integer',
             )
         ),
     ]

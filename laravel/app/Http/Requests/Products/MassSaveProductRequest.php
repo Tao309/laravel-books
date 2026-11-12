@@ -4,32 +4,7 @@ namespace App\Http\Requests\Products;
 
 use App\Models\Product;
 use Illuminate\Contracts\Validation\ValidationRule;
-use OpenApi\Attributes as OA;
 
-#[OA\Schema(
-    schema: 'MassSaveProductRequest',
-    properties: [
-        new OA\Property(
-            property: 'items',
-            type: 'array',
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: Product::PARAM_ID, type: 'integer', example: 1),
-                    new OA\Property(property: Product::PARAM_SHOP_PRODUCT_ID, type: 'integer', example: '2624422'),
-                ],
-                type: 'object',
-                allOf: [
-                    new OA\Schema(ref: '#/components/schemas/StoreProductRequest'),
-                ],
-                anyOf: [
-                    new OA\Schema(required: [Product::PARAM_ID]),
-                    new OA\Schema(required: [Product::PARAM_SHOP_PRODUCT_ID]),
-                ]
-            )
-        ),
-    ],
-    type: 'object',
-)]
 class MassSaveProductRequest extends AbstractProductRequest
 {
     /**

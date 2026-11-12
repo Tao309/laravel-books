@@ -6,168 +6,29 @@ use App\Http\Requests\Authors\StoreAuthorRequest;
 use App\Http\Requests\Authors\UpdateAuthorRequest;
 use App\Http\Requests\IndexRequest;
 use Illuminate\Http\JsonResponse;
-use OpenApi\Attributes as OA;
 
 class AuthorController extends ApiController
 {
-    #[OA\Get(
-        path: '/api/authors',
-        description: 'Get list of authors',
-        summary: 'Get list of authors',
-        requestBody: new OA\RequestBody,
-        tags: ['Authors'],
-        parameters: [
-            new OA\Parameter(ref: '#/components/parameters/Ids'),
-            new OA\Parameter(ref: '#/components/parameters/Limit'),
-            new OA\Parameter(ref: '#/components/parameters/Search'),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Get list of authors',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorsPaginateResourceCollection'
-                )
-            ),
-        ]
-    )]
     public function index(IndexRequest $request): JsonResponse
     {
         return $this->indexActionPaginate($request);
     }
 
-    #[OA\Post(
-        path: '/api/authors',
-        description: 'Create Author',
-        summary: 'Create Author',
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                ref: '#/components/schemas/StoreAuthorRequest'
-            )
-        ),
-        tags: ['Authors'],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Get created Author',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorDataResource'
-                )
-            ),
-        ]
-    )]
     public function store(StoreAuthorRequest $request): JsonResponse
     {
         return $this->storeAction($request);
     }
 
-    #[OA\Get(
-        path: '/api/authors/{id}',
-        description: 'Get author by id',
-        summary: 'Get author by id',
-        tags: ['Authors'],
-        parameters: [
-            new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
-                description: 'Id of the author',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(
-                    type: 'integer',
-                    example: 4,
-                )
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Get author by id',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorDataResource'
-                )
-            ),
-        ]
-    )]
     public function show(int $id): JsonResponse
     {
         return $this->showAction($id);
     }
 
-    #[OA\Patch(
-        path: '/api/authors/{id}',
-        description: 'Update author by id',
-        summary: 'Update author by id',
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                ref: '#/components/schemas/UpdateAuthorRequest'
-            )
-        ),
-        tags: ['Authors'],
-        parameters: [
-            new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
-                description: 'Id of the author',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(
-                    type: 'integer',
-                    example: 4,
-                )
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Update author by id',
-                content: new OA\JsonContent(
-                    ref: '#/components/schemas/AuthorDataResource'
-                )
-            ),
-        ]
-    )]
     public function update(UpdateAuthorRequest $request, int $id): JsonResponse
     {
         return $this->updateAction($request, $id);
     }
 
-    #[OA\Delete(
-        path: '/api/authors/{id}',
-        description: 'Delete author by id',
-        summary: 'Delete author by id',
-        tags: ['Authors'],
-        parameters: [
-            new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
-                description: 'Delete author by id',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(
-                    type: 'integer',
-                    example: 4,
-                )
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Delete author by id',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'success',
-                            type: 'boolean',
-                            example: true,
-                        ),
-                    ]
-                )
-            ),
-        ]
-    )]
     public function destroy(int $id): JsonResponse
     {
         return $this->destroyAction($id);

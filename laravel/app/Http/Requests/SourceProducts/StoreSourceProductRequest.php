@@ -7,23 +7,7 @@ use App\Models\SourceProductType;
 use App\Models\SourceProductUserData;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
-use OpenApi\Attributes as OA;
 
-#[OA\Schema(
-    schema: 'StoreSourceProductRequest',
-    properties: [
-        new OA\Property(property: 'title', type: 'string', example: 'Рубашка льняная с рукавами на лето'),
-
-        new OA\Property(
-            property: SourceProduct::PARAM_SOURCE_PRODUCT_TYPE,
-            properties: [
-                new OA\Property(property: 'id', type: 'integer', example: '1'),
-            ],
-            type: 'object'
-        ),
-    ],
-    type: 'object'
-)]
 class StoreSourceProductRequest extends AbstractSourceProductRequest
 {
     /**
