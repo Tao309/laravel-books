@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Http\Resources\Users\UserResource;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,6 +44,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  *
  * @mixin \Eloquent
  */
+#[UseResource(UserResource::class)]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */

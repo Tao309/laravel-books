@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\CityController;
 use App\Repositories\CityRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Services\CityService;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class CityProvider extends ServiceProvider

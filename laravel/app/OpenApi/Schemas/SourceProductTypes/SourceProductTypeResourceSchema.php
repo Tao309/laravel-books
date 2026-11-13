@@ -17,8 +17,12 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'SourceProductTypeDataResource',
-    description: 'Single SourceProductType response',
+    ref: Refs::RESPONSE,
+    schema: 'SourceProductTypeDestroyResponse',
+    description: 'Delete SourceProductType response',
+)]
+#[OA\Schema(
+    schema: 'SourceProductTypeShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(
@@ -26,25 +30,6 @@ use OpenApi\Attributes as OA;
                 new OA\Property(
                     property: 'data',
                     ref: Refs::SOURCE_PRODUCT_TYPE_RESOURCE,
-                    type: 'object'
-                ),
-            ],
-            type: 'object'
-        ),
-    ]
-)]
-#[OA\Schema(
-    schema: 'SourceProductTypeDestroyResponse',
-    description: 'Delete SourceProductType response',
-    allOf: [
-        new OA\Schema(ref: Refs::RESPONSE),
-        new OA\Schema(
-            properties: [
-                new OA\Property(
-                    property: 'data',
-                    properties: [
-                        new OA\Property(property: 'success', type: 'bool', example: true),
-                    ],
                     type: 'object'
                 ),
             ],

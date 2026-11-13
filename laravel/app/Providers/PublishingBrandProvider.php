@@ -9,8 +9,8 @@ use App\CQRS\Handlers\PublishingBrands\UpdatePublishingBrandHandler;
 use App\Http\Controllers\Api\PublishingBrandController;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\PublishingBrandRepository;
+use App\Services\Interfaces\ServiceInterface;
 use App\Services\PublishingBrandService;
-use App\Services\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class PublishingBrandProvider extends ServiceProvider

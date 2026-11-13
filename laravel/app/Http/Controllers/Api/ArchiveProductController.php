@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Products\ArchiveProductRequest;
 use App\Http\Response\ResponseContext;
 use App\Services\ArchiveProductService;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class ArchiveProductController extends ApiController

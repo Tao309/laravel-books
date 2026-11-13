@@ -4,16 +4,16 @@ namespace App\Providers;
 
 use App\CQRS\Handlers\Books\CreateBookHandler;
 use App\CQRS\Handlers\Books\DestroyBookHandler;
+use App\CQRS\Handlers\Books\GetBookByIdHandler;
 use App\CQRS\Handlers\Books\GetBooksHandler;
 use App\CQRS\Handlers\Books\GetBooksPaginateHandler;
-use App\CQRS\Handlers\Books\GetByIdBookHandler;
 use App\CQRS\Handlers\Books\UpdateBookHandler;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Resources\Books\BookResource;
 use App\Repositories\BookRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Services\BookService;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class BookProvider extends ServiceProvider
@@ -32,7 +32,7 @@ class BookProvider extends ServiceProvider
             ->needs(RepositoryInterface::class)
             ->give(BookRepository::class);
 
-        $this->app->when(GetByIdBookHandler::class)
+        $this->app->when(GetBookByIdHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(BookRepository::class);
 

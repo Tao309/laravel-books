@@ -21,8 +21,12 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'PaperTypeDataResource',
-    description: 'Single PaperType response',
+    ref: Refs::RESPONSE,
+    schema: 'PaperTypeDestroyResponse',
+    description: 'Delete PaperType response',
+)]
+#[OA\Schema(
+    schema: 'PaperTypeShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(
@@ -30,25 +34,6 @@ use OpenApi\Attributes as OA;
                 new OA\Property(
                     property: 'data',
                     ref: Refs::PAPER_TYPE_RESOURCE,
-                    type: 'object'
-                ),
-            ],
-            type: 'object'
-        ),
-    ]
-)]
-#[OA\Schema(
-    schema: 'PaperTypeDestroyResponse',
-    description: 'Delete PaperType response',
-    allOf: [
-        new OA\Schema(ref: Refs::RESPONSE),
-        new OA\Schema(
-            properties: [
-                new OA\Property(
-                    property: 'data',
-                    properties: [
-                        new OA\Property(property: 'success', type: 'bool', example: true),
-                    ],
                     type: 'object'
                 ),
             ],

@@ -15,18 +15,16 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'PublishingBrandsDataResourceCollection',
+    schema: 'PublishingBrandsIndexResponse',
+    description: 'Collection of PublishingBrands',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(
             properties: [
                 new OA\Property(
                     property: 'data',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: Refs::PUBLISHING_BRAND_RESOURCE,
-                        type: 'object'
-                    )
+                    ref: Refs::PUBLISHING_BRANDS_RESOURCE_COLLECTION,
+                    type: 'object'
                 ),
             ],
             type: 'object'

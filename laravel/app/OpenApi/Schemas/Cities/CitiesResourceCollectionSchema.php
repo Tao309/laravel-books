@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'CitiesDataResourceCollection',
+    schema: 'CitiesIndexResponse',
     description: 'Collection of Cities',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
@@ -23,11 +23,8 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(
                     property: 'data',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: Refs::CITY_RESOURCE,
-                        type: 'object'
-                    )
+                    ref: Refs::PUBLISHING_BRANDS_RESOURCE_COLLECTION,
+                    type: 'object'
                 ),
             ],
             type: 'object'

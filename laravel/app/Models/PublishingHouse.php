@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\PublishingHouses\PublishingHouseDataResource;
-use App\Http\Resources\PublishingHouses\PublishingHousesDataResourceCollection;
+use App\Http\Resources\PublishingHouses\PublishingHouseResource;
+use App\Http\Resources\PublishingHouses\PublishingHousesResourceCollection;
 use App\Observers\PublishingHouseObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
@@ -27,8 +27,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(PublishingHouseDataResource::class)]
-#[UseResourceCollection(PublishingHousesDataResourceCollection::class)]
+#[UseResource(PublishingHouseResource::class)]
+#[UseResourceCollection(PublishingHousesResourceCollection::class)]
 #[ObservedBy([PublishingHouseObserver::class])]
 class PublishingHouse extends Model
 {

@@ -88,7 +88,6 @@ class MakeCQRSCommand extends GeneratorCommand
 
         $this->call('app:make:resource', [
             'name' => $upperName,
-            '--data' => true,
         ]);
 
         $this->call('app:make:resource', [
@@ -99,7 +98,6 @@ class MakeCQRSCommand extends GeneratorCommand
         $this->call('app:make:resource', [
             'name' => $upperName,
             '--collection' => true,
-            '--data' => true,
         ]);
 
         $this->call('make:provider', [

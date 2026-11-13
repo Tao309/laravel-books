@@ -4,16 +4,18 @@ namespace App\Services;
 
 use App\CQRS\Bus;
 use App\CQRS\Commands\PublishingHouses\CreatePublishingHouseCommand;
+use App\CQRS\Commands\PublishingHouses\DestroyPublishingHouseCommand;
 use App\CQRS\Commands\PublishingHouses\UpdatePublishingHouseCommand;
 use App\CQRS\Queries\PublishingHouses\GetPublishingHouseByIdQuery;
 use App\CQRS\Queries\PublishingHouses\GetPublishingHousesQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\PublishingHouse;
+use App\Services\Interfaces\GetListServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class PublishingHouseService implements ServiceInterface
+readonly class PublishingHouseService implements GetListServiceInterface, ServiceInterface
 {
     public function __construct(
         private Bus $bus,
@@ -43,8 +45,8 @@ readonly class PublishingHouseService implements ServiceInterface
         return $this->bus->handle($command);
     }
 
-    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
+    public function deleteById(int $id): bool
     {
-        return null;
+        return $this->bus->handle(new DestroyPublishingHouseCommand($id));
     }
 }

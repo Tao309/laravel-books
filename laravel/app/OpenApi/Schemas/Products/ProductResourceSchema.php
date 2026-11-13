@@ -63,8 +63,12 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'ProductDataResource',
-    description: 'Single Product response',
+    ref: Refs::RESPONSE,
+    schema: 'ProductDestroyResponse',
+    description: 'Delete Product response',
+)]
+#[OA\Schema(
+    schema: 'ProductShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(
@@ -72,25 +76,6 @@ use OpenApi\Attributes as OA;
                 new OA\Property(
                     property: 'data',
                     ref: Refs::PRODUCT_RESOURCE,
-                    type: 'object'
-                ),
-            ],
-            type: 'object'
-        ),
-    ]
-)]
-#[OA\Schema(
-    schema: 'ProductDestroyResponse',
-    description: 'Delete Product response',
-    allOf: [
-        new OA\Schema(ref: Refs::RESPONSE),
-        new OA\Schema(
-            properties: [
-                new OA\Property(
-                    property: 'data',
-                    properties: [
-                        new OA\Property(property: 'success', type: 'bool', example: true),
-                    ],
                     type: 'object'
                 ),
             ],

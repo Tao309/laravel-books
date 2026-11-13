@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\SourceProducts\SourceProductDataResource;
-use App\Http\Resources\SourceProducts\SourceProductsDataResourceCollection;
+use App\Http\Resources\SourceProducts\SourceProductResource;
+use App\Http\Resources\SourceProducts\SourceProductsResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
@@ -39,8 +39,8 @@ use Illuminate\Support\Facades\Auth;
  *
  * @mixin \Eloquent
  */
-#[UseResource(SourceProductDataResource::class)]
-#[UseResourceCollection(SourceProductsDataResourceCollection::class)]
+#[UseResource(SourceProductResource::class)]
+#[UseResourceCollection(SourceProductsResourceCollection::class)]
 class SourceProduct extends Model
 {
     public const string TABLE_NAME = 'source_products';

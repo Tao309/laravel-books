@@ -9,7 +9,7 @@ use App\CacheProviders\PublishingHousesCacheProvider;
 use App\CacheProviders\SourceProductsTypesCacheProvider;
 use App\Enums\ShopType;
 use App\Http\Response\ResponseContext;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Config;
 

@@ -23,7 +23,7 @@ final class PublishingBrands
                 response: 200,
                 description: 'Get list of Publishing Brands',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_BRANDS_DATA_RESOURCE_COLLECTION
+                    ref: Refs::PUBLISHING_BRANDS_INDEX_RESPONSE
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class PublishingBrands
                 response: 201,
                 description: 'Get created PublishingBrand',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_BRAND_DATA_RESOURCE
+                    ref: Refs::PUBLISHING_BRAND_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class PublishingBrands
                 response: 200,
                 description: 'Get PublishingBrand by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_BRAND_DATA_RESOURCE
+                    ref: Refs::PUBLISHING_BRAND_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class PublishingBrands
                 response: 200,
                 description: 'Update PublishingBrand by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_BRAND_DATA_RESOURCE
+                    ref: Refs::PUBLISHING_BRAND_SHOW_RESPONSE
                 )
             ),
         ]

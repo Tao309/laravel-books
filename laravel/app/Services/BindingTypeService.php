@@ -6,13 +6,14 @@ use App\CQRS\Bus;
 use App\CQRS\Commands\BindingTypes\CreateBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\DestroyBindingTypeCommand;
 use App\CQRS\Commands\BindingTypes\UpdateBindingTypeCommand;
+use App\CQRS\Queries\BindingTypes\GetBindingTypeByIdQuery;
 use App\CQRS\Queries\BindingTypes\GetBindingTypesQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\BindingType;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class BindingTypeService implements ServiceInterface
 {
@@ -44,13 +45,8 @@ readonly class BindingTypeService implements ServiceInterface
         return $this->bus->handle(new DestroyBindingTypeCommand($id));
     }
 
-    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
-    {
-        return null;
-    }
-
     public function getById(int $id): ?Model
     {
-        return null;
+        return $this->bus->handle(new GetBindingTypeByIdQuery($id));
     }
 }

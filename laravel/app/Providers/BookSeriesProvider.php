@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\BookSeriesController;
 use App\Repositories\BookSeriesRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Services\BookSeriesService;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class BookSeriesProvider extends ServiceProvider

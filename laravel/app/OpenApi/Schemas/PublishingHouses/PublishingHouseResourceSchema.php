@@ -16,8 +16,7 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'PublishingHouseDataResource',
-    description: 'Single PublishingHouse response',
+    schema: 'PublishingHouseShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\CQRS\Handlers\Products\CreateProductHandler;
 use App\CQRS\Handlers\Products\DestroyProductHandler;
-use App\CQRS\Handlers\Products\GetByIdProductHandler;
+use App\CQRS\Handlers\Products\GetProductByIdHandler;
 use App\CQRS\Handlers\Products\GetProductsHandler;
 use App\CQRS\Handlers\Products\GetProductsPaginateHandler;
 use App\CQRS\Handlers\Products\UpdateProductHandler;
@@ -12,8 +12,8 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Resources\Products\ProductResource;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\ProductRepository;
+use App\Services\Interfaces\ServiceInterface;
 use App\Services\ProductService;
-use App\Services\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ProductProvider extends ServiceProvider
@@ -32,7 +32,7 @@ class ProductProvider extends ServiceProvider
             ->needs(RepositoryInterface::class)
             ->give(ProductRepository::class);
 
-        $this->app->when(GetByIdProductHandler::class)
+        $this->app->when(GetProductByIdHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(ProductRepository::class);
 

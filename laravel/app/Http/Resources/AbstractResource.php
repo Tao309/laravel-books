@@ -7,8 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 abstract class AbstractResource extends JsonResource
 {
-    protected bool $toWrap = false;
-
     abstract public function getArrayData(Request $request): array;
 
     /**

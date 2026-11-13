@@ -2,6 +2,7 @@
 
 use App\Exceptions\ApiException;
 use App\Http\Middleware\ApiResponse;
+use App\Http\Response\ResponseContext;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -24,31 +25,31 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (ApiException $e) {
             return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
+                ResponseContext::SUCCESS => false,
+                ResponseContext::MESSAGE => $e->getMessage(),
                 'errors' => $e->errors,
             ], $e->getCode());
         });
 
         $exceptions->render(function (ModelNotFoundException $e) {
             return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
+                ResponseContext::SUCCESS => false,
+                ResponseContext::MESSAGE => $e->getMessage(),
             ]);
         });
 
         $exceptions->render(function (ValidationException $e) {
             return response()->json([
-                'success' => false,
-                'message' => 'Validation error',
+                ResponseContext::SUCCESS => false,
+                ResponseContext::MESSAGE => 'Validation error',
                 'errors' => $e->errors(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         });
 
         $exceptions->render(function (Throwable $e) {
             return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
+                ResponseContext::SUCCESS => false,
+                ResponseContext::MESSAGE => $e->getMessage(),
                 'previous' => $e->getPrevious(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         });

@@ -4,14 +4,14 @@ namespace App\Providers;
 
 use App\CQRS\Handlers\SourceProducts\CreateSourceProductHandler;
 use App\CQRS\Handlers\SourceProducts\DestroySourceProductHandler;
-use App\CQRS\Handlers\SourceProducts\GetByIdSourceProductHandler;
+use App\CQRS\Handlers\SourceProducts\GetSourceProductByIdSHandler;
 use App\CQRS\Handlers\SourceProducts\GetSourceProductsHandler;
 use App\CQRS\Handlers\SourceProducts\UpdateSourceProductHandler;
 use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Resources\SourceProducts\SourceProductResource;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\SourceProductRepository;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use App\Services\SourceProductService;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,7 +19,7 @@ class SourceProductProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->when(GetByIdSourceProductHandler::class)
+        $this->app->when(GetSourceProductByIdSHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(SourceProductRepository::class);
 

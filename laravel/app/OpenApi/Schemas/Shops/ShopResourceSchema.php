@@ -18,8 +18,7 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'ShopDataResource',
-    description: 'Single Shop response',
+    schema: 'ShopShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(

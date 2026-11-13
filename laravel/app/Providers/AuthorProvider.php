@@ -12,7 +12,7 @@ use App\Http\Resources\Authors\AuthorResource;
 use App\Repositories\AuthorRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Services\AuthorService;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AuthorProvider extends ServiceProvider

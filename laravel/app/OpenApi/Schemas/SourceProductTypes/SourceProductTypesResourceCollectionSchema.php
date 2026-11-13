@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'SourceProductTypesDataResourceCollection',
+    schema: 'SourceProductTypesIndexResponse',
     description: 'Collection of SourceProductTypes',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
@@ -23,11 +23,8 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(
                     property: 'data',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: Refs::SOURCE_PRODUCT_TYPE_RESOURCE,
-                        type: 'object'
-                    )
+                    ref: Refs::SOURCE_PRODUCT_TYPE_RESOURCE,
+                    type: 'object'
                 ),
             ],
             type: 'object'

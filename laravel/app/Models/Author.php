@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Authors\AuthorDataResource;
+use App\Http\Resources\Authors\AuthorResource;
 use App\Http\Resources\Authors\AuthorsResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
@@ -31,7 +31,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(AuthorDataResource::class)]
+#[UseResource(AuthorResource::class)]
 #[UseResourceCollection(AuthorsResourceCollection::class)]
 class Author extends Model
 {

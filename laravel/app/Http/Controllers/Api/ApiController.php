@@ -7,7 +7,7 @@ use App\Http\Requests\IndexRequestInterface;
 use App\Http\Requests\RequestInterface;
 use App\Http\Resources\PaginateResource;
 use App\Http\Response\ResponseContext;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -59,9 +59,7 @@ abstract class ApiController extends Controller
 
     protected function destroyAction(int $id): JsonResponse
     {
-        return $this->toJson([
-            'success' => $this->getService()->deleteById($id),
-        ]);
+        return $this->toJson($this->getService()->deleteById($id));
     }
 
     protected function toJson($data, int $status = ResponseAlias::HTTP_OK): JsonResponse

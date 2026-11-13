@@ -23,7 +23,7 @@ final class PaperTypes
                 response: 200,
                 description: 'Get list of PaperTypes',
                 content: new OA\JsonContent(
-                    ref: Refs::PAPER_TYPES_DATA_RESOURCE_COLLECTION
+                    ref: Refs::PAPER_TYPES_INDEX_RESPONSE
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class PaperTypes
                 response: 201,
                 description: 'Get created PaperType',
                 content: new OA\JsonContent(
-                    ref: Refs::PAPER_TYPE_DATA_RESOURCE
+                    ref: Refs::PAPER_TYPE_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class PaperTypes
                 response: 200,
                 description: 'Get PaperType by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PAPER_TYPE_DATA_RESOURCE
+                    ref: Refs::PAPER_TYPE_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class PaperTypes
                 response: 200,
                 description: 'Update PaperType by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PAPER_TYPE_DATA_RESOURCE
+                    ref: Refs::PAPER_TYPE_SHOW_RESPONSE
                 )
             ),
         ]

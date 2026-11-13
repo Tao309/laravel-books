@@ -17,8 +17,12 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'AuthorDataResource',
-    description: 'Single Author response',
+    ref: Refs::RESPONSE,
+    schema: 'AuthorDestroyResponse',
+    description: 'Delete Author response',
+)]
+#[OA\Schema(
+    schema: 'AuthorShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(
@@ -26,25 +30,6 @@ use OpenApi\Attributes as OA;
                 new OA\Property(
                     property: 'data',
                     ref: Refs::AUTHOR_RESOURCE,
-                    type: 'object'
-                ),
-            ],
-            type: 'object'
-        ),
-    ]
-)]
-#[OA\Schema(
-    schema: 'AuthorDestroyResponse',
-    description: 'Delete Author response',
-    allOf: [
-        new OA\Schema(ref: Refs::RESPONSE),
-        new OA\Schema(
-            properties: [
-                new OA\Property(
-                    property: 'data',
-                    properties: [
-                        new OA\Property(property: 'success', type: 'bool', example: true),
-                    ],
                     type: 'object'
                 ),
             ],

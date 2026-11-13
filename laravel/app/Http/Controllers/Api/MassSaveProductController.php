@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Products\MassSaveProductRequest;
 use App\Http\Response\ResponseContext;
+use App\Services\Interfaces\ServiceInterface;
 use App\Services\MassSaveProductsService;
-use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class MassSaveProductController extends ApiController

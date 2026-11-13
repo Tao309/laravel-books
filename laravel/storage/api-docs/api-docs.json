@@ -6,38 +6,6 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/products/archive": {
-            "post": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Archive to Product",
-                "description": "Archive Product",
-                "operationId": "67acacc3a68e98b9a60939efe71fd5d6",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ArchiveProductRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Archive Product",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/authors": {
             "get": {
                 "tags": [
@@ -45,7 +13,7 @@
                 ],
                 "summary": "Get list of authors",
                 "description": "Get list of authors",
-                "operationId": "b1de4facd6962392c6fde61f8a7b097a",
+                "operationId": "authors.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -57,7 +25,6 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of authors",
@@ -77,7 +44,7 @@
                 ],
                 "summary": "Create Author",
                 "description": "Create Author",
-                "operationId": "ff9d12ef46fc5034a0d4adf9d10b6de3",
+                "operationId": "authors.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -89,12 +56,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created Author",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorDataResource"
+                                    "$ref": "#/components/schemas/AuthorShowResponse"
                                 }
                             }
                         }
@@ -109,18 +76,10 @@
                 ],
                 "summary": "Get author by id",
                 "description": "Get author by id",
-                "operationId": "35c1b6d7002827ab95f68425b845db97",
+                "operationId": "authors.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the author",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -129,7 +88,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorDataResource"
+                                    "$ref": "#/components/schemas/AuthorShowResponse"
                                 }
                             }
                         }
@@ -142,18 +101,10 @@
                 ],
                 "summary": "Delete author by id",
                 "description": "Delete author by id",
-                "operationId": "c56695bdfa8aa06b4a00f609c64bdc40",
+                "operationId": "authors.destroy",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete author by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -162,13 +113,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/AuthorDestroyResponse"
                                 }
                             }
                         }
@@ -181,18 +126,10 @@
                 ],
                 "summary": "Update author by id",
                 "description": "Update author by id",
-                "operationId": "4fe4d85db208483b6b0171b3d0069ffe",
+                "operationId": "authors.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the author",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -211,7 +148,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorDataResource"
+                                    "$ref": "#/components/schemas/AuthorShowResponse"
                                 }
                             }
                         }
@@ -226,7 +163,7 @@
                 ],
                 "summary": "Get list of binding types",
                 "description": "Get list of binding types",
-                "operationId": "fd06c9b8bf02a14c9c16d60510bfe730",
+                "operationId": "binding_types.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -238,14 +175,13 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of binding types",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BindingTypesDataResourceCollection"
+                                    "$ref": "#/components/schemas/BindingTypesIndexResponse"
                                 }
                             }
                         }
@@ -258,7 +194,7 @@
                 ],
                 "summary": "Create BindingType",
                 "description": "Create BindingType",
-                "operationId": "6d95f22f8ada314b36644cf3641d5074",
+                "operationId": "binding_types.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -270,12 +206,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created BindingType",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BindingTypeDataResource"
+                                    "$ref": "#/components/schemas/BindingTypeShowResponse"
                                 }
                             }
                         }
@@ -290,18 +226,10 @@
                 ],
                 "summary": "Delete BindingType by id",
                 "description": "Delete BindingType by id",
-                "operationId": "40382e5ad07e43a7ecf86e2b82f2fb7f",
+                "operationId": "binding_types.destroy",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete BindingType by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -310,13 +238,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/BindingTypeDestroyResponse"
                                 }
                             }
                         }
@@ -329,18 +251,10 @@
                 ],
                 "summary": "Update BindingType by id",
                 "description": "Update BindingType by id",
-                "operationId": "1214e4db0d74eed5a1a7f4870d822aab",
+                "operationId": "binding_types.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the BindingType",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -359,7 +273,159 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BindingTypeDataResource"
+                                    "$ref": "#/components/schemas/BindingTypeShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/books_series": {
+            "get": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Get list of Book Series",
+                "description": "Get list of Book Series",
+                "operationId": "book_series.index",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get list of Book Series",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesIndexResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Create BookSeries",
+                "description": "Create BookSeries",
+                "operationId": "book_series.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBookSeriesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Get created BookSeries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/books_series/{id}": {
+            "get": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Get BookSeries by id",
+                "description": "Get BookSeries by id",
+                "operationId": "book_series.show",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get BookSeries by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "BookSeries"
+                ],
+                "summary": "Update BookSeries by id",
+                "description": "Update BookSeries by id",
+                "operationId": "book_series.update",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBookSeriesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update BookSeries by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookSeriesShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/book_user_data/{book_id}": {
+            "get": {
+                "tags": [
+                    "BookUserData"
+                ],
+                "summary": "Get BookUserData by Book ID",
+                "description": "Get BookUserData by id",
+                "operationId": "book_user_data.show",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/BookId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get BookUserData by book_id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookUserDataResponse"
                                 }
                             }
                         }
@@ -374,7 +440,7 @@
                 ],
                 "summary": "Get list of books",
                 "description": "Get list of books",
-                "operationId": "9017a3fa89d6636329067c858b27a6fa",
+                "operationId": "books.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -405,7 +471,7 @@
                 ],
                 "summary": "Create Book",
                 "description": "Create Book",
-                "operationId": "72f82e1cd6f08112323f87053277ca99",
+                "operationId": "books.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -417,12 +483,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created Book",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BookDataResource"
+                                    "$ref": "#/components/schemas/BookShowResponse"
                                 }
                             }
                         }
@@ -437,18 +503,10 @@
                 ],
                 "summary": "Get Book by id",
                 "description": "Get Book by id",
-                "operationId": "123856ec83e3466396b979a43eb1a15f",
+                "operationId": "books.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the Book",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -457,7 +515,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BookDataResource"
+                                    "$ref": "#/components/schemas/BookShowResponse"
                                 }
                             }
                         }
@@ -470,18 +528,10 @@
                 ],
                 "summary": "Delete Book by id",
                 "description": "Delete Book by id",
-                "operationId": "eda12c526d0ccacaecea5f3d8f15d6df",
+                "operationId": "books.destroy",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete Book by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -490,13 +540,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/BookDestroyResponse"
                                 }
                             }
                         }
@@ -509,18 +553,10 @@
                 ],
                 "summary": "Update Book by id",
                 "description": "Update Book by id",
-                "operationId": "3c5c1488774a14a2fa2e72f9ccee25d5",
+                "operationId": "books.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the Book",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -539,184 +575,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BookDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/books_series": {
-            "get": {
-                "tags": [
-                    "BookSeries"
-                ],
-                "summary": "Get list of Book Series",
-                "description": "Get list of Book Series",
-                "operationId": "88d03acf1fea2e34de0012a4f350f8b7",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/Ids"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Limit"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Search"
-                    }
-                ],
-                "requestBody": {},
-                "responses": {
-                    "200": {
-                        "description": "Get list of Book Series",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BookSeriesDataResourceCollection"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "BookSeries"
-                ],
-                "summary": "Create BookSeries",
-                "description": "Create BookSeries",
-                "operationId": "fc99649938164e8e3e712269b2f4de2c",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/StoreBookSeriesRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Get created BookSeries",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BookSeriesDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/books_series/{id}": {
-            "get": {
-                "tags": [
-                    "BookSeries"
-                ],
-                "summary": "Get BookSeries by id",
-                "description": "Get BookSeries by id",
-                "operationId": "3391ee1f2364f949b395102aa75204b2",
-                "parameters": [
-                    {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the BookSeries",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Get BookSeries by id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BookSeriesDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "tags": [
-                    "BookSeries"
-                ],
-                "summary": "Update BookSeries by id",
-                "description": "Update BookSeries by id",
-                "operationId": "d130f402b9c63aa310e892627ad58342",
-                "parameters": [
-                    {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the BookSeries",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateBookSeriesRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Update BookSeries by id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BookSeriesDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/book_user_data/{book_id}": {
-            "get": {
-                "tags": [
-                    "BookUserData"
-                ],
-                "summary": "Get BookUserData by Book ID",
-                "description": "Get BookUserData by id",
-                "operationId": "9f1a8565873d23659b82883d5385284f",
-                "parameters": [
-                    {
-                        "parameter": "book_id",
-                        "name": "book_id",
-                        "in": "path",
-                        "description": "Id of the Book",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 2
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Get BookUserData by book_id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BookUserDataResource"
+                                    "$ref": "#/components/schemas/BookShowResponse"
                                 }
                             }
                         }
@@ -731,7 +590,7 @@
                 ],
                 "summary": "Get list of cities",
                 "description": "Get list of cities",
-                "operationId": "185d0aefb5fd6e9d4e5f1263e2734df4",
+                "operationId": "cities.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -743,14 +602,13 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of cities",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CitiesDataResourceCollection"
+                                    "$ref": "#/components/schemas/CitiesIndexResponse"
                                 }
                             }
                         }
@@ -763,7 +621,7 @@
                 ],
                 "summary": "Create City",
                 "description": "Create City",
-                "operationId": "2c088ea7c660d40e5d092a82ee72e2eb",
+                "operationId": "cities.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -775,12 +633,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created City",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CityDataResource"
+                                    "$ref": "#/components/schemas/CityShowResponse"
                                 }
                             }
                         }
@@ -795,18 +653,10 @@
                 ],
                 "summary": "Delete City by id",
                 "description": "Delete City by id",
-                "operationId": "0dc95dd0bc4da8cabcb3ebd5b105a59b",
+                "operationId": "cities.destroy",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete City by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -815,13 +665,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/CityDestroyResponse"
                                 }
                             }
                         }
@@ -834,18 +678,10 @@
                 ],
                 "summary": "Update City by id",
                 "description": "Update City by id",
-                "operationId": "137e9f693dc6399bcbfdf8ded04e27de",
+                "operationId": "cities.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the City",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -864,7 +700,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CityDataResource"
+                                    "$ref": "#/components/schemas/CityShowResponse"
                                 }
                             }
                         }
@@ -872,123 +708,21 @@
                 }
             }
         },
-        "/api/products/link_book/{product_id}/{book_id}": {
-            "post": {
+        "/api/config": {
+            "get": {
                 "tags": [
-                    "Products"
+                    "Config"
                 ],
-                "summary": "Link Book to Product",
-                "description": "Link Book to Product",
-                "operationId": "a0faeb5bb2063502f8651de810b9d3c8",
-                "parameters": [
-                    {
-                        "parameter": "product_id",
-                        "name": "product_id",
-                        "in": "path",
-                        "description": "Id of the Product",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
-                    },
-                    {
-                        "parameter": "book_id",
-                        "name": "book_id",
-                        "in": "path",
-                        "description": "Id of the Book",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 6
-                        }
-                    }
-                ],
+                "summary": "Get application config",
+                "description": "Get application config",
+                "operationId": "config.show",
                 "responses": {
                     "200": {
-                        "description": "Link Book to Product",
+                        "description": "Get application config",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/products/link_source_product/{product_id}/{source_product_id}": {
-            "post": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Link SourceProduct to Product",
-                "description": "Link SourceProduct to Product",
-                "operationId": "e0cd04435c93a5369933d2235af9de3c",
-                "parameters": [
-                    {
-                        "parameter": "product_id",
-                        "name": "product_id",
-                        "in": "path",
-                        "description": "Id of the Product",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
-                    },
-                    {
-                        "parameter": "source_product_id",
-                        "name": "source_product_id",
-                        "in": "path",
-                        "description": "Id of the SourceProduct",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 6
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Link SourceProduct to Product",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/products/mass-save": {
-            "post": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Mass Save Products",
-                "description": "Mass Save Products",
-                "operationId": "5e3ec32f77d2957988277d9d20f7bf29",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MassSaveProductRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Mass Save Products",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
+                                    "$ref": "#/components/schemas/ConfigResponse"
                                 }
                             }
                         }
@@ -1003,7 +737,7 @@
                 ],
                 "summary": "Get list of PaperTypes",
                 "description": "Get list of PaperTypes",
-                "operationId": "95aa8e7c44fdf7b35459cebb3357ca5b",
+                "operationId": "paper_types.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -1015,14 +749,13 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of PaperTypes",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaperTypesDataResourceCollection"
+                                    "$ref": "#/components/schemas/PaperTypesIndexResponse"
                                 }
                             }
                         }
@@ -1035,7 +768,7 @@
                 ],
                 "summary": "Create PaperType",
                 "description": "Create PaperType",
-                "operationId": "4a26c8cfe49d9960823b48dc3cc8a894",
+                "operationId": "paper_types.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1047,12 +780,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created PaperType",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaperTypeDataResource"
+                                    "$ref": "#/components/schemas/PaperTypeShowResponse"
                                 }
                             }
                         }
@@ -1067,18 +800,10 @@
                 ],
                 "summary": "Get PaperType by id",
                 "description": "Get PaperType by id",
-                "operationId": "bcb743e4039049adadbc6c98b632ccab",
+                "operationId": "paper_types.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the PaperType",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -1087,7 +812,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaperTypeDataResource"
+                                    "$ref": "#/components/schemas/PaperTypeShowResponse"
                                 }
                             }
                         }
@@ -1100,18 +825,10 @@
                 ],
                 "summary": "Delete PaperType by id",
                 "description": "Delete PaperType by id",
-                "operationId": "b5beb995151c54308196be8c34f85b26",
+                "operationId": "paper_types.destroy",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete PaperType by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -1120,13 +837,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/PaperTypeDestroyResponse"
                                 }
                             }
                         }
@@ -1139,18 +850,10 @@
                 ],
                 "summary": "Update PaperType by id",
                 "description": "Update PaperType by id",
-                "operationId": "61e29bcd3f899c685826037dbf22142f",
+                "operationId": "paper_types.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the PaperType",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -1169,7 +872,185 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaperTypeDataResource"
+                                    "$ref": "#/components/schemas/PaperTypeShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/archive": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Archive to Product",
+                "description": "Archive Product",
+                "operationId": "products.archive",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ArchiveProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Archive Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/link_book/{product_id}/{book_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Link Book to Product",
+                "description": "Link Book to Product",
+                "operationId": "products.link_book",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ProductId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/BookId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Link Book to Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/link_source_product/{product_id}/{source_product_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Link SourceProduct to Product",
+                "description": "Link SourceProduct to Product",
+                "operationId": "products.link_source_product",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ProductId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/SourceProductId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Link SourceProduct to Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/unlink/{product_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Unlink from Product",
+                "description": "Unlink from Product",
+                "operationId": "products.unlink",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ProductId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unlink from Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/mass-save": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Mass Save Products",
+                "description": "Mass Save Products",
+                "operationId": "products.mass_save",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MassSaveProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mass Save Products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product_user_data/{product_id}": {
+            "get": {
+                "tags": [
+                    "ProductUserData"
+                ],
+                "summary": "Get ProductUserData by Product ID",
+                "description": "Get ProductUserData by id",
+                "operationId": "product_user_data.show",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ProductId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get ProductUserData by product_id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductUserDataResponse"
                                 }
                             }
                         }
@@ -1184,7 +1065,7 @@
                 ],
                 "summary": "Get list of Products",
                 "description": "Get list of Products",
-                "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "operationId": "products.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -1196,7 +1077,6 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of Products",
@@ -1216,7 +1096,7 @@
                 ],
                 "summary": "Create Product",
                 "description": "Create Product",
-                "operationId": "785644b7d7dd38af4b51dafd0fbc1b6d",
+                "operationId": "products.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1228,12 +1108,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created Product",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
+                                    "$ref": "#/components/schemas/ProductShowResponse"
                                 }
                             }
                         }
@@ -1248,18 +1128,10 @@
                 ],
                 "summary": "Get Product by id",
                 "description": "Get Product by id",
-                "operationId": "c87fb2e4d617e7b36c712cad358acdb8",
+                "operationId": "products.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the Product",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -1268,7 +1140,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
+                                    "$ref": "#/components/schemas/ProductShowResponse"
                                 }
                             }
                         }
@@ -1281,18 +1153,10 @@
                 ],
                 "summary": "Delete Product by id",
                 "description": "Delete Product by id",
-                "operationId": "b49ce9f3cb168b233245548fb4ef36d3",
+                "operationId": "products.destroy",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete Product by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -1301,13 +1165,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/ProductDestroyResponse"
                                 }
                             }
                         }
@@ -1320,18 +1178,10 @@
                 ],
                 "summary": "Update Product by id",
                 "description": "Update Product by id",
-                "operationId": "7b6a99d3d6d5c75a1ef063b213e8d068",
+                "operationId": "products.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the Product",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -1350,42 +1200,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/product_user_data/{product_id}": {
-            "get": {
-                "tags": [
-                    "ProductUserData"
-                ],
-                "summary": "Get ProductUserData by Product ID",
-                "description": "Get ProductUserData by id",
-                "operationId": "1dffb6a9bbcd4acee180addb4fe8a145",
-                "parameters": [
-                    {
-                        "parameter": "product_id",
-                        "name": "product_id",
-                        "in": "path",
-                        "description": "Id of the Product",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 2
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Get ProductUserData by product_id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProductUserDataResource"
+                                    "$ref": "#/components/schemas/ProductShowResponse"
                                 }
                             }
                         }
@@ -1400,7 +1215,7 @@
                 ],
                 "summary": "Get list of Publishing Brands",
                 "description": "Get list of Publishing Brands",
-                "operationId": "392c654a67106cf15e0dd80568bc2669",
+                "operationId": "publishing_brands.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -1412,14 +1227,13 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of Publishing Brands",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingBrandsDataResourceCollection"
+                                    "$ref": "#/components/schemas/PublishingBrandsIndexResponse"
                                 }
                             }
                         }
@@ -1432,7 +1246,7 @@
                 ],
                 "summary": "Create PublishingBrand",
                 "description": "Create PublishingBrand",
-                "operationId": "b12b40e741d081375e03e01d79af65ff",
+                "operationId": "publishing_brands.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1444,12 +1258,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created PublishingBrand",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingBrandDataResource"
+                                    "$ref": "#/components/schemas/PublishingBrandShowResponse"
                                 }
                             }
                         }
@@ -1464,18 +1278,10 @@
                 ],
                 "summary": "Get PublishingBrand by id",
                 "description": "Get PublishingBrand by id",
-                "operationId": "3b2be98177e2277975ebb9788bee0d6d",
+                "operationId": "publishing_brands.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the PublishingBrand",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -1484,7 +1290,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingBrandDataResource"
+                                    "$ref": "#/components/schemas/PublishingBrandShowResponse"
                                 }
                             }
                         }
@@ -1497,18 +1303,10 @@
                 ],
                 "summary": "Update PublishingBrand by id",
                 "description": "Update PublishingBrand by id",
-                "operationId": "555203e0289e8e21dfc332cf0ba1bdda",
+                "operationId": "publishing_brands.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the PublishingBrand",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -1527,7 +1325,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingBrandDataResource"
+                                    "$ref": "#/components/schemas/PublishingBrandShowResponse"
                                 }
                             }
                         }
@@ -1542,7 +1340,7 @@
                 ],
                 "summary": "Get list of Publishing Houses",
                 "description": "Get list of Publishing Houses",
-                "operationId": "c6d6bdfa6a5eb4a1b4d5d4bbbbb14d9c",
+                "operationId": "publishing_houses.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -1554,14 +1352,13 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of Publishing Houses",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingHousesDataResourceCollection"
+                                    "$ref": "#/components/schemas/PublishingHousesIndexResponse"
                                 }
                             }
                         }
@@ -1574,7 +1371,7 @@
                 ],
                 "summary": "Create PublishingHouse",
                 "description": "Create PublishingHouse",
-                "operationId": "61ec3c4ef713e123bb75041159cc9216",
+                "operationId": "publishing_houses.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1586,12 +1383,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created PublishingHouse",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingHouseDataResource"
+                                    "$ref": "#/components/schemas/PublishingHouseShowResponse"
                                 }
                             }
                         }
@@ -1606,18 +1403,10 @@
                 ],
                 "summary": "Get PublishingHouse by id",
                 "description": "Get PublishingHouse by id",
-                "operationId": "f0d3cb7228b88f5221a7d6cff7a5e481",
+                "operationId": "publishing_houses.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the PublishingHouse",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -1626,7 +1415,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingHouseDataResource"
+                                    "$ref": "#/components/schemas/PublishingHouseShowResponse"
                                 }
                             }
                         }
@@ -1639,18 +1428,10 @@
                 ],
                 "summary": "Update PublishingHouse by id",
                 "description": "Update PublishingHouse by id",
-                "operationId": "8d240ce1b70db19cb6858c9040b2e1fb",
+                "operationId": "publishing_houses.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the PublishingHouse",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -1669,7 +1450,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PublishingHouseDataResource"
+                                    "$ref": "#/components/schemas/PublishingHouseShowResponse"
                                 }
                             }
                         }
@@ -1684,7 +1465,7 @@
                 ],
                 "summary": "Get list of shops",
                 "description": "Get list of shops",
-                "operationId": "27017e83e03c95e6a4fb951511513cda",
+                "operationId": "shops.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -1696,14 +1477,13 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of shops",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ShopsDataResourceCollection"
+                                    "$ref": "#/components/schemas/ShopsIndexResponse"
                                 }
                             }
                         }
@@ -1718,18 +1498,10 @@
                 ],
                 "summary": "Get shop by id",
                 "description": "Get shop by id",
-                "operationId": "8a7f990e83583eeb3a061e4edfb156f4",
+                "operationId": "shops.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the shop",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -1738,188 +1510,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ShopDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/source_products": {
-            "get": {
-                "tags": [
-                    "SourceProducts"
-                ],
-                "summary": "Get list of SourceProducts",
-                "description": "Get list of SourceProducts",
-                "operationId": "2e6b4ce717c4d6333eee8143ec411b16",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/Ids"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Limit"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Search"
-                    }
-                ],
-                "requestBody": {},
-                "responses": {
-                    "200": {
-                        "description": "Get list of SourceProducts",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SourceProductsDataResourceCollection"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "SourceProducts"
-                ],
-                "summary": "Create SourceProduct",
-                "description": "Create SourceProduct",
-                "operationId": "34cb14c082f1b232fa869c16635ea45f",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/StoreSourceProductRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Get created SourceProduct",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SourceProductDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/source_products/{id}": {
-            "get": {
-                "tags": [
-                    "SourceProducts"
-                ],
-                "summary": "Get SourceProduct by id",
-                "description": "Get SourceProduct by id",
-                "operationId": "87ae213d1e5671704136bf88c1a8b40b",
-                "parameters": [
-                    {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the SourceProduct",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Get SourceProduct by id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SourceProductDataResource"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "SourceProducts"
-                ],
-                "summary": "Delete SourceProduct by id",
-                "description": "Delete SourceProduct by id",
-                "operationId": "2bc61b871647b98084859f010e3ac5dc",
-                "parameters": [
-                    {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete SourceProduct by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Delete SourceProduct by id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "tags": [
-                    "SourceProducts"
-                ],
-                "summary": "Update SourceProduct by id",
-                "description": "Update SourceProduct by id",
-                "operationId": "efbca716da17e746673c282964da3e81",
-                "parameters": [
-                    {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the SourceProduct",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateSourceProductRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Update SourceProduct by id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SourceProductDataResource"
+                                    "$ref": "#/components/schemas/ShopShowResponse"
                                 }
                             }
                         }
@@ -1934,7 +1525,7 @@
                 ],
                 "summary": "Get list of SourceProductTypes",
                 "description": "Get list of SourceProductTypes",
-                "operationId": "561218f89fa26b9a9b7e504dd8e50d7f",
+                "operationId": "source_product_types.index",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/Ids"
@@ -1946,14 +1537,13 @@
                         "$ref": "#/components/parameters/Search"
                     }
                 ],
-                "requestBody": {},
                 "responses": {
                     "200": {
                         "description": "Get list of SourceProductTypes",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SourceProductTypesDataResourceCollection"
+                                    "$ref": "#/components/schemas/SourceProductTypesResourceCollection"
                                 }
                             }
                         }
@@ -1966,7 +1556,7 @@
                 ],
                 "summary": "Create SourceProductType",
                 "description": "Create SourceProductType",
-                "operationId": "bd6e6f7a0ad8175a517a5d48057d1fdd",
+                "operationId": "source_product_types.store",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1978,12 +1568,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Get created SourceProductType",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SourceProductTypeDataResource"
+                                    "$ref": "#/components/schemas/SourceProductTypeShowResponse"
                                 }
                             }
                         }
@@ -1998,18 +1588,10 @@
                 ],
                 "summary": "Get SourceProductType by id",
                 "description": "Get SourceProductType by id",
-                "operationId": "d29dbc07b9829325693553c994198cd4",
+                "operationId": "source_product_types.show",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the SourceProductType",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -2018,7 +1600,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SourceProductTypeDataResource"
+                                    "$ref": "#/components/schemas/SourceProductTypeShowResponse"
                                 }
                             }
                         }
@@ -2031,18 +1613,10 @@
                 ],
                 "summary": "Delete SourceProductType by id",
                 "description": "Delete SourceProductType by id",
-                "operationId": "9f42322a83b0c2b62b81f5a58e4c9d76",
+                "operationId": "source_product_types.destroy",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Delete SourceProductType by id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "responses": {
@@ -2051,13 +1625,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/SourceProductTypeDestroyResponse"
                                 }
                             }
                         }
@@ -2070,18 +1638,10 @@
                 ],
                 "summary": "Update SourceProductType by id",
                 "description": "Update SourceProductType by id",
-                "operationId": "16b8189bee1b39d0a316cf4a93a1fb5a",
+                "operationId": "source_product_types.update",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the SourceProductType",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Id"
                     }
                 ],
                 "requestBody": {
@@ -2100,7 +1660,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SourceProductTypeDataResource"
+                                    "$ref": "#/components/schemas/SourceProductTypeShowResponse"
                                 }
                             }
                         }
@@ -2115,18 +1675,10 @@
                 ],
                 "summary": "Get SourceProduct by Book ID",
                 "description": "Get SourceProduct by id",
-                "operationId": "f0d468daf72678b6dc5b060d47a5f807",
+                "operationId": "source_product_user_data.show",
                 "parameters": [
                     {
-                        "parameter": "source_product_id",
-                        "name": "source_product_id",
-                        "in": "path",
-                        "description": "Id of the Book",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 2
-                        }
+                        "$ref": "#/components/parameters/SourceProductId"
                     }
                 ],
                 "responses": {
@@ -2135,7 +1687,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SourceProductUserDataResource"
+                                    "$ref": "#/components/schemas/SourceProductUserDataResponse"
                                 }
                             }
                         }
@@ -2143,34 +1695,149 @@
                 }
             }
         },
-        "/api/products/unlink/{product_id}": {
-            "post": {
+        "/api/source_products": {
+            "get": {
                 "tags": [
-                    "Products"
+                    "SourceProducts"
                 ],
-                "summary": "Unlink from Product",
-                "description": "Unlink from Product",
-                "operationId": "6bf5f4af34a2cff505b0844a81de5aef",
+                "summary": "Get list of SourceProducts",
+                "description": "Get list of SourceProducts",
+                "operationId": "source_products.index",
                 "parameters": [
                     {
-                        "parameter": "product_id",
-                        "name": "product_id",
-                        "in": "path",
-                        "description": "Id of the Product",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 4
-                        }
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Unlink from Product",
+                        "description": "Get list of SourceProducts",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProductDataResource"
+                                    "$ref": "#/components/schemas/SourceProductTypesIndexResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Create SourceProduct",
+                "description": "Create SourceProduct",
+                "operationId": "source_products.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreSourceProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Get created SourceProduct",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/source_products/{id}": {
+            "get": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Get SourceProduct by id",
+                "description": "Get SourceProduct by id",
+                "operationId": "source_products.show",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get SourceProduct by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Delete SourceProduct by id",
+                "description": "Delete SourceProduct by id",
+                "operationId": "source_products.destroy",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete SourceProduct by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductDestroyResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Update SourceProduct by id",
+                "description": "Update SourceProduct by id",
+                "operationId": "source_products.update",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSourceProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update SourceProduct by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductShowResponse"
                                 }
                             }
                         }
@@ -2181,6 +1848,75 @@
     },
     "components": {
         "schemas": {
+            "AuthorResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "example": "Фёдор"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Достоевский"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthorDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "AuthorShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/AuthorResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "AuthorsResourceCollection": {
+                "description": "Collection of Authors",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/AuthorResource"
+                }
+            },
+            "AuthorsPaginateResourceCollection": {
+                "description": "Collection of Authors with paginate",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "$ref": "#/components/schemas/PaginateResponse"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/AuthorsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "StoreAuthorRequest": {
                 "properties": {
                     "first_name": {
@@ -2207,6 +1943,68 @@
                 },
                 "type": "object"
             },
+            "BindingTypeResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Мягкий переплёт"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "BindingTypeDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "BindingTypeShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BindingTypeResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "BindingTypesResourceCollection": {
+                "description": "Collection of binding types",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/BindingTypeResource"
+                }
+            },
+            "BindingTypesIndexResponse": {
+                "description": "Collection of BindingTypes",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BindingTypesResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "StoreBindingTypeRequest": {
                 "properties": {
                     "label": {
@@ -2225,6 +2023,68 @@
                 },
                 "type": "object"
             },
+            "BookSeriesResourceCollection": {
+                "description": "Collection of BookSeries",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/BookSeriesResource"
+                }
+            },
+            "BookSeriesIndexResponse": {
+                "description": "Collection of BookSeries",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PublishingBrandsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "BookSeriesResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Звезды научной фантастики"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "BookSeriesDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "BookSeriesShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BookSeriesResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "StoreBookSeriesRequest": {
                 "properties": {
                     "name": {
@@ -2242,6 +2102,186 @@
                     }
                 },
                 "type": "object"
+            },
+            "BookUserDataResource": {
+                "properties": {
+                    "release_date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "listen_price_value": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Ожидаем отзывы"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "BookUserDataResponse": {
+                "description": "BookUserData response",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BookUserDataResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "BookResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Сияние"
+                    },
+                    "original_title": {
+                        "type": "string",
+                        "example": "The Shining"
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "example": "978-5-17-080493-1"
+                    },
+                    "pages": {
+                        "type": "integer",
+                        "example": "544"
+                    },
+                    "circulation": {
+                        "type": "integer",
+                        "example": "21000"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "example": "4x14x21"
+                    },
+                    "publish_year": {
+                        "type": "integer",
+                        "example": "2025"
+                    },
+                    "livelib_id": {
+                        "type": "integer",
+                        "example": "1000965735"
+                    },
+                    "goodreads_id": {
+                        "type": "integer",
+                        "example": "11588"
+                    },
+                    "fantlab_id": {
+                        "type": "integer",
+                        "example": "edition115331"
+                    },
+                    "livelib_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.4"
+                    },
+                    "goodreads_rating": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "4.28"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "binding_type": {
+                        "$ref": "#/components/schemas/BindingTypeResource"
+                    },
+                    "paper_type": {
+                        "$ref": "#/components/schemas/PaperTypeResource"
+                    },
+                    "authors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthorResource"
+                        }
+                    },
+                    "publishing_house": {
+                        "$ref": "#/components/schemas/PublishingHouseResource"
+                    },
+                    "publishing_brand": {
+                        "$ref": "#/components/schemas/PublishingBrandResource"
+                    },
+                    "book_series": {
+                        "$ref": "#/components/schemas/BookSeriesResource"
+                    },
+                    "user_created": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "book_user_data": {
+                        "$ref": "#/components/schemas/BookUserDataResource"
+                    }
+                },
+                "type": "object"
+            },
+            "BookDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "BookShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BookResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "BooksResourceCollection": {
+                "description": "Collection of books",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/BookResource"
+                }
+            },
+            "BooksPaginateResourceCollection": {
+                "description": "Collection of books with paginate",
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "$ref": "#/components/schemas/PaginateResponse"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BooksResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
             },
             "StoreBookRequest": {
                 "properties": {
@@ -2484,6 +2524,72 @@
                 },
                 "type": "object"
             },
+            "CitiesResourceCollection": {
+                "description": "Collection of Cities",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/CityResource"
+                }
+            },
+            "CitiesIndexResponse": {
+                "description": "Collection of Cities",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PublishingBrandsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "CityResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "МОВ"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Москва"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "CityDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "CityShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/CityResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "StoreCityRequest": {
                 "properties": {
                     "code": {
@@ -2510,6 +2616,329 @@
                 },
                 "type": "object"
             },
+            "PaginateResponse": {
+                "description": "Common PaginateResponse fields",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "links": {
+                                "properties": {
+                                    "first_page_url": {
+                                        "type": "string",
+                                        "example": "http://localhost/api/models?page=1"
+                                    },
+                                    "last_page_url": {
+                                        "type": "string",
+                                        "example": "http://localhost/api/models?page=1"
+                                    },
+                                    "next_page_url": {
+                                        "type": "string",
+                                        "example": "http://localhost/api/models?page=2"
+                                    },
+                                    "path": {
+                                        "type": "string",
+                                        "example": "http://localhost/api/models"
+                                    },
+                                    "prev_page_url": {
+                                        "type": "string",
+                                        "example": "http://localhost/api/models?page=1"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "meta": {
+                                "properties": {
+                                    "current_page": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "from": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "last_page": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "per_page": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "to": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "total": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "success": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Response": {
+                "description": "Common response fields",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Success response"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "ConfigResource": {
+                "description": "Application configuration",
+                "properties": {
+                    "processed_at": {
+                        "type": "string",
+                        "example": "2026-11-12 10:10:19"
+                    },
+                    "source_product_types": {
+                        "description": "Source product types (id, code, name)",
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "book_binding_types": {
+                        "description": "Book binding types (id, label)",
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "book_publishing_houses": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "book_publishing_brands": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "book_series": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "shop_urls": {
+                        "properties": {
+                            "ozon": {
+                                "type": "string",
+                                "example": "https://www.ozon.ru"
+                            },
+                            "wildberries": {
+                                "type": "string",
+                                "example": "https://www.wildberries.ru"
+                            },
+                            "chitai-gorod": {
+                                "type": "string",
+                                "example": "https://www.chitai-gorod.ru"
+                            },
+                            "ffan": {
+                                "type": "string",
+                                "example": "https://ffan.ru"
+                            },
+                            "knigofan": {
+                                "type": "string",
+                                "example": "https://knigofan.ru"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "access_rights": {
+                        "properties": {
+                            "product": {
+                                "properties": {
+                                    "update": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "create": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "limit_enabled": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "book": {
+                                "properties": {
+                                    "update": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "create": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "add_publishing_house": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "add_publishing_brand": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "add_series": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "source_product": {
+                                "properties": {
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "create": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "update": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "shop": {
+                                "properties": {
+                                    "list": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "app_version": {
+                        "type": "string",
+                        "example": "1.0.0"
+                    }
+                },
+                "type": "object"
+            },
+            "ConfigResponse": {
+                "description": "Application config response",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/ConfigResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "PaperTypeResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Типографская"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Бумага средней плотности, светло-серая, слегка шероховатая"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "PaperTypeDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "PaperTypeShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PaperTypeResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "PaperTypesResourceCollection": {
+                "description": "Collection of PaperTypes",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/PaperTypeResource"
+                }
+            },
+            "PaperTypesIndexResponse": {
+                "description": "Collection of PaperTypes",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PaperTypesResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "StorePaperTypeRequest": {
                 "properties": {
                     "label": {
@@ -2535,6 +2964,97 @@
                     }
                 },
                 "type": "object"
+            },
+            "ProductPriceResource": {
+                "properties": {
+                    "price": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductStockResource": {
+                "properties": {
+                    "qty": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "log": {
+                        "type": "string",
+                        "example": "{json}"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductUserDataResource": {
+                "properties": {
+                    "available": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "not_available_date_from": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "available_date_from": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "listen_price_value": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "listen_qty_value": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "release_date": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "is_archive": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Ожидаем отзывы"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductUserDataResponse": {
+                "description": "ProductUserData response",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/ProductUserDataResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
             },
             "ArchiveProductRequest": {
                 "properties": {
@@ -2589,6 +3109,107 @@
                     }
                 },
                 "type": "object"
+            },
+            "ProductResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "shop_product_id": {
+                        "type": "integer",
+                        "example": "3315320967"
+                    },
+                    "shop_product_code": {
+                        "type": "integer",
+                        "example": "1903147507"
+                    },
+                    "title": {
+                        "type": "integer",
+                        "example": "Хтонь за околицей. Книга первая"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "shop": {
+                        "$ref": "#/components/schemas/ShopResource"
+                    },
+                    "city": {
+                        "$ref": "#/components/schemas/CityResource"
+                    },
+                    "book": {
+                        "$ref": "#/components/schemas/BookResource"
+                    },
+                    "source_product": {
+                        "$ref": "#/components/schemas/SourceProductResource"
+                    },
+                    "product_user_data": {
+                        "$ref": "#/components/schemas/ProductUserDataResource"
+                    },
+                    "prices": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductPriceResource"
+                        }
+                    },
+                    "stocks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductStockResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProductDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "ProductShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/ProductResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "ProductsResourceCollection": {
+                "description": "Collection of Products",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/ProductResource"
+                }
+            },
+            "ProductsPaginateResourceCollection": {
+                "description": "Collection of Products with paginate",
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "$ref": "#/components/schemas/PaginateResponse"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/ProductsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
             },
             "StoreProductRequest": {
                 "required": [
@@ -2706,6 +3327,65 @@
                 },
                 "type": "object"
             },
+            "PublishingBrandResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Астрель СПб"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingBrandShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PublishingBrandResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "PublishingBrandsResourceCollection": {
+                "description": "Collection of PublishingBrands",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/PublishingBrandResource"
+                }
+            },
+            "PublishingBrandsIndexResponse": {
+                "description": "Collection of PublishingBrands",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PublishingBrandsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "StorePublishingBrandRequest": {
                 "properties": {
                     "name": {
@@ -2724,6 +3404,65 @@
                 },
                 "type": "object"
             },
+            "PublishingHouseResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "АСТ"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "PublishingHouseShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PublishingHouseResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "PublishingHousesResourceCollection": {
+                "description": "Collection of PublishingHouses",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/PublishingHouseResource"
+                }
+            },
+            "PublishingHousesIndexResponse": {
+                "description": "Collection of PublishingHouses",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/PublishingHousesResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
             "StorePublishingHouseRequest": {
                 "properties": {
                     "name": {
@@ -2741,6 +3480,139 @@
                     }
                 },
                 "type": "object"
+            },
+            "ShopResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "ozon"
+                    },
+                    "domain": {
+                        "type": "string",
+                        "example": "ozon.ru"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://www.ozon.ru"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "ShopShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/ShopResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "ShopsResourceCollection": {
+                "description": "Collection of Shops",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/ShopResource"
+                }
+            },
+            "ShopsIndexResponse": {
+                "description": "Collection of Shops",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/ShopsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "SourceProductTypeResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "toys"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Игрушки"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "SourceProductTypeDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "SourceProductTypeShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/SourceProductTypeResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "SourceProductTypesResourceCollection": {
+                "description": "Collection of SourceProductTypes",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SourceProductTypeResource"
+                }
+            },
+            "SourceProductTypesIndexResponse": {
+                "description": "Collection of SourceProductTypes",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/SourceProductTypeResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
             },
             "StoreSourceProductTypeRequest": {
                 "properties": {
@@ -2767,6 +3639,114 @@
                     }
                 },
                 "type": "object"
+            },
+            "SourceProductUserDataResource": {
+                "properties": {
+                    "listen_price_value": {
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "comment": {
+                        "type": "text",
+                        "example": "Ожидаем отзывы"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "SourceProductUserDataResponse": {
+                "description": "SourceProductUserData response",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/SourceProductUserDataResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "SourceProductResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Рубашка льняная с рукавами на лето"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "source_product_type": {
+                        "$ref": "#/components/schemas/SourceProductTypeResource"
+                    },
+                    "user_created": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "source_product_user_data": {
+                        "$ref": "#/components/schemas/SourceProductUserDataResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SourceProductDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "SourceProductShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/SourceProductResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "SourceProductsResourceCollection": {
+                "description": "Collection of SourceProducts",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SourceProductResource"
+                }
+            },
+            "SourceProductsIndexResponse": {
+                "description": "Collection of SourceProducts",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/SourceProductsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
             },
             "StoreSourceProductRequest": {
                 "properties": {
@@ -2804,1119 +3784,6 @@
                 },
                 "type": "object"
             },
-            "AuthorResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "first_name": {
-                        "type": "string",
-                        "example": "Фёдор"
-                    },
-                    "last_name": {
-                        "type": "string",
-                        "example": "Достоевский"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "AuthorDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/AuthorResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "AuthorsResourceCollection": {
-                "description": "Collection of Authors",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/AuthorResource"
-                }
-            },
-            "AuthorsDataResourceCollection": {
-                "description": "Collection of Authors",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/AuthorResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "AuthorsPaginateResourceCollection": {
-                "description": "Collection of Authors with paginate",
-                "properties": {
-                    "current_page": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/AuthorResource"
-                        }
-                    },
-                    "first_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "from": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "last_page": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "last_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "next_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=2"
-                    },
-                    "path": {
-                        "type": "string",
-                        "example": "http://localhost/api/models"
-                    },
-                    "per_page": {
-                        "type": "integer",
-                        "example": 100
-                    },
-                    "prev_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "to": {
-                        "type": "integer",
-                        "example": 3
-                    },
-                    "total": {
-                        "type": "integer",
-                        "example": 3
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "BindingTypeResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "label": {
-                        "type": "string",
-                        "example": "Мягкий переплёт"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "BindingTypeDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/BindingTypeResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "BindingTypesCollection": {
-                "description": "Collection of binding types",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/BindingTypeResource"
-                }
-            },
-            "BindingTypesDataResourceCollection": {
-                "description": "Collection of binding types",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/BindingTypeResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "BookSeriesResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Звезды научной фантастики"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "BookSeriesDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/BookSeriesResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "BookSeriesResourceCollection": {
-                "description": "Collection of BookSeries",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/BookSeriesResource"
-                }
-            },
-            "BookSeriesDataResourceCollection": {
-                "description": "Collection of BookSeries",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/BookSeriesResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "BookUserDataResource": {
-                "properties": {
-                    "release_date": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "listen_price_value": {
-                        "type": "integer",
-                        "example": 500
-                    },
-                    "comment": {
-                        "type": "text",
-                        "example": "Ожидаем отзывы"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "BookResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Сияние"
-                    },
-                    "original_title": {
-                        "type": "string",
-                        "example": "The Shining"
-                    },
-                    "isbn": {
-                        "type": "string",
-                        "example": "978-5-17-080493-1"
-                    },
-                    "pages": {
-                        "type": "integer",
-                        "example": "544"
-                    },
-                    "circulation": {
-                        "type": "integer",
-                        "example": "21000"
-                    },
-                    "size": {
-                        "type": "integer",
-                        "example": "4x14x21"
-                    },
-                    "publish_year": {
-                        "type": "integer",
-                        "example": "2025"
-                    },
-                    "livelib_id": {
-                        "type": "integer",
-                        "example": "1000965735"
-                    },
-                    "goodreads_id": {
-                        "type": "integer",
-                        "example": "11588"
-                    },
-                    "fantlab_id": {
-                        "type": "integer",
-                        "example": "edition115331"
-                    },
-                    "livelib_rating": {
-                        "type": "number",
-                        "format": "float",
-                        "example": "4.4"
-                    },
-                    "goodreads_rating": {
-                        "type": "number",
-                        "format": "float",
-                        "example": "4.28"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "binding_type": {
-                        "$ref": "#/components/schemas/BindingTypeResource"
-                    },
-                    "paper_type": {
-                        "$ref": "#/components/schemas/PaperTypeResource"
-                    },
-                    "authors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/AuthorResource"
-                        }
-                    },
-                    "publishing_house": {
-                        "$ref": "#/components/schemas/PublishingHouseResource"
-                    },
-                    "publishing_brand": {
-                        "$ref": "#/components/schemas/PublishingBrandResource"
-                    },
-                    "book_series": {
-                        "$ref": "#/components/schemas/BookSeriesResource"
-                    },
-                    "user_created": {
-                        "$ref": "#/components/schemas/UserResource"
-                    },
-                    "book_user_data": {
-                        "$ref": "#/components/schemas/BookUserDataResource"
-                    }
-                },
-                "type": "object"
-            },
-            "BookDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/BookResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "BooksResourceCollection": {
-                "description": "Collection of books",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/BookResource"
-                }
-            },
-            "BooksDataResourceCollection": {
-                "description": "Collection of books",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/BookResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "BooksPaginateResourceCollection": {
-                "description": "Collection of books with paginate",
-                "properties": {
-                    "current_page": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/BookResource"
-                        }
-                    },
-                    "first_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "from": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "last_page": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "last_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "next_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=2"
-                    },
-                    "path": {
-                        "type": "string",
-                        "example": "http://localhost/api/models"
-                    },
-                    "per_page": {
-                        "type": "integer",
-                        "example": 100
-                    },
-                    "prev_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "to": {
-                        "type": "integer",
-                        "example": 3
-                    },
-                    "total": {
-                        "type": "integer",
-                        "example": 3
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "CitiesResourceCollection": {
-                "description": "Collection of Cities",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/CityResource"
-                }
-            },
-            "CitiesDataResourceCollection": {
-                "description": "Collection of Cities",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CityResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "CityResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "code": {
-                        "type": "string",
-                        "example": "МОВ"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Москва"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "CityDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/CityResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "PaperTypeResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "label": {
-                        "type": "string",
-                        "example": "Типографская"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Бумага средней плотности, светло-серая, слегка шероховатая"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "PaperTypeDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/PaperTypeResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "PaperTypesResourceCollection": {
-                "description": "Collection of PaperTypes",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/PaperTypeResource"
-                }
-            },
-            "PaperTypesDataResourceCollection": {
-                "description": "Collection of PaperTypes",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PaperTypeResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "ProductPriceResource": {
-                "properties": {
-                    "price": {
-                        "type": "integer",
-                        "example": 500
-                    },
-                    "date": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "ProductStockResource": {
-                "properties": {
-                    "qty": {
-                        "type": "integer",
-                        "example": 10
-                    },
-                    "date": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "log": {
-                        "type": "string",
-                        "example": "{json}"
-                    }
-                },
-                "type": "object"
-            },
-            "ProductUserDataResource": {
-                "properties": {
-                    "available": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "not_available_date_from": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "available_date_from": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "listen_price_value": {
-                        "type": "integer",
-                        "example": 500
-                    },
-                    "listen_qty_value": {
-                        "type": "integer",
-                        "example": 10
-                    },
-                    "release_date": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "is_archive": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "comment": {
-                        "type": "text",
-                        "example": "Ожидаем отзывы"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "ProductResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "shop_product_id": {
-                        "type": "integer",
-                        "example": "3315320967"
-                    },
-                    "shop_product_code": {
-                        "type": "integer",
-                        "example": "1903147507"
-                    },
-                    "title": {
-                        "type": "integer",
-                        "example": "Хтонь за околицей. Книга первая"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "shop": {
-                        "$ref": "#/components/schemas/ShopResource"
-                    },
-                    "city": {
-                        "$ref": "#/components/schemas/CityResource"
-                    },
-                    "book": {
-                        "$ref": "#/components/schemas/BookResource"
-                    },
-                    "source_product": {
-                        "$ref": "#/components/schemas/SourceProductResource"
-                    },
-                    "product_user_data": {
-                        "$ref": "#/components/schemas/ProductUserDataResource"
-                    },
-                    "prices": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProductPriceResource"
-                        }
-                    },
-                    "stocks": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProductStockResource"
-                        }
-                    }
-                },
-                "type": "object"
-            },
-            "ProductDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ProductResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "ProductsResourceCollection": {
-                "description": "Collection of Products",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/ProductResource"
-                }
-            },
-            "ProductsDataResourceCollection": {
-                "description": "Collection of Products",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProductResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "ProductsPaginateResourceCollection": {
-                "description": "Collection of Products with paginate",
-                "properties": {
-                    "current_page": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProductResource"
-                        }
-                    },
-                    "first_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "from": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "last_page": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "last_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "next_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=2"
-                    },
-                    "path": {
-                        "type": "string",
-                        "example": "http://localhost/api/models"
-                    },
-                    "per_page": {
-                        "type": "integer",
-                        "example": 100
-                    },
-                    "prev_page_url": {
-                        "type": "string",
-                        "example": "http://localhost/api/models?page=1"
-                    },
-                    "to": {
-                        "type": "integer",
-                        "example": 3
-                    },
-                    "total": {
-                        "type": "integer",
-                        "example": 3
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "PublishingBrandResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Астрель СПб"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "PublishingBrandDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/PublishingBrandResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "PublishingBrandsResourceCollection": {
-                "description": "Collection of PublishingBrands",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/PublishingBrandResource"
-                }
-            },
-            "PublishingBrandsDataResourceCollection": {
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PublishingBrandResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "PublishingHouseResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "АСТ"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "PublishingHouseDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/PublishingHouseResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "PublishingHousesResourceCollection": {
-                "description": "Collection of PublishingHouses",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/PublishingHouseResource"
-                }
-            },
-            "PublishingHousesDataResourceCollection": {
-                "description": "Collection of PublishingHouses",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PublishingHouseResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "ShopResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "type": {
-                        "type": "string",
-                        "example": "ozon"
-                    },
-                    "domain": {
-                        "type": "string",
-                        "example": "ozon.ru"
-                    },
-                    "url": {
-                        "type": "string",
-                        "example": "https://www.ozon.ru"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "ShopDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ShopResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "ShopsResourceCollection": {
-                "description": "Collection of Shops",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/ShopResource"
-                }
-            },
-            "ShopsDataResourceCollection": {
-                "description": "Collection of Shops",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ShopResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "SourceProductTypeResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "code": {
-                        "type": "string",
-                        "example": "toys"
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Игрушки"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "SourceProductTypeDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/SourceProductTypeResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "SourceProductTypesResourceCollection": {
-                "description": "Collection of SourceProductTypes",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/SourceProductTypeResource"
-                }
-            },
-            "SourceProductTypesDataResourceCollection": {
-                "description": "Collection of SourceProductTypes",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/SourceProductTypeResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "SourceProductUserDataResource": {
-                "properties": {
-                    "listen_price_value": {
-                        "type": "integer",
-                        "example": 500
-                    },
-                    "comment": {
-                        "type": "text",
-                        "example": "Ожидаем отзывы"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    }
-                },
-                "type": "object"
-            },
-            "SourceProductResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Рубашка льняная с рукавами на лето"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2026-09-10 10:10:19"
-                    },
-                    "source_product_type": {
-                        "$ref": "#/components/schemas/SourceProductTypeResource"
-                    },
-                    "user_created": {
-                        "$ref": "#/components/schemas/UserResource"
-                    },
-                    "source_product_user_data": {
-                        "$ref": "#/components/schemas/SourceProductUserDataResource"
-                    }
-                },
-                "type": "object"
-            },
-            "SourceProductDataResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/SourceProductResource"
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
-            "SourceProductsResourceCollection": {
-                "description": "Collection of SourceProducts",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/SourceProductResource"
-                }
-            },
-            "SourceProductsDataResourceCollection": {
-                "description": "Collection of SourceProducts",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/SourceProductResource"
-                        }
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                },
-                "type": "object"
-            },
             "UserResource": {
                 "properties": {
                     "id": {
@@ -3944,6 +3811,16 @@
             }
         },
         "parameters": {
+            "Id": {
+                "name": "id",
+                "in": "path",
+                "description": "Model id",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 4
+                }
+            },
             "Limit": {
                 "name": "limit",
                 "in": "query",
@@ -3974,14 +3851,40 @@
                     "type": "string",
                     "example": "1,2,3"
                 }
+            },
+            "BookId": {
+                "name": "book_id",
+                "in": "path",
+                "description": "Id of the Book",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 2
+                }
+            },
+            "ProductId": {
+                "name": "product_id",
+                "in": "path",
+                "description": "Id of the Product",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 2
+                }
+            },
+            "SourceProductId": {
+                "name": "source_product_id",
+                "in": "path",
+                "description": "Id of the SourceProduct",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 2
+                }
             }
         }
     },
     "tags": [
-        {
-            "name": "Products",
-            "description": "Products"
-        },
         {
             "name": "Authors",
             "description": "Authors"
@@ -3989,10 +3892,6 @@
         {
             "name": "BindingTypes",
             "description": "BindingTypes"
-        },
-        {
-            "name": "Books",
-            "description": "Books"
         },
         {
             "name": "BookSeries",
@@ -4003,12 +3902,24 @@
             "description": "BookUserData"
         },
         {
+            "name": "Books",
+            "description": "Books"
+        },
+        {
             "name": "Cities",
             "description": "Cities"
         },
         {
+            "name": "Config",
+            "description": "Config"
+        },
+        {
             "name": "PaperTypes",
             "description": "PaperTypes"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
         },
         {
             "name": "ProductUserData",
@@ -4027,16 +3938,16 @@
             "description": "Shops"
         },
         {
-            "name": "SourceProducts",
-            "description": "SourceProducts"
-        },
-        {
             "name": "SourceProductTypes",
             "description": "SourceProductTypes"
         },
         {
             "name": "SourceProductUserData",
             "description": "SourceProductUserData"
+        },
+        {
+            "name": "SourceProducts",
+            "description": "SourceProducts"
         }
     ]
 }

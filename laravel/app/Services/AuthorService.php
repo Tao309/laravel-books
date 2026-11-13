@@ -11,19 +11,15 @@ use App\CQRS\Queries\Authors\GetAuthorsQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Author;
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\Interfaces\GetListPaginateServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class AuthorService implements ServiceInterface
+readonly class AuthorService implements GetListPaginateServiceInterface, ServiceInterface
 {
     public function __construct(
         private Bus $bus,
     ) {}
-
-    public function getList(CollectionQueryDtoInterface $dto): ?Collection
-    {
-        return null;
-    }
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {

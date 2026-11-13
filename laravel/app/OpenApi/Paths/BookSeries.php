@@ -23,7 +23,7 @@ final class BookSeries
                 response: 200,
                 description: 'Get list of Book Series',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOK_SERIES_DATA_RESOURCE_COLLECTION
+                    ref: Refs::BOOK_SERIES_INDEX_RESPONSE
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class BookSeries
                 response: 201,
                 description: 'Get created BookSeries',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOK_SERIES_DATA_RESOURCE
+                    ref: Refs::BOOK_SERIES_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class BookSeries
                 response: 200,
                 description: 'Get BookSeries by id',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOK_SERIES_DATA_RESOURCE
+                    ref: Refs::BOOK_SERIES_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class BookSeries
                 response: 200,
                 description: 'Update BookSeries by id',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOK_SERIES_DATA_RESOURCE
+                    ref: Refs::BOOK_SERIES_SHOW_RESPONSE
                 )
             ),
         ]

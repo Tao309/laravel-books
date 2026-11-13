@@ -4,16 +4,18 @@ namespace App\Services;
 
 use App\CQRS\Bus;
 use App\CQRS\Commands\PublishingBrands\CreatePublishingBrandCommand;
+use App\CQRS\Commands\PublishingBrands\DestroyPublishingBrandCommand;
 use App\CQRS\Commands\PublishingBrands\UpdatePublishingBrandCommand;
 use App\CQRS\Queries\PublishingBrands\GetPublishingBrandByIdQuery;
 use App\CQRS\Queries\PublishingBrands\GetPublishingBrandsQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\PublishingBrand;
+use App\Services\Interfaces\GetListServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class PublishingBrandService implements ServiceInterface
+readonly class PublishingBrandService implements GetListServiceInterface, ServiceInterface
 {
     public function __construct(
         private Bus $bus,
@@ -41,8 +43,8 @@ readonly class PublishingBrandService implements ServiceInterface
         return $this->bus->handle($command);
     }
 
-    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
+    public function deleteById(int $id): bool
     {
-        return null;
+        return $this->bus->handle(new DestroyPublishingBrandCommand($id));
     }
 }

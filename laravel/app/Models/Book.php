@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Books\BookDataResource;
+use App\Http\Resources\Books\BookResource;
 use App\Http\Resources\Books\BooksResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
@@ -78,7 +78,7 @@ use Illuminate\Support\Facades\Auth;
  *
  * @mixin \Eloquent
  */
-#[UseResource(BookDataResource::class)]
+#[UseResource(BookResource::class)]
 #[UseResourceCollection(BooksResourceCollection::class)]
 class Book extends Model
 {

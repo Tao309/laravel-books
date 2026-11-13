@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Shops\ShopDataResource;
-use App\Http\Resources\Shops\ShopsDataResourceCollection;
+use App\Http\Resources\Shops\ShopResource;
+use App\Http\Resources\Shops\ShopsResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +29,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(ShopDataResource::class)]
-#[UseResourceCollection(ShopsDataResourceCollection::class)]
+#[UseResource(ShopResource::class)]
+#[UseResourceCollection(ShopsResourceCollection::class)]
 class Shop extends Model
 {
     public const string TABLE_NAME = 'shops';

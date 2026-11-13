@@ -23,7 +23,7 @@ final class Cities
                 response: 200,
                 description: 'Get list of cities',
                 content: new OA\JsonContent(
-                    ref: Refs::CITIES_DATA_RESOURCE_COLLECTION
+                    ref: Refs::CITIES_INDEX_RESPONSE
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class Cities
                 response: 201,
                 description: 'Get created City',
                 content: new OA\JsonContent(
-                    ref: Refs::CITY_DATA_RESOURCE
+                    ref: Refs::CITY_SHOW_RESPONSE
                 )
             ),
         ]
@@ -74,7 +74,7 @@ final class Cities
                 response: 200,
                 description: 'Update City by id',
                 content: new OA\JsonContent(
-                    ref: Refs::CITY_DATA_RESOURCE
+                    ref: Refs::CITY_SHOW_RESPONSE
                 )
             ),
         ]

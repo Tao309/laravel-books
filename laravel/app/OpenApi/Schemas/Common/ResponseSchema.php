@@ -9,7 +9,7 @@ use OpenApi\Attributes as OA;
     description: 'Common response fields',
     properties: [
         new OA\Property(property: 'message', type: 'string', example: 'Success response'),
-        new OA\Property(property: 'success', type: 'bool', example: true),
+        new OA\Property(property: 'success', type: 'boolean', example: true),
     ],
     type: 'object',
 )]

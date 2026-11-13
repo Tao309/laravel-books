@@ -23,7 +23,7 @@ final class Authors
                 response: 200,
                 description: 'Get list of authors',
                 content: new OA\JsonContent(
-                    ref: Refs::AUTHORS_INDEX_RESPONSE
+                    ref: Refs::AUTHORS_PAGINATE_RESOURCE_COLLECTION
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class Authors
                 response: 201,
                 description: 'Get created Author',
                 content: new OA\JsonContent(
-                    ref: Refs::AUTHOR_DATA_RESOURCE
+                    ref: Refs::AUTHOR_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class Authors
                 response: 200,
                 description: 'Get author by id',
                 content: new OA\JsonContent(
-                    ref: Refs::AUTHOR_DATA_RESOURCE
+                    ref: Refs::AUTHOR_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class Authors
                 response: 200,
                 description: 'Update author by id',
                 content: new OA\JsonContent(
-                    ref: Refs::AUTHOR_DATA_RESOURCE
+                    ref: Refs::AUTHOR_SHOW_RESPONSE
                 )
             ),
         ]

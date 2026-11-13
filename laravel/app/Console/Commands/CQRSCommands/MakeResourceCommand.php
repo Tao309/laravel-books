@@ -16,11 +16,6 @@ class MakeResourceCommand extends GeneratorCommand
 
     protected $type = 'Resource';
 
-    protected function isData(): bool
-    {
-        return $this->option('data');
-    }
-
     public function handle()
     {
         if ($this->collection()) {
@@ -36,10 +31,12 @@ class MakeResourceCommand extends GeneratorCommand
         $name = str_replace('/', '\\', $name);
 
         if ($this->collection()) {
-            $name = $this->isData() ? Str::plural($name).'DataResourceCollection' : Str::plural($name).'ResourceCollection';
+            $name = Str::plural($name).'ResourceCollection';
         } else {
-            $name = $this->isData() ? $name.'DataResource' : $name.'Resource';
+            $name = $name.'Resource';
         }
+
+        $name = $this->collection() ? Str::plural($name).'ResourceCollection' : $name.'Resource';
 
         $rootNamespace = $this->rootNamespace();
 
@@ -82,7 +79,6 @@ class MakeResourceCommand extends GeneratorCommand
     {
         return [
             ['collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection'],
-            ['data', 'data', InputOption::VALUE_NONE, 'As Data Collection'],
         ];
     }
 

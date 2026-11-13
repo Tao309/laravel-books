@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'PublishingHousesDataResourceCollection',
+    schema: 'PublishingHousesIndexResponse',
     description: 'Collection of PublishingHouses',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
@@ -23,11 +23,8 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(
                     property: 'data',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: Refs::PUBLISHING_HOUSE_RESOURCE,
-                        type: 'object'
-                    )
+                    ref: Refs::PUBLISHING_HOUSES_RESOURCE_COLLECTION,
+                    type: 'object'
                 ),
             ],
             type: 'object'

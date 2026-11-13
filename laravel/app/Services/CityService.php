@@ -7,14 +7,16 @@ use App\CQRS\Commands\Cities\CreateCityCommand;
 use App\CQRS\Commands\Cities\DestroyCityCommand;
 use App\CQRS\Commands\Cities\UpdateCityCommand;
 use App\CQRS\Queries\Cities\GetCitiesQuery;
+use App\CQRS\Queries\Cities\GetCityByIdQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\City;
+use App\Services\Interfaces\GetListServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class CityService implements ServiceInterface
+readonly class CityService implements GetListServiceInterface, ServiceInterface
 {
     public function __construct(
         private Bus $bus,
@@ -44,13 +46,8 @@ readonly class CityService implements ServiceInterface
         return $this->bus->handle(new DestroyCityCommand($id));
     }
 
-    public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
-    {
-        return null;
-    }
-
     public function getById(int $id): ?Model
     {
-        return null;
+        return $this->bus->handle(new GetCityByIdQuery($id));
     }
 }

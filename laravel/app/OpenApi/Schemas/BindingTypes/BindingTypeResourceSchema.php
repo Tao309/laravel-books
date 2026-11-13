@@ -16,8 +16,12 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'BindingTypeDataResource',
-    description: 'Single BindingType response',
+    ref: Refs::RESPONSE,
+    schema: 'BindingTypeDestroyResponse',
+    description: 'Delete BindingType response',
+)]
+#[OA\Schema(
+    schema: 'BindingTypeShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(
@@ -25,25 +29,6 @@ use OpenApi\Attributes as OA;
                 new OA\Property(
                     property: 'data',
                     ref: Refs::BINDING_TYPE_RESOURCE,
-                    type: 'object'
-                ),
-            ],
-            type: 'object'
-        ),
-    ]
-)]
-#[OA\Schema(
-    schema: 'BindingTypeDestroyResponse',
-    description: 'Delete BindingType response',
-    allOf: [
-        new OA\Schema(ref: Refs::RESPONSE),
-        new OA\Schema(
-            properties: [
-                new OA\Property(
-                    property: 'data',
-                    properties: [
-                        new OA\Property(property: 'success', type: 'bool', example: true),
-                    ],
                     type: 'object'
                 ),
             ],

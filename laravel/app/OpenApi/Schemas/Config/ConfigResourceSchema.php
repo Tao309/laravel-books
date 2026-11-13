@@ -54,9 +54,9 @@ use OpenApi\Attributes as OA;
                 new OA\Property(
                     property: 'product',
                     properties: [
-                        new OA\Property(property: 'update', type: 'bool', example: true),
-                        new OA\Property(property: 'create', type: 'bool', example: true),
-                        new OA\Property(property: 'limit_enabled', type: 'bool', example: false),
+                        new OA\Property(property: 'update', type: 'boolean', example: true),
+                        new OA\Property(property: 'create', type: 'boolean', example: true),
+                        new OA\Property(property: 'limit_enabled', type: 'boolean', example: false),
                         new OA\Property(property: 'limit', type: 'integer', nullable: true),
                     ],
                     type: 'object'
@@ -64,21 +64,21 @@ use OpenApi\Attributes as OA;
                 new OA\Property(
                     property: 'book',
                     properties: [
-                        new OA\Property(property: 'update', type: 'bool', example: true),
-                        new OA\Property(property: 'create', type: 'bool', example: true),
+                        new OA\Property(property: 'update', type: 'boolean', example: true),
+                        new OA\Property(property: 'create', type: 'boolean', example: true),
                         new OA\Property(property: 'limit', type: 'integer', nullable: true),
-                        new OA\Property(property: 'add_publishing_house', type: 'bool', example: true),
-                        new OA\Property(property: 'add_publishing_brand', type: 'bool', example: true),
-                        new OA\Property(property: 'add_series', type: 'bool', example: true),
+                        new OA\Property(property: 'add_publishing_house', type: 'boolean', example: true),
+                        new OA\Property(property: 'add_publishing_brand', type: 'boolean', example: true),
+                        new OA\Property(property: 'add_series', type: 'boolean', example: true),
                     ],
                     type: 'object'
                 ),
                 new OA\Property(
                     property: 'source_product',
                     properties: [
-                        new OA\Property(property: 'enabled', type: 'bool', example: true),
-                        new OA\Property(property: 'create', type: 'bool', example: true),
-                        new OA\Property(property: 'update', type: 'bool', example: true),
+                        new OA\Property(property: 'enabled', type: 'boolean', example: true),
+                        new OA\Property(property: 'create', type: 'boolean', example: true),
+                        new OA\Property(property: 'update', type: 'boolean', example: true),
                         new OA\Property(property: 'limit', type: 'integer', nullable: true),
                     ],
                     type: 'object'

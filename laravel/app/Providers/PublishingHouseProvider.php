@@ -9,8 +9,8 @@ use App\CQRS\Handlers\PublishingHouses\UpdatePublishingHouseHandler;
 use App\Http\Controllers\Api\PublishingHouseController;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\PublishingHouseRepository;
+use App\Services\Interfaces\ServiceInterface;
 use App\Services\PublishingHouseService;
-use App\Services\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class PublishingHouseProvider extends ServiceProvider

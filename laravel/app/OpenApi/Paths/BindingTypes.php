@@ -23,7 +23,7 @@ final class BindingTypes
                 response: 200,
                 description: 'Get list of binding types',
                 content: new OA\JsonContent(
-                    ref: Refs::BINDING_TYPES_DATA_RESOURCE_COLLECTION
+                    ref: Refs::BINDING_TYPES_INDEX_RESPONSE
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class BindingTypes
                 response: 201,
                 description: 'Get created BindingType',
                 content: new OA\JsonContent(
-                    ref: Refs::BINDING_TYPE_DATA_RESOURCE
+                    ref: Refs::BINDING_TYPE_SHOW_RESPONSE
                 )
             ),
         ]
@@ -74,7 +74,7 @@ final class BindingTypes
                 response: 200,
                 description: 'Update BindingType by id',
                 content: new OA\JsonContent(
-                    ref: Refs::BINDING_TYPE_DATA_RESOURCE
+                    ref: Refs::BINDING_TYPE_SHOW_RESPONSE
                 )
             ),
         ]

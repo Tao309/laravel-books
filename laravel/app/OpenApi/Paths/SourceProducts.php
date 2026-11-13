@@ -23,7 +23,7 @@ final class SourceProducts
                 response: 200,
                 description: 'Get list of SourceProducts',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCTS_DATA_RESOURCE_COLLECTION
+                    ref: Refs::SOURCE_PRODUCT_TYPES_INDEX_RESPONSE
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class SourceProducts
                 response: 201,
                 description: 'Get created SourceProduct',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_DATA_RESOURCE
+                    ref: Refs::SOURCE_PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class SourceProducts
                 response: 200,
                 description: 'Get SourceProduct by id',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_DATA_RESOURCE
+                    ref: Refs::SOURCE_PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class SourceProducts
                 response: 200,
                 description: 'Update SourceProduct by id',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_DATA_RESOURCE
+                    ref: Refs::SOURCE_PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]

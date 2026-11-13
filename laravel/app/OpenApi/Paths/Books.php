@@ -23,7 +23,7 @@ final class Books
                 response: 200,
                 description: 'Get list of books',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOKS_INDEX_RESPONSE
+                    ref: Refs::BOOKS_PAGINATE_RESOURCE_COLLECTION
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class Books
                 response: 201,
                 description: 'Get created Book',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOK_DATA_RESOURCE
+                    ref: Refs::BOOK_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class Books
                 response: 200,
                 description: 'Get Book by id',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOK_DATA_RESOURCE
+                    ref: Refs::BOOK_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class Books
                 response: 200,
                 description: 'Update Book by id',
                 content: new OA\JsonContent(
-                    ref: Refs::BOOK_DATA_RESOURCE
+                    ref: Refs::BOOK_SHOW_RESPONSE
                 )
             ),
         ]

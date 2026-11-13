@@ -16,8 +16,12 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
-    schema: 'BookSeriesDataResource',
-    description: 'Single BookSeries response',
+    ref: Refs::RESPONSE,
+    schema: 'BookSeriesDestroyResponse',
+    description: 'Delete BookSeries response'
+)]
+#[OA\Schema(
+    schema: 'BookSeriesShowResponse',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(

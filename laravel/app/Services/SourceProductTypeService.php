@@ -6,15 +6,18 @@ use App\CQRS\Bus;
 use App\CQRS\Commands\SourceProductTypes\CreateSourceProductTypeCommand;
 use App\CQRS\Commands\SourceProductTypes\DestroySourceProductTypeCommand;
 use App\CQRS\Commands\SourceProductTypes\UpdateSourceProductTypeCommand;
-use App\CQRS\Queries\SourceProductTypes\GetByIdSourceProductTypeQuery;
+use App\CQRS\Queries\SourceProductTypes\GetSourceProductTypeByIdQuery;
 use App\CQRS\Queries\SourceProductTypes\GetSourceProductTypesQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\SourceProductType;
+use App\Services\Interfaces\GetListPaginateServiceInterface;
+use App\Services\Interfaces\GetListServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class SourceProductTypeService implements ServiceInterface
+readonly class SourceProductTypeService implements GetListPaginateServiceInterface, GetListServiceInterface, ServiceInterface
 {
     public function __construct(
         private Bus $bus,
@@ -32,7 +35,7 @@ readonly class SourceProductTypeService implements ServiceInterface
 
     public function getById(int $id): SourceProductType
     {
-        return $this->bus->handle(new GetByIdSourceProductTypeQuery($id));
+        return $this->bus->handle(new GetSourceProductTypeByIdQuery($id));
     }
 
     public function create(DtoInterface $dto): SourceProductType

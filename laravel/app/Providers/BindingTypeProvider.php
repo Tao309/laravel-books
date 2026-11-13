@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\BindingTypeController;
 use App\Repositories\BindingTypeRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Services\BindingTypeService;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class BindingTypeProvider extends ServiceProvider

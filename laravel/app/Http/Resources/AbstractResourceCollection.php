@@ -6,22 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
-abstract class AbstractResourceCollection extends ResourceCollection
+class AbstractResourceCollection extends ResourceCollection
 {
-    protected bool $toWrap = false;
-
     /**
      * @return array<int|string, mixed>
      */
     public function toArray(Request $request): array|Collection
     {
-        if ($this->toWrap) {
-            return [
+        return [
+            'items' => $this->collection,
+            'meta' => [
                 'count' => $this->collection->count(),
-                'items' => $this->collection,
-            ];
-        }
-
-        return $this->collection;
+            ],
+        ];
     }
 }

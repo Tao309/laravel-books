@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Response\ResponseContext;
 use App\Repositories\BookUserDataRepository;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class BookUserDataController extends ApiController

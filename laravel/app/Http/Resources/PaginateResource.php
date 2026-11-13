@@ -21,20 +21,23 @@ class PaginateResource extends JsonResource
     public function toArray(Request $request): array|\JsonSerializable|Arrayable
     {
         return [
-            'current_page' => $this->currentPage(),
             'items' => $this->collect($this->items()),
-            'first_page_url' => $this->url(1),
-            'from' => $this->firstItem(),
-            'last_page' => $this->lastPage(),
-            'last_page_url' => $this->url($this->lastPage()),
-            'next_page_url' => $this->nextPageUrl(),
-            'path' => $this->path(),
-            'per_page' => $this->perPage(),
-            'prev_page_url' => $this->previousPageUrl(),
-            'to' => $this->lastItem(),
-            'total' => $this->total(),
-            'count' => count($this->items()),
-            'success' => true,
+            'links' => [
+                'path' => $this->path(),
+                'first_page_url' => $this->url(1),
+                'last_page_url' => $this->url($this->lastPage()),
+                'next_page_url' => $this->nextPageUrl(),
+                'prev_page_url' => $this->previousPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $this->currentPage(),
+                'per_page' => $this->perPage(),
+                'from' => $this->firstItem(),
+                'last_page' => $this->lastPage(),
+                'to' => $this->lastItem(),
+                'total' => $this->total(),
+                'count' => count($this->items()),
+            ],
         ];
     }
 }

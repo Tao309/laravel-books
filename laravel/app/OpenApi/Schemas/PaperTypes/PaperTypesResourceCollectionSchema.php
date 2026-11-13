@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'PaperTypesDataResourceCollection',
+    schema: 'PaperTypesIndexResponse',
     description: 'Collection of PaperTypes',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
@@ -23,11 +23,8 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(
                     property: 'data',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: Refs::PAPER_TYPE_RESOURCE,
-                        type: 'object'
-                    )
+                    ref: Refs::PAPER_TYPES_RESOURCE_COLLECTION,
+                    type: 'object'
                 ),
             ],
             type: 'object'

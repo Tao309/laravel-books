@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\PaperTypes\PaperTypeDataResource;
-use App\Http\Resources\PaperTypes\PaperTypesDataResourceCollection;
+use App\Http\Resources\PaperTypes\PaperTypeResource;
+use App\Http\Resources\PaperTypes\PaperTypesResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -27,8 +27,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(PaperTypeDataResource::class)]
-#[UseResourceCollection(PaperTypesDataResourceCollection::class)]
+#[UseResource(PaperTypeResource::class)]
+#[UseResourceCollection(PaperTypesResourceCollection::class)]
 class PaperType extends Model
 {
     public const string TABLE_NAME = 'paper_types';

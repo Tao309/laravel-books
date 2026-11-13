@@ -23,7 +23,7 @@ final class SourceProductTypes
                 response: 200,
                 description: 'Get list of SourceProductTypes',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_TYPES_DATA_RESOURCE_COLLECTION
+                    ref: Refs::SOURCE_PRODUCT_TYPES_RESOURCE_COLLECTION
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class SourceProductTypes
                 response: 201,
                 description: 'Get created SourceProductType',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_TYPE_DATA_RESOURCE
+                    ref: Refs::SOURCE_PRODUCT_TYPE_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class SourceProductTypes
                 response: 200,
                 description: 'Get SourceProductType by id',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_TYPE_DATA_RESOURCE
+                    ref: Refs::SOURCE_PRODUCT_TYPE_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class SourceProductTypes
                 response: 200,
                 description: 'Update SourceProductType by id',
                 content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_TYPE_DATA_RESOURCE
+                    ref: Refs::SOURCE_PRODUCT_TYPE_SHOW_RESPONSE
                 )
             ),
         ]

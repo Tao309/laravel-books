@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\BindingTypes\BindingTypeDataResource;
-use App\Http\Resources\BindingTypes\BindingTypesDataResourceCollection;
+use App\Http\Resources\BindingTypes\BindingTypeResource;
+use App\Http\Resources\BindingTypes\BindingTypesResourceCollection;
 use App\Observers\BindingTypeObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
@@ -27,8 +27,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(BindingTypeDataResource::class)]
-#[UseResourceCollection(BindingTypesDataResourceCollection::class)]
+#[UseResource(BindingTypeResource::class)]
+#[UseResourceCollection(BindingTypesResourceCollection::class)]
 #[ObservedBy([BindingTypeObserver::class])]
 class BindingType extends Model
 {

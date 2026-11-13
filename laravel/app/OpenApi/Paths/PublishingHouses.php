@@ -23,7 +23,7 @@ final class PublishingHouses
                 response: 200,
                 description: 'Get list of Publishing Houses',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_HOUSES_DATA_RESOURCE_COLLECTION
+                    ref: Refs::PUBLISHING_HOUSES_INDEX_RESPONSE
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class PublishingHouses
                 response: 201,
                 description: 'Get created PublishingHouse',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_HOUSE_DATA_RESOURCE
+                    ref: Refs::PUBLISHING_HOUSE_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class PublishingHouses
                 response: 200,
                 description: 'Get PublishingHouse by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_HOUSE_DATA_RESOURCE
+                    ref: Refs::PUBLISHING_HOUSE_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class PublishingHouses
                 response: 200,
                 description: 'Update PublishingHouse by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PUBLISHING_HOUSE_DATA_RESOURCE
+                    ref: Refs::PUBLISHING_HOUSE_SHOW_RESPONSE
                 )
             ),
         ]

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\SourceProductTypes\SourceProductTypeDataResource;
-use App\Http\Resources\SourceProductTypes\SourceProductTypesDataResourceCollection;
+use App\Http\Resources\SourceProductTypes\SourceProductTypeResource;
+use App\Http\Resources\SourceProductTypes\SourceProductTypesResourceCollection;
 use App\Observers\SourceProductTypeObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
@@ -29,8 +29,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(SourceProductTypeDataResource::class)]
-#[UseResourceCollection(SourceProductTypesDataResourceCollection::class)]
+#[UseResource(SourceProductTypeResource::class)]
+#[UseResourceCollection(SourceProductTypesResourceCollection::class)]
 #[ObservedBy([SourceProductTypeObserver::class])]
 class SourceProductType extends Model
 {

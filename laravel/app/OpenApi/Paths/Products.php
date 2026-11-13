@@ -23,7 +23,7 @@ final class Products
                 response: 200,
                 description: 'Get list of Products',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCTS_INDEX_RESPONSE
+                    ref: Refs::PRODUCTS_PAGINATE_RESOURCE_COLLECTION
                 )
             ),
         ]
@@ -47,7 +47,7 @@ final class Products
                 response: 201,
                 description: 'Get created Product',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class Products
                 response: 200,
                 description: 'Get Product by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -95,7 +95,7 @@ final class Products
                 response: 200,
                 description: 'Update Product by id',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]

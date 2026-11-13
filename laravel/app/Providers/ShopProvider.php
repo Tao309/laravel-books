@@ -7,7 +7,7 @@ use App\CQRS\Handlers\Shops\GetShopsHandler;
 use App\Http\Controllers\Api\ShopController;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\ShopRepository;
-use App\Services\ServiceInterface;
+use App\Services\Interfaces\ServiceInterface;
 use App\Services\ShopService;
 use Illuminate\Support\ServiceProvider;
 

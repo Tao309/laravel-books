@@ -5,8 +5,8 @@ namespace App\Console\Commands\Import;
 use App\Models\Author;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:import:author_books')]
 class ImportAuthorBooksPivotCommand extends CommonImportCommand

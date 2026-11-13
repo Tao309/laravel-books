@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\PublishingBrand\PublishingBrandDataResource;
-use App\Http\Resources\PublishingBrand\PublishingBrandsDataResourceCollection;
+use App\Http\Resources\PublishingBrand\PublishingBrandResource;
+use App\Http\Resources\PublishingBrand\PublishingBrandsResourceCollection;
 use App\Observers\PublishingBrandObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
@@ -27,8 +27,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(PublishingBrandDataResource::class)]
-#[UseResourceCollection(PublishingBrandsDataResourceCollection::class)]
+#[UseResource(PublishingBrandResource::class)]
+#[UseResourceCollection(PublishingBrandsResourceCollection::class)]
 #[ObservedBy([PublishingBrandObserver::class])]
 class PublishingBrand extends Model
 {

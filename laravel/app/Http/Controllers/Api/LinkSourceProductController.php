@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Response\ResponseContext;
+use App\Services\Interfaces\ServiceInterface;
 use App\Services\LinkToProductService;
-use App\Services\ServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class LinkSourceProductController extends ApiController
@@ -22,10 +22,7 @@ class LinkSourceProductController extends ApiController
         int $productId,
         int $sourceProductId,
     ): JsonResponse {
-        return $this->toJson([
-            'success' => true,
-            'data' => $this->linkProductService->linkSourceProduct($productId, $sourceProductId),
-        ]);
+        return $this->toJson($this->linkProductService->linkSourceProduct($productId, $sourceProductId));
 
     }
 }

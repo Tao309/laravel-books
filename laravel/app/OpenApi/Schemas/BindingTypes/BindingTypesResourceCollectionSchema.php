@@ -6,7 +6,7 @@ use App\OpenApi\Refs;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'BindingTypesCollection',
+    schema: 'BindingTypesResourceCollection',
     description: 'Collection of binding types',
     type: 'object',
     items: new OA\Items(
@@ -15,19 +15,16 @@ use OpenApi\Attributes as OA;
     )
 )]
 #[OA\Schema(
-    schema: 'BindingTypesDataResourceCollection',
-    description: 'Collection of binding types',
+    schema: 'BindingTypesIndexResponse',
+    description: 'Collection of BindingTypes',
     allOf: [
         new OA\Schema(ref: Refs::RESPONSE),
         new OA\Schema(
             properties: [
                 new OA\Property(
                     property: 'data',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: Refs::BINDING_TYPE_RESOURCE,
-                        type: 'object'
-                    )
+                    ref: Refs::BINDING_TYPES_RESOURCE_COLLECTION,
+                    type: 'object'
                 ),
             ],
             type: 'object'

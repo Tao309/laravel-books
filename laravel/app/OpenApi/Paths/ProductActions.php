@@ -24,7 +24,7 @@ final class ProductActions
                 response: 200,
                 description: 'Archive Product',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -46,7 +46,7 @@ final class ProductActions
                 response: 200,
                 description: 'Link Book to Product',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -68,7 +68,7 @@ final class ProductActions
                 response: 200,
                 description: 'Link SourceProduct to Product',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -89,7 +89,7 @@ final class ProductActions
                 response: 200,
                 description: 'Unlink from Product',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]
@@ -113,7 +113,7 @@ final class ProductActions
                 response: 200,
                 description: 'Mass Save Products',
                 content: new OA\JsonContent(
-                    ref: Refs::PRODUCT_DATA_RESOURCE
+                    ref: Refs::PRODUCT_SHOW_RESPONSE
                 )
             ),
         ]

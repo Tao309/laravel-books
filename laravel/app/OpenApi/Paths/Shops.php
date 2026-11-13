@@ -23,7 +23,7 @@ final class Shops
                 response: 200,
                 description: 'Get list of shops',
                 content: new OA\JsonContent(
-                    ref: Refs::SHOPS_DATA_RESOURCE_COLLECTION
+                    ref: Refs::SHOPS_INDEX_RESPONSE
                 )
             ),
         ]
@@ -44,7 +44,7 @@ final class Shops
                 response: 200,
                 description: 'Get shop by id',
                 content: new OA\JsonContent(
-                    ref: Refs::SHOP_DATA_RESOURCE
+                    ref: Refs::SHOP_SHOW_RESPONSE
                 )
             ),
         ]

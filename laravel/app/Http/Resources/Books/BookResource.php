@@ -37,14 +37,38 @@ class BookResource extends AbstractResource
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
             // > relations
-            Book::PARAM_AUTHORS => AuthorResource::collection($this->authors),
-            Book::PARAM_BINDING_TYPE => BindingTypeResource::make($this->bindingType),
-            Book::PARAM_PAPER_TYPE => PaperTypeResource::make($this->paperType),
-            Book::PARAM_PUBLISHING_HOUSE => PublishingHouseResource::make($this->publishingHouse),
-            Book::PARAM_PUBLISHING_BRAND => PublishingBrandResource::make($this->publishingBrand),
-            Book::PARAM_BOOK_SERIES => BookSeriesResource::make($this->bookSeries),
-            Book::PARAM_USER_CREATED => UserResource::make($this->userCreated),
-            Book::PARAM_BOOK_USER_DATA => BookUserDataResource::make($this->bookUserData),
+            Book::PARAM_AUTHORS => $this->whenLoaded(
+                'authors',
+                fn () => AuthorResource::collection($this->authors)
+            ),
+            Book::PARAM_BINDING_TYPE => $this->whenLoaded(
+                'bindingType',
+                fn () => BindingTypeResource::make($this->bindingType)
+            ),
+            Book::PARAM_PAPER_TYPE => $this->whenLoaded(
+                'paperType',
+                fn () => PaperTypeResource::make($this->paperType)
+            ),
+            Book::PARAM_PUBLISHING_HOUSE => $this->whenLoaded(
+                'publishingHouse',
+                fn () => PublishingHouseResource::make($this->publishingHouse)
+            ),
+            Book::PARAM_PUBLISHING_BRAND => $this->whenLoaded(
+                'publishingBrand',
+                fn () => PublishingBrandResource::make($this->publishingBrand)
+            ),
+            Book::PARAM_BOOK_SERIES => $this->whenLoaded(
+                'bookSeries',
+                fn () => BookSeriesResource::make($this->bookSeries)
+            ),
+            Book::PARAM_USER_CREATED => $this->whenLoaded(
+                'userCreated',
+                fn () => UserResource::make($this->userCreated)
+            ),
+            Book::PARAM_BOOK_USER_DATA => $this->whenLoaded(
+                'bookUserData',
+                fn () => BookUserDataResource::make($this->bookUserData)
+            ),
             // < relations
         ];
     }

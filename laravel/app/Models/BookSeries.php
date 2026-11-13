@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\BookSeries\BookSeriesDataResource;
-use App\Http\Resources\BookSeries\BookSeriesDataResourceCollection;
+use App\Http\Resources\BookSeries\BookSeriesResource;
+use App\Http\Resources\BookSeries\BookSeriesResourceCollection;
 use App\Observers\BookSeriesObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
@@ -27,8 +27,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-#[UseResource(BookSeriesDataResource::class)]
-#[UseResourceCollection(BookSeriesDataResourceCollection::class)]
+#[UseResource(BookSeriesResource::class)]
+#[UseResourceCollection(BookSeriesResourceCollection::class)]
 #[ObservedBy([BookSeriesObserver::class])]
 class BookSeries extends Model
 {

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Products\ProductDataResource;
-use App\Http\Resources\Products\ProductsDataResourceCollection;
+use App\Http\Resources\Products\ProductResource;
+use App\Http\Resources\Products\ProductsResourceCollection;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,8 +54,8 @@ use Illuminate\Support\Facades\Auth;
  *
  * @mixin \Eloquent
  */
-#[UseResource(ProductDataResource::class)]
-#[UseResourceCollection(ProductsDataResourceCollection::class)]
+#[UseResource(ProductResource::class)]
+#[UseResourceCollection(ProductsResourceCollection::class)]
 class Product extends Model
 {
     public const string TABLE_NAME = 'products';
