@@ -86,7 +86,7 @@ use OpenApi\Attributes as OA;
             type: 'object'
         ),
     ]
- )]
+)]
 #[OA\Schema(
     schema: 'BookDestroyResponse',
     description: 'Delete Book response',

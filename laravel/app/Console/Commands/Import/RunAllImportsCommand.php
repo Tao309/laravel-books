@@ -56,6 +56,7 @@ class RunAllImportsCommand extends Command
                 'app:import:publishing_houses',
                 'app:import:authors',
                 'app:import:books',
+                'app:import:author_books',
                 'app:import:book_user_data',
                 // < books
 

@@ -31,7 +31,7 @@ use OpenApi\Attributes as OA;
             type: 'object'
         ),
     ]
- )]
+)]
 #[OA\Schema(
     schema: 'BindingTypeDestroyResponse',
     description: 'Delete BindingType response',

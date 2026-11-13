@@ -60,7 +60,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'success', type: 'bool', example: true),
     ],
     type: 'object'
- )]
+)]
 #[OA\Schema(
     schema: 'ProductsIndexResponse',
     description: 'Paginated list of Products',

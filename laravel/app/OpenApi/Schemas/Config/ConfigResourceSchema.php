@@ -100,7 +100,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'app_version', type: 'string', example: '1.0.0'),
     ],
     type: 'object'
- )]
+)]
 #[OA\Schema(
     schema: 'ConfigResponse',
     description: 'Application config response',

@@ -36,7 +36,7 @@ use OpenApi\Attributes as OA;
             type: 'object'
         ),
     ]
- )]
+)]
 #[OA\Schema(
     schema: 'PaperTypeDestroyResponse',
     description: 'Delete PaperType response',

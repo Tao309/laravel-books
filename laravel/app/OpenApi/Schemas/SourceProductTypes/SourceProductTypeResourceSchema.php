@@ -32,7 +32,7 @@ use OpenApi\Attributes as OA;
             type: 'object'
         ),
     ]
- )]
+)]
 #[OA\Schema(
     schema: 'SourceProductTypeDestroyResponse',
     description: 'Delete SourceProductType response',

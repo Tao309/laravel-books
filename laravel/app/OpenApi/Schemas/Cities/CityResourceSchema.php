@@ -32,7 +32,7 @@ use OpenApi\Attributes as OA;
             type: 'object'
         ),
     ]
- )]
+)]
 #[OA\Schema(
     schema: 'CityDestroyResponse',
     description: 'Delete City response',

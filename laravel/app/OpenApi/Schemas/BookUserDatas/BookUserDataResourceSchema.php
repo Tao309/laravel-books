@@ -18,7 +18,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: Model::CREATED_AT, type: 'string', example: '2026-09-10 10:10:19'),
     ],
     type: 'object'
- )]
+)]
 #[OA\Schema(
     schema: 'BookUserDataResponse',
     description: 'BookUserData response',
