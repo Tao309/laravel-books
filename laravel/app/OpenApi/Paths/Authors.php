@@ -23,7 +23,7 @@ final class Authors
                 response: 200,
                 description: 'Get list of authors',
                 content: new OA\JsonContent(
-                    ref: Refs::AUTHORS_PAGINATE_RESOURCE_COLLECTION
+                    ref: Refs::AUTHORS_INDEX_RESPONSE
                 )
             ),
         ]
@@ -44,11 +44,11 @@ final class Authors
         tags: ['Authors'],
         responses: [
             new OA\Response(
+                response: 201,
+                description: 'Get created Author',
                 content: new OA\JsonContent(
                     ref: Refs::AUTHOR_DATA_RESOURCE
-                ),
-                description: 'Get created Author',
-                response: 201
+                )
             ),
         ]
     )]
@@ -116,13 +116,7 @@ final class Authors
                 response: 200,
                 description: 'Delete author by id',
                 content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'success',
-                            type: 'boolean',
-                            example: true,
-                        ),
-                    ]
+                    ref: Refs::AUTHOR_DESTROY_RESPONSE
                 )
             ),
         ]

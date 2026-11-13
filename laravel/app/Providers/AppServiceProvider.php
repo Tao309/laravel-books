@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Auth\CustomUserProvider;
 use App\CacheProviders\CacheProviderInterface;
-use App\CQRS\CommandBus;
+use App\CQRS\Bus;
 use App\Http\Response\ResponseContext;
 use App\Services\SessionShopService;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(CommandBus::class);
+        $this->app->singleton(Bus::class);
 
         $this->app->singleton(CacheProviderInterface::class);
 

@@ -95,13 +95,7 @@ final class BindingTypes
                 response: 200,
                 description: 'Delete BindingType by id',
                 content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'success',
-                            type: 'boolean',
-                            example: true,
-                        ),
-                    ]
+                    ref: Refs::BINDING_TYPE_DESTROY_RESPONSE
                 )
             ),
         ]

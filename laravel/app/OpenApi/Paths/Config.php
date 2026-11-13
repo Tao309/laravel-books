@@ -8,20 +8,20 @@ use OpenApi\Attributes as OA;
 final class Config
 {
     #[OA\Get(
-        description: 'Get application config',
-        operationId: 'config.show',
         path: '/api/config',
+        operationId: 'config.show',
+        description: 'Get application config',
+        summary: 'Get application config',
+        tags: ['Config'],
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    ref: Refs::CONFIG_RESOURCE
-                ),
+                response: 200,
                 description: 'Get application config',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::CONFIG_RESPONSE
+                )
             ),
-        ],
-        summary: 'Get application config',
-        tags: ['Config']
+        ]
     )]
     public function show(): void {}
 }

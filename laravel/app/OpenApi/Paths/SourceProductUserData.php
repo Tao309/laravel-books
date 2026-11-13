@@ -8,23 +8,23 @@ use OpenApi\Attributes as OA;
 final class SourceProductUserData
 {
     #[OA\Get(
-        description: 'Get SourceProduct by id',
+        path: '/api/source_product_user_data/{source_product_id}',
         operationId: 'source_product_user_data.show',
+        description: 'Get SourceProduct by id',
+        summary: 'Get SourceProduct by Book ID',
+        tags: ['SourceProductUserData'],
         parameters: [
             new OA\Parameter(ref: Refs::SOURCE_PRODUCT_ID),
         ],
-        path: '/api/source_product_user_data/{source_product_id}',
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    ref: Refs::SOURCE_PRODUCT_USER_DATA_RESOURCE
-                ),
+                response: 200,
                 description: 'Get SourceProduct by source_product_id',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::SOURCE_PRODUCT_USER_DATA_RESPONSE
+                )
             ),
-        ],
-        summary: 'Get SourceProduct by Book ID',
-        tags: ['SourceProductUserData']
+        ]
     )]
     public function show(): void {}
 }

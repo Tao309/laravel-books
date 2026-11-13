@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CQRS\CommandBus;
+use App\CQRS\Bus;
 use App\CQRS\Commands\Authors\CreateAuthorCommand;
 use App\CQRS\Commands\Authors\DestroyAuthorCommand;
 use App\CQRS\Commands\Authors\UpdateAuthorCommand;
@@ -17,7 +17,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 readonly class AuthorService implements ServiceInterface
 {
     public function __construct(
-        private CommandBus $bus,
+        private Bus $bus,
     ) {}
 
     public function getList(CollectionQueryDtoInterface $dto): ?Collection
@@ -27,31 +27,31 @@ readonly class AuthorService implements ServiceInterface
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetAuthorsQuery($dto));
+        return $this->bus->handle(new GetAuthorsQuery($dto));
     }
 
     public function getById(int $id): Author
     {
-        return $this->bus->dispatch(new GetAuthorByIdQuery($id));
+        return $this->bus->handle(new GetAuthorByIdQuery($id));
     }
 
     public function create(DtoInterface $dto): Author
     {
         $command = new CreateAuthorCommand($dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function updateById(int $id, DtoInterface $dto): Author
     {
         $command = new UpdateAuthorCommand($id, $dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function deleteById(int $id): bool
     {
-        return $this->bus->dispatch(new DestroyAuthorCommand($id));
+        return $this->bus->handle(new DestroyAuthorCommand($id));
     }
 
     public function splitAuthorFullName(string $authorFullName): array

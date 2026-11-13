@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CQRS\CommandBus;
+use App\CQRS\Bus;
 use App\CQRS\Queries\Shops\GetShopByIdQuery;
 use App\CQRS\Queries\Shops\GetShopsQuery;
 use App\DTOs\CollectionQueryDtoInterface;
@@ -15,17 +15,17 @@ use Illuminate\Pagination\LengthAwarePaginator;
 readonly class ShopService implements ServiceInterface
 {
     public function __construct(
-        private CommandBus $bus,
+        private Bus $bus,
     ) {}
 
     public function getById(int $id): Shop
     {
-        return $this->bus->dispatch(new GetShopByIdQuery($id));
+        return $this->bus->handle(new GetShopByIdQuery($id));
     }
 
     public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetShopsQuery($dto));
+        return $this->bus->handle(new GetShopsQuery($dto));
     }
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator

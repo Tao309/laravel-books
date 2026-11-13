@@ -5,8 +5,8 @@ namespace App\OpenApi;
 use OpenApi\Attributes as OA;
 
 #[OA\Info(
+    version: '1.0',
     description: 'Laravel Books API',
-    title: 'Books API',
-    version: '1.0'
+    title: 'Books API'
 )]
 class Info {}

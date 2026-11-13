@@ -7,19 +7,19 @@ use App\Models\ProductUserData;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'ArchiveProductRequest',
     properties: [
         new OA\Property(
-            example: '3315320967',
             property: Product::PARAM_SHOP_PRODUCT_ID,
-            type: 'string'
+            type: 'string',
+            example: '3315320967'
         ),
         new OA\Property(
-            example: true,
             property: ProductUserData::PARAM_IS_ARCHIVE,
             type: 'boolean',
+            example: true,
         ),
     ],
-    schema: 'ArchiveProductRequest',
     type: 'object',
 )]
 class ArchiveProductRequestSchema {}

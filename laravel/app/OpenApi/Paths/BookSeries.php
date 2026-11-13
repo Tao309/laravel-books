@@ -8,97 +8,97 @@ use OpenApi\Attributes as OA;
 final class BookSeries
 {
     #[OA\Get(
-        description: 'Get list of Book Series',
+        path: '/api/books_series',
         operationId: 'book_series.index',
+        description: 'Get list of Book Series',
+        summary: 'Get list of Book Series',
+        tags: ['BookSeries'],
         parameters: [
             new OA\Parameter(ref: Refs::IDS),
             new OA\Parameter(ref: Refs::LIMIT),
             new OA\Parameter(ref: Refs::SEARCH),
         ],
-        path: '/api/books_series',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Get list of Book Series',
                 content: new OA\JsonContent(
                     ref: Refs::BOOK_SERIES_DATA_RESOURCE_COLLECTION
-                ),
-                description: 'Get list of Book Series',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Get list of Book Series',
-        tags: ['BookSeries']
+        ]
     )]
     public function index(): void {}
 
     #[OA\Post(
-        description: 'Create BookSeries',
-        operationId: 'book_series.store',
         path: '/api/books_series',
+        operationId: 'book_series.store',
+        description: 'Create BookSeries',
+        summary: 'Create BookSeries',
         requestBody: new OA\RequestBody(
+            required: true,
             content: new OA\JsonContent(
                 ref: Refs::STORE_BOOK_SERIES_REQUEST
-            ),
-            required: true
+            )
         ),
+        tags: ['BookSeries'],
         responses: [
             new OA\Response(
+                response: 201,
+                description: 'Get created BookSeries',
                 content: new OA\JsonContent(
                     ref: Refs::BOOK_SERIES_DATA_RESOURCE
-                ),
-                description: 'Get created BookSeries',
-                response: 201
+                )
             ),
-        ],
-        summary: 'Create BookSeries',
-        tags: ['BookSeries']
+        ]
     )]
     public function store(): void {}
 
     #[OA\Get(
-        description: 'Get BookSeries by id',
+        path: '/api/books_series/{id}',
         operationId: 'book_series.show',
+        description: 'Get BookSeries by id',
+        summary: 'Get BookSeries by id',
+        tags: ['BookSeries'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/books_series/{id}',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Get BookSeries by id',
                 content: new OA\JsonContent(
                     ref: Refs::BOOK_SERIES_DATA_RESOURCE
-                ),
-                description: 'Get BookSeries by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Get BookSeries by id',
-        tags: ['BookSeries']
+        ]
     )]
     public function show(): void {}
 
     #[OA\Patch(
-        description: 'Update BookSeries by id',
+        path: '/api/books_series/{id}',
         operationId: 'book_series.update',
+        description: 'Update BookSeries by id',
+        summary: 'Update BookSeries by id',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: Refs::UPDATE_BOOK_SERIES_REQUEST
+            )
+        ),
+        tags: ['BookSeries'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/books_series/{id}',
-        requestBody: new OA\RequestBody(
-            content: new OA\JsonContent(
-                ref: Refs::UPDATE_BOOK_SERIES_REQUEST
-            ),
-            required: true
-        ),
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Update BookSeries by id',
                 content: new OA\JsonContent(
                     ref: Refs::BOOK_SERIES_DATA_RESOURCE
-                ),
-                description: 'Update BookSeries by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Update BookSeries by id',
-        tags: ['BookSeries']
+        ]
     )]
     public function update(): void {}
 }

@@ -6,28 +6,32 @@ use App\OpenApi\Refs;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'ShopsResourceCollection',
     description: 'Collection of Shops',
+    type: 'object',
     items: new OA\Items(
         ref: Refs::SHOP_RESOURCE,
         type: 'object'
-    ),
-    schema: 'ShopsResourceCollection',
-    type: 'object'
+    )
 )]
 #[OA\Schema(
-    description: 'Collection of Shops',
-    properties: [
-        new OA\Property(
-            items: new OA\Items(
-                ref: Refs::SHOP_RESOURCE,
-                type: 'object'
-            ),
-            property: 'data',
-            type: 'array'
-        ),
-        new OA\Property(example: true, property: 'success', type: 'bool'),
-    ],
     schema: 'ShopsDataResourceCollection',
-    type: 'object'
+    description: 'Collection of Shops',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: Refs::SHOP_RESOURCE,
+                        type: 'object'
+                    )
+                ),
+            ],
+            type: 'object'
+        ),
+    ]
 )]
 class ShopsResourceCollectionSchema {}

@@ -6,28 +6,32 @@ use App\OpenApi\Refs;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'PaperTypesResourceCollection',
     description: 'Collection of PaperTypes',
+    type: 'object',
     items: new OA\Items(
         ref: Refs::PAPER_TYPE_RESOURCE,
         type: 'object'
-    ),
-    schema: 'PaperTypesResourceCollection',
-    type: 'object'
+    )
 )]
 #[OA\Schema(
-    description: 'Collection of PaperTypes',
-    properties: [
-        new OA\Property(
-            items: new OA\Items(
-                ref: Refs::PAPER_TYPE_RESOURCE,
-                type: 'object'
-            ),
-            property: 'data',
-            type: 'array'
-        ),
-        new OA\Property(example: true, property: 'success', type: 'bool'),
-    ],
     schema: 'PaperTypesDataResourceCollection',
-    type: 'object'
+    description: 'Collection of PaperTypes',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: Refs::PAPER_TYPE_RESOURCE,
+                        type: 'object'
+                    )
+                ),
+            ],
+            type: 'object'
+        ),
+    ]
 )]
 class PaperTypesResourceCollectionSchema {}

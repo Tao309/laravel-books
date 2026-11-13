@@ -6,28 +6,32 @@ use App\OpenApi\Refs;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'CitiesResourceCollection',
     description: 'Collection of Cities',
+    type: 'object',
     items: new OA\Items(
         ref: Refs::CITY_RESOURCE,
         type: 'object'
-    ),
-    schema: 'CitiesResourceCollection',
-    type: 'object'
+    )
 )]
 #[OA\Schema(
-    description: 'Collection of Cities',
-    properties: [
-        new OA\Property(
-            items: new OA\Items(
-                ref: Refs::CITY_RESOURCE,
-                type: 'object'
-            ),
-            property: 'data',
-            type: 'array'
-        ),
-        new OA\Property(example: true, property: 'success', type: 'bool'),
-    ],
     schema: 'CitiesDataResourceCollection',
-    type: 'object'
+    description: 'Collection of Cities',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: Refs::CITY_RESOURCE,
+                        type: 'object'
+                    )
+                ),
+            ],
+            type: 'object'
+        ),
+    ]
 )]
 class CitiesResourceCollectionSchema {}

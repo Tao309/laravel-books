@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CQRS\CommandBus;
+use App\CQRS\Bus;
 use App\CQRS\Commands\SourceProductTypes\CreateSourceProductTypeCommand;
 use App\CQRS\Commands\SourceProductTypes\DestroySourceProductTypeCommand;
 use App\CQRS\Commands\SourceProductTypes\UpdateSourceProductTypeCommand;
@@ -17,40 +17,40 @@ use Illuminate\Pagination\LengthAwarePaginator;
 readonly class SourceProductTypeService implements ServiceInterface
 {
     public function __construct(
-        private CommandBus $bus,
+        private Bus $bus,
     ) {}
 
     public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetSourceProductTypesQuery($dto));
+        return $this->bus->handle(new GetSourceProductTypesQuery($dto));
     }
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetSourceProductTypesQuery($dto));
+        return $this->bus->handle(new GetSourceProductTypesQuery($dto));
     }
 
     public function getById(int $id): SourceProductType
     {
-        return $this->bus->dispatch(new GetByIdSourceProductTypeQuery($id));
+        return $this->bus->handle(new GetByIdSourceProductTypeQuery($id));
     }
 
     public function create(DtoInterface $dto): SourceProductType
     {
         $command = new CreateSourceProductTypeCommand($dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function updateById(int $id, DtoInterface $dto): SourceProductType
     {
         $command = new UpdateSourceProductTypeCommand($id, $dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function deleteById(int $id): bool
     {
-        return $this->bus->dispatch(new DestroySourceProductTypeCommand($id));
+        return $this->bus->handle(new DestroySourceProductTypeCommand($id));
     }
 }

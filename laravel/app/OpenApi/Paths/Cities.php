@@ -8,103 +8,97 @@ use OpenApi\Attributes as OA;
 final class Cities
 {
     #[OA\Get(
-        description: 'Get list of cities',
+        path: '/api/cities',
         operationId: 'cities.index',
+        description: 'Get list of cities',
+        summary: 'Get list of cities',
+        tags: ['Cities'],
         parameters: [
             new OA\Parameter(ref: Refs::IDS),
             new OA\Parameter(ref: Refs::LIMIT),
             new OA\Parameter(ref: Refs::SEARCH),
         ],
-        path: '/api/cities',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Get list of cities',
                 content: new OA\JsonContent(
                     ref: Refs::CITIES_DATA_RESOURCE_COLLECTION
-                ),
-                description: 'Get list of cities',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Get list of cities',
-        tags: ['Cities']
+        ]
     )]
     public function index(): void {}
 
     #[OA\Post(
-        description: 'Create City',
-        operationId: 'cities.store',
         path: '/api/cities',
+        operationId: 'cities.store',
+        description: 'Create City',
+        summary: 'Create City',
         requestBody: new OA\RequestBody(
+            required: true,
             content: new OA\JsonContent(
                 ref: Refs::STORE_CITY_REQUEST
-            ),
-            required: true
+            )
         ),
+        tags: ['Cities'],
         responses: [
             new OA\Response(
+                response: 201,
+                description: 'Get created City',
                 content: new OA\JsonContent(
                     ref: Refs::CITY_DATA_RESOURCE
-                ),
-                description: 'Get created City',
-                response: 201
+                )
             ),
-        ],
-        summary: 'Create City',
-        tags: ['Cities']
+        ]
     )]
     public function store(): void {}
 
     #[OA\Patch(
-        description: 'Update City by id',
+        path: '/api/cities/{id}',
         operationId: 'cities.update',
+        description: 'Update City by id',
+        summary: 'Update City by id',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: Refs::UPDATE_CITY_REQUEST
+            )
+        ),
+        tags: ['Cities'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/cities/{id}',
-        requestBody: new OA\RequestBody(
-            content: new OA\JsonContent(
-                ref: Refs::UPDATE_CITY_REQUEST
-            ),
-            required: true
-        ),
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Update City by id',
                 content: new OA\JsonContent(
                     ref: Refs::CITY_DATA_RESOURCE
-                ),
-                description: 'Update City by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Update City by id',
-        tags: ['Cities']
+        ]
     )]
     public function update(): void {}
 
     #[OA\Delete(
-        description: 'Delete City by id',
+        path: '/api/cities/{id}',
         operationId: 'cities.destroy',
+        description: 'Delete City by id',
+        summary: 'Delete City by id',
+        tags: ['Cities'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/cities/{id}',
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            example: true,
-                            property: 'success',
-                            type: 'boolean',
-                        ),
-                    ]
-                ),
+                response: 200,
                 description: 'Delete City by id',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::CITY_DESTROY_RESPONSE
+                )
             ),
-        ],
-        summary: 'Delete City by id',
-        tags: ['Cities']
+        ]
     )]
     public function destroy(): void {}
 }

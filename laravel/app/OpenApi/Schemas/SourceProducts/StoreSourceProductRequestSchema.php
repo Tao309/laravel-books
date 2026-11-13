@@ -6,18 +6,18 @@ use App\Models\SourceProduct;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'StoreSourceProductRequest',
     properties: [
-        new OA\Property(example: 'Рубашка льняная с рукавами на лето', property: 'title', type: 'string'),
+        new OA\Property(property: 'title', type: 'string', example: 'Рубашка льняная с рукавами на лето'),
 
         new OA\Property(
-            properties: [
-                new OA\Property(example: '1', property: 'id', type: 'integer'),
-            ],
             property: SourceProduct::PARAM_SOURCE_PRODUCT_TYPE,
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: '1'),
+            ],
             type: 'object'
         ),
     ],
-    schema: 'StoreSourceProductRequest',
     type: 'object'
 )]
 class StoreSourceProductRequestSchema {}

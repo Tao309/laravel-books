@@ -9,59 +9,59 @@ use App\Models\SourceProduct;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    properties: [
-        new OA\Property(
-            example: '3315320967',
-            property: Product::PARAM_SHOP_PRODUCT_ID,
-            type: 'string'
-        ),
-        new OA\Property(
-            example: '1903147507',
-            property: Product::PARAM_SHOP_PRODUCT_CODE,
-            type: 'string',
-        ),
-        new OA\Property(
-            example: 'Хтонь за околицей. Книга первая',
-            property: Product::PARAM_TITLE,
-            type: 'string',
-        ),
-        // > relations
-        new OA\Property(
-            properties: [
-                new OA\Property(example: 2, property: Shop::PARAM_ID, type: 'integer'),
-            ],
-            property: Product::PARAM_SHOP,
-            type: 'object'
-        ),
-        new OA\Property(
-            properties: [
-                new OA\Property(example: 4, property: Shop::PARAM_ID, type: 'integer'),
-            ],
-            property: Product::PARAM_CITY,
-            type: 'object'
-        ),
-        new OA\Property(
-            properties: [
-                new OA\Property(example: 4, property: Book::PARAM_ID, type: 'integer'),
-            ],
-            property: Product::PARAM_BOOK,
-            type: 'object'
-        ),
-        new OA\Property(
-            properties: [
-                new OA\Property(example: 4, property: SourceProduct::PARAM_ID, type: 'integer'),
-            ],
-            property: Product::PARAM_SOURCE_PRODUCT,
-            type: 'object'
-        ),
-        // < relations
-    ],
+    schema: 'UpdateProductRequest',
     required: [
         Product::PARAM_SHOP_PRODUCT_ID,
         Product::PARAM_SHOP,
         Product::PARAM_TITLE,
     ],
-    schema: 'UpdateProductRequest',
+    properties: [
+        new OA\Property(
+            property: Product::PARAM_SHOP_PRODUCT_ID,
+            type: 'string',
+            example: '3315320967'
+        ),
+        new OA\Property(
+            property: Product::PARAM_SHOP_PRODUCT_CODE,
+            type: 'string',
+            example: '1903147507',
+        ),
+        new OA\Property(
+            property: Product::PARAM_TITLE,
+            type: 'string',
+            example: 'Хтонь за околицей. Книга первая',
+        ),
+        // > relations
+        new OA\Property(
+            property: Product::PARAM_SHOP,
+            properties: [
+                new OA\Property(property: Shop::PARAM_ID, type: 'integer', example: 2),
+            ],
+            type: 'object'
+        ),
+        new OA\Property(
+            property: Product::PARAM_CITY,
+            properties: [
+                new OA\Property(property: Shop::PARAM_ID, type: 'integer', example: 4),
+            ],
+            type: 'object'
+        ),
+        new OA\Property(
+            property: Product::PARAM_BOOK,
+            properties: [
+                new OA\Property(property: Book::PARAM_ID, type: 'integer', example: 4),
+            ],
+            type: 'object'
+        ),
+        new OA\Property(
+            property: Product::PARAM_SOURCE_PRODUCT,
+            properties: [
+                new OA\Property(property: SourceProduct::PARAM_ID, type: 'integer', example: 4),
+            ],
+            type: 'object'
+        ),
+        // < relations
+    ],
     type: 'object'
 )]
 class UpdateProductRequestSchema {}

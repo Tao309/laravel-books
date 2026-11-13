@@ -9,21 +9,21 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     schema: 'BookResource',
     properties: [
-        new OA\Property(example: '1', property: Book::PARAM_ID, type: 'integer'),
-        new OA\Property(example: 'Сияние', property: Book::PARAM_TITLE, type: 'string'),
-        new OA\Property(example: 'The Shining', property: Book::PARAM_ORIGINAL_TITLE, type: 'string'),
-        new OA\Property(example: '978-5-17-080493-1', property: Book::PARAM_ISBN, type: 'string'),
-        new OA\Property(example: '544', property: Book::PARAM_PAGES, type: 'integer'),
-        new OA\Property(example: '21000', property: Book::PARAM_CIRCULATION, type: 'integer'),
-        new OA\Property(example: '4x14x21', property: Book::PARAM_SIZE, type: 'integer'),
-        new OA\Property(example: '2025', property: Book::PARAM_PUBLISH_YEAR, type: 'integer'),
-        new OA\Property(example: '1000965735', property: Book::PARAM_LIVELIB_ID, type: 'integer'),
-        new OA\Property(example: '11588', property: Book::PARAM_GOODREADS_ID, type: 'integer'),
-        new OA\Property(example: 'edition115331', property: Book::PARAM_FANTLAB_ID, type: 'integer'),
-        new OA\Property(example: '4.4', property: Book::PARAM_LIVELIB_RATING, type: 'float'),
-        new OA\Property(example: '4.28', property: Book::PARAM_GOODREADS_RATING, type: 'float'),
-        new OA\Property(example: '2026-09-10 10:10:19', property: 'updated_at', type: 'string'),
-        new OA\Property(example: '2026-09-10 10:10:19', property: 'created_at', type: 'string'),
+        new OA\Property(property: Book::PARAM_ID, type: 'integer', example: '1'),
+        new OA\Property(property: Book::PARAM_TITLE, type: 'string', example: 'Сияние'),
+        new OA\Property(property: Book::PARAM_ORIGINAL_TITLE, type: 'string', example: 'The Shining'),
+        new OA\Property(property: Book::PARAM_ISBN, type: 'string', example: '978-5-17-080493-1'),
+        new OA\Property(property: Book::PARAM_PAGES, type: 'integer', example: '544'),
+        new OA\Property(property: Book::PARAM_CIRCULATION, type: 'integer', example: '21000'),
+        new OA\Property(property: Book::PARAM_SIZE, type: 'integer', example: '4x14x21'),
+        new OA\Property(property: Book::PARAM_PUBLISH_YEAR, type: 'integer', example: '2025'),
+        new OA\Property(property: Book::PARAM_LIVELIB_ID, type: 'integer', example: '1000965735'),
+        new OA\Property(property: Book::PARAM_GOODREADS_ID, type: 'integer', example: '11588'),
+        new OA\Property(property: Book::PARAM_FANTLAB_ID, type: 'integer', example: 'edition115331'),
+        new OA\Property(property: Book::PARAM_LIVELIB_RATING, type: 'float', example: '4.4'),
+        new OA\Property(property: Book::PARAM_GOODREADS_RATING, type: 'float', example: '4.28'),
+        new OA\Property(property: 'updated_at', type: 'string', example: '2026-09-10 10:10:19'),
+        new OA\Property(property: 'created_at', type: 'string', example: '2026-09-10 10:10:19'),
         new OA\Property(
             property: Book::PARAM_BINDING_TYPE,
             ref: Refs::BINDING_TYPE_RESOURCE,
@@ -72,14 +72,38 @@ use OpenApi\Attributes as OA;
 )]
 #[OA\Schema(
     schema: 'BookDataResource',
-    properties: [
-        new OA\Property(
-            property: 'data',
-            ref: Refs::BOOK_RESOURCE,
+    description: 'Single Book response',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    ref: Refs::BOOK_RESOURCE,
+                    type: 'object'
+                ),
+            ],
             type: 'object'
         ),
-        new OA\Property(example: true, property: 'success', type: 'bool'),
-    ],
-    type: 'object'
+    ]
+ )]
+#[OA\Schema(
+    schema: 'BookDestroyResponse',
+    description: 'Delete Book response',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    properties: [
+                        new OA\Property(property: 'success', type: 'bool', example: true),
+                    ],
+                    type: 'object'
+                ),
+            ],
+            type: 'object'
+        ),
+    ]
 )]
 class BookResourceSchema {}

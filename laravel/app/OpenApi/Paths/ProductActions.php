@@ -8,115 +8,115 @@ use OpenApi\Attributes as OA;
 final class ProductActions
 {
     #[OA\Post(
-        description: 'Archive Product',
-        operationId: 'products.archive',
         path: '/api/products/archive',
+        operationId: 'products.archive',
+        description: 'Archive Product',
+        summary: 'Archive to Product',
         requestBody: new OA\RequestBody(
+            required: true,
             content: new OA\JsonContent(
                 ref: Refs::ARCHIVE_PRODUCT_REQUEST
-            ),
-            required: true
+            )
         ),
+        tags: ['Products'],
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Archive Product',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Archive Product',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Archive to Product',
-        tags: ['Products']
+        ]
     )]
     public function archive(): void {}
 
     #[OA\Post(
-        description: 'Link Book to Product',
+        path: '/api/products/link_book/{product_id}/{book_id}',
         operationId: 'products.link_book',
+        description: 'Link Book to Product',
+        summary: 'Link Book to Product',
+        tags: ['Products'],
         parameters: [
             new OA\Parameter(ref: Refs::PRODUCT_ID),
             new OA\Parameter(ref: Refs::BOOK_ID),
         ],
-        path: '/api/products/link_book/{product_id}/{book_id}',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Link Book to Product',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Link Book to Product',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Link Book to Product',
-        tags: ['Products']
+        ]
     )]
     public function linkBook(): void {}
 
     #[OA\Post(
-        description: 'Link SourceProduct to Product',
+        path: '/api/products/link_source_product/{product_id}/{source_product_id}',
         operationId: 'products.link_source_product',
+        description: 'Link SourceProduct to Product',
+        summary: 'Link SourceProduct to Product',
+        tags: ['Products'],
         parameters: [
             new OA\Parameter(ref: Refs::PRODUCT_ID),
             new OA\Parameter(ref: Refs::SOURCE_PRODUCT_ID),
         ],
-        path: '/api/products/link_source_product/{product_id}/{source_product_id}',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Link SourceProduct to Product',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Link SourceProduct to Product',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Link SourceProduct to Product',
-        tags: ['Products']
+        ]
     )]
     public function linkSourceProduct(): void {}
 
     #[OA\Post(
-        description: 'Unlink from Product',
+        path: '/api/products/unlink/{product_id}',
         operationId: 'products.unlink',
+        description: 'Unlink from Product',
+        summary: 'Unlink from Product',
+        tags: ['Products'],
         parameters: [
             new OA\Parameter(ref: Refs::PRODUCT_ID),
         ],
-        path: '/api/products/unlink/{product_id}',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Unlink from Product',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Unlink from Product',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Unlink from Product',
-        tags: ['Products']
+        ]
     )]
     public function unlink(): void {}
 
     #[OA\Post(
-        description: 'Mass Save Products',
-        operationId: 'products.mass_save',
         path: '/api/products/mass-save',
+        operationId: 'products.mass_save',
+        description: 'Mass Save Products',
+        summary: 'Mass Save Products',
         requestBody: new OA\RequestBody(
+            required: true,
             content: new OA\JsonContent(
                 ref: Refs::MASS_SAVE_PRODUCT_REQUEST
-            ),
-            required: true
+            )
         ),
+        tags: ['Products'],
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Mass Save Products',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Mass Save Products',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Mass Save Products',
-        tags: ['Products']
+        ]
     )]
     public function massSave(): void {}
 }

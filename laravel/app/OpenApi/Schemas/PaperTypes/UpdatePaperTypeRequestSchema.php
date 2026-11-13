@@ -5,15 +5,15 @@ namespace App\OpenApi\Schemas\PaperTypes;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'UpdatePaperTypeRequest',
     properties: [
-        new OA\Property(example: 'Типографская', property: 'label', type: 'string'),
+        new OA\Property(property: 'label', type: 'string', example: 'Типографская'),
         new OA\Property(
-            example: 'Бумага средней плотности, светло-серая, слегка шероховатая',
             property: 'description',
-            type: 'string'
+            type: 'string',
+            example: 'Бумага средней плотности, светло-серая, слегка шероховатая'
         ),
     ],
-    schema: 'UpdatePaperTypeRequest',
     type: 'object'
 )]
 class UpdatePaperTypeRequestSchema {}

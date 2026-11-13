@@ -8,124 +8,118 @@ use OpenApi\Attributes as OA;
 final class Products
 {
     #[OA\Get(
-        description: 'Get list of Products',
+        path: '/api/products',
         operationId: 'products.index',
+        description: 'Get list of Products',
+        summary: 'Get list of Products',
+        tags: ['Products'],
         parameters: [
             new OA\Parameter(ref: Refs::IDS),
             new OA\Parameter(ref: Refs::LIMIT),
             new OA\Parameter(ref: Refs::SEARCH),
         ],
-        path: '/api/products',
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    ref: Refs::PRODUCTS_PAGINATE_RESOURCE_COLLECTION
-                ),
+                response: 200,
                 description: 'Get list of Products',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::PRODUCTS_INDEX_RESPONSE
+                )
             ),
-        ],
-        summary: 'Get list of Products',
-        tags: ['Products']
+        ]
     )]
     public function index(): void {}
 
     #[OA\Post(
-        description: 'Create Product',
-        operationId: 'products.store',
         path: '/api/products',
+        operationId: 'products.store',
+        description: 'Create Product',
+        summary: 'Create Product',
         requestBody: new OA\RequestBody(
+            required: true,
             content: new OA\JsonContent(
                 ref: Refs::STORE_PRODUCT_REQUEST
-            ),
-            required: true
+            )
         ),
+        tags: ['Products'],
         responses: [
             new OA\Response(
+                response: 201,
+                description: 'Get created Product',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Get created Product',
-                response: 201
+                )
             ),
-        ],
-        summary: 'Create Product',
-        tags: ['Products']
+        ]
     )]
     public function store(): void {}
 
     #[OA\Get(
-        description: 'Get Product by id',
+        path: '/api/products/{id}',
         operationId: 'products.show',
+        description: 'Get Product by id',
+        summary: 'Get Product by id',
+        tags: ['Products'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/products/{id}',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Get Product by id',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Get Product by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Get Product by id',
-        tags: ['Products']
+        ]
     )]
     public function show(): void {}
 
     #[OA\Patch(
-        description: 'Update Product by id',
+        path: '/api/products/{id}',
         operationId: 'products.update',
+        description: 'Update Product by id',
+        summary: 'Update Product by id',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: Refs::UPDATE_PRODUCT_REQUEST
+            )
+        ),
+        tags: ['Products'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/products/{id}',
-        requestBody: new OA\RequestBody(
-            content: new OA\JsonContent(
-                ref: Refs::UPDATE_PRODUCT_REQUEST
-            ),
-            required: true
-        ),
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Update Product by id',
                 content: new OA\JsonContent(
                     ref: Refs::PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Update Product by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Update Product by id',
-        tags: ['Products']
+        ]
     )]
     public function update(): void {}
 
     #[OA\Delete(
-        description: 'Delete Product by id',
+        path: '/api/products/{id}',
         operationId: 'products.destroy',
+        description: 'Delete Product by id',
+        summary: 'Delete Product by id',
+        tags: ['Products'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/products/{id}',
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            example: true,
-                            property: 'success',
-                            type: 'boolean',
-                        ),
-                    ]
-                ),
+                response: 200,
                 description: 'Delete Product by id',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::PRODUCT_DESTROY_RESPONSE
+                )
             ),
-        ],
-        summary: 'Delete Product by id',
-        tags: ['Products']
+        ]
     )]
     public function destroy(): void {}
 }

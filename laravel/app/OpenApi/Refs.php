@@ -20,6 +20,10 @@ final class Refs
     public const string SOURCE_PRODUCT_ID = '#/components/parameters/SourceProductId';
     // < parameters
 
+    // > common
+    public const string RESPONSE = '#/components/schemas/Response';
+    // < common
+
     // > books
     public const string BOOK_RESOURCE = '#/components/schemas/BookResource';
 
@@ -30,6 +34,10 @@ final class Refs
     public const string BOOKS_DATA_RESOURCE_COLLECTION = '#/components/schemas/BooksDataResourceCollection';
 
     public const string BOOKS_PAGINATE_RESOURCE_COLLECTION = '#/components/schemas/BooksPaginateResourceCollection';
+
+    public const string BOOKS_INDEX_RESPONSE = '#/components/schemas/BooksIndexResponse';
+
+    public const string BOOK_DESTROY_RESPONSE = '#/components/schemas/BookDestroyResponse';
 
     public const string STORE_BOOK_REQUEST = '#/components/schemas/StoreBookRequest';
 
@@ -47,6 +55,10 @@ final class Refs
 
     public const string AUTHORS_PAGINATE_RESOURCE_COLLECTION = '#/components/schemas/AuthorsPaginateResourceCollection';
 
+    public const string AUTHORS_INDEX_RESPONSE = '#/components/schemas/AuthorsIndexResponse';
+
+    public const string AUTHOR_DESTROY_RESPONSE = '#/components/schemas/AuthorDestroyResponse';
+
     public const string STORE_AUTHOR_REQUEST = '#/components/schemas/StoreAuthorRequest';
 
     public const string UPDATE_AUTHOR_REQUEST = '#/components/schemas/UpdateAuthorRequest';
@@ -60,6 +72,8 @@ final class Refs
     public const string BINDING_TYPES_COLLECTION = '#/components/schemas/BindingTypesCollection';
 
     public const string BINDING_TYPES_DATA_RESOURCE_COLLECTION = '#/components/schemas/BindingTypesDataResourceCollection';
+
+    public const string BINDING_TYPE_DESTROY_RESPONSE = '#/components/schemas/BindingTypeDestroyResponse';
 
     public const string STORE_BINDING_TYPE_REQUEST = '#/components/schemas/StoreBindingTypeRequest';
 
@@ -82,12 +96,16 @@ final class Refs
 
     // > book_user_data
     public const string BOOK_USER_DATA_RESOURCE = '#/components/schemas/BookUserDataResource';
+
+    public const string BOOK_USER_DATA_RESPONSE = '#/components/schemas/BookUserDataResponse';
     // < book_user_data
 
     // > cities
     public const string CITIES_RESOURCE_COLLECTION = '#/components/schemas/CitiesResourceCollection';
 
     public const string CITIES_DATA_RESOURCE_COLLECTION = '#/components/schemas/CitiesDataResourceCollection';
+
+    public const string CITY_DESTROY_RESPONSE = '#/components/schemas/CityDestroyResponse';
 
     public const string CITY_RESOURCE = '#/components/schemas/CityResource';
 
@@ -107,6 +125,8 @@ final class Refs
 
     public const string PAPER_TYPES_DATA_RESOURCE_COLLECTION = '#/components/schemas/PaperTypesDataResourceCollection';
 
+    public const string PAPER_TYPE_DESTROY_RESPONSE = '#/components/schemas/PaperTypeDestroyResponse';
+
     public const string STORE_PAPER_TYPE_REQUEST = '#/components/schemas/StorePaperTypeRequest';
 
     public const string UPDATE_PAPER_TYPE_REQUEST = '#/components/schemas/UpdatePaperTypeRequest';
@@ -122,6 +142,10 @@ final class Refs
     public const string PRODUCTS_DATA_RESOURCE_COLLECTION = '#/components/schemas/ProductsDataResourceCollection';
 
     public const string PRODUCTS_PAGINATE_RESOURCE_COLLECTION = '#/components/schemas/ProductsPaginateResourceCollection';
+
+    public const string PRODUCTS_INDEX_RESPONSE = '#/components/schemas/ProductsIndexResponse';
+
+    public const string PRODUCT_DESTROY_RESPONSE = '#/components/schemas/ProductDestroyResponse';
 
     public const string ARCHIVE_PRODUCT_REQUEST = '#/components/schemas/ArchiveProductRequest';
 
@@ -142,6 +166,8 @@ final class Refs
 
     // > product_user_data
     public const string PRODUCT_USER_DATA_RESOURCE = '#/components/schemas/ProductUserDataResource';
+
+    public const string PRODUCT_USER_DATA_RESPONSE = '#/components/schemas/ProductUserDataResponse';
     // < product_user_data
 
     // > publishing_brands
@@ -191,6 +217,8 @@ final class Refs
 
     public const string SOURCE_PRODUCTS_DATA_RESOURCE_COLLECTION = '#/components/schemas/SourceProductsDataResourceCollection';
 
+    public const string SOURCE_PRODUCT_DESTROY_RESPONSE = '#/components/schemas/SourceProductDestroyResponse';
+
     public const string STORE_SOURCE_PRODUCT_REQUEST = '#/components/schemas/StoreSourceProductRequest';
 
     public const string UPDATE_SOURCE_PRODUCT_REQUEST = '#/components/schemas/UpdateSourceProductRequest';
@@ -205,6 +233,8 @@ final class Refs
 
     public const string SOURCE_PRODUCT_TYPES_DATA_RESOURCE_COLLECTION = '#/components/schemas/SourceProductTypesDataResourceCollection';
 
+    public const string SOURCE_PRODUCT_TYPE_DESTROY_RESPONSE = '#/components/schemas/SourceProductTypeDestroyResponse';
+
     public const string STORE_SOURCE_PRODUCT_TYPE_REQUEST = '#/components/schemas/StoreSourceProductTypeRequest';
 
     public const string UPDATE_SOURCE_PRODUCT_TYPE_REQUEST = '#/components/schemas/UpdateSourceProductTypeRequest';
@@ -212,6 +242,8 @@ final class Refs
 
     // > source_product_user_data
     public const string SOURCE_PRODUCT_USER_DATA_RESOURCE = '#/components/schemas/SourceProductUserDataResource';
+
+    public const string SOURCE_PRODUCT_USER_DATA_RESPONSE = '#/components/schemas/SourceProductUserDataResponse';
     // < source_product_user_data
 
     // > users
@@ -220,5 +252,7 @@ final class Refs
 
     // > config
     public const string CONFIG_RESOURCE = '#/components/schemas/ConfigResource';
+
+    public const string CONFIG_RESPONSE = '#/components/schemas/ConfigResponse';
     // < config
 }

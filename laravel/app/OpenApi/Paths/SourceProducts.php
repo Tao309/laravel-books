@@ -8,124 +8,118 @@ use OpenApi\Attributes as OA;
 final class SourceProducts
 {
     #[OA\Get(
-        description: 'Get list of SourceProducts',
+        path: '/api/source_products',
         operationId: 'source_products.index',
+        description: 'Get list of SourceProducts',
+        summary: 'Get list of SourceProducts',
+        tags: ['SourceProducts'],
         parameters: [
             new OA\Parameter(ref: Refs::IDS),
             new OA\Parameter(ref: Refs::LIMIT),
             new OA\Parameter(ref: Refs::SEARCH),
         ],
-        path: '/api/source_products',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Get list of SourceProducts',
                 content: new OA\JsonContent(
                     ref: Refs::SOURCE_PRODUCTS_DATA_RESOURCE_COLLECTION
-                ),
-                description: 'Get list of SourceProducts',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Get list of SourceProducts',
-        tags: ['SourceProducts']
+        ]
     )]
     public function index(): void {}
 
     #[OA\Post(
-        description: 'Create SourceProduct',
-        operationId: 'source_products.store',
         path: '/api/source_products',
+        operationId: 'source_products.store',
+        description: 'Create SourceProduct',
+        summary: 'Create SourceProduct',
         requestBody: new OA\RequestBody(
+            required: true,
             content: new OA\JsonContent(
                 ref: Refs::STORE_SOURCE_PRODUCT_REQUEST
-            ),
-            required: true
+            )
         ),
+        tags: ['SourceProducts'],
         responses: [
             new OA\Response(
+                response: 201,
+                description: 'Get created SourceProduct',
                 content: new OA\JsonContent(
                     ref: Refs::SOURCE_PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Get created SourceProduct',
-                response: 201
+                )
             ),
-        ],
-        summary: 'Create SourceProduct',
-        tags: ['SourceProducts']
+        ]
     )]
     public function store(): void {}
 
     #[OA\Get(
-        description: 'Get SourceProduct by id',
+        path: '/api/source_products/{id}',
         operationId: 'source_products.show',
+        description: 'Get SourceProduct by id',
+        summary: 'Get SourceProduct by id',
+        tags: ['SourceProducts'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/source_products/{id}',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Get SourceProduct by id',
                 content: new OA\JsonContent(
                     ref: Refs::SOURCE_PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Get SourceProduct by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Get SourceProduct by id',
-        tags: ['SourceProducts']
+        ]
     )]
     public function show(): void {}
 
     #[OA\Patch(
-        description: 'Update SourceProduct by id',
+        path: '/api/source_products/{id}',
         operationId: 'source_products.update',
+        description: 'Update SourceProduct by id',
+        summary: 'Update SourceProduct by id',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: Refs::UPDATE_SOURCE_PRODUCT_REQUEST
+            )
+        ),
+        tags: ['SourceProducts'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/source_products/{id}',
-        requestBody: new OA\RequestBody(
-            content: new OA\JsonContent(
-                ref: Refs::UPDATE_SOURCE_PRODUCT_REQUEST
-            ),
-            required: true
-        ),
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Update SourceProduct by id',
                 content: new OA\JsonContent(
                     ref: Refs::SOURCE_PRODUCT_DATA_RESOURCE
-                ),
-                description: 'Update SourceProduct by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Update SourceProduct by id',
-        tags: ['SourceProducts']
+        ]
     )]
     public function update(): void {}
 
     #[OA\Delete(
-        description: 'Delete SourceProduct by id',
+        path: '/api/source_products/{id}',
         operationId: 'source_products.destroy',
+        description: 'Delete SourceProduct by id',
+        summary: 'Delete SourceProduct by id',
+        tags: ['SourceProducts'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/source_products/{id}',
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            example: true,
-                            property: 'success',
-                            type: 'boolean',
-                        ),
-                    ]
-                ),
+                response: 200,
                 description: 'Delete SourceProduct by id',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::SOURCE_PRODUCT_DESTROY_RESPONSE
+                )
             ),
-        ],
-        summary: 'Delete SourceProduct by id',
-        tags: ['SourceProducts']
+        ]
     )]
     public function destroy(): void {}
 }

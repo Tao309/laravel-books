@@ -5,11 +5,11 @@ namespace App\OpenApi\Schemas\Authors;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    properties: [
-        new OA\Property(example: 'Фёдор', property: 'first_name', type: 'string'),
-        new OA\Property(example: 'Достоевский', property: 'last_name', type: 'string'),
-    ],
     schema: 'StoreAuthorRequest',
+    properties: [
+        new OA\Property(property: 'first_name', type: 'string', example: 'Фёдор'),
+        new OA\Property(property: 'last_name', type: 'string', example: 'Достоевский'),
+    ],
     type: 'object'
 )]
 class StoreAuthorRequestSchema {}

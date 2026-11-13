@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CQRS\CommandBus;
+use App\CQRS\Bus;
 use App\CQRS\Commands\BookSeries\CreateBookSeriesCommand;
 use App\CQRS\Commands\BookSeries\UpdateBookSeriesCommand;
 use App\CQRS\Queries\BookSeries\GetBookSeriesByIdQuery;
@@ -16,31 +16,31 @@ use Illuminate\Pagination\LengthAwarePaginator;
 readonly class BookSeriesService implements ServiceInterface
 {
     public function __construct(
-        private CommandBus $bus,
+        private Bus $bus,
     ) {}
 
     public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetBookSeriesQuery($dto));
+        return $this->bus->handle(new GetBookSeriesQuery($dto));
     }
 
     public function getById(int $id): BookSeries
     {
-        return $this->bus->dispatch(new GetBookSeriesByIdQuery($id));
+        return $this->bus->handle(new GetBookSeriesByIdQuery($id));
     }
 
     public function create(DtoInterface $dto): BookSeries
     {
         $command = new CreateBookSeriesCommand($dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function updateById(int $id, DtoInterface $dto): BookSeries
     {
         $command = new UpdateBookSeriesCommand($id, $dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator

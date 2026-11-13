@@ -5,10 +5,10 @@ namespace App\OpenApi\Schemas\PublishingHouses;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    properties: [
-        new OA\Property(example: 'АСТ', property: 'name', type: 'string'),
-    ],
     schema: 'StorePublishingHouseRequest',
+    properties: [
+        new OA\Property(property: 'name', type: 'string', example: 'АСТ'),
+    ],
     type: 'object'
 )]
 class StorePublishingHouseRequestSchema {}

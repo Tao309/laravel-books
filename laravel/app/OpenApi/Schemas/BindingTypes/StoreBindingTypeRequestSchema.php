@@ -5,10 +5,10 @@ namespace App\OpenApi\Schemas\BindingTypes;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    properties: [
-        new OA\Property(example: 'Мягкий переплёт', property: 'label', type: 'string'),
-    ],
     schema: 'StoreBindingTypeRequest',
+    properties: [
+        new OA\Property(property: 'label', type: 'string', example: 'Мягкий переплёт'),
+    ],
     type: 'object'
 )]
 class StoreBindingTypeRequestSchema {}

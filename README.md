@@ -1,130 +1,218 @@
-## Laravel Books
+# Laravel Books
 
-Laravel Books repository
+API-бэкенд для учёта книг и товаров: каталог книг, товары магазинов, цены,
+остатки и пользовательские данные. Данные импортируются из CSV, документация
+API генерируется через Swagger/OpenAPI.
 
-### Действия после установки:
+- **API:** Laravel 12 (PHP 8.2+)
+- **БД:** PostgreSQL 18
+- **Кэш:** Redis
+- **Инфраструктура:** Docker Compose (nginx + php-fpm + PostgreSQL + Redis)
+- **Документация:** Swagger UI — `/api/documentation/`
 
-1. `php artisan migrate:fresh --seed` (установка миграций с запуском seeders: UserSeeder, ShopSeeder, CitySeeder, BindingTypeSeeder)
-2. `php artisan app:import:run-all --fake=0 --just-check-parsing=0` (импорт данных)
+## Требования
 
---------
-### Swagger API
+- Docker и Docker Compose (рекомендуемый способ)
+- либо локально: PHP 8.2+, Composer 2, PostgreSQL 18, Redis, Node.js 20+ (для Vite)
 
-Swagger документация по api доступна по адресу **/api/documentation/**
+## Быстрый старт (Docker)
 
-[API Docs Json](laravel/storage/api-docs/api-docs.json)
+```bash
+git clone <repo-url> laravel-books
+cd laravel-books
 
---------
-### CLI commands
+# 1. Переменные для docker-compose (корневой .env)
+#    POSTGRES_DB=laravel_books
+#    POSTGRES_USER=laravel
+#    POSTGRES_PASSWORD=secret
 
-- Импорт:
-  - Запуск всех команд с импортом `php artisan app:import:run-all`
-Доступные опции:
+# 2. Конфиг приложения
+cp laravel/.env.example laravel/.env
 
-| Название | Описание      | Значение по умолчанию |
-|----------|----------|-----------------------|
-| `fake`     | Фейковый запрос, без записи в БД | Вкл |
-| `show-parsing-log`     | Показывать детали парсинга | Вкл |
-| `just-check-parsing`     | Проверить только парсинг, без создания новых сущностей | Вкл |
-| `import-name`     | Имя команды для импорта | null |
+# 3. Запуск контейнеров
+docker compose up -d --build
 
-  - Импорт типов бумаги `php artisan app:import:paper_types`
-  - Импорт книжных серий `php artisan app:import:books_series`
-  - Импорт издательских брэндов `php artisan app:import:publishing_brands`
-  - Импорт издательских домов `php artisan app:import:publishing_houses`
-  - Импорт авторов `php artisan app:import:authors`
-  - Импорт книг `php artisan app:import:books`
-  - Импорт BookUserData `php artisan app:import:book_user_data`
-  
+# 4. Установка зависимостей и ключа
+docker compose exec php composer install
+docker compose exec php php artisan key:generate
 
-  - Импорт типов источников товаров `php artisan app:import:source_product_types`
-  - Импорт источников товаров `php artisan app:import:source_products`
-  - Импорт SourceProductUserData `php artisan app:import:source_product_user_data`
+# 5. Схема БД + базовые справочники
+docker compose exec php php artisan migrate:fresh --seed
 
+# 6. Импорт данных из CSV
+docker compose exec php php artisan app:import:run-all --fake=0 --just-check-parsing=0
+```
 
-  - Импорт товаров `php artisan app:import:products`
-  - Импорт ProductUserData `php artisan app:import:product_user_data`
-  - Импорт цен по товарам `php artisan app:import:product_prices`
-  - Импорт стоков по товарам `php artisan app:import:product_stocks`
+- Приложение: <http://localhost>
+- Swagger UI: <http://localhost/api/documentation/>
+- API Docs Json [api-docs.json](laravel/storage/api-docs/api-docs.json)
 
-Доступные опции:
+## Переменные окружения
 
-| Название | Описание      | Значение по умолчанию |
-|----------|----------|-----------------------|
-| `fake`     | Фейковый запрос, без записи в БД | Вкл |
-| `show-parsing-log`     | Показывать детали парсинга | Вкл |
-| `just-check-parsing`     | Проверить только парсинг, без создания новых сущностей | Вкл |
+Корневой `.env` (читается `docker-compose.yml`):
 
-- Создание СQRS компонентов по модели `php artisan app:make:cqrs {modelName}`
+| Переменная | Назначение |
+|---|---|
+| `POSTGRES_DB` | имя базы |
+| `POSTGRES_USER` | пользователь БД |
+| `POSTGRES_PASSWORD` | пароль БД |
 
---------
+`laravel/.env` — стандартные переменные Laravel плюс собственные:
 
-### Authors (авторы)
+| Переменная | Назначение |
+|---|---|
+| `APP_VERSION` | версия приложения, отдаётся в `GET /api/config` |
+| `X_REQUESTED_WITH` | обязательный заголовок запроса `x-requested-with` |
+| `PRICE_CHECKER_ID` | обязательный заголовок запроса `t-price-checker-id` |
+| `URL_WB`, `URL_OZON`, `URL_CHITAI_GOROD`, `URL_FFAN`, `URL_KNIGOFAN` | ссылки магазинов для `GET /api/config` |
 
-- Добавить через seeder: `php artisan db:seed --class=AuthorSeeder`
+> Кастомные переменные отсутствуют в `.env.example` — добавьте их вручную.
 
-### BindingType (тип переплёта)
+## Архитектура
 
-- Добавить через seeder (добавлен в главный seeder): `php artisan db:seed --class=BindingType`
+```
+Controller → Request (валидация) → DTO → Service → CommandBus → Handler → Repository → Model
+                                                                    ↓
+                                                          Resource / ResponseContext
+```
 
-### City (город)
+- `app/CQRS` — команды, запросы, handler'ы и собственный `CommandBus`
+  (`CreateBookCommand` → `App\CQRS\Handlers\Books\CreateBookHandler`).
+- `app/Services` — диспатчат команды/запросы в шину.
+- `app/Repositories` — Eloquent, транзакции, связи, user data.
+- `app/DTOs` — `getEntityData()` / `getRelationsData()`.
+- `app/Http/QueryFilters` — фильтры `search`, `limit`, `ids`.
+- `app/Http/Resources` — API-ресурсы и коллекции.
+- `app/Providers/*Provider.php` — связывание handler'ов, репозиториев, сервисов и ресурсов.
+- `app/OpenApi` — конфигурации OpenApi.
 
-- Добавить через seeder (добавлен в главный seeder): `php artisan db:seed --class=City`
+## API
 
-### Shop (магазин)
+Все маршруты (кроме документации) защищены middleware `UserSecurity` и требуют
+заголовки:
 
-- Добавить через seeder (добавлен в главный seeder): `php artisan db:seed --class=Shop`
+```http
+Authorization: Bearer <token>
+shop-type: ozon | wildberries | chitai-gorod | ffan | knigofan
+x-requested-with: <X_REQUESTED_WITH>
+t-price-checker-id: <PRICE_CHECKER_ID>
+```
 
-### PublishingHouse (издательский дом)
+Основные маршруты:
 
-- Добавить через seeder: `php artisan db:seed --class=PublishingHouse`
+| Метод | Маршрут | Описание |
+|---|---|---|
+| GET | `/api/config` | настройки, кэш справочников, ссылки магазинов |
+| CRUD | `/api/books`, `/api/authors`, `/api/cities`, `/api/paper_types`, `/api/binding_types`, `/api/books_series`, `/api/publishing_brands`, `/api/publishing_houses` | справочники и книги |
+| GET | `/api/shops` | список магазинов |
+| CRUD | `/api/source_products`, `/api/source_product_types` | источники товаров |
+| CRUD | `/api/products` | товары |
+| POST | `/api/products/mass-save` | пакетное создание/обновление |
+| POST | `/api/products/archive` | архивация товара |
+| POST | `/api/products/link_book/{product_id}/{book_id}` | привязать книгу |
+| POST | `/api/products/link_source_product/{product_id}/{source_product_id}` | привязать источник |
+| POST | `/api/products/unlink/{product_id}` | отвязать источник |
+| GET | `/api/{book,source_product,product}_user_data/{id}` | данные пользователя |
 
-### PublishingBrand (издательский брэнд)
+Списки поддерживают `ids`, `limit`, `search`. Полная спецификация —
+`/api/documentation/` или `laravel/storage/api-docs/api-docs.json`.
 
-- Добавить через seeder: `php artisan db:seed --class=PublishingBrand`
+## Импорт данных
 
-### BookSeries (книжная серия)
+Каждая команда читает CSV из `laravel/app/Console/Commands/Import/csv/`.
 
-- Добавить через seeder: `php artisan db:seed --class=BookSeries`
+| Команда | CSV |
+|---|---|
+| `app:import:paper_types` | `paper_types.csv` |
+| `app:import:books_series` | `book_series.csv` |
+| `app:import:publishing_brands` | `publishing_brands.csv` |
+| `app:import:publishing_houses` | `publishing_houses.csv` |
+| `app:import:authors` | `authors.csv` |
+| `app:import:books` | `books.csv` |
+| `app:import:book_user_data` | `book_user_data.csv` |
+| `app:import:source_product_types` | `source_product_types.csv` |
+| `app:import:source_products` | `source_products.csv` |
+| `app:import:source_product_user_data` | `source_product_user_data.csv` |
+| `app:import:products` | `products.csv` |
+| `app:import:product_user_data` | `product_user_data.csv` |
+| `app:import:product_prices` | `product_prices.csv` |
+| `app:import:product_stocks` | `product_stocks.csv` |
+| `app:import:run-all` | все команды по порядку |
 
-### PaperType (тип бумаги)
+Опции (`run-all` и отдельные команды):
 
-- Добавить через seeder: `php artisan db:seed --class=PaperTypeSeeder`
+| Опция | По умолчанию | Описание |
+|---|---|---|
+| `--fake` | `1` | не писать в БД |
+| `--show-parsing-log` | `1` | подробный лог парсинга |
+| `--just-check-parsing` | `1` | только парсинг, без записи |
+| `--import-name` | `null` | только одна команда (для `run-all`) |
 
-### Book (книга)
+Пример «боевого» запуска:
 
-- Добавить через seeder: `php artisan db:seed --class=BookSeeder`
+```bash
+php artisan app:import:run-all --fake=0 --just-check-parsing=0
+php artisan app:import:books --fake=0 --just-check-parsing=0
+```
 
-### SourceProductType (тип источников товара)
+## Генерация CQRS-слоя
 
-- Добавить через seeder: `php artisan db:seed --class=SourceProductTypeSeeder`
+```bash
+php artisan app:make:cqrs {modelName}
+```
 
-### SourceProduct (источники товара)
+Создаёт модель, DTO, репозиторий, сервис, команды/запросы, handler'ы,
+контроллер, request'ы и ресурсы по стабам из `app/Console/Commands/stubs`.
 
-- Добавить через seeder: `php artisan db:seed --class=SourceProductSeeder`
+## Seeder'ы
 
-### Product (товар)
+`php artisan migrate:fresh --seed` запускает `BindingTypeSeeder`, `CitySeeder`,
+`ShopSeeder`, `UserSeeder`. Остальные — точечно:
 
-- Добавить через seeder: `php artisan db:seed --class=ProductSeeder`
+```bash
+php artisan db:seed --class=AuthorSeeder
+php artisan db:seed --class=BookSeeder
+php artisan db:seed --class=PaperTypeSeeder
+php artisan db:seed --class=PublishingHouseSeeder
+php artisan db:seed --class=PublishingBrandSeeder
+php artisan db:seed --class=BookSeriesSeeder
+php artisan db:seed --class=SourceProductTypeSeeder
+php artisan db:seed --class=SourceProductSeeder
+php artisan db:seed --class=ProductSeeder
+```
 
-### BookUserData (данные пользователя по книге)
+## Разработка
 
-- Добавление через seeder происходит в BookSeeder
+```bash
+make up            # docker compose up -d
+make build         # пересобрать контейнеры
+make down          # остановить
+make php           # shell в php-контейнере
+make cs-fix        # Laravel Pint
+make test          # PHPUnit
+make swagger-generate
+```
 
-### SourceProductUserData (данные пользователя по источникам товаров)
+- Xdebug: `docker compose -f docker-compose.debug.yml up -d --build`
+  (порт 9001, serverName `Laravel`, idekey `PHPSTORM`).
+- Локально: `cd laravel && composer dev` (serve + queue + pail + vite).
 
-- Добавление через seeder происходит в SourceProductSeeder
+## Структура репозитория
 
-### ProductUserData (данные пользователя по товарам)
+```
+laravel-books/
+├── laravel/            # приложение Laravel
+│   ├── app/CQRS/       # команды, запросы, handler'ы
+│   ├── app/Services/   # сервисы
+│   ├── app/Repositories/
+│   ├── app/Http/       # контроллеры, запросы, ресурсы, фильтры
+│   ├── app/Console/Commands/Import/  # импорт CSV
+│   └── database/       # миграции и seeder'ы
+├── docker/             # php-fpm и nginx
+├── docker-compose.yml
+└── docker-compose.debug.yml
+```
 
-- Добавление через seeder происходит в ProductSeeder
+## Лицензия
 
-### ProductPrice (цены по товарам)
-
-- Добавление через seeder происходит в ProductSeeder
-
-### ProductStock (стоки по товарам)
-
-- Добавление через seeder происходит в ProductSeeder
-
---------
+MIT — см. [LICENSE](LICENSE).

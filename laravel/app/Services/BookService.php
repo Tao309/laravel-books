@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CQRS\CommandBus;
+use App\CQRS\Bus;
 use App\CQRS\Commands\Books\CreateBookCommand;
 use App\CQRS\Commands\Books\DestroyBookCommand;
 use App\CQRS\Commands\Books\UpdateBookCommand;
@@ -18,40 +18,40 @@ use Illuminate\Pagination\LengthAwarePaginator;
 readonly class BookService implements ServiceInterface
 {
     public function __construct(
-        private CommandBus $bus,
+        private Bus $bus,
     ) {}
 
     public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetBooksQuery($dto));
+        return $this->bus->handle(new GetBooksQuery($dto));
     }
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->dispatch(new GetBooksPaginateQuery($dto));
+        return $this->bus->handle(new GetBooksPaginateQuery($dto));
     }
 
     public function getById(int $id): Book
     {
-        return $this->bus->dispatch(new GetByIdBookQuery($id));
+        return $this->bus->handle(new GetByIdBookQuery($id));
     }
 
     public function create(DtoInterface $dto): Book
     {
         $command = new CreateBookCommand($dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function updateById(int $id, DtoInterface $dto): Book
     {
         $command = new UpdateBookCommand($id, $dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function deleteById(int $id): bool
     {
-        return $this->bus->dispatch(new DestroyBookCommand($id));
+        return $this->bus->handle(new DestroyBookCommand($id));
     }
 }

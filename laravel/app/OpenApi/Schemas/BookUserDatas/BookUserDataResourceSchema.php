@@ -3,19 +3,37 @@
 namespace App\OpenApi\Schemas\BookUserDatas;
 
 use App\Models\BookUserData;
+use App\OpenApi\Refs;
 use Illuminate\Database\Eloquent\Model;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    properties: [
-        new OA\Property(example: '2026-09-10 10:10:19', property: BookUserData::PARAM_RELEASE_DATE, type: 'string'),
-        new OA\Property(example: 500, property: BookUserData::PARAM_LISTEN_PRICE_VALUE, type: 'integer'),
-        new OA\Property(example: 'Ожидаем отзывы', property: BookUserData::PARAM_COMMENT, type: 'text'),
-
-        new OA\Property(example: '2026-09-10 10:10:19', property: Model::UPDATED_AT, type: 'string'),
-        new OA\Property(example: '2026-09-10 10:10:19', property: Model::CREATED_AT, type: 'string'),
-    ],
     schema: 'BookUserDataResource',
+    properties: [
+        new OA\Property(property: BookUserData::PARAM_RELEASE_DATE, type: 'string', example: '2026-09-10 10:10:19'),
+        new OA\Property(property: BookUserData::PARAM_LISTEN_PRICE_VALUE, type: 'integer', example: 500),
+        new OA\Property(property: BookUserData::PARAM_COMMENT, type: 'text', example: 'Ожидаем отзывы'),
+
+        new OA\Property(property: Model::UPDATED_AT, type: 'string', example: '2026-09-10 10:10:19'),
+        new OA\Property(property: Model::CREATED_AT, type: 'string', example: '2026-09-10 10:10:19'),
+    ],
     type: 'object'
+ )]
+#[OA\Schema(
+    schema: 'BookUserDataResponse',
+    description: 'BookUserData response',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    ref: Refs::BOOK_USER_DATA_RESOURCE,
+                    type: 'object'
+                ),
+            ],
+            type: 'object'
+        ),
+    ]
 )]
 class BookUserDataResourceSchema {}

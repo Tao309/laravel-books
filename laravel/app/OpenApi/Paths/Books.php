@@ -8,124 +8,118 @@ use OpenApi\Attributes as OA;
 final class Books
 {
     #[OA\Get(
-        description: 'Get list of books',
+        path: '/api/books',
         operationId: 'books.index',
+        description: 'Get list of books',
+        summary: 'Get list of books',
+        tags: ['Books'],
         parameters: [
             new OA\Parameter(ref: Refs::IDS),
             new OA\Parameter(ref: Refs::LIMIT),
             new OA\Parameter(ref: Refs::SEARCH),
         ],
-        path: '/api/books',
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    ref: Refs::BOOKS_PAGINATE_RESOURCE_COLLECTION
-                ),
+                response: 200,
                 description: 'Get list of books',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::BOOKS_INDEX_RESPONSE
+                )
             ),
-        ],
-        summary: 'Get list of books',
-        tags: ['Books']
+        ]
     )]
     public function index(): void {}
 
     #[OA\Post(
-        description: 'Create Book',
-        operationId: 'books.store',
         path: '/api/books',
+        operationId: 'books.store',
+        description: 'Create Book',
+        summary: 'Create Book',
         requestBody: new OA\RequestBody(
+            required: true,
             content: new OA\JsonContent(
                 ref: Refs::STORE_BOOK_REQUEST
-            ),
-            required: true
+            )
         ),
+        tags: ['Books'],
         responses: [
             new OA\Response(
+                response: 201,
+                description: 'Get created Book',
                 content: new OA\JsonContent(
                     ref: Refs::BOOK_DATA_RESOURCE
-                ),
-                description: 'Get created Book',
-                response: 201
+                )
             ),
-        ],
-        summary: 'Create Book',
-        tags: ['Books']
+        ]
     )]
     public function store(): void {}
 
     #[OA\Get(
-        description: 'Get Book by id',
+        path: '/api/books/{id}',
         operationId: 'books.show',
+        description: 'Get Book by id',
+        summary: 'Get Book by id',
+        tags: ['Books'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/books/{id}',
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Get Book by id',
                 content: new OA\JsonContent(
                     ref: Refs::BOOK_DATA_RESOURCE
-                ),
-                description: 'Get Book by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Get Book by id',
-        tags: ['Books']
+        ]
     )]
     public function show(): void {}
 
     #[OA\Patch(
-        description: 'Update Book by id',
+        path: '/api/books/{id}',
         operationId: 'books.update',
+        description: 'Update Book by id',
+        summary: 'Update Book by id',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                ref: Refs::UPDATE_BOOK_REQUEST
+            )
+        ),
+        tags: ['Books'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/books/{id}',
-        requestBody: new OA\RequestBody(
-            content: new OA\JsonContent(
-                ref: Refs::UPDATE_BOOK_REQUEST
-            ),
-            required: true
-        ),
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'Update Book by id',
                 content: new OA\JsonContent(
                     ref: Refs::BOOK_DATA_RESOURCE
-                ),
-                description: 'Update Book by id',
-                response: 200
+                )
             ),
-        ],
-        summary: 'Update Book by id',
-        tags: ['Books']
+        ]
     )]
     public function update(): void {}
 
     #[OA\Delete(
-        description: 'Delete Book by id',
+        path: '/api/books/{id}',
         operationId: 'books.destroy',
+        description: 'Delete Book by id',
+        summary: 'Delete Book by id',
+        tags: ['Books'],
         parameters: [
             new OA\Parameter(ref: Refs::ID),
         ],
-        path: '/api/books/{id}',
         responses: [
             new OA\Response(
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            example: true,
-                            property: 'success',
-                            type: 'boolean',
-                        ),
-                    ]
-                ),
+                response: 200,
                 description: 'Delete Book by id',
-                response: 200
+                content: new OA\JsonContent(
+                    ref: Refs::BOOK_DESTROY_RESPONSE
+                )
             ),
-        ],
-        summary: 'Delete Book by id',
-        tags: ['Books']
+        ]
     )]
     public function destroy(): void {}
 }

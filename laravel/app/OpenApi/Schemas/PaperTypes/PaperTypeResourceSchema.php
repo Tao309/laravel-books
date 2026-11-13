@@ -6,30 +6,54 @@ use App\OpenApi\Refs;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    properties: [
-        new OA\Property(example: '1', property: 'id', type: 'integer'),
-        new OA\Property(example: 'Типографская', property: 'label', type: 'string'),
-        new OA\Property(
-            example: 'Бумага средней плотности, светло-серая, слегка шероховатая',
-            property: 'description',
-            type: 'string'
-        ),
-        new OA\Property(example: '2026-09-10 10:10:19', property: 'updated_at', type: 'string'),
-        new OA\Property(example: '2026-09-10 10:10:19', property: 'created_at', type: 'string'),
-    ],
     schema: 'PaperTypeResource',
+    properties: [
+        new OA\Property(property: 'id', type: 'integer', example: '1'),
+        new OA\Property(property: 'label', type: 'string', example: 'Типографская'),
+        new OA\Property(
+            property: 'description',
+            type: 'string',
+            example: 'Бумага средней плотности, светло-серая, слегка шероховатая'
+        ),
+        new OA\Property(property: 'updated_at', type: 'string', example: '2026-09-10 10:10:19'),
+        new OA\Property(property: 'created_at', type: 'string', example: '2026-09-10 10:10:19'),
+    ],
     type: 'object'
 )]
 #[OA\Schema(
-    properties: [
-        new OA\Property(
-            property: 'data',
-            ref: Refs::PAPER_TYPE_RESOURCE,
+    schema: 'PaperTypeDataResource',
+    description: 'Single PaperType response',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    ref: Refs::PAPER_TYPE_RESOURCE,
+                    type: 'object'
+                ),
+            ],
             type: 'object'
         ),
-        new OA\Property(example: true, property: 'success', type: 'bool'),
-    ],
-    schema: 'PaperTypeDataResource',
-    type: 'object'
+    ]
+ )]
+#[OA\Schema(
+    schema: 'PaperTypeDestroyResponse',
+    description: 'Delete PaperType response',
+    allOf: [
+        new OA\Schema(ref: Refs::RESPONSE),
+        new OA\Schema(
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    properties: [
+                        new OA\Property(property: 'success', type: 'bool', example: true),
+                    ],
+                    type: 'object'
+                ),
+            ],
+            type: 'object'
+        ),
+    ]
 )]
 class PaperTypeResourceSchema {}

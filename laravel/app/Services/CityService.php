@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CQRS\CommandBus;
+use App\CQRS\Bus;
 use App\CQRS\Commands\Cities\CreateCityCommand;
 use App\CQRS\Commands\Cities\DestroyCityCommand;
 use App\CQRS\Commands\Cities\UpdateCityCommand;
@@ -17,31 +17,31 @@ use Illuminate\Pagination\LengthAwarePaginator;
 readonly class CityService implements ServiceInterface
 {
     public function __construct(
-        private CommandBus $bus,
+        private Bus $bus,
     ) {}
 
     public function getList(CollectionQueryDtoInterface $dto): Collection
     {
-        return $this->bus->dispatch(new GetCitiesQuery($dto));
+        return $this->bus->handle(new GetCitiesQuery($dto));
     }
 
     public function create(DtoInterface $dto): City
     {
         $command = new CreateCityCommand($dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function updateById(int $id, DtoInterface $dto): City
     {
         $command = new UpdateCityCommand($id, $dto);
 
-        return $this->bus->dispatch($command);
+        return $this->bus->handle($command);
     }
 
     public function deleteById(int $id): bool
     {
-        return $this->bus->dispatch(new DestroyCityCommand($id));
+        return $this->bus->handle(new DestroyCityCommand($id));
     }
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): ?LengthAwarePaginator
