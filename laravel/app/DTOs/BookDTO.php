@@ -2,7 +2,13 @@
 
 namespace App\DTOs;
 
+use App\Models\Author;
+use App\Models\BindingType;
 use App\Models\Book;
+use App\Models\BookSeries;
+use App\Models\PaperType;
+use App\Models\PublishingBrand;
+use App\Models\PublishingHouse;
 use Illuminate\Support\Arr;
 
 class BookDTO extends AbstractDTO
@@ -36,20 +42,20 @@ class BookDTO extends AbstractDTO
             publishYear: $data[Book::PARAM_PUBLISH_YEAR],
             bindingType: $data[Book::PARAM_BINDING_TYPE],
             authors: $data[Book::PARAM_AUTHORS],
-            originalTitle: $data[Book::PARAM_ORIGINAL_TITLE] ?? null,
-            isbn: $data[Book::PARAM_ISBN] ?? null,
-            pages: $data[Book::PARAM_PAGES] ?? null,
-            circulation: $data[Book::PARAM_CIRCULATION] ?? null,
-            size: $data[Book::PARAM_SIZE] ?? null,
-            livelibId: $data[Book::PARAM_LIVELIB_ID] ?? null,
-            goodreadsId: $data[Book::PARAM_GOODREADS_ID] ?? null,
-            fantlabId: $data[Book::PARAM_FANTLAB_ID] ?? null,
-            livelibRating: $data[Book::PARAM_LIVELIB_RATING] ?? null,
-            goodreadsRating: $data[Book::PARAM_GOODREADS_RATING] ?? null,
-            publishingHouse: $data[Book::PARAM_PUBLISHING_HOUSE] ?? null,
-            publishingBrand: $data[Book::PARAM_PUBLISHING_BRAND] ?? null,
-            bookSeries: $data[Book::PARAM_BOOK_SERIES] ?? null,
-            paperType: $data[Book::PARAM_PAPER_TYPE] ?? null,
+            originalTitle: Arr::get($data, Book::PARAM_ORIGINAL_TITLE),
+            isbn: Arr::get($data, Book::PARAM_ISBN),
+            pages: Arr::get($data, Book::PARAM_PAGES),
+            circulation: Arr::get($data, Book::PARAM_CIRCULATION),
+            size: Arr::get($data, Book::PARAM_SIZE),
+            livelibId: Arr::get($data, Book::PARAM_LIVELIB_ID),
+            goodreadsId: Arr::get($data, Book::PARAM_GOODREADS_ID),
+            fantlabId: Arr::get($data, Book::PARAM_FANTLAB_ID),
+            livelibRating: Arr::get($data, Book::PARAM_LIVELIB_RATING),
+            goodreadsRating: Arr::get($data, Book::PARAM_GOODREADS_RATING),
+            publishingHouse: Arr::get($data, Book::PARAM_PUBLISHING_HOUSE),
+            publishingBrand: Arr::get($data, Book::PARAM_PUBLISHING_BRAND),
+            bookSeries: Arr::get($data, Book::PARAM_BOOK_SERIES),
+            paperType: Arr::get($data, Book::PARAM_PAPER_TYPE),
             bookUserData: $data[Book::PARAM_BOOK_USER_DATA] ?? [],
         );
     }
@@ -75,12 +81,12 @@ class BookDTO extends AbstractDTO
     public function getRelationsData(): array
     {
         return [
-            Book::PARAM_BINDING_TYPE => Arr::get($this->bindingType, 'id'),
-            Book::PARAM_PAPER_TYPE => $this->paperType['id'] ?? null,
-            Book::PARAM_PUBLISHING_HOUSE => $this->publishingHouse['id'] ?? null,
-            Book::PARAM_PUBLISHING_BRAND => $this->publishingBrand['id'] ?? null,
-            Book::PARAM_BOOK_SERIES => $this->bookSeries['id'] ?? null,
-            Book::PARAM_AUTHORS => Arr::pluck($this->authors, 'id'),
+            Book::PARAM_BINDING_TYPE => Arr::get($this->bindingType, BindingType::PARAM_ID),
+            Book::PARAM_PAPER_TYPE => Arr::get($this->paperType, PaperType::PARAM_ID),
+            Book::PARAM_PUBLISHING_HOUSE => Arr::get($this->publishingHouse, PublishingHouse::PARAM_ID),
+            Book::PARAM_PUBLISHING_BRAND => Arr::get($this->publishingBrand, PublishingBrand::PARAM_ID),
+            Book::PARAM_BOOK_SERIES => Arr::get($this->bookSeries, BookSeries::PARAM_ID),
+            Book::PARAM_AUTHORS => Arr::pluck($this->authors, Author::PARAM_ID),
             Book::PARAM_BOOK_USER_DATA => $this->bookUserData,
         ];
     }

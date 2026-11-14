@@ -39,7 +39,7 @@ class BindingTypeRepository implements RepositoryInterface
         return $entity;
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         $entity = BindingType::findOrFail($id);
 

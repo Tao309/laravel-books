@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create(SourceProductUserData::TABLE_NAME, function (Blueprint $table) {
             $table->unsignedBigInteger(SourceProductUserData::PARAM_SOURCE_PRODUCT_ID);
             $table->foreign(SourceProductUserData::PARAM_SOURCE_PRODUCT_ID)
-                ->references(SourceProduct::PARAM_ID)->on(SourceProduct::TABLE_NAME);
+                ->references(SourceProduct::PARAM_ID)->on(SourceProduct::TABLE_NAME)->cascadeOnDelete();
 
             $table->unsignedBigInteger(SourceProductUserData::PARAM_USER_ID);
             $table->foreign(SourceProductUserData::PARAM_USER_ID)
-                ->references(User::PARAM_ID)->on(User::TABLE_NAME);
+                ->references(User::PARAM_ID)->on(User::TABLE_NAME)->cascadeOnDelete();
 
             $table->integer(SourceProductUserData::PARAM_LISTEN_PRICE_VALUE)->nullable();
             $table->text(SourceProductUserData::PARAM_COMMENT)->nullable();

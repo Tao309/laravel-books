@@ -8,8 +8,6 @@ use App\DTOs\ProductUserDataDTO;
 use App\Http\QueryFilters\ProductQueryFilter;
 use App\Models\Book;
 use App\Models\Product;
-use App\Models\ProductPrice;
-use App\Models\ProductStock;
 use App\Models\ProductUserData;
 use App\Models\SourceProduct;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -24,11 +22,6 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements RepositoryInterface
 {
-    /**
-     * Additional relations required by ProductResource.
-     *
-     * shop and userCreated are already loaded via Product::$with.
-     */
     private const RELATIONS = [
         Product::PARAM_SOURCE,
         Product::PARAM_CITY,
@@ -74,12 +67,12 @@ class ProductRepository implements RepositoryInterface
                 ])
             );
 
-            $this->ppRepository->massCreate(
+            $this->ppRepository->massSave(
                 $entity->id,
                 Arr::get($relationData, Product::PARAM_PRICES, [])
             );
 
-            $this->psRepository->massCreate(
+            $this->psRepository->massSave(
                 $entity->id,
                 Arr::get($relationData, Product::PARAM_STOCKS, [])
             );
@@ -135,31 +128,33 @@ class ProductRepository implements RepositoryInterface
             $this->setSourceToModel($entity, $relationData);
 
             if (Arr::has($relationData, Product::PARAM_SHOP)) {
-                $entity->shop()->dissociate();
                 $entity->shop()->associate(Arr::get($relationData, Product::PARAM_SHOP));
             }
 
             if (Arr::has($relationData, Product::PARAM_CITY)) {
-                $entity->city()->dissociate();
                 $entity->city()->associate(Arr::get($relationData, Product::PARAM_CITY));
             }
 
             $entity->update($dto->getEntityData());
 
-            $this->pudRepo->update(
-                $entity->id,
-                ProductUserDataDTO::fromArray([
-                    ProductUserData::PARAM_PRODUCT_ID => $entity->id,
-                    ...Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []),
-                ])
-            );
+            $pudData = Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []);
 
-            $this->ppRepository->massUpdate(
+            if (! empty($pudData)) {
+                $this->pudRepo->update(
+                    $entity->id,
+                    ProductUserDataDTO::fromArray([
+                        ProductUserData::PARAM_PRODUCT_ID => $entity->id,
+                        ...$pudData,
+                    ])
+                );
+            }
+
+            $this->ppRepository->massSave(
                 $entity->id,
                 Arr::get($relationData, Product::PARAM_PRICES, [])
             );
 
-            $this->psRepository->massUpdate(
+            $this->psRepository->massSave(
                 $entity->id,
                 Arr::get($relationData, Product::PARAM_STOCKS, [])
             );
@@ -174,25 +169,23 @@ class ProductRepository implements RepositoryInterface
         }
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
-        return DB::transaction(function () use ($id) {
-            $entity = $this->query()->withoutEagerLoads()->findOrFail($id);
+        $entity = $this->query()->withoutEagerLoads()->findOrFail($id);
 
-            ProductPrice::where(ProductPrice::PARAM_PRODUCT_ID, $entity->id)->delete();
-            ProductStock::where(ProductStock::PARAM_PRODUCT_ID, $entity->id)->delete();
-            ProductUserData::where(ProductUserData::PARAM_PRODUCT_ID, $entity->id)->delete();
-
-            return $entity->delete();
-        });
+        return $entity->delete();
     }
 
-    public function findByShopProductId(string|int $shopProductId): ?Product
+    /**
+     * Для дальнейших действий, не грузим всю модели
+     */
+    public function findByShopProduct(string|int $shopProductId): ?Product
     {
-        return $this->query()->where([
-            Product::PARAM_SHOP_PRODUCT_ID => $shopProductId,
-            Product::PARAM_SHOP_ID => SessionShopService::getShopId(),
-        ])->first();
+        return Product::query()
+            ->select([Product::PARAM_ID, Product::PARAM_SHOP_ID])
+            ->where(Product::PARAM_SHOP_PRODUCT_ID, $shopProductId)
+            ->where(Product::PARAM_SHOP_ID, SessionShopService::getShopId())
+            ->firstOrFail();
     }
 
     /**

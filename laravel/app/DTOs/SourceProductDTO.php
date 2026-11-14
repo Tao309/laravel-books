@@ -18,7 +18,7 @@ class SourceProductDTO extends AbstractDTO
         return new self(
             title: $data[SourceProduct::PARAM_TITLE],
             sourceProductType: $data[SourceProduct::PARAM_SOURCE_PRODUCT_TYPE],
-            sourceProductUserData: $data[SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA],
+            sourceProductUserData: Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, []),
         );
     }
 

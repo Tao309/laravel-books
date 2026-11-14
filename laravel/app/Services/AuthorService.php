@@ -7,7 +7,7 @@ use App\CQRS\Commands\Authors\CreateAuthorCommand;
 use App\CQRS\Commands\Authors\DestroyAuthorCommand;
 use App\CQRS\Commands\Authors\UpdateAuthorCommand;
 use App\CQRS\Queries\Authors\GetAuthorByIdQuery;
-use App\CQRS\Queries\Authors\GetAuthorsQuery;
+use App\CQRS\Queries\Authors\GetAuthorsPaginateQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Author;
@@ -23,7 +23,7 @@ readonly class AuthorService implements GetListPaginateServiceInterface, Service
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->handle(new GetAuthorsQuery($dto));
+        return $this->bus->handle(new GetAuthorsPaginateQuery($dto));
     }
 
     public function getById(int $id): Author

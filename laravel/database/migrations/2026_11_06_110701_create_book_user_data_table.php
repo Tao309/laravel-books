@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create(BookUserData::TABLE_NAME, function (Blueprint $table) {
             $table->unsignedBigInteger(BookUserData::PARAM_BOOK_ID);
-            $table->foreign(BookUserData::PARAM_BOOK_ID)->references(Book::PARAM_ID)->on(Book::TABLE_NAME);
+            $table->foreign(BookUserData::PARAM_BOOK_ID)
+                ->references(Book::PARAM_ID)->on(Book::TABLE_NAME)->cascadeOnDelete();
 
             $table->unsignedBigInteger(BookUserData::PARAM_USER_ID);
-            $table->foreign(BookUserData::PARAM_USER_ID)->references(User::PARAM_ID)->on(User::TABLE_NAME);
+            $table->foreign(BookUserData::PARAM_USER_ID)
+                ->references(User::PARAM_ID)->on(User::TABLE_NAME)->cascadeOnDelete();
 
             $table->timestampTz(BookUserData::PARAM_RELEASE_DATE)->nullable();
             $table->integer(BookUserData::PARAM_LISTEN_PRICE_VALUE)->nullable();

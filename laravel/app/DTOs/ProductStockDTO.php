@@ -16,8 +16,8 @@ class ProductStockDTO implements UserDataDtoInterface
     public static function fromArray(array $data): UserDataDtoInterface
     {
         return new self(
-            qty: Arr::get($data, ProductStock::PARAM_QTY),
-            date: Arr::get($data, ProductStock::PARAM_DATE),
+            qty: $data[ProductStock::PARAM_QTY],
+            date: $data[ProductStock::PARAM_DATE],
             log: Arr::get($data, ProductStock::PARAM_LOG),
         );
     }

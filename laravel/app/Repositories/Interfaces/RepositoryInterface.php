@@ -20,5 +20,5 @@ interface RepositoryInterface
 
     public function update(int $id, DtoInterface $dto): Model;
 
-    public function delete($id): bool;
+    public function delete(int $id): bool;
 }

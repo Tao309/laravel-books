@@ -159,11 +159,11 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
                 'array',
             ],
             Product::PARAM_PRICES.'.*.'.ProductPrice::PARAM_PRICE => [
-                'sometimes',
+                'required',
                 'integer',
             ],
             Product::PARAM_PRICES.'.*.'.ProductPrice::PARAM_DATE => [
-                'sometimes',
+                'required',
                 'date_format:Y-m-d H:i:s',
             ],
             // < prices
@@ -173,11 +173,11 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
                 'array',
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_QTY => [
-                'sometimes',
+                'required',
                 'integer',
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_DATE => [
-                'sometimes',
+                'required',
                 'date_format:Y-m-d H:i:s',
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_LOG => [

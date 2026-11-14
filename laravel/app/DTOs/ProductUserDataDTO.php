@@ -24,14 +24,14 @@ class ProductUserDataDTO implements UserDataDtoInterface
     {
         return new self(
             productId: $data[ProductUserData::PARAM_PRODUCT_ID],
-            available: Arr::get($data, ProductUserData::PARAM_AVAILABLE) ?? true,
-            isArchive: Arr::get($data, ProductUserData::PARAM_IS_ARCHIVE) ?? false,
-            notAvailableDateFrom: Arr::get($data, ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM) ?? null,
-            availableDateFrom: Arr::get($data, ProductUserData::PARAM_AVAILABLE_DATE_FROM) ?? null,
-            listenPriceValue: Arr::get($data, ProductUserData::PARAM_LISTEN_PRICE_VALUE) ?? null,
-            listenQtyValue: Arr::get($data, ProductUserData::PARAM_LISTEN_QTY_VALUE) ?? null,
-            releaseDate: Arr::get($data, ProductUserData::PARAM_RELEASE_DATE) ?? null,
-            comment: Arr::get($data, ProductUserData::PARAM_COMMENT) ?? null,
+            available: Arr::get($data, ProductUserData::PARAM_AVAILABLE, true),
+            isArchive: Arr::get($data, ProductUserData::PARAM_IS_ARCHIVE, false),
+            notAvailableDateFrom: Arr::get($data, ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM),
+            availableDateFrom: Arr::get($data, ProductUserData::PARAM_AVAILABLE_DATE_FROM),
+            listenPriceValue: Arr::get($data, ProductUserData::PARAM_LISTEN_PRICE_VALUE),
+            listenQtyValue: Arr::get($data, ProductUserData::PARAM_LISTEN_QTY_VALUE),
+            releaseDate: Arr::get($data, ProductUserData::PARAM_RELEASE_DATE),
+            comment: Arr::get($data, ProductUserData::PARAM_COMMENT),
         );
     }
 

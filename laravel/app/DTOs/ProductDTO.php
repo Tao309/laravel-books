@@ -2,9 +2,11 @@
 
 namespace App\DTOs;
 
+use App\Models\Book;
 use App\Models\City;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Models\SourceProduct;
 use Illuminate\Support\Arr;
 
 class ProductDTO extends AbstractDTO
@@ -26,15 +28,15 @@ class ProductDTO extends AbstractDTO
     {
         return new self(
             shopProductId: $data[Product::PARAM_SHOP_PRODUCT_ID],
-            shopProductCode: $data[Product::PARAM_SHOP_PRODUCT_CODE] ?? null,
+            shopProductCode: Arr::get($data, Product::PARAM_SHOP_PRODUCT_CODE),
             title: $data[Product::PARAM_TITLE],
             shop: $data[Product::PARAM_SHOP],
-            city: $data[Product::PARAM_CITY] ?? null,
-            book: $data[Product::PARAM_BOOK] ?? null,
-            sourceProduct: $data[Product::PARAM_SOURCE_PRODUCT] ?? [],
-            productUserData: $data[Product::PARAM_PRODUCT_USER_DATA] ?? [],
-            prices: $data[Product::PARAM_PRICES] ?? [],
-            stocks: $data[Product::PARAM_STOCKS] ?? [],
+            city: Arr::get($data, Product::PARAM_CITY),
+            book: Arr::get($data, Product::PARAM_BOOK),
+            sourceProduct: Arr::get($data, Product::PARAM_SOURCE_PRODUCT, []),
+            productUserData: Arr::get($data, Product::PARAM_PRODUCT_USER_DATA, []),
+            prices: Arr::get($data, Product::PARAM_PRICES, []),
+            stocks: Arr::get($data, Product::PARAM_STOCKS, []),
         );
     }
 
@@ -51,9 +53,9 @@ class ProductDTO extends AbstractDTO
     {
         return [
             Product::PARAM_SHOP => Arr::get($this->shop, Shop::PARAM_ID),
-            Product::PARAM_CITY => $this->city[City::PARAM_ID] ?? null,
-            Product::PARAM_BOOK => $this->book[City::PARAM_ID] ?? null,
-            Product::PARAM_SOURCE_PRODUCT => $this->sourceProduct[City::PARAM_ID] ?? null,
+            Product::PARAM_CITY => Arr::get($this->city, City::PARAM_ID),
+            Product::PARAM_BOOK => Arr::get($this->book, Book::PARAM_ID),
+            Product::PARAM_SOURCE_PRODUCT => Arr::get($this->sourceProduct, SourceProduct::PARAM_ID),
             Product::PARAM_PRODUCT_USER_DATA => $this->productUserData,
             Product::PARAM_PRICES => $this->prices,
             Product::PARAM_STOCKS => $this->stocks,

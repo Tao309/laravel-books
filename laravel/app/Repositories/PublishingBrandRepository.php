@@ -39,7 +39,7 @@ class PublishingBrandRepository implements RepositoryInterface
         return $entity;
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         return PublishingBrand::findOrFail($id)->delete();
     }

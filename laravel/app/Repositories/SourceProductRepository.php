@@ -9,6 +9,7 @@ use App\Http\QueryFilters\SourceProductQueryFilter;
 use App\Models\SourceProduct;
 use App\Models\SourceProductUserData;
 use App\Repositories\Interfaces\RepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
@@ -47,7 +48,7 @@ class SourceProductRepository implements RepositoryInterface
 
             DB::commit();
 
-            return SourceProduct::findOrFail($entity->id);
+            return $this->query()->findOrFail($entity->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -85,22 +86,25 @@ class SourceProductRepository implements RepositoryInterface
         try {
             $entity = SourceProduct::findOrFail($id);
 
-            $entity->sourceProductType()->dissociate();
             $entity->sourceProductType()->associate(Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
 
             $entity->update($dto->getEntityData());
 
-            $this->spudRepository->update(
-                $entity->id,
-                SourceProductUserDataDTO::fromArray([
-                    SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $entity->id,
-                    ...Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, []),
-                ])
-            );
+            $spudData = Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, []);
+
+            if (! empty($spudData)) {
+                $this->spudRepository->update(
+                    $entity->id,
+                    SourceProductUserDataDTO::fromArray([
+                        SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $entity->id,
+                        ...$spudData,
+                    ])
+                );
+            }
 
             DB::commit();
 
-            return SourceProduct::findOrFail($entity->id);
+            return $this->query()->findOrFail($entity->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -108,10 +112,18 @@ class SourceProductRepository implements RepositoryInterface
         }
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         $entity = SourceProduct::query()->withoutEagerLoads()->findOrFail($id);
 
         return $entity->delete();
+    }
+
+    /**
+     * @return Builder<SourceProduct>
+     */
+    private function query(): Builder
+    {
+        return SourceProduct::query();
     }
 }

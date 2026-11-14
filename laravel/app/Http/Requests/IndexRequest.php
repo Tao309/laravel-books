@@ -57,8 +57,8 @@ class IndexRequest extends FormRequest implements IndexRequestInterface
             self::FIELD_LIMIT => [
                 'sometimes',
                 'integer',
-                'min_digits::1',
-                'max_digits::3',
+                'min:1',
+                'max:100',
             ],
         ];
     }

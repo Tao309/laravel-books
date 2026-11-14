@@ -3,42 +3,42 @@
 namespace App\Repositories;
 
 use App\DTOs\ProductStockDTO;
-use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use Illuminate\Support\Facades\Auth;
 
 class ProductStockRepository
 {
-    public function massCreate(int $relEntityId, array $stocksData): bool
+    public function massSave(int $relEntityId, array $stocksData): bool
     {
+        if (empty($stocksData)) {
+            return true;
+        }
+
+        $userId = Auth::id();
+
+        $rows = [];
+
         foreach ($stocksData as $stockData) {
             $dto = ProductStockDTO::fromArray($stockData);
 
-            $this->create($relEntityId, $dto->getEntityData());
+            $rows[] = array_merge(
+                $dto->getEntityData(),
+                [
+                    ProductStock::PARAM_PRODUCT_ID => $relEntityId,
+                    ProductStock::PARAM_USER_ID => $userId,
+                ]
+            );
         }
 
-        return true;
-    }
-
-    public function massUpdate(int $relEntityId, array $stocksData): bool
-    {
-        foreach ($stocksData as $stockData) {
-            $dto = ProductStockDTO::fromArray($stockData);
-
-            $model = ProductStock::where([
-                ProductStock::PARAM_PRODUCT_ID => $relEntityId,
-                ProductStock::PARAM_USER_ID => Auth::id(),
-                ProductPrice::PARAM_DATE => $dto->getEntityData()[ProductStock::PARAM_DATE],
-            ]);
-
-            if ($model->exists()) {
-                $model->update($dto->getEntityData());
-
-                continue;
-            }
-
-            $this->create($relEntityId, $dto->getEntityData());
-        }
+        ProductStock::query()->upsert(
+            $rows,
+            [
+                ProductStock::PARAM_PRODUCT_ID,
+                ProductStock::PARAM_USER_ID,
+                ProductStock::PARAM_DATE,
+            ],
+            [ProductStock::PARAM_QTY]
+        );
 
         return true;
     }
@@ -49,13 +49,5 @@ class ProductStockRepository
             ProductStock::PARAM_PRODUCT_ID => $relEntityId,
             ProductStock::PARAM_USER_ID => Auth::id(),
         ])->delete();
-    }
-
-    private function create(int $relEntityId, array $data): ProductStock
-    {
-        return ProductStock::create(array_merge([
-            ProductStock::PARAM_PRODUCT_ID => $relEntityId,
-            ProductStock::PARAM_USER_ID => Auth::id(),
-        ], $data));
     }
 }

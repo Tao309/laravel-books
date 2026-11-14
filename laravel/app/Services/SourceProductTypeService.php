@@ -7,6 +7,7 @@ use App\CQRS\Commands\SourceProductTypes\CreateSourceProductTypeCommand;
 use App\CQRS\Commands\SourceProductTypes\DestroySourceProductTypeCommand;
 use App\CQRS\Commands\SourceProductTypes\UpdateSourceProductTypeCommand;
 use App\CQRS\Queries\SourceProductTypes\GetSourceProductTypeByIdQuery;
+use App\CQRS\Queries\SourceProductTypes\GetSourceProductTypesPaginateQuery;
 use App\CQRS\Queries\SourceProductTypes\GetSourceProductTypesQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
@@ -30,7 +31,7 @@ readonly class SourceProductTypeService implements GetListPaginateServiceInterfa
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->handle(new GetSourceProductTypesQuery($dto));
+        return $this->bus->handle(new GetSourceProductTypesPaginateQuery($dto));
     }
 
     public function getById(int $id): SourceProductType

@@ -15,11 +15,11 @@ return new class extends Migration
         Schema::create(ProductPrice::TABLE_NAME, function (Blueprint $table) {
             $table->unsignedBigInteger(ProductPrice::PARAM_PRODUCT_ID);
             $table->foreign(ProductPrice::PARAM_PRODUCT_ID)
-                ->references(Product::PARAM_ID)->on(Product::TABLE_NAME);
+                ->references(Product::PARAM_ID)->on(Product::TABLE_NAME)->cascadeOnDelete();
 
             $table->unsignedBigInteger(ProductPrice::PARAM_USER_ID);
             $table->foreign(ProductPrice::PARAM_USER_ID)
-                ->references(User::PARAM_ID)->on(User::TABLE_NAME);
+                ->references(User::PARAM_ID)->on(User::TABLE_NAME)->cascadeOnDelete();
 
             $table->integer(ProductPrice::PARAM_PRICE)->default(true);
             $table->timestampTz(ProductPrice::PARAM_DATE)->nullable();
@@ -31,11 +31,11 @@ return new class extends Migration
         Schema::create(ProductStock::TABLE_NAME, function (Blueprint $table) {
             $table->unsignedBigInteger(ProductStock::PARAM_PRODUCT_ID);
             $table->foreign(ProductStock::PARAM_PRODUCT_ID)
-                ->references(Product::PARAM_ID)->on(Product::TABLE_NAME);
+                ->references(Product::PARAM_ID)->on(Product::TABLE_NAME)->cascadeOnDelete();
 
             $table->unsignedBigInteger(ProductStock::PARAM_USER_ID);
             $table->foreign(ProductStock::PARAM_USER_ID)
-                ->references(User::PARAM_ID)->on(User::TABLE_NAME);
+                ->references(User::PARAM_ID)->on(User::TABLE_NAME)->cascadeOnDelete();
 
             $table->integer(ProductStock::PARAM_QTY)->default(true);
             $table->timestampTz(ProductStock::PARAM_DATE)->nullable();

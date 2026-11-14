@@ -2,6 +2,9 @@
 
 namespace App\DTOs;
 
+use App\Http\Requests\IndexRequest;
+use Arr;
+
 class CollectionQueryDto implements CollectionQueryDtoInterface
 {
     public function __construct(
@@ -13,8 +16,8 @@ class CollectionQueryDto implements CollectionQueryDtoInterface
     public static function fromArray(array $data): self
     {
         return new self(
-            search: $data['search'] ?? null,
-            limit: $data['limit'] ?? null,
+            search: Arr::get($data, IndexRequest::FIELD_SEARCH),
+            limit: Arr::get($data, IndexRequest::FIELD_LIMIT),
             ids: ! empty($data['id']) && is_array($data['id']) ? $data['id'] : null,
         );
     }

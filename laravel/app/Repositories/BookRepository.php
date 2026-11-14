@@ -9,6 +9,7 @@ use App\Http\QueryFilters\BookQueryFilter;
 use App\Models\Book;
 use App\Models\BookUserData;
 use App\Repositories\Interfaces\RepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
@@ -67,7 +68,7 @@ class BookRepository implements RepositoryInterface
 
             DB::commit();
 
-            return Book::findOrFail($book->id);
+            return $this->query()->findOrFail($book->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -83,37 +84,31 @@ class BookRepository implements RepositoryInterface
         try {
             $book = Book::findOrFail($id);
 
-            $book->bindingType()->dissociate();
             $book->bindingType()->associate(Arr::get($relationData, Book::PARAM_BINDING_TYPE));
-
-            $book->paperType()->dissociate();
             $book->paperType()->associate(Arr::get($relationData, Book::PARAM_PAPER_TYPE));
-
-            $book->publishingHouse()->dissociate();
             $book->publishingHouse()->associate(Arr::get($relationData, Book::PARAM_PUBLISHING_HOUSE));
-
-            $book->publishingBrand()->dissociate();
             $book->publishingBrand()->associate(Arr::get($relationData, Book::PARAM_PUBLISHING_BRAND));
-
-            $book->bookSeries()->dissociate();
             $book->bookSeries()->associate(Arr::get($relationData, Book::PARAM_BOOK_SERIES));
 
-            $book->authors()->detach();
-            $book->authors()->attach(Arr::get($relationData, Book::PARAM_AUTHORS));
+            $book->authors()->sync(Arr::get($relationData, Book::PARAM_AUTHORS));
 
             $book->update($dto->getEntityData());
 
-            $this->budRepository->update(
-                $book->id,
-                BookUserDataDTO::fromArray([
-                    BookUserData::PARAM_BOOK_ID => $book->id,
-                    ...Arr::get($relationData, Book::PARAM_BOOK_USER_DATA, []),
-                ])
-            );
+            $budData = Arr::get($relationData, Book::PARAM_BOOK_USER_DATA, []);
+
+            if (! empty($budData)) {
+                $this->budRepository->update(
+                    $book->id,
+                    BookUserDataDTO::fromArray([
+                        BookUserData::PARAM_BOOK_ID => $book->id,
+                        ...$budData,
+                    ])
+                );
+            }
 
             DB::commit();
 
-            return Book::findOrFail($book->id);
+            return $this->query()->findOrFail($book->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -142,15 +137,20 @@ class BookRepository implements RepositoryInterface
         )->paginate();
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
-        return DB::transaction(function () use ($id) {
-            $entity = Book::query()->withoutEagerLoads()->findOrFail($id);
+        $entity = Book::query()->withoutEagerLoads()->findOrFail($id);
 
-            $entity->authors()->detach();
-            BookUserData::where(BookUserData::PARAM_BOOK_ID, $entity->id)->delete();
+        $entity->authors()->detach();
 
-            return $entity->delete();
-        });
+        return $entity->delete();
+    }
+
+    /**
+     * @return Builder<Book>
+     */
+    private function query(): Builder
+    {
+        return Book::query();
     }
 }

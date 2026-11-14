@@ -39,7 +39,7 @@ class BookSeriesRepository implements RepositoryInterface
         return $entity;
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         return BookSeries::findOrFail($id)->delete();
     }

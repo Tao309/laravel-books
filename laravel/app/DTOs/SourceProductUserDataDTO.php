@@ -17,8 +17,8 @@ class SourceProductUserDataDTO implements UserDataDtoInterface
     {
         return new self(
             sourceProductId: $data[SourceProductUserData::PARAM_SOURCE_PRODUCT_ID],
-            listenPriceValue: Arr::get($data, SourceProductUserData::PARAM_LISTEN_PRICE_VALUE) ?? null,
-            comment: Arr::get($data, SourceProductUserData::PARAM_COMMENT) ?? null,
+            listenPriceValue: Arr::get($data, SourceProductUserData::PARAM_LISTEN_PRICE_VALUE),
+            comment: Arr::get($data, SourceProductUserData::PARAM_COMMENT),
         );
     }
 

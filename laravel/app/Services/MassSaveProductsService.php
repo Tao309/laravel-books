@@ -42,6 +42,8 @@ readonly class MassSaveProductsService
                 }
 
                 DB::commit();
+                $ids = [];
+                $products = [];
             } catch (\Throwable $e) {
                 $errorsCount++;
                 $errorMessages[] = $e->getMessage();

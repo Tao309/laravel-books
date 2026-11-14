@@ -8,36 +8,37 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductPriceRepository
 {
-    public function massCreate(int $relEntityId, array $pricesData): bool
+    public function massSave(int $relEntityId, array $pricesData): bool
     {
+        if (empty($pricesData)) {
+            return true;
+        }
+
+        $userId = Auth::id();
+
+        $rows = [];
+
         foreach ($pricesData as $priceData) {
             $dto = ProductPriceDTO::fromArray($priceData);
 
-            $this->create($relEntityId, $dto->getEntityData());
+            $rows[] = array_merge(
+                $dto->getEntityData(),
+                [
+                    ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
+                    ProductPrice::PARAM_USER_ID => $userId,
+                ]
+            );
         }
 
-        return true;
-    }
-
-    public function massUpdate(int $relEntityId, array $pricesData): bool
-    {
-        foreach ($pricesData as $priceData) {
-            $dto = ProductPriceDTO::fromArray($priceData);
-
-            $model = ProductPrice::where([
-                ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
-                ProductPrice::PARAM_USER_ID => Auth::id(),
-                ProductPrice::PARAM_DATE => $dto->getEntityData()[ProductPrice::PARAM_DATE],
-            ]);
-
-            if ($model->exists()) {
-                $model->update($dto->getEntityData());
-
-                continue;
-            }
-
-            $this->create($relEntityId, $dto->getEntityData());
-        }
+        ProductPrice::query()->upsert(
+            $rows,
+            [
+                ProductPrice::PARAM_PRODUCT_ID,
+                ProductPrice::PARAM_USER_ID,
+                ProductPrice::PARAM_DATE,
+            ],
+            [ProductPrice::PARAM_PRICE]
+        );
 
         return true;
     }
@@ -48,13 +49,5 @@ class ProductPriceRepository
             ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
             ProductPrice::PARAM_USER_ID => Auth::id(),
         ])->delete();
-    }
-
-    public function create(int $relEntityId, array $data): ProductPrice
-    {
-        return ProductPrice::create(array_merge([
-            ProductPrice::PARAM_PRODUCT_ID => $relEntityId,
-            ProductPrice::PARAM_USER_ID => Auth::id(),
-        ], $data));
     }
 }

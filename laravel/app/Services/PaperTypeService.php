@@ -7,6 +7,7 @@ use App\CQRS\Commands\PaperTypes\CreatePaperTypeCommand;
 use App\CQRS\Commands\PaperTypes\DestroyPaperTypeCommand;
 use App\CQRS\Commands\PaperTypes\UpdatePaperTypeCommand;
 use App\CQRS\Queries\PaperTypes\GetPaperTypeByIdQuery;
+use App\CQRS\Queries\PaperTypes\GetPaperTypesPaginateQuery;
 use App\CQRS\Queries\PaperTypes\GetPaperTypesQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
@@ -30,7 +31,7 @@ readonly class PaperTypeService implements GetListPaginateServiceInterface, GetL
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {
-        return $this->bus->handle(new GetPaperTypesQuery($dto));
+        return $this->bus->handle(new GetPaperTypesPaginateQuery($dto));
     }
 
     public function getById(int $id): PaperType

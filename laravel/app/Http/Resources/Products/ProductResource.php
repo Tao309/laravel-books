@@ -30,9 +30,18 @@ class ProductResource extends AbstractResource
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
 
-            Product::PARAM_MIN_PRICE => $this->minPrice(),
-            Product::PARAM_LAST_QTY => $this->lastQty(),
-            Product::PARAM_LAST_STOCK => ProductStockResource::make($this->lastStock()),
+            Product::PARAM_MIN_PRICE => $this->whenLoaded(
+                Product::PARAM_PRICES,
+                fn () => $this->prices ? $this->minPrice() : null
+            ),
+            Product::PARAM_LAST_QTY => $this->whenLoaded(
+                Product::PARAM_STOCKS,
+                fn () => $this->stocks ? $this->lastQty() : null
+            ),
+            Product::PARAM_LAST_STOCK => $this->whenLoaded(
+                Product::PARAM_STOCKS,
+                fn () => $this->stocks ? ProductStockResource::make($this->lastStock()) : null
+            ),
 
             // > relations
             Product::PARAM_SHOP => $this->whenLoaded(

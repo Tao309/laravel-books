@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\PaperType;
+use Illuminate\Support\Arr;
 
 class PaperTypeDTO extends AbstractDTO
 {
@@ -15,7 +16,7 @@ class PaperTypeDTO extends AbstractDTO
     {
         return new self(
             label: $data[PaperType::PARAM_LABEL],
-            description: $data[PaperType::PARAM_DESCRIPTION],
+            description: Arr::get($data, PaperType::PARAM_DESCRIPTION),
         );
     }
 

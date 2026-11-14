@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\CQRS\Handlers\Authors\CreateAuthorHandler;
 use App\CQRS\Handlers\Authors\DestroyAuthorHandler;
 use App\CQRS\Handlers\Authors\GetAuthorByIdHandler;
-use App\CQRS\Handlers\Authors\GetAuthorsHandler;
+use App\CQRS\Handlers\Authors\GetAuthorsPaginateHandler;
 use App\CQRS\Handlers\Authors\UpdateAuthorHandler;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Resources\Authors\AuthorResource;
@@ -23,7 +23,7 @@ class AuthorProvider extends ServiceProvider
             ->needs(RepositoryInterface::class)
             ->give(AuthorRepository::class);
 
-        $this->app->when(GetAuthorsHandler::class)
+        $this->app->when(GetAuthorsPaginateHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(AuthorRepository::class);
 

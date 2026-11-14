@@ -39,7 +39,7 @@ class PublishingHouseRepository implements RepositoryInterface
         return $entity;
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         return PublishingHouse::findOrFail($id)->delete();
     }

@@ -16,7 +16,7 @@ readonly class ArchiveProductService
 
     public function process(array $data): Product|bool
     {
-        $product = $this->productRepo->findByShopProductId($data[Product::PARAM_SHOP_PRODUCT_ID]);
+        $product = $this->productRepo->findByShopProduct($data[Product::PARAM_SHOP_PRODUCT_ID]);
 
         if (! $product) {
             return false;

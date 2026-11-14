@@ -60,7 +60,7 @@ class {{ class }} implements RepositoryInterface
         }
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         $entity = {{ ModelName }}::findOrFail($id);
 

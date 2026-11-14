@@ -39,7 +39,7 @@ class PaperTypeRepository implements RepositoryInterface
         return $entity;
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         $entity = PaperType::findOrFail($id);
 

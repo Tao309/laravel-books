@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\Author;
+use Illuminate\Support\Arr;
 
 class AuthorDTO extends AbstractDTO
 {
@@ -15,7 +16,7 @@ class AuthorDTO extends AbstractDTO
     {
         return new self(
             firstName: $data[Author::PARAM_FIRST_NAME],
-            lastName: $data[Author::PARAM_LAST_NAME],
+            lastName: Arr::get($data, Author::PARAM_LAST_NAME, []),
         );
     }
 
