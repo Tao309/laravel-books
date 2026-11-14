@@ -26,6 +26,6 @@ readonly class ArchiveProductService
             ProductUserData::PARAM_IS_ARCHIVE => (bool) $data[ProductUserData::PARAM_IS_ARCHIVE],
         ]);
 
-        return $product;
+        return $product->load('productUserData');
     }
 }

@@ -59,7 +59,9 @@ abstract class ApiController extends Controller
 
     protected function destroyAction(int $id): JsonResponse
     {
-        return $this->toJson($this->getService()->deleteById($id));
+        return $this->toJson([
+            ResponseContext::SUCCESS => $this->getService()->deleteById($id),
+        ]);
     }
 
     protected function toJson($data, int $status = ResponseAlias::HTTP_OK): JsonResponse

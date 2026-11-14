@@ -67,7 +67,7 @@ class BookRepository implements RepositoryInterface
 
             DB::commit();
 
-            return $book;
+            return Book::findOrFail($book->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -144,10 +144,13 @@ class BookRepository implements RepositoryInterface
 
     public function delete($id): bool
     {
-        $entity = Book::findOrFail($id);
+        return DB::transaction(function () use ($id) {
+            $entity = Book::query()->withoutEagerLoads()->findOrFail($id);
 
-        $this->budRepository->delete($id);
+            $entity->authors()->detach();
+            BookUserData::where(BookUserData::PARAM_BOOK_ID, $entity->id)->delete();
 
-        return $entity->delete();
+            return $entity->delete();
+        });
     }
 }

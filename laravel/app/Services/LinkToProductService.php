@@ -39,12 +39,13 @@ readonly class LinkToProductService
             throw new ApiException('Not found Book by id = '.$bookId);
         }
 
-        try {
-            $this->budRepo->get($book->id);
-        } catch (ModelNotFoundException) {
-            $this->budRepo->create($book->id, BookUserDataDTO::fromArray([
-                BookUserData::PARAM_BOOK_ID => $book->id,
-            ]));
+        if (! $book->bookUserData) {
+            $book->setRelation(
+                'bookUserData',
+                $this->budRepo->create($book->id, BookUserDataDTO::fromArray([
+                    BookUserData::PARAM_BOOK_ID => $book->id,
+                ]))
+            );
         }
 
         $product->source()->associate($book)->save();
@@ -66,12 +67,13 @@ readonly class LinkToProductService
             throw new ApiException('Not found SourceProduct by id = '.$sourceProductId);
         }
 
-        try {
-            $this->spudRepo->get($sourceProduct->id);
-        } catch (ModelNotFoundException) {
-            $this->spudRepo->create($sourceProduct->id, SourceProductUserDataDTO::fromArray([
-                SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $sourceProduct->id,
-            ]));
+        if (! $sourceProduct->sourceProductUserData) {
+            $sourceProduct->setRelation(
+                'sourceProductUserData',
+                $this->spudRepo->create($sourceProduct->id, SourceProductUserDataDTO::fromArray([
+                    SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $sourceProduct->id,
+                ]))
+            );
         }
 
         $product->source()->associate($sourceProduct)->save();

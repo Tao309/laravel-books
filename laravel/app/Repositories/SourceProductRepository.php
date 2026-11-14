@@ -47,7 +47,7 @@ class SourceProductRepository implements RepositoryInterface
 
             DB::commit();
 
-            return $entity;
+            return SourceProduct::findOrFail($entity->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -100,7 +100,7 @@ class SourceProductRepository implements RepositoryInterface
 
             DB::commit();
 
-            return $entity;
+            return SourceProduct::findOrFail($entity->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -110,7 +110,7 @@ class SourceProductRepository implements RepositoryInterface
 
     public function delete($id): bool
     {
-        $entity = SourceProduct::findOrFail($id);
+        $entity = SourceProduct::query()->withoutEagerLoads()->findOrFail($id);
 
         return $entity->delete();
     }

@@ -21,9 +21,6 @@ class ProductResource extends AbstractResource
 {
     public function getArrayData(Request $request): array
     {
-        $book = $this->source instanceof Book ? $this->source : null;
-        $sourceProduct = $this->source instanceof SourceProduct ? $this->source : null;
-
         return [
             Product::PARAM_ID => $this->offsetGet(Product::PARAM_ID),
             Product::PARAM_SHOP_PRODUCT_ID => $this->offsetGet(Product::PARAM_SHOP_PRODUCT_ID),
@@ -38,13 +35,34 @@ class ProductResource extends AbstractResource
             Product::PARAM_LAST_STOCK => ProductStockResource::make($this->lastStock()),
 
             // > relations
-            Product::PARAM_SHOP => ShopResource::make($this->shop),
-            Product::PARAM_CITY => CityResource::make($this->city),
-            Product::PARAM_BOOK => $book ? BookResource::make($book) : null,
-            Product::PARAM_SOURCE_PRODUCT => $sourceProduct ? SourceProductResource::make($sourceProduct) : null,
-            Product::PARAM_PRODUCT_USER_DATA => ProductUserDataResource::make($this->productUserData),
-            Product::PARAM_PRICES => ProductPriceResource::collection($this->prices),
-            Product::PARAM_STOCKS => ProductStockResource::collection($this->stocks),
+            Product::PARAM_SHOP => $this->whenLoaded(
+                Product::PARAM_SHOP,
+                fn () => ShopResource::make($this->shop)
+            ),
+            Product::PARAM_CITY => $this->whenLoaded(
+                Product::PARAM_CITY,
+                fn () => CityResource::make($this->city)
+            ),
+            Product::PARAM_BOOK => $this->whenLoaded(
+                Product::PARAM_SOURCE,
+                fn () => $this->source instanceof Book ? BookResource::make($this->source) : null
+            ),
+            Product::PARAM_SOURCE_PRODUCT => $this->whenLoaded(
+                Product::PARAM_SOURCE,
+                fn () => $this->source instanceof SourceProduct ? SourceProductResource::make($this->source) : null
+            ),
+            Product::PARAM_PRODUCT_USER_DATA => $this->whenLoaded(
+                'productUserData',
+                fn () => ProductUserDataResource::make($this->productUserData)
+            ),
+            Product::PARAM_PRICES => $this->whenLoaded(
+                Product::PARAM_PRICES,
+                fn () => ProductPriceResource::collection($this->prices)
+            ),
+            Product::PARAM_STOCKS => $this->whenLoaded(
+                Product::PARAM_STOCKS,
+                fn () => ProductStockResource::collection($this->stocks)
+            ),
             // < relations
         ];
     }

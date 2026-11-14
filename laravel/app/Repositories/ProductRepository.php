@@ -8,10 +8,13 @@ use App\DTOs\ProductUserDataDTO;
 use App\Http\QueryFilters\ProductQueryFilter;
 use App\Models\Book;
 use App\Models\Product;
+use App\Models\ProductPrice;
+use App\Models\ProductStock;
 use App\Models\ProductUserData;
 use App\Models\SourceProduct;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Services\SessionShopService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -21,6 +24,19 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements RepositoryInterface
 {
+    /**
+     * Additional relations required by ProductResource.
+     *
+     * shop and userCreated are already loaded via Product::$with.
+     */
+    private const RELATIONS = [
+        Product::PARAM_SOURCE,
+        Product::PARAM_CITY,
+        'productUserData',
+        Product::PARAM_PRICES,
+        Product::PARAM_STOCKS,
+    ];
+
     public function __construct(
         private readonly ProductPriceRepository $ppRepository,
         private readonly ProductStockRepository $psRepository,
@@ -70,7 +86,7 @@ class ProductRepository implements RepositoryInterface
 
             DB::commit();
 
-            return $entity;
+            return $this->query()->findOrFail($entity->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -80,7 +96,7 @@ class ProductRepository implements RepositoryInterface
 
     public function get(int $id): Product
     {
-        $product = Product::where([
+        $product = $this->query()->where([
             Product::PARAM_ID => $id,
             Product::PARAM_SHOP_ID => SessionShopService::getShopId(),
         ])->first();
@@ -95,7 +111,7 @@ class ProductRepository implements RepositoryInterface
     public function getAll(GetCollectionQueryInterface $query): Collection
     {
         return $this->queryFilter->apply(
-            Product::query(),
+            $this->query(),
             $query->getDTO()
         )->get();
     }
@@ -103,7 +119,7 @@ class ProductRepository implements RepositoryInterface
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
         return $this->queryFilter->apply(
-            Product::query(),
+            $this->query(),
             $query->getDTO()
         )->paginate();
     }
@@ -150,7 +166,7 @@ class ProductRepository implements RepositoryInterface
 
             DB::commit();
 
-            return $entity;
+            return $this->query()->findOrFail($entity->id);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -160,17 +176,31 @@ class ProductRepository implements RepositoryInterface
 
     public function delete($id): bool
     {
-        $entity = Product::findOrFail($id);
+        return DB::transaction(function () use ($id) {
+            $entity = $this->query()->withoutEagerLoads()->findOrFail($id);
 
-        return $entity->delete();
+            ProductPrice::where(ProductPrice::PARAM_PRODUCT_ID, $entity->id)->delete();
+            ProductStock::where(ProductStock::PARAM_PRODUCT_ID, $entity->id)->delete();
+            ProductUserData::where(ProductUserData::PARAM_PRODUCT_ID, $entity->id)->delete();
+
+            return $entity->delete();
+        });
     }
 
     public function findByShopProductId(string|int $shopProductId): ?Product
     {
-        return Product::where([
+        return $this->query()->where([
             Product::PARAM_SHOP_PRODUCT_ID => $shopProductId,
             Product::PARAM_SHOP_ID => SessionShopService::getShopId(),
         ])->first();
+    }
+
+    /**
+     * @return Builder<Product>
+     */
+    private function query(): Builder
+    {
+        return Product::query()->with(self::RELATIONS);
     }
 
     private function setSourceToModel(Product $entity, array $data): void

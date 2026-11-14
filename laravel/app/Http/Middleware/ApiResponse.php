@@ -36,6 +36,7 @@ readonly class ApiResponse
         }
 
         if ($this->context->isSuccess()) {
+            unset($data[ResponseContext::SUCCESS]);
             $data = [
                 ResponseContext::DATA => $data,
             ];

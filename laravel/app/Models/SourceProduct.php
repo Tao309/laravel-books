@@ -69,6 +69,7 @@ class SourceProduct extends Model
     protected $with = [
         'sourceProductType',
         'userCreated',
+        'sourceProductUserData',
     ];
 
     protected $fillable = [

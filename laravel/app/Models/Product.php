@@ -126,8 +126,8 @@ class Product extends Model
         self::PARAM_SHOP_ID,
         self::PARAM_CITY_ID,
         self::PARAM_USER_CREATED_ID,
-        'source_type',
-        'source_id',
+        self::PARAM_SOURCE_TYPE,
+        self::PARAM_SOURCE_ID,
     ];
 
     protected function casts(): array
@@ -141,7 +141,7 @@ class Product extends Model
     // Book, SourceProduct
     public function source(): MorphTo
     {
-        return $this->morphTo('source', 'source_type', 'source_id');
+        return $this->morphTo(self::PARAM_SOURCE, self::PARAM_SOURCE_TYPE, self::PARAM_SOURCE_ID);
     }
 
     public function shop(): BelongsTo
@@ -182,16 +182,16 @@ class Product extends Model
 
     public function minPrice(): ?int
     {
-        return $this->prices()->count() ? $this->prices()->min(ProductPrice::PARAM_PRICE) : null;
+        return $this->prices->min(ProductPrice::PARAM_PRICE);
     }
 
     public function lastQty(): ?int
     {
-        return $this->stocks()->count() ? $this->stocks->last()->qty : null;
+        return $this->lastStock()?->qty;
     }
 
     public function lastStock(): ?ProductStock
     {
-        return $this->stocks()->count() ? $this->stocks->last() : null;
+        return $this->stocks->last();
     }
 }
