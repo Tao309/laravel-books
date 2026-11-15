@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Http\Resources\SourceProductTypes\SourceProductTypeResource;
 use App\Http\Resources\SourceProductTypes\SourceProductTypesResourceCollection;
 use App\Observers\SourceProductTypeObserver;
+use Database\Factories\SourceProductTypeFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -34,6 +36,9 @@ use Illuminate\Support\Carbon;
 #[ObservedBy([SourceProductTypeObserver::class])]
 class SourceProductType extends Model
 {
+    /** @use HasFactory<SourceProductTypeFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'source_product_types';
 
     public const string PARAM_ID = 'id';

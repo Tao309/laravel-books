@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Http\Resources\BindingTypes\BindingTypeResource;
 use App\Http\Resources\BindingTypes\BindingTypesResourceCollection;
 use App\Observers\BindingTypeObserver;
+use Database\Factories\BindingTypeFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -32,6 +34,9 @@ use Illuminate\Support\Carbon;
 #[ObservedBy([BindingTypeObserver::class])]
 class BindingType extends Model
 {
+    /** @use HasFactory<BindingTypeFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'binding_types';
 
     public const string PARAM_ID = 'id';

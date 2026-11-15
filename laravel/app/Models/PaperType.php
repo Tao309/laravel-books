@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Http\Resources\PaperTypes\PaperTypeResource;
 use App\Http\Resources\PaperTypes\PaperTypesResourceCollection;
+use Database\Factories\PaperTypeFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -31,6 +33,9 @@ use Illuminate\Support\Carbon;
 #[UseResourceCollection(PaperTypesResourceCollection::class)]
 class PaperType extends Model
 {
+    /** @use HasFactory<PaperTypeFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'paper_types';
 
     public const string PARAM_ID = 'id';

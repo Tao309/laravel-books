@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Http\Resources\PublishingBrand\PublishingBrandResource;
 use App\Http\Resources\PublishingBrand\PublishingBrandsResourceCollection;
 use App\Observers\PublishingBrandObserver;
+use Database\Factories\PublishingBrandFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -32,6 +34,9 @@ use Illuminate\Support\Carbon;
 #[ObservedBy([PublishingBrandObserver::class])]
 class PublishingBrand extends Model
 {
+    /** @use HasFactory<PublishingBrandFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'publishing_brands';
 
     public const string PARAM_ID = 'id';

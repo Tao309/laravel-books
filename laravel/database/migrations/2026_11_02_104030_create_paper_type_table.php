@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\PaperType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,10 +9,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('paper_types', function (Blueprint $table) {
+        Schema::create(PaperType::TABLE_NAME, function (Blueprint $table) {
             $table->id();
-            $table->string('label');
-            $table->string('description')->nullable();
+            $table->string(PaperType::PARAM_LABEL);
+            $table->string(PaperType::PARAM_DESCRIPTION)->nullable();
             $table->timestampsTz();
         });
     }

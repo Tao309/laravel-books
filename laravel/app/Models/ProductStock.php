@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Http\Resources\ProductStocks\ProductStockResource;
+use Database\Factories\ProductStockFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -28,6 +30,9 @@ use Illuminate\Support\Carbon;
 #[UseResource(ProductStockResource::class)]
 class ProductStock extends Model
 {
+    /** @use HasFactory<ProductStockFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'product_stocks';
 
     public const string PARAM_PRODUCT_ID = 'product_id';

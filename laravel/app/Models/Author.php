@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Http\Resources\Authors\AuthorResource;
 use App\Http\Resources\Authors\AuthorsResourceCollection;
+use Database\Factories\AuthorFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
@@ -35,6 +37,9 @@ use Illuminate\Support\Carbon;
 #[UseResourceCollection(AuthorsResourceCollection::class)]
 class Author extends Model
 {
+    /** @use HasFactory<AuthorFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'authors';
 
     public const string PARAM_ID = 'id';

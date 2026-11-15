@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Http\Resources\PublishingHouses\PublishingHouseResource;
 use App\Http\Resources\PublishingHouses\PublishingHousesResourceCollection;
 use App\Observers\PublishingHouseObserver;
+use Database\Factories\PublishingHouseFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -32,6 +34,9 @@ use Illuminate\Support\Carbon;
 #[ObservedBy([PublishingHouseObserver::class])]
 class PublishingHouse extends Model
 {
+    /** @use HasFactory<PublishingHouseFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'publishing_houses';
 
     public const string PARAM_ID = 'id';

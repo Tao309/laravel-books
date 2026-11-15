@@ -37,19 +37,19 @@ return new class extends Migration
 
             $table->unsignedBigInteger('paper_type_id')->nullable();
             $table->foreign('paper_type_id')->references(PaperType::PARAM_ID)->on(PaperType::TABLE_NAME)
-                ->onDelete('cascade');
+                ->nullOnDelete();
 
             $table->unsignedBigInteger('publishing_house_id')->nullable();
             $table->foreign('publishing_house_id')->references(PublishingHouse::PARAM_ID)->on(PublishingHouse::TABLE_NAME)
-                ->onDelete('cascade');
+                ->nullOnDelete();
 
             $table->unsignedBigInteger('publishing_brand_id')->nullable();
             $table->foreign('publishing_brand_id')->references(PublishingBrand::PARAM_ID)->on(PublishingBrand::TABLE_NAME)
-                ->onDelete('cascade');
+                ->nullOnDelete();
 
             $table->unsignedBigInteger('book_series_id')->nullable();
             $table->foreign('book_series_id')->references(BookSeries::PARAM_ID)->on(BookSeries::TABLE_NAME)
-                ->onDelete('cascade');
+                ->nullOnDelete();
 
             $table->unsignedBigInteger('user_created_id');
             $table->foreign('user_created_id')->references(User::PARAM_ID)->on(User::TABLE_NAME)

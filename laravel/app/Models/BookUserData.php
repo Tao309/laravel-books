@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Http\Resources\BookUserDatas\BookUserDataResource;
+use Database\Factories\BookUserDataFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -34,6 +36,9 @@ use Illuminate\Support\Carbon;
 #[UseResource(BookUserDataResource::class)]
 class BookUserData extends Model
 {
+    /** @use HasFactory<BookUserDataFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'book_user_data';
 
     public const string PARAM_BOOK_ID = 'book_id';

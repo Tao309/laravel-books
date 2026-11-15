@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Http\Resources\Products\ProductResource;
 use App\Http\Resources\Products\ProductsResourceCollection;
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -58,6 +60,9 @@ use Illuminate\Support\Facades\Auth;
 #[UseResourceCollection(ProductsResourceCollection::class)]
 class Product extends Model
 {
+    /** @use HasFactory<ProductFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'products';
 
     public const string PARAM_ID = 'id';

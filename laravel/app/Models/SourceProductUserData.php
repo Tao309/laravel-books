@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Http\Resources\SourceProductUserDatas\SourceProductUserDataResource;
+use Database\Factories\SourceProductUserDataFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -32,6 +34,9 @@ use Illuminate\Support\Carbon;
 #[UseResource(SourceProductUserDataResource::class)]
 class SourceProductUserData extends Model
 {
+    /** @use HasFactory<SourceProductUserDataFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'source_product_user_data';
 
     public const string PARAM_SOURCE_PRODUCT_ID = 'source_product_id';

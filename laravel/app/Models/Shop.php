@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Http\Resources\Shops\ShopResource;
 use App\Http\Resources\Shops\ShopsResourceCollection;
+use Database\Factories\ShopFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -33,6 +35,9 @@ use Illuminate\Support\Carbon;
 #[UseResourceCollection(ShopsResourceCollection::class)]
 class Shop extends Model
 {
+    /** @use HasFactory<ShopFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'shops';
 
     public const string PARAM_ID = 'id';

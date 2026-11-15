@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Http\Resources\ProductPrices\ProductPriceResource;
+use Database\Factories\ProductPriceFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -26,6 +28,9 @@ use Illuminate\Support\Carbon;
 #[UseResource(ProductPriceResource::class)]
 class ProductPrice extends Model
 {
+    /** @use HasFactory<ProductPriceFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'product_prices';
 
     public const string PARAM_PRODUCT_ID = 'product_id';

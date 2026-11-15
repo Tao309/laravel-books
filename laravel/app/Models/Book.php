@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Http\Resources\Books\BookResource;
 use App\Http\Resources\Books\BooksResourceCollection;
+use Database\Factories\BookFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -82,6 +84,9 @@ use Illuminate\Support\Facades\Auth;
 #[UseResourceCollection(BooksResourceCollection::class)]
 class Book extends Model
 {
+    /** @use HasFactory<BookFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'books';
 
     public const string PARAM_ID = 'id';

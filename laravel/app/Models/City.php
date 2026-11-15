@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Http\Resources\Cities\CitiesResourceCollection;
 use App\Http\Resources\Cities\CityResource;
+use Database\Factories\CityFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -31,6 +33,9 @@ use Illuminate\Support\Carbon;
 #[UseResourceCollection(CitiesResourceCollection::class)]
 class City extends Model
 {
+    /** @use HasFactory<CityFactory> */
+    use HasFactory;
+
     public const string TABLE_NAME = 'cities';
 
     public const string PARAM_ID = 'id';

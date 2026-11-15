@@ -25,6 +25,8 @@ class ImportAuthorBooksPivotCommand extends CommonImportCommand
 
     protected $description = 'Импортируем список связей автора и книги';
 
+    protected bool $requireUpdateSequence = false;
+
     protected array $convertSchema = [
         self::FIELD_BOOK_ID => self::SCHEMA_FORCE_INTEGER,
         self::FIELD_AUTHOR_ID => self::SCHEMA_FORCE_INTEGER,

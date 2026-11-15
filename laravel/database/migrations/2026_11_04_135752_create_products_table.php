@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger(Product::PARAM_CITY_ID)->nullable();
             $table->foreign(Product::PARAM_CITY_ID)->references(City::PARAM_ID)->on(City::TABLE_NAME)
-                ->onDelete('cascade');
+                ->nullOnDelete();
 
             $table->unsignedBigInteger(Product::PARAM_USER_CREATED_ID);
             $table->foreign(Product::PARAM_USER_CREATED_ID)->references(User::PARAM_ID)->on(User::TABLE_NAME)
