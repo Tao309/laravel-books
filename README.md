@@ -181,6 +181,26 @@ php artisan db:seed --class=SourceProductSeeder
 php artisan db:seed --class=ProductSeeder
 ```
 
+## Фабрики
+
+Фабрики лежат в `laravel/database/factories/` — по одной на каждую модель.
+
+## Тесты
+
+Тесты лежат в `laravel/tests/` — PHPUnit, конфигурация в `laravel/phpunit.xml`
+
+| Каталог | Что покрывает |
+|---|---|
+| `tests/Unit/` | юнит-тесты без БД: DTO, модели, HTTP-ресурсы, CQRS-маппинг, middleware, правила валидации |
+| `tests/Feature/` | интеграционные на реальном pgsql: API-эндпоинты, репозитории, CQRS-шина, структура и каскады БД |
+
+Запуск (Docker, из корня репозитория):
+
+```bash
+make test       # весь прогон: Unit + Feature
+make cs-fix     # Laravel Pint после правок
+```
+
 ## Разработка
 
 ```bash
@@ -207,7 +227,8 @@ laravel-books/
 │   ├── app/Repositories/
 │   ├── app/Http/       # контроллеры, запросы, ресурсы, фильтры
 │   ├── app/Console/Commands/Import/  # импорт CSV
-│   └── database/       # миграции и seeder'ы
+│   ├── database/ # миграции, seeder'ы и фабрики 
+│   └── tests/ # PHPUnit: Unit и Feature
 ├── docker/             # php-fpm и nginx
 ├── docker-compose.yml
 └── docker-compose.debug.yml
