@@ -7,8 +7,7 @@ use App\Models\ProductPrice;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Даты НЕ прогоняются через DateService (в отличие от user_data-DTO) —
- * строка попадает в БД как есть.
+ * fromArray() кладёт дату в DTO как есть;
  */
 class ProductPriceDTOTest extends TestCase
 {
@@ -23,24 +22,24 @@ class ProductPriceDTOTest extends TestCase
         $this->assertSame('2026-01-01 00:00:00', $dto->date);
     }
 
-    public function test_entity_data_passes_through_raw(): void
+    public function test_entity_data_normalizes_date_to_iso8601_moscow(): void
     {
         $dto = new ProductPriceDTO(1200, '2026-01-01 00:00:00');
 
         $this->assertSame(
             [
                 ProductPrice::PARAM_PRICE => 1200,
-                ProductPrice::PARAM_DATE => '2026-01-01 00:00:00',
+                ProductPrice::PARAM_DATE => '2026-01-01T00:00:00+03:00',
             ],
             $dto->getEntityData(),
         );
     }
 
-    public function test_entity_data_keeps_arbitrary_date_string(): void
+    public function test_entity_data_normalizes_arbitrary_date_format(): void
     {
-        // нет ни нормализации, ни валидации — любой формат уйдёт в upsert
+        // любой формат Carbon::parse-ится и уходит в upsert как ISO8601
         $dto = new ProductPriceDTO(500, '01.02.2026');
 
-        $this->assertSame('01.02.2026', $dto->getEntityData()[ProductPrice::PARAM_DATE]);
+        $this->assertSame('2026-02-01T00:00:00+03:00', $dto->getEntityData()[ProductPrice::PARAM_DATE]);
     }
 }

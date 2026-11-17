@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Enums\ProductFlag;
+use App\Models\BindingType;
 use App\Models\Book;
 use App\Models\City;
 use App\Models\Product;
@@ -257,7 +258,12 @@ class ProductApiTest extends TestCase
 
     private function payload(array $overrides = []): array
     {
-        $book = Book::factory()->create();
+        // фабрика Book гнездит BindingType со случайным label (уникальный
+        // индекс) — при второй книге в тесте рандом коллидится, поэтому
+        // тип создаём явно
+        $book = Book::factory()->create([
+            Book::PARAM_BINDING_TYPE_ID => BindingType::factory()->create()->id,
+        ]);
 
         return array_merge([
             'shop_product_id' => fake()->numerify('############'),

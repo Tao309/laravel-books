@@ -10,6 +10,7 @@ use App\Enums\ProductFlag;
 use App\Http\QueryFilters\ProductQueryFilter;
 use App\Models\Book;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use App\Models\ProductUserData;
 use App\Models\SourceProduct;
@@ -253,12 +254,12 @@ class ProductRepository implements RepositoryInterface
 
             usort(
                 $dtoPrices,
-                fn (array $a, array $b) => $b['date'] <=> $a['date']
+                fn (array $a, array $b) => $b[ProductPrice::PARAM_DATE] <=> $a[ProductPrice::PARAM_DATE]
             );
 
             $latestPrice = reset($dtoPrices) ?: null;
 
-            if ($minPrice && $latestPrice >= $minPrice) {
+            if ($minPrice && $latestPrice && $latestPrice[ProductPrice::PARAM_PRICE] >= $minPrice) {
                 return;
             }
         }

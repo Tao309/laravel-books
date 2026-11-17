@@ -24,4 +24,12 @@ class DateService
     {
         return $date ? Carbon::createFromFormat($format, $date)->format('Y-m-d H:i:s') : null;
     }
+
+    public static function prepareForSave(string $date): string
+    {
+        return Carbon::parse(
+            $date,
+            DateService::getCurrentDateTimeZone()
+        )->toIso8601String();
+    }
 }
