@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Products;
 
 use App\DTOs\ProductDTO;
+use App\Enums\ProductFlag;
 use App\Http\Requests\RequestInterface;
 use App\Models\Book;
 use App\Models\City;
@@ -53,6 +54,20 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
 
     protected function getCommonRules(): array
     {
+        $flagsRules = [
+            Product::PARAM_FLAGS => [
+                'sometimes',
+                'array:'.implode(',', array_column(ProductFlag::cases(), 'value')),
+            ],
+        ];
+
+        foreach (ProductFlag::cases() as $flag) {
+            $flagsRules[Product::PARAM_FLAGS.".{$flag->value}"] = [
+                'sometimes',
+                'boolean',
+            ];
+        }
+
         return [
             Product::PARAM_SHOP_PRODUCT_CODE => [
                 'sometimes',
@@ -67,6 +82,9 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
                 'min:5',
                 'max:255',
             ],
+            // > flags
+            ...$flagsRules,
+            // < flags
             // > relations
             Product::PARAM_SHOP.'.'.Shop::PARAM_ID => [
                 'required',

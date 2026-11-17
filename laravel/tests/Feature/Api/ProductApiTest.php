@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\Enums\ProductFlag;
 use App\Models\Book;
 use App\Models\City;
 use App\Models\Product;
@@ -276,6 +277,15 @@ class ProductApiTest extends TestCase
             ],
             'stocks' => [
                 ['qty' => 7, 'date' => '2026-11-05 10:00:00'],
+            ],
+            // Гейты сохранения цен/стоков/PUD в ProductRepository — незакоммиченное
+            // поведение: без флагов massSave не вызывается вовсе. array-правило
+            // валидации требует ровно все ключи ProductFlag::cases().
+            'flags' => [
+                ProductFlag::SaveProductUserData->value => true,
+                ProductFlag::SavePrices->value => true,
+                ProductFlag::SaveStocks->value => true,
+                ProductFlag::ChangeId->value => false,
             ],
         ], $overrides);
     }

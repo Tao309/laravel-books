@@ -40,7 +40,7 @@ readonly class UserSecurity
         if (empty($requestedWith) || empty($priceCheckerId)
             || empty($envRequestedWith) || empty($envPriceCheckerId)
             || $requestedWith !== $envRequestedWith
-            || $priceCheckerId != $envPriceCheckerId
+            || $priceCheckerId !== $envPriceCheckerId
         ) {
             throw new AccessDeniedHttpException('Missing required headers values');
         }

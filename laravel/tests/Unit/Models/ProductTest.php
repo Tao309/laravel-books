@@ -46,8 +46,30 @@ class ProductTest extends TestCase
     {
         $casts = (new Product)->getCasts();
 
-        $this->assertSame('integer', $casts['minPrice']);
-        $this->assertSame('integer', $casts['lastQty']);
+        $this->assertSame('integer', $casts[Product::PARAM_MIN_PRICE]);
+        $this->assertSame('integer', $casts[Product::PARAM_LAST_QTY]);
+    }
+
+    public function test_get_same_products_returns_previously_set_relation(): void
+    {
+        $product = new Product;
+
+        $sameProducts = new Collection([
+            (new Product)->forceFill([Product::PARAM_ID => 2]),
+            (new Product)->forceFill([Product::PARAM_ID => 3]),
+        ]);
+
+        $product->setRelation(Product::PARAM_SAME_PRODUCTS, $sameProducts);
+
+        $this->assertSame($sameProducts, $product->getSameProducts());
+    }
+
+    public function test_get_same_products_returns_empty_collection_when_not_loaded(): void
+    {
+        $product = new Product;
+
+        $this->assertFalse($product->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+        $this->assertSame([], $product->getSameProducts()->all());
     }
 
     public function test_min_price_returns_min_of_prices(): void

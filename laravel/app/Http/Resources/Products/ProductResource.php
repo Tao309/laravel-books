@@ -29,10 +29,12 @@ class ProductResource extends AbstractResource
 
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
-
-            Product::PARAM_MIN_PRICE => $this->whenLoaded(
-                Product::PARAM_PRICES,
-                fn () => $this->prices ? $this->minPrice() : null
+            Product::PARAM_MIN_PRICE => $this->when(
+                array_key_exists(Product::PARAM_MIN_PRICE, $this->resource->getAttributes())
+                    || $this->resource->relationLoaded(Product::PARAM_PRICES),
+                fn () => array_key_exists(Product::PARAM_MIN_PRICE, $this->resource->getAttributes())
+                    ? $this->resource->getAttribute(Product::PARAM_MIN_PRICE)
+                    : $this->minPrice()
             ),
             Product::PARAM_LAST_QTY => $this->whenLoaded(
                 Product::PARAM_STOCKS,
@@ -71,6 +73,10 @@ class ProductResource extends AbstractResource
             Product::PARAM_STOCKS => $this->whenLoaded(
                 Product::PARAM_STOCKS,
                 fn () => ProductStockResource::collection($this->stocks)
+            ),
+            Product::PARAM_SAME_PRODUCTS => $this->whenLoaded(
+                Product::PARAM_SAME_PRODUCTS,
+                fn () => SameProductResource::collection($this->sameProducts)
             ),
             // < relations
         ];

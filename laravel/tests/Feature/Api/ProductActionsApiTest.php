@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductUserData;
 use App\Models\Shop;
 use App\Models\SourceProduct;
+use App\Models\SourceProductType;
 use App\Models\SourceProductUserData;
 use Tests\Feature\Api\Concerns\ActsAsApiClient;
 use Tests\TestCase;
@@ -287,7 +288,13 @@ class ProductActionsApiTest extends TestCase
     {
         // get() скоупится по магазину сессии — товар нужен в ozon (id=1)
         $linked = Product::factory()->forSourceProduct()->create([Product::PARAM_SHOP_ID => 1]);
-        $sourceProduct = SourceProduct::factory()->create();
+
+        // фабрика SourceProduct гнездит SourceProductType со случайным name
+        // (уникальный индекс) — при втором SP в тесте рандом коллидится,
+        // поэтому тип создаём явно
+        $sourceProduct = SourceProduct::factory()->create([
+            SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => SourceProductType::factory()->create()->id,
+        ]);
 
         $this->apiPost("/api/products/link_source_product/{$linked->id}/{$sourceProduct->id}")
             ->assertStatus(400)

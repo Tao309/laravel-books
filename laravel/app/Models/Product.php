@@ -73,11 +73,16 @@ class Product extends Model
 
     public const string PARAM_TITLE = 'title';
 
+    /**
+     * @property int|null $min_price
+     */
     public const string PARAM_MIN_PRICE = 'min_price';
 
     public const string PARAM_LAST_QTY = 'last_qty';
 
     public const string PARAM_LAST_STOCK = 'last_stock';
+
+    public const string PARAM_FLAGS = 'flags';
 
     // > morphs
     public const string PARAM_SOURCE = 'source';
@@ -111,6 +116,8 @@ class Product extends Model
     public const string PARAM_STOCKS = 'stocks';
     // < relations
 
+    public const string PARAM_SAME_PRODUCTS = 'sameProducts';
+
     protected $table = self::TABLE_NAME;
 
     protected $hidden = [
@@ -138,8 +145,8 @@ class Product extends Model
     protected function casts(): array
     {
         return [
-            'minPrice' => 'integer',
-            'lastQty' => 'integer',
+            self::PARAM_MIN_PRICE => 'integer',
+            self::PARAM_LAST_QTY => 'integer',
         ];
     }
 
@@ -198,5 +205,10 @@ class Product extends Model
     public function lastStock(): ?ProductStock
     {
         return $this->stocks->last();
+    }
+
+    public function getSameProducts(): Collection
+    {
+        return $this->getRelationValue(self::PARAM_SAME_PRODUCTS) ?? new Collection;
     }
 }

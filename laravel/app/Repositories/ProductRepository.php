@@ -4,13 +4,18 @@ namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
+use App\DTOs\ProductDTO;
 use App\DTOs\ProductUserDataDTO;
+use App\Enums\ProductFlag;
 use App\Http\QueryFilters\ProductQueryFilter;
 use App\Models\Book;
 use App\Models\Product;
+use App\Models\ProductStock;
 use App\Models\ProductUserData;
 use App\Models\SourceProduct;
 use App\Repositories\Interfaces\RepositoryInterface;
+use App\Services\DateService;
+use App\Services\SameProductsLoader;
 use App\Services\SessionShopService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,12 +36,17 @@ class ProductRepository implements RepositoryInterface
     ];
 
     public function __construct(
+        private readonly SameProductsLoader $sameProductsLoader,
+        private readonly DateService $dateService,
         private readonly ProductPriceRepository $ppRepository,
         private readonly ProductStockRepository $psRepository,
         private readonly ProductUserDataRepository $pudRepo,
         private readonly ProductQueryFilter $queryFilter,
     ) {}
 
+    /**
+     * @param  ProductDTO  $dto
+     */
     public function create(DtoInterface $dto): Product
     {
         $relationData = $dto->getRelationsData();
@@ -67,19 +77,16 @@ class ProductRepository implements RepositoryInterface
                 ])
             );
 
-            $this->ppRepository->massSave(
-                $entity->id,
-                Arr::get($relationData, Product::PARAM_PRICES, [])
-            );
-
-            $this->psRepository->massSave(
-                $entity->id,
-                Arr::get($relationData, Product::PARAM_STOCKS, [])
-            );
+            $this->savePrices($entity, $dto);
+            $this->saveStocks($entity, $dto);
 
             DB::commit();
 
-            return $this->query()->findOrFail($entity->id);
+            $entity = $this->query()->findOrFail($entity->id);
+
+            $this->sameProductsLoader->load($entity);
+
+            return $entity;
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -98,25 +105,41 @@ class ProductRepository implements RepositoryInterface
             throw new ModelNotFoundException("Product by id = {$id} not found");
         }
 
+        $this->sameProductsLoader->load($product);
+
         return $product;
     }
 
     public function getAll(GetCollectionQueryInterface $query): Collection
     {
-        return $this->queryFilter->apply(
+        $products = $this->queryFilter->apply(
             $this->query(),
             $query->getDTO()
         )->get();
+
+        $this->sameProductsLoader->load($products);
+
+        return $products;
     }
 
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
-        return $this->queryFilter->apply(
+        $paginator = $this->queryFilter->apply(
             $this->query(),
             $query->getDTO()
         )->paginate();
+
+        /** @var Collection<int, Product> $products */
+        $products = $paginator->getCollection();
+
+        $this->sameProductsLoader->load($products);
+
+        return $paginator;
     }
 
+    /**
+     * @param  ProductDTO  $dto
+     */
     public function update(int $id, DtoInterface $dto): Product
     {
         $relationData = $dto->getRelationsData();
@@ -139,7 +162,7 @@ class ProductRepository implements RepositoryInterface
 
             $pudData = Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []);
 
-            if (! empty($pudData)) {
+            if (ProductFlag::SaveProductUserData->isEnabled($dto->flags)) {
                 $this->pudRepo->update(
                     $entity->id,
                     ProductUserDataDTO::fromArray([
@@ -149,19 +172,16 @@ class ProductRepository implements RepositoryInterface
                 );
             }
 
-            $this->ppRepository->massSave(
-                $entity->id,
-                Arr::get($relationData, Product::PARAM_PRICES, [])
-            );
-
-            $this->psRepository->massSave(
-                $entity->id,
-                Arr::get($relationData, Product::PARAM_STOCKS, [])
-            );
+            $this->savePrices($entity, $dto);
+            $this->saveStocks($entity, $dto);
 
             DB::commit();
 
-            return $this->query()->findOrFail($entity->id);
+            $product = $this->query()->findOrFail($entity->id);
+
+            $this->sameProductsLoader->load($product);
+
+            return $product;
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -177,7 +197,7 @@ class ProductRepository implements RepositoryInterface
     }
 
     /**
-     * Для дальнейших действий, не грузим всю модели
+     * Запрос для дальнейших действий, не грузим всю модель
      */
     public function findByShopProduct(string|int $shopProductId): ?Product
     {
@@ -214,5 +234,74 @@ class ProductRepository implements RepositoryInterface
 
         $entity->source_type = $sourceType;
         $entity->source_id = $sourceId;
+    }
+
+    /**
+     * @param  ProductDTO  $dto
+     */
+    private function savePrices(Product $product, DtoInterface $dto): void
+    {
+        if (! ProductFlag::SavePrices->isEnabled($dto->flags)) {
+            return;
+        }
+
+        $dtoPrices = $dto->prices;
+
+        // Проверка, если последняя цена из массива больше или равно minPrice то stop если уже есть цены
+        if ($product->prices->count()) {
+            $minPrice = $product->minPrice();
+
+            usort(
+                $dtoPrices,
+                fn (array $a, array $b) => $b['date'] <=> $a['date']
+            );
+
+            $latestPrice = reset($dtoPrices) ?: null;
+
+            if ($minPrice && $latestPrice >= $minPrice) {
+                return;
+            }
+        }
+
+        $this->ppRepository->massSave(
+            $product->id,
+            $dtoPrices
+        );
+    }
+
+    /**
+     * @param  ProductDTO  $dto
+     */
+    private function saveStocks(Product $product, DtoInterface $dto): void
+    {
+        if (! ProductFlag::SaveStocks->isEnabled($dto->flags)) {
+            return;
+        }
+
+        $dtoStocks = $dto->stocks;
+
+        if ($product->stocks->count()) {
+            usort(
+                $dtoStocks,
+                fn (array $a, array $b) => $b[ProductStock::PARAM_DATE] <=> $a[ProductStock::PARAM_DATE]
+            );
+
+            $lastStock = reset($dtoStocks) ?: null;
+            $productLastStock = $product->lastStock();
+
+            $isLastStockEqualsQty = $lastStock && $productLastStock
+                && $productLastStock->date->format('d.m.Y')
+                    === $this->dateService->getDateTime($lastStock[ProductStock::PARAM_DATE])->format('d.m.Y')
+                && $productLastStock->qty === $lastStock[ProductStock::PARAM_QTY];
+
+            if ($isLastStockEqualsQty) {
+                return;
+            }
+        }
+
+        $this->psRepository->massSave(
+            $product->id,
+            $dto->stocks
+        );
     }
 }

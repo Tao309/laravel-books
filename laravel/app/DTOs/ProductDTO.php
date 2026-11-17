@@ -22,6 +22,7 @@ class ProductDTO extends AbstractDTO
         public ?array $productUserData,
         public ?array $prices,
         public ?array $stocks,
+        public ?array $flags,
     ) {}
 
     public static function fromArray(array $data): self
@@ -37,6 +38,7 @@ class ProductDTO extends AbstractDTO
             productUserData: Arr::get($data, Product::PARAM_PRODUCT_USER_DATA, []),
             prices: Arr::get($data, Product::PARAM_PRICES, []),
             stocks: Arr::get($data, Product::PARAM_STOCKS, []),
+            flags: Arr::get($data, Product::PARAM_FLAGS, []),
         );
     }
 
@@ -59,6 +61,7 @@ class ProductDTO extends AbstractDTO
             Product::PARAM_PRODUCT_USER_DATA => $this->productUserData,
             Product::PARAM_PRICES => $this->prices,
             Product::PARAM_STOCKS => $this->stocks,
+            Product::PARAM_FLAGS => $this->flags,
         ];
     }
 }
