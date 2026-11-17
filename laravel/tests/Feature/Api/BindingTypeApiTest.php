@@ -20,7 +20,11 @@ class BindingTypeApiTest extends TestCase
 
     public function test_index_returns_collection_without_pagination(): void
     {
-        BindingType::factory()->count(2)->create();
+        // фабрика генерит случайный label (уникальный индекс) —
+        // при count() подряд рандом коллидится, поэтому создаём явно
+        foreach (['Тип 1', 'Тип 2'] as $label) {
+            BindingType::factory()->create([BindingType::PARAM_LABEL => $label]);
+        }
 
         $response = $this->apiGet('/api/binding_types')
             ->assertOk()
@@ -33,7 +37,9 @@ class BindingTypeApiTest extends TestCase
 
     public function test_index_ignores_limit_filter(): void
     {
-        BindingType::factory()->count(3)->create();
+        foreach (['Тип 1', 'Тип 2', 'Тип 3'] as $label) {
+            BindingType::factory()->create([BindingType::PARAM_LABEL => $label]);
+        }
 
         // документация дефекта: репозиторий делает BindingType::all()
         $this->apiGet('/api/binding_types?limit=1')

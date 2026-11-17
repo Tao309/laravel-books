@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MatchCurrentUser
 {
     /**

@@ -7,10 +7,12 @@ use App\CQRS\Commands\PaperTypes\CreatePaperTypeCommand;
 use App\CQRS\Commands\PaperTypes\DestroyPaperTypeCommand;
 use App\CQRS\Commands\PaperTypes\UpdatePaperTypeCommand;
 use App\CQRS\Queries\PaperTypes\GetPaperTypeByIdQuery;
+use App\CQRS\Queries\PaperTypes\GetPaperTypesPaginateQuery;
 use App\CQRS\Queries\PaperTypes\GetPaperTypesQuery;
 use App\DTOs\CollectionQueryDto;
 use App\DTOs\PaperTypeDTO;
 use App\Models\PaperType;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -100,5 +102,23 @@ class PaperTypesBusTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         $this->bus->handle(new GetPaperTypeByIdQuery(99999));
+    }
+
+    /**
+     * Документация дефекта: PaperTypeProvider не привязывает
+     * RepositoryInterface → GetPaperTypesPaginateHandler — paginate-запрос
+     * падает с BindingResolutionException, хотя хендлер и запрос существуют
+     * (PaperTypeService::getListPaginate недостижим; та же картина в
+     * SourceProducts/SourceProductTypes). Если привязку добавят —
+     * тест нужно перевернуть на реальный пагинат.
+     */
+    public function test_get_types_paginate_query_fails_without_repository_binding(): void
+    {
+        $this->expectException(BindingResolutionException::class);
+        $this->expectExceptionMessage(
+            'Target [App\Repositories\Interfaces\RepositoryInterface] is not instantiable while building [App\CQRS\Handlers\PaperTypes\GetPaperTypesPaginateHandler].',
+        );
+
+        $this->bus->handle(new GetPaperTypesPaginateQuery(new CollectionQueryDto));
     }
 }

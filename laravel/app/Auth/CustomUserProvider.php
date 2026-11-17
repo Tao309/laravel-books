@@ -17,17 +17,20 @@ class CustomUserProvider implements UserProvider
         private readonly string $table,
     ) {}
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function retrieveById($identifier) {}
 
-    public function retrieveByToken($identifier, $token)
-    {
-        //
-    }
+    /**
+     * @codeCoverageIgnore
+     */
+    public function retrieveByToken($identifier, $token) {}
 
-    public function updateRememberToken(Authenticatable $user, $token)
-    {
-        //
-    }
+    /**
+     * @codeCoverageIgnore
+     */
+    public function updateRememberToken(Authenticatable $user, $token) {}
 
     public function retrieveByCredentials(array $credentials)
     {
@@ -44,23 +47,19 @@ class CustomUserProvider implements UserProvider
 
     public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
-        if (is_null($credentials[self::TOKEN])) {
-            return false;
-        }
-
-        return true;
+        return ! empty($credentials[self::TOKEN]);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function rehashPasswordIfRequired(
         Authenticatable $user,
         #[\SensitiveParameter] array $credentials,
-        bool $force = false)
-    {
-        //
-    }
+        bool $force = false) {}
 
     protected function getGenericUser($user): ?GenericUser
     {
-        return (! is_null($user)) ? new GenericUser((array) $user) : null;
+        return $user ? new GenericUser((array) $user) : null;
     }
 }

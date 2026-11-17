@@ -1,7 +1,7 @@
 test:
-	bin/phpunit
+	php artisan test --coverage
 cover:
-	XDEBUG_MODE=coverage bin/phpunit  --coverage-html="coverage"
+	vendor/bin/phpunit --coverage-html storage/coverage
 php:
 	docker exec -it laravel-books-php bash
 build:

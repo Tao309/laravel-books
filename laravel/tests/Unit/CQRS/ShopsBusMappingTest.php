@@ -68,6 +68,31 @@ class ShopsBusMappingTest extends TestCase
         );
     }
 
+    public function test_command_with_dto_passes_same_instance_to_handler(): void
+    {
+        // отдельного ShopDTO нет — команды принимают DtoInterface
+        $dto = $this->createStub(DtoInterface::class);
+        $command = new CreateShopCommand($dto);
+
+        $stubHandler = new class
+        {
+            public ?object $received = null;
+
+            public function handle(object $message): object
+            {
+                $this->received = $message;
+
+                return $message;
+            }
+        };
+
+        $container = $this->createMock(Container::class);
+        $container->method('make')->willReturn($stubHandler);
+
+        $this->assertSame($command, (new Bus($container))->handle($command));
+        $this->assertSame($dto, $stubHandler->received->dto);
+    }
+
     private function assertResolved(object $message, string $expectedHandler): void
     {
         $handler = new class

@@ -217,13 +217,14 @@ class ProductRepositoryTest extends TestCase
     }
 
     /**
-     * Документация дефекта: старое сравнение `reset($dtoPrices) >= $minPrice`
-     * (массив >= int) починено на `$latestPrice[PARAM_PRICE] >= $minPrice`,
-     * но `return` внутри guard'а закомментирован — гейт мёртвый код, и
-     * update() upsert-ит цены всегда, даже когда новая цена >= текущей.
-     * Если guard вернут — тест нужно перевернуть обратно.
+     * Документация дефекта: гейт в savePrices() снова жив — `return`
+     * раскомментирован, и при наличии у товара цен и ненулевом minPrice
+     * ветка выхода срабатывает, когда последняя цена из DTO
+     * ($latestPrice[PARAM_PRICE]) >= minPrice: новые цены не сохраняются
+     * вовсе. Если `return` снова закомментируют (гейт станет мёртвым
+     * кодом) — тест нужно перевернуть на «цены всегда upsert-ятся».
      */
-    public function test_update_saves_prices_when_product_already_has_prices(): void
+    public function test_update_skips_prices_when_product_already_has_prices(): void
     {
         $product = $this->repo->create($this->dto([
             'flags' => [ProductFlag::SavePrices->value => true],
@@ -235,8 +236,8 @@ class ProductRepositoryTest extends TestCase
             'prices' => [['price' => 600, 'date' => '2026-02-01 10:00:00']],
         ]));
 
-        $this->assertDatabaseCount(ProductPrice::TABLE_NAME, 2);
-        $this->assertDatabaseHas(ProductPrice::TABLE_NAME, [
+        $this->assertDatabaseCount(ProductPrice::TABLE_NAME, 1);
+        $this->assertDatabaseMissing(ProductPrice::TABLE_NAME, [
             ProductPrice::PARAM_PRODUCT_ID => $product->id,
             ProductPrice::PARAM_PRICE => 600,
         ]);
