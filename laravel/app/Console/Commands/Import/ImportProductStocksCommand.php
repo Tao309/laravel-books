@@ -39,11 +39,6 @@ class ImportProductStocksCommand extends CommonImportCommand
         self::FIELD_QTY => self::SCHEMA_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        ProductStock::truncate();
-    }
-
     protected function fillImportRow(array $data): void
     {
         $data[self::FIELD_LOG] = json_encode(json_decode($data[self::FIELD_LOG], true));

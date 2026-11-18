@@ -47,6 +47,9 @@ abstract class CommonImportCommand extends Command
     // Обновлять sequence
     protected bool $requireUpdateSequence = true;
 
+    // Очищать таблицу перед импортом
+    protected bool $truncateTable = true;
+
     // Во что конвертировать поля
     protected array $convertSchema = [
         // 'field_name' => self::SCHEMA_FORCE_INTEGER, => convertToInteger с force
@@ -88,6 +91,7 @@ abstract class CommonImportCommand extends Command
 
         try {
             $this->checkTable();
+            $this->truncateTable();
             $this->runBeforeImport();
 
             $this->checkTableIsEmpty();
@@ -164,6 +168,17 @@ abstract class CommonImportCommand extends Command
         }
     }
 
+    protected function truncateTable(): void
+    {
+        if (!$this->truncateTable) {
+            return;
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table($this->tableName)->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    }
+
     protected function checkTableIsEmpty(): void
     {
         $exists = (bool) DB::table($this->tableName)->limit(1)->count();
@@ -178,6 +193,12 @@ abstract class CommonImportCommand extends Command
         if (empty($date) || $date === '0000-00-00 00:00:00') {
             $this->addWarning('Дата не корректна id = '.$id.': ('.$date.')');
 
+            return Carbon::now();
+        }
+
+        $dt = Carbon::parse($date);
+
+        if ($dt->timestamp < 1) {
             return Carbon::now();
         }
 

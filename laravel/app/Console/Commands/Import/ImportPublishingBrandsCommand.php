@@ -4,6 +4,7 @@ namespace App\Console\Commands\Import;
 
 use App\Models\PublishingBrand;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:import:publishing_brands')]
@@ -30,11 +31,6 @@ class ImportPublishingBrandsCommand extends CommonImportCommand
     protected array $convertSchema = [
         self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
     ];
-
-    protected function runBeforeImport(): void
-    {
-        PublishingBrand::truncate();
-    }
 
     protected function createInsertingData(array $row): array
     {

@@ -56,11 +56,6 @@ class ImportProductUserDataCommand extends CommonImportCommand
         self::FIELD_IS_ARCHIVE => self::SCHEMA_BOOL,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        ProductUserData::truncate();
-    }
-
     protected function createInsertingData(array $row): array
     {
         return [
@@ -91,8 +86,14 @@ class ImportProductUserDataCommand extends CommonImportCommand
             ProductUserData::PARAM_IS_ARCHIVE => $row[self::FIELD_IS_ARCHIVE],
             ProductUserData::PARAM_COMMENT => $row[self::FIELD_COMMENT],
 
-            Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
-            Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
+            Model::UPDATED_AT => $this->checkDateAndReturn(
+                $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_DATE_UPDATED]
+            ),
+            Model::CREATED_AT => $this->checkDateAndReturn(
+                $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_DATE_CREATED]
+            ),
         ];
     }
 }

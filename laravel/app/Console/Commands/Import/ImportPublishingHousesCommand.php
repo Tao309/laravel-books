@@ -31,11 +31,6 @@ class ImportPublishingHousesCommand extends CommonImportCommand
         self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        PublishingHouse::truncate();
-    }
-
     protected function createInsertingData(array $row): array
     {
         return [

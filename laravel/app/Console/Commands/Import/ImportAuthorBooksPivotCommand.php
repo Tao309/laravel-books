@@ -32,11 +32,6 @@ class ImportAuthorBooksPivotCommand extends CommonImportCommand
         self::FIELD_AUTHOR_ID => self::SCHEMA_FORCE_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        DB::table(Author::PIVOT_AUTHOR_BOOKS_TABLE)->truncate();
-    }
-
     protected function createInsertingData(array $row): array
     {
         return [

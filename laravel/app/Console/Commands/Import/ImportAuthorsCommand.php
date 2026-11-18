@@ -4,6 +4,7 @@ namespace App\Console\Commands\Import;
 
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:import:authors')]
@@ -32,11 +33,6 @@ class ImportAuthorsCommand extends CommonImportCommand
     protected array $convertSchema = [
         self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
     ];
-
-    protected function runBeforeImport(): void
-    {
-        Author::truncate();
-    }
 
     protected function fillImportRow(array $data): void
     {

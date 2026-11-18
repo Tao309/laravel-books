@@ -1,16 +1,32 @@
 services:
+#  db:
+#    container_name: laravel-books-db-postgres
+#    image: postgres:18
+#    restart: always
+#    environment:
+#      POSTGRES_DB: ${DB_NAME}
+#      POSTGRES_USER: ${DB_USER}
+#      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#    volumes:
+#      - ./pgdata:/var/lib/postgresql:rw
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - laravel-books
+
   db:
-    container_name: laravel-books-db
-    image: postgres:18
+    container_name: laravel-books-db-mysql
+    image: mysql:8.0.20
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - ./pgdata:/var/lib/postgresql:rw
+      - ./mysqldata:/var/lib/mysql:rw
     ports:
-      - "5432:5432"
+      - "3306:3306"
     networks:
       - laravel-books
 

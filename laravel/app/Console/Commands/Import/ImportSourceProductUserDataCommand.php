@@ -41,11 +41,6 @@ class ImportSourceProductUserDataCommand extends CommonImportCommand
         self::FIELD_LISTEN_PRICE_VALUE => self::SCHEMA_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        SourceProductUserData::truncate();
-    }
-
     protected function createInsertingData(array $row): array
     {
         return [
@@ -54,8 +49,14 @@ class ImportSourceProductUserDataCommand extends CommonImportCommand
             SourceProductUserData::PARAM_LISTEN_PRICE_VALUE => $row[self::FIELD_LISTEN_PRICE_VALUE],
             SourceProductUserData::PARAM_COMMENT => $row[self::FIELD_COMMENT],
 
-            Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
-            Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
+            Model::UPDATED_AT => $this->checkDateAndReturn(
+                $row[self::FIELD_SOURCE_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_DATE_UPDATED]
+            ),
+            Model::CREATED_AT => $this->checkDateAndReturn(
+                $row[self::FIELD_SOURCE_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_DATE_CREATED]
+            ),
         ];
     }
 }

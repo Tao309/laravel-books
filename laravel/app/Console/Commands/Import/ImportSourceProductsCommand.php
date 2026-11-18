@@ -37,11 +37,6 @@ class ImportSourceProductsCommand extends CommonImportCommand
         self::FIELD_USER_CREATED_ID => self::SCHEMA_FORCE_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        SourceProduct::truncate();
-    }
-
     protected function createInsertingData(array $row): array
     {
         return [

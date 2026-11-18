@@ -4,6 +4,7 @@ namespace App\Console\Commands\Import;
 
 use App\Models\BookUserData;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:import:book_user_data')]
@@ -43,11 +44,6 @@ class ImportBookUserDataCommand extends CommonImportCommand
         self::FIELD_LISTEN_PRICE_VALUE => self::SCHEMA_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        BookUserData::truncate();
-    }
-
     protected function createInsertingData(array $row): array
     {
         return [
@@ -62,8 +58,14 @@ class ImportBookUserDataCommand extends CommonImportCommand
             BookUserData::PARAM_LISTEN_PRICE_VALUE => $row[self::FIELD_LISTEN_PRICE_VALUE],
             BookUserData::PARAM_COMMENT => $row[self::FIELD_COMMENT],
 
-            Model::UPDATED_AT => $row[self::FIELD_DATE_UPDATED],
-            Model::CREATED_AT => $row[self::FIELD_DATE_CREATED],
+            Model::UPDATED_AT => $this->checkDateAndReturn(
+                $row[self::FIELD_BOOK_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_DATE_UPDATED]
+            ),
+            Model::CREATED_AT => $this->checkDateAndReturn(
+                $row[self::FIELD_BOOK_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_DATE_CREATED]
+            ),
         ];
     }
 }

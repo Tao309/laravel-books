@@ -5,6 +5,7 @@ namespace App\Console\Commands\Import;
 use App\Models\PaperType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:import:paper_types')]
@@ -29,11 +30,6 @@ class ImportPaperTypesCommand extends CommonImportCommand
     protected array $convertSchema = [
         self::FIELD_ID => self::SCHEMA_FORCE_INTEGER,
     ];
-
-    protected function runBeforeImport(): void
-    {
-        PaperType::truncate();
-    }
 
     protected function createInsertingData(array $row): array
     {

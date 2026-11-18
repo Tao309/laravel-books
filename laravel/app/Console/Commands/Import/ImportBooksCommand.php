@@ -81,11 +81,6 @@ class ImportBooksCommand extends CommonImportCommand
         self::FIELD_BOOK_SERIES_ID => self::SCHEMA_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        Book::truncate();
-    }
-
     protected function fillImportRow(array $data): void
     {
         $data[self::FIELD_ISBN] = $data[self::FIELD_ISBN] ?? '-';

@@ -15,9 +15,9 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-#    && docker-php-ext-install mysqli pdo pdo_mysql \
-#    && docker-php-ext-enable pdo_mysql
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install mysqli pdo pdo_mysql \
+    && docker-php-ext-enable pdo_mysql
 
 #RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 

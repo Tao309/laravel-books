@@ -36,11 +36,6 @@ class ImportProductPricesCommand extends CommonImportCommand
         self::FIELD_PRICE => self::SCHEMA_INTEGER,
     ];
 
-    protected function runBeforeImport(): void
-    {
-        ProductPrice::truncate();
-    }
-
     protected function createInsertingData(array $row): array
     {
         return [
