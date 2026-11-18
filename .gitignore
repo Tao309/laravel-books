@@ -4,7 +4,8 @@
 /mysqldata
 /redisdata/
 /.git/
-/deploy
+/deploy/.env.example
+/deploy/deploy.env
 /.github/
 .htaccess
 # Project exclude paths
