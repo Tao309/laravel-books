@@ -170,7 +170,7 @@ abstract class CommonImportCommand extends Command
 
     protected function truncateTable(): void
     {
-        if (!$this->truncateTable) {
+        if (! $this->truncateTable) {
             return;
         }
 

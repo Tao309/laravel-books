@@ -4,7 +4,6 @@ namespace App\Console\Commands\Import;
 
 use App\Models\BookUserData;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:import:book_user_data')]
