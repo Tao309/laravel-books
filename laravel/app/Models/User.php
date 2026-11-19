@@ -64,6 +64,8 @@ class User extends Authenticatable
 
     public const string PARAM_REMEMBER_TOKEN = 'remember_token';
 
+    public const string PARAM_IS_ACTIVE = 'is_active';
+
     protected $table = self::TABLE_NAME;
 
     protected $fillable = [

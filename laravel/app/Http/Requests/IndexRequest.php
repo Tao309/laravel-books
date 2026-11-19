@@ -45,7 +45,7 @@ class IndexRequest extends FormRequest implements IndexRequestInterface
                     }
                 },
                 'min:3',
-                'max:20',
+                'max:50',
             ],
             self::FIELD_IDS => [
                 'sometimes',

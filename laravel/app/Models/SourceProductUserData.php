@@ -53,11 +53,6 @@ class SourceProductUserData extends Model
 
     public $incrementing = false;
 
-    protected $hidden = [
-        self::PARAM_SOURCE_PRODUCT_ID,
-        self::PARAM_USER_ID,
-    ];
-
     protected $with = [];
 
     protected $fillable = [

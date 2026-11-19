@@ -18,6 +18,8 @@ class BookUserDataResource extends AbstractResource
                 : null,
             BookUserData::PARAM_LISTEN_PRICE_VALUE => $this->offsetGet(BookUserData::PARAM_LISTEN_PRICE_VALUE),
             BookUserData::PARAM_COMMENT => $this->offsetGet(BookUserData::PARAM_COMMENT),
+            BookUserData::PARAM_USER_ID => $this->offsetGet(BookUserData::PARAM_USER_ID),
+            BookUserData::PARAM_BOOK_ID => $this->offsetGet(BookUserData::PARAM_BOOK_ID),
 
             Model::UPDATED_AT => DateService::createFromDate($this->offsetGet(Model::UPDATED_AT)),
             Model::CREATED_AT => DateService::createFromDate($this->offsetGet(Model::CREATED_AT)),
