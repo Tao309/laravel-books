@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# Подключение настроек
 DEPLOY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Подключаем загрузчик настроек
@@ -40,7 +39,13 @@ if [[ ! -L public/storage ]]; then
     "$PHP_BIN" artisan storage:link
 fi
 
-# Оптимизация Laravel
+# Очистка старых кэшей
+"$PHP_BIN" artisan optimize:clear
+
+# Создание production-кэшей
 "$PHP_BIN" artisan optimize
+
+# Установка прав
+source "$DEPLOY_DIR/set-permissions.sh"
 
 echo "Laravel update completed."

@@ -9,10 +9,16 @@ source "$DEPLOY_DIR/load-env.sh"
 
 cd "$LARAVEL_DIR"
 
+# Очистка старых кэшей
+"$PHP_BIN" artisan optimize:clear
+
 # Пересоздаём БД
 "$PHP_BIN" artisan migrate:fresh --seed
 
 # Импорт данных
 "$PHP_BIN" artisan app:import:run-all --fake=0 --just-check-parsing=0
+
+# Создание production-кэшей
+"$PHP_BIN" artisan optimize
 
 echo "Laravel DB refresh completed."

@@ -74,8 +74,14 @@ else
     echo "Symlink created: $PUBLIC_HTML -> $PUBLIC_DIR"
 fi
 
-# Оптимизация Laravel
+# Очистка старых кэшей
+"$PHP_BIN" artisan optimize:clear
+
+# Создание production-кэшей
 "$PHP_BIN" artisan optimize
+
+# Установка прав
+source "$DEPLOY_DIR/set-permissions.sh"
 
 echo
 echo "Laravel first deployment completed."
