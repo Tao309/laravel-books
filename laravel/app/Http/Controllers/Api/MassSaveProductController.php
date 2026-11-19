@@ -21,7 +21,8 @@ class MassSaveProductController extends ApiController
 
     public function __invoke(MassSaveProductRequest $request): JsonResponse
     {
-        $result = $this->massSaveService->process($request->validated()['items']);
+        $resourceCollection = $this->massSaveService->process($request->validated()['items']);
+        $result = $resourceCollection->additional;
 
         $message = 'Products saved';
 
@@ -30,10 +31,8 @@ class MassSaveProductController extends ApiController
             $this->context->setSuccess(false);
         }
 
-        unset($result['error_messages']);
-
         $this->context->setMessage($message);
 
-        return $this->toJson($result);
+        return $this->toJson($resourceCollection);
     }
 }

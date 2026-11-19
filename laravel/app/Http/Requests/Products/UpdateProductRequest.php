@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Shop;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class UpdateProductRequest extends AbstractProductRequest
 {
@@ -24,7 +25,17 @@ class UpdateProductRequest extends AbstractProductRequest
                 'max:30',
                 ...$this->addRuleIfProductIdEmpty(
                     Rule::unique(Product::TABLE_NAME)->where(function ($query) {
-                        return $query->where(Product::PARAM_SHOP_ID, $this->shop['id']);
+                        $shopId = $this->shop['id'] ?? null;
+
+                        if ($shopId === null) {
+                            throw ValidationException::withMessages([
+                                'shop.id' => __('validation.required', [
+                                    'attribute' => __('validation.attributes.shop.id'),
+                                ]),
+                            ]);
+                        }
+
+                        return $query->where(Product::PARAM_SHOP_ID, $shopId);
                     })->ignore($id)
                 ),
             ],
@@ -33,7 +44,17 @@ class UpdateProductRequest extends AbstractProductRequest
                 ...$this->addRuleIfProductIdEmpty(Rule::exists(Shop::TABLE_NAME, Shop::PARAM_ID)),
                 ...$this->addRuleIfProductIdEmpty(
                     Rule::unique(Product::TABLE_NAME, Product::PARAM_SHOP_ID)->where(function ($query) {
-                        return $query->where(Product::PARAM_SHOP_PRODUCT_ID, $this->shop_product_id);
+                        $shopProductId = $this->shop_product_id ?? null;
+
+                        if ($shopProductId === null) {
+                            throw ValidationException::withMessages([
+                                Product::PARAM_SHOP_PRODUCT_ID => __('validation.required', [
+                                    'attribute' => __('validation.attributes.'.Product::PARAM_SHOP_PRODUCT_ID),
+                                ]),
+                            ]);
+                        }
+
+                        return $query->where(Product::PARAM_SHOP_PRODUCT_ID, $shopProductId);
                     })->ignore($id)
                 ),
             ],

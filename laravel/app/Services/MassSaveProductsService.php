@@ -3,18 +3,18 @@
 namespace App\Services;
 
 use App\DTOs\ProductDTO;
-use App\Http\Resources\Products\ProductsResourceCollection;
+use App\Http\Resources\Products\MassSaveResourceCollection;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\DB;
 
-readonly class MassSaveProductsService
+class MassSaveProductsService
 {
     public function __construct(
         private ProductRepository $productRepo,
     ) {}
 
-    public function process(array $items): array
+    public function process(array $items): MassSaveResourceCollection
     {
         $productsCount = 0;
         $errorsCount = 0;
@@ -42,8 +42,6 @@ readonly class MassSaveProductsService
                 }
 
                 DB::commit();
-                $ids = [];
-                $products = [];
             } catch (\Throwable $e) {
                 $errorsCount++;
                 $errorMessages[] = $e->getMessage();
@@ -52,12 +50,11 @@ readonly class MassSaveProductsService
             }
         }
 
-        return [
+        return MassSaveResourceCollection::make($products)->additional([
             'products_count' => $productsCount,
             'errors_count' => $errorsCount,
             'saved_count' => count($ids),
-            'items' => ProductsResourceCollection::make($products),
             'error_messages' => $errorMessages,
-        ];
+        ]);
     }
 }

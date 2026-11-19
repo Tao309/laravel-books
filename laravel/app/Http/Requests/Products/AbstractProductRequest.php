@@ -40,10 +40,11 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
     public function messages(): array
     {
         return [
-            Product::PARAM_SHOP_PRODUCT_ID.'.unique' => 'A Book with this ShopProductId and Shop already exists',
-            Product::PARAM_SHOP.'.unique' => 'A Book with this ShopProductId and Shop already exists',
+            Product::PARAM_SHOP_PRODUCT_ID.'.unique' => 'A Product with this ShopProductId and Shop already exists',
+            Product::PARAM_SHOP.'.unique' => 'A Product with this ShopProductId and Shop already exists',
             Product::PARAM_BOOK.'.required_without' => 'Book or SourceProduct is required',
             Product::PARAM_SOURCE_PRODUCT.'.required_without' => 'Book or SourceProduct is required',
+            Product::PARAM_FLAGS.'.array' => 'Flags is incorrect',
         ];
     }
 
@@ -57,7 +58,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
         $flagsRules = [
             Product::PARAM_FLAGS => [
                 'sometimes',
-                'array:'.implode(',', array_column(ProductFlag::cases(), 'value')),
+                'array',
             ],
         ];
 
@@ -138,12 +139,12 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM => [
                 'sometimes',
                 'nullable',
-                'date_format:Y.m.d',
+                'date_format:Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_AVAILABLE_DATE_FROM => [
                 'sometimes',
                 'nullable',
-                'date_format:Y.m.d',
+                'date_format:Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_LISTEN_PRICE_VALUE => [
                 'sometimes',
@@ -158,7 +159,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_RELEASE_DATE => [
                 'sometimes',
                 'nullable',
-                'date_format:Y.m.d',
+                'date_format:Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_IS_ARCHIVE => [
                 'sometimes',
@@ -182,7 +183,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             ],
             Product::PARAM_PRICES.'.*.'.ProductPrice::PARAM_DATE => [
                 'required',
-                'date_format:Y-m-d H:i:s',
+                'date_format:Y-m-d H:i:s,Y-m-d\TH:i:s.v\Z',
             ],
             // < prices
             // > stocks
@@ -196,7 +197,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_DATE => [
                 'required',
-                'date_format:Y-m-d H:i:s',
+                'date_format:Y-m-d H:i:s,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_LOG => [
                 'sometimes',
