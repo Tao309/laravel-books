@@ -34,8 +34,8 @@ readonly class UserSecurity
             throw new AccessDeniedHttpException('Missing or not correct required shop type');
         }
 
-        $envRequestedWith = Config::get('app.auth.x_requested_with');
-        $envPriceCheckerId = Config::get('app.auth.price_checker_id');
+        $envRequestedWith = Config::get('app.t_price_checker.auth.x_requested_with');
+        $envPriceCheckerId = Config::get('app.t_price_checker.auth.price_checker_id');
 
         if (empty($requestedWith) || empty($priceCheckerId)
             || empty($envRequestedWith) || empty($envPriceCheckerId)

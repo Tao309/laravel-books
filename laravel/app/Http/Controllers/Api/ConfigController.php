@@ -38,14 +38,14 @@ class ConfigController extends ApiController
             'book_publishing_brands' => $this->bookPublishingBrandCacheProvider->get(),
             'book_series' => $this->bookSeriesCacheProvider->get(),
             'shop_urls' => [
-                ShopType::Wildberries->value => Config::get('shop_urls.wb'),
-                ShopType::Ozon->value => Config::get('shop_urls.ozon'),
-                ShopType::ChitaiGorod->value => Config::get('shop_urls.chitai_gorod'),
-                ShopType::Ffan->value => Config::get('shop_urls.ffan'),
-                ShopType::Knigofan->value => Config::get('shop_urls.knigofan'),
+                ShopType::Wildberries->value => Config::get('app.t_price_checker.shop_urls.wb'),
+                ShopType::Ozon->value => Config::get('app.t_price_checker.shop_urls.ozon'),
+                ShopType::ChitaiGorod->value => Config::get('app.t_price_checker.shop_urls.chitai_gorod'),
+                ShopType::Ffan->value => Config::get('app.t_price_checker.shop_urls.ffan'),
+                ShopType::Knigofan->value => Config::get('app.t_price_checker.shop_urls.knigofan'),
             ],
             'access_rights' => $this->getAccessRights(),
-            'app_version' => Config::get('app_version') ?? 'not-found-version',
+            'app_version' => Config::get('app.t_price_checker.app_version') ?? 'not-found-version',
         ]);
     }
 
