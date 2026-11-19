@@ -39,11 +39,22 @@ class ImportProductStocksCommand extends CommonImportCommand
         self::FIELD_QTY => self::SCHEMA_INTEGER,
     ];
 
-    protected function fillImportRow(array $data): void
+    protected function assembleRowData(array $headers, $row): array
     {
-        $data[self::FIELD_LOG] = json_encode(json_decode($data[self::FIELD_LOG], true));
+        $rowData = array_slice($row, 0, 4);
 
-        $this->importData[] = $data;
+        $rowData[] = implode(',', array_slice($row, 4));
+        $rowData[4] = $rowData[4] ? trim($rowData[4], '"') : null;
+
+        $rowData = array_combine($headers, $rowData);
+
+        $rowData[self::FIELD_LOG] = json_decode($rowData[self::FIELD_LOG], true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $rowData[self::FIELD_LOG] = 'null';
+        }
+
+        return $rowData;
     }
 
     protected function createInsertingData(array $row): array

@@ -253,8 +253,13 @@ abstract class CommonImportCommand extends Command
 
         $rowCount = 0;
         while (($row = fgetcsv($handle, 0, ',')) !== false) {
+            $rowData = $this->assembleRowData($headers, $row);
+
+            if (empty($rowData)) {
+                throw new \RuntimeException('Пустое значение массива rowData.');
+            }
+
             $rowCount++;
-            $rowData = array_combine($headers, $row);
 
             foreach ($rowData as $index => $data) {
                 $rowData[$index] = strtolower(trim($data)) === 'null' ? null : trim($data);
@@ -281,6 +286,11 @@ abstract class CommonImportCommand extends Command
         if (! $rowCount) {
             throw new \RuntimeException('Не найдены строки в файле для парсинга.');
         }
+    }
+
+    protected function assembleRowData(array $headers, $row): array
+    {
+        return array_combine($headers, $row);
     }
 
     protected function persistImportData(): void
