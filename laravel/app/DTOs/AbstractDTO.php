@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-abstract class AbstractDTO implements DTOInterface
+abstract class AbstractDTO implements DtoInterface
 {
     public function toArray(): array
     {
