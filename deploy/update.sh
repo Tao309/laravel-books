@@ -2,7 +2,10 @@
 set -Eeuo pipefail
 
 # Подключение настроек
-ENV_FILE="$DEPLOY_DIR/deploy.env"
+DEPLOY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Подключаем загрузчик настроек
+source "$DEPLOY_DIR/load-env.sh"
 
 cd "$PROJECT_DIR"
 
