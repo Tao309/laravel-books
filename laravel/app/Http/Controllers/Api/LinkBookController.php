@@ -22,7 +22,6 @@ class LinkBookController extends ApiController
         int $productId,
         int $bookId,
     ): JsonResponse {
-        return $this->toJson($this->linkProductService->linkBook($productId, $bookId));
-
+        return $this->toJson($this->linkProductService->linkBook($productId, $bookId)->toResource());
     }
 }

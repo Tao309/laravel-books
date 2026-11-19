@@ -21,7 +21,6 @@ class UnlinkFromProductController extends ApiController
     public function __invoke(
         int $productId,
     ): JsonResponse {
-        return $this->toJson($this->unlinkFromProductService->process($productId));
-
+        return $this->toJson($this->unlinkFromProductService->process($productId)->toResource());
     }
 }

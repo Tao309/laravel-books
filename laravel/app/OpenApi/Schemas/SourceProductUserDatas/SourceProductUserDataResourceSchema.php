@@ -12,6 +12,8 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: SourceProductUserData::PARAM_LISTEN_PRICE_VALUE, type: 'integer', example: 500),
         new OA\Property(property: SourceProductUserData::PARAM_COMMENT, type: 'text', example: 'Ожидаем отзывы'),
+        new OA\Property(property: SourceProductUserData::PARAM_USER_ID, type: 'integer', example: 4),
+        new OA\Property(property: SourceProductUserData::PARAM_SOURCE_PRODUCT_ID, type: 'integer', example: 4),
 
         new OA\Property(property: Model::UPDATED_AT, type: 'string', example: '2026-09-10 10:10:19'),
         new OA\Property(property: Model::CREATED_AT, type: 'string', example: '2026-09-10 10:10:19'),

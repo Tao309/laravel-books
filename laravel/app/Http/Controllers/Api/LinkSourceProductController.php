@@ -22,7 +22,6 @@ class LinkSourceProductController extends ApiController
         int $productId,
         int $sourceProductId,
     ): JsonResponse {
-        return $this->toJson($this->linkProductService->linkSourceProduct($productId, $sourceProductId));
-
+        return $this->toJson($this->linkProductService->linkSourceProduct($productId, $sourceProductId)->toResource());
     }
 }

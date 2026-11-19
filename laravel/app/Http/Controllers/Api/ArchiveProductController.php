@@ -29,7 +29,8 @@ class ArchiveProductController extends ApiController
 
         return $this->toJson(
             $result
-                ?: [
+                ? $result->toResource()
+                : [
                     ArchiveProductService::REQUIRE_TO_CREATE => true,
                 ]
         );

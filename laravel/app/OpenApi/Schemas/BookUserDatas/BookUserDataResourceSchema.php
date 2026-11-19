@@ -13,6 +13,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: BookUserData::PARAM_RELEASE_DATE, type: 'string', example: '2026-09-10 10:10:19'),
         new OA\Property(property: BookUserData::PARAM_LISTEN_PRICE_VALUE, type: 'integer', example: 500),
         new OA\Property(property: BookUserData::PARAM_COMMENT, type: 'text', example: 'Ожидаем отзывы'),
+        new OA\Property(property: BookUserData::PARAM_USER_ID, type: 'integer', example: 4),
+        new OA\Property(property: BookUserData::PARAM_BOOK_ID, type: 'integer', example: 4),
 
         new OA\Property(property: Model::UPDATED_AT, type: 'string', example: '2026-09-10 10:10:19'),
         new OA\Property(property: Model::CREATED_AT, type: 'string', example: '2026-09-10 10:10:19'),

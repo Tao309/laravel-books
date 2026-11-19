@@ -197,16 +197,12 @@ class ProductRepository implements RepositoryInterface
         return $entity->delete();
     }
 
-    /**
-     * Запрос для дальнейших действий, не грузим всю модель
-     */
-    public function findByShopProduct(string|int $shopProductId): ?Product
+    public function findByShopProductId(string|int $shopProductId): ?Product
     {
-        return Product::query()
-            ->select([Product::PARAM_ID, Product::PARAM_SHOP_ID])
-            ->where(Product::PARAM_SHOP_PRODUCT_ID, $shopProductId)
-            ->where(Product::PARAM_SHOP_ID, SessionShopService::getShopId())
-            ->firstOrFail();
+        return $this->query()->where([
+            Product::PARAM_SHOP_PRODUCT_ID => $shopProductId,
+            Product::PARAM_SHOP_ID => SessionShopService::getShopId(),
+        ])->first();
     }
 
     /**
