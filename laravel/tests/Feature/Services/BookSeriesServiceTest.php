@@ -34,7 +34,7 @@ class BookSeriesServiceTest extends TestCase
         $this->expectException(HandlerNotFoundException::class);
         $this->expectExceptionMessage(
             'Handler App\CQRS\Handlers\BookSeries\DestroyBookSeriesHandler '
-            .'for App\CQRS\Commands\BookSeries\DestroyBookSeriesCommand was not found',
+            . 'for App\CQRS\Commands\BookSeries\DestroyBookSeriesCommand was not found',
         );
 
         $this->service->deleteById(1);

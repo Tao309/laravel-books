@@ -32,12 +32,12 @@ class StoreSourceProductRequest extends AbstractSourceProductRequest
                 'sometimes',
                 'array',
             ],
-            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA.'.'.SourceProductUserData::PARAM_LISTEN_PRICE_VALUE => [
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA . '.' . SourceProductUserData::PARAM_LISTEN_PRICE_VALUE => [
                 'sometimes',
                 'integer',
                 'max_digits:9',
             ],
-            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA.'.'.SourceProductUserData::PARAM_COMMENT => [
+            SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA . '.' . SourceProductUserData::PARAM_COMMENT => [
                 'sometimes',
                 'string',
                 'max:300',

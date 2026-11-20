@@ -21,14 +21,14 @@ class MakeRequestCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
         ];
     }
 
     public function handle()
     {
         if ($this->isReservedName($this->getNameInput())) {
-            $this->components->error('The name "'.$this->getNameInput().'" is reserved by PHP.');
+            $this->components->error('The name "' . $this->getNameInput() . '" is reserved by PHP.');
 
             return false;
         }
@@ -56,11 +56,11 @@ class MakeRequestCommand extends GeneratorCommand
         $name = Str::ucfirst($name);
 
         if ($this->isAbstract()) {
-            $name = 'Abstract'.$name.'Request';
+            $name = 'Abstract' . $name . 'Request';
         } elseif ($this->isStore()) {
-            $name = 'Store'.$name.'Request';
+            $name = 'Store' . $name . 'Request';
         } elseif ($this->isUpdate()) {
-            $name = 'Update'.$name.'Request';
+            $name = 'Update' . $name . 'Request';
         }
 
         $rootNamespace = $this->rootNamespace();
@@ -69,7 +69,7 @@ class MakeRequestCommand extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name;
+        return $this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name;
     }
 
     protected function getStub()
@@ -78,7 +78,7 @@ class MakeRequestCommand extends GeneratorCommand
             $this->isAbstract() => $this->resolveStubPath('/app/Console/Commands/stubs/request-abstract.stub'),
             $this->isStore() => $this->resolveStubPath('/app/Console/Commands/stubs/request-store.stub'),
             $this->isUpdate() => $this->resolveStubPath('/app/Console/Commands/stubs/request-update.stub'),
-            default => throw new RuntimeException('Unable to generate stub for '.strtolower($this->type)),
+            default => throw new RuntimeException('Unable to generate stub for ' . strtolower($this->type)),
         };
     }
 
@@ -110,12 +110,12 @@ class MakeRequestCommand extends GeneratorCommand
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
-            : __DIR__.$stub;
+            : __DIR__ . $stub;
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\\Http\\Requests\\'.Str::plural(Str::ucfirst($this->getNameInput()));
+        return $rootNamespace . '\\Http\\Requests\\' . Str::plural(Str::ucfirst($this->getNameInput()));
     }
 
     protected function replaceNamespace(&$stub, $name)

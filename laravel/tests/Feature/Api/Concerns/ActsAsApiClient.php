@@ -54,7 +54,7 @@ trait ActsAsApiClient
             'shop-type' => 'ozon',
             'x-requested-with' => self::X_REQUESTED_WITH,
             't-price-checker-id' => self::PRICE_CHECKER_ID,
-            'Authorization' => 'Bearer '.$this->user->remember_token,
+            'Authorization' => 'Bearer ' . $this->user->remember_token,
         ];
     }
 

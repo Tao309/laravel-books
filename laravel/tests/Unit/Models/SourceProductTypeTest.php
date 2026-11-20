@@ -63,7 +63,7 @@ class SourceProductTypeTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".SourceProductType::class,
+            "Attribute {$attributeClass} is expected on " . SourceProductType::class,
         );
 
         return $attributes[0]->newInstance();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\CacheProviders\BindingTypesCacheProvider;
 use App\CacheProviders\BookSeriesCacheProvider;
+use App\CacheProviders\PaperTypesCacheProvider;
 use App\CacheProviders\PublishingBrandsCacheProvider;
 use App\CacheProviders\PublishingHousesCacheProvider;
 use App\CacheProviders\SourceProductsTypesCacheProvider;
@@ -20,6 +21,7 @@ class ConfigController extends ApiController
         private readonly PublishingBrandsCacheProvider $bookPublishingBrandCacheProvider,
         private readonly PublishingHousesCacheProvider $bookPublishingHouseCacheProvider,
         private readonly BindingTypesCacheProvider $bindingTypesCacheProvider,
+        private readonly PaperTypesCacheProvider $paperTypesCacheProvider,
         private readonly SourceProductsTypesCacheProvider $sourceProductTypesCacheProvider,
         ResponseContext $context,
         ?string $resourceClass,
@@ -34,6 +36,7 @@ class ConfigController extends ApiController
             'processed_at' => date('Y-m-d H:i:s'),
             'source_product_types' => $this->sourceProductTypesCacheProvider->get(),
             'book_binding_types' => $this->bindingTypesCacheProvider->get(),
+            'book_paper_types' => $this->paperTypesCacheProvider->get(),
             'book_publishing_houses' => $this->bookPublishingHouseCacheProvider->get(),
             'book_publishing_brands' => $this->bookPublishingBrandCacheProvider->get(),
             'book_series' => $this->bookSeriesCacheProvider->get(),

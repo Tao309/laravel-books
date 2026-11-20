@@ -92,7 +92,7 @@ class SourceProductApiTest extends TestCase
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $type->id,
         ]);
 
-        $items = $this->apiGet('/api/source_products?search='.urlencode('кроссовки'))
+        $items = $this->apiGet('/api/source_products?search=' . urlencode('кроссовки'))
             ->assertOk()
             ->json('data.items');
 
@@ -111,7 +111,7 @@ class SourceProductApiTest extends TestCase
             ]);
         }
 
-        $this->apiGet('/api/source_products?search='.urlencode('джинсы'))
+        $this->apiGet('/api/source_products?search=' . urlencode('джинсы'))
             ->assertOk()
             ->assertJsonCount(7, 'data.items');
     }
@@ -229,7 +229,7 @@ class SourceProductApiTest extends TestCase
         $this->apiPost('/api/source_products', $payload)
             ->assertUnprocessable()
             ->assertJsonValidationErrors([
-                SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA.'.'.SourceProductUserData::PARAM_LISTEN_PRICE_VALUE,
+                SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA . '.' . SourceProductUserData::PARAM_LISTEN_PRICE_VALUE,
             ]);
     }
 

@@ -36,7 +36,7 @@ readonly class LinkToProductService
         try {
             $book = $this->bookRepo->get($bookId);
         } catch (ModelNotFoundException) {
-            throw new ApiException('Not found Book by id = '.$bookId);
+            throw new ApiException('Not found Book by id = ' . $bookId);
         }
 
         if (! $book->bookUserData) {
@@ -64,7 +64,7 @@ readonly class LinkToProductService
         try {
             $sourceProduct = $this->spRepository->get($sourceProductId);
         } catch (ModelNotFoundException) {
-            throw new ApiException('Not found SourceProduct by id = '.$sourceProductId);
+            throw new ApiException('Not found SourceProduct by id = ' . $sourceProductId);
         }
 
         if (! $sourceProduct->sourceProductUserData) {

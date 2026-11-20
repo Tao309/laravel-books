@@ -68,7 +68,7 @@ class SourceProductTypesBusMappingTest extends TestCase
         $this->expectException(HandlerNotFoundException::class);
         $this->expectExceptionMessage(
             'Handler App\CQRS\Handlers\SourceProductTypes\GetSourceProductTypeByIdHandler '
-            .'for '.GetSourceProductTypeByIdQuery::class.' was not found',
+            . 'for ' . GetSourceProductTypeByIdQuery::class . ' was not found',
         );
 
         (new Bus($this->createMock(Container::class)))

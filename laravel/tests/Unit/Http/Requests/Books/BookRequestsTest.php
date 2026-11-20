@@ -56,16 +56,16 @@ class BookRequestsTest extends TestCase
             Book::PARAM_LIVELIB_RATING,
             Book::PARAM_GOODREADS_RATING,
             Book::PARAM_AUTHORS,
-            Book::PARAM_AUTHORS.'.*.id',
+            Book::PARAM_AUTHORS . '.*.id',
             Book::PARAM_BINDING_TYPE,
             Book::PARAM_PAPER_TYPE,
             Book::PARAM_PUBLISHING_HOUSE,
             Book::PARAM_PUBLISHING_BRAND,
             Book::PARAM_BOOK_SERIES,
             Book::PARAM_BOOK_USER_DATA,
-            Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_RELEASE_DATE,
-            Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_LISTEN_PRICE_VALUE,
-            Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_COMMENT,
+            Book::PARAM_BOOK_USER_DATA . '.' . BookUserData::PARAM_RELEASE_DATE,
+            Book::PARAM_BOOK_USER_DATA . '.' . BookUserData::PARAM_LISTEN_PRICE_VALUE,
+            Book::PARAM_BOOK_USER_DATA . '.' . BookUserData::PARAM_COMMENT,
         ], array_keys($this->storeRules()));
     }
 
@@ -127,9 +127,9 @@ class BookRequestsTest extends TestCase
 
     public function test_book_user_data_rules(): void
     {
-        $releaseKey = Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_RELEASE_DATE;
-        $priceKey = Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_LISTEN_PRICE_VALUE;
-        $commentKey = Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_COMMENT;
+        $releaseKey = Book::PARAM_BOOK_USER_DATA . '.' . BookUserData::PARAM_RELEASE_DATE;
+        $priceKey = Book::PARAM_BOOK_USER_DATA . '.' . BookUserData::PARAM_LISTEN_PRICE_VALUE;
+        $commentKey = Book::PARAM_BOOK_USER_DATA . '.' . BookUserData::PARAM_COMMENT;
 
         foreach ([$this->storeRules(), $this->updateRules()] as $rules) {
             $this->assertContains('sometimes', $rules[Book::PARAM_BOOK_USER_DATA]);
@@ -146,7 +146,7 @@ class BookRequestsTest extends TestCase
         foreach ([$this->storeRules(), $this->updateRules()] as $rules) {
             $this->assertContains('required', $rules[Book::PARAM_AUTHORS]);
             $this->assertContains('array', $rules[Book::PARAM_AUTHORS]);
-            $this->assertContains('required', $rules[Book::PARAM_AUTHORS.'.*.id']);
+            $this->assertContains('required', $rules[Book::PARAM_AUTHORS . '.*.id']);
         }
     }
 
@@ -155,25 +155,25 @@ class BookRequestsTest extends TestCase
         $messages = (new StoreBookRequest)->messages();
 
         $this->assertSame([
-            Book::PARAM_TITLE.'.unique',
-            Book::PARAM_ORIGINAL_TITLE.'.unique',
-            Book::PARAM_ISBN.'.unique',
-            Book::PARAM_BINDING_TYPE.'.id.unique',
-            Book::PARAM_BINDING_TYPE.'.id.exists',
-            Book::PARAM_PAPER_TYPE.'.id.exists',
-            Book::PARAM_AUTHORS.'.*.id',
-            Book::PARAM_PUBLISHING_HOUSE.'.id.exists',
-            Book::PARAM_PUBLISHING_BRAND.'.id.exists',
-            Book::PARAM_BOOK_SERIES.'.id.exists',
+            Book::PARAM_TITLE . '.unique',
+            Book::PARAM_ORIGINAL_TITLE . '.unique',
+            Book::PARAM_ISBN . '.unique',
+            Book::PARAM_BINDING_TYPE . '.id.unique',
+            Book::PARAM_BINDING_TYPE . '.id.exists',
+            Book::PARAM_PAPER_TYPE . '.id.exists',
+            Book::PARAM_AUTHORS . '.*.id',
+            Book::PARAM_PUBLISHING_HOUSE . '.id.exists',
+            Book::PARAM_PUBLISHING_BRAND . '.id.exists',
+            Book::PARAM_BOOK_SERIES . '.id.exists',
         ], array_keys($messages));
 
         $this->assertSame(
             'A Book with this title already exists',
-            $messages[Book::PARAM_TITLE.'.unique'],
+            $messages[Book::PARAM_TITLE . '.unique'],
         );
         $this->assertSame(
             'Author {:attribute} is not found',
-            $messages[Book::PARAM_AUTHORS.'.*.id'],
+            $messages[Book::PARAM_AUTHORS . '.*.id'],
         );
     }
 

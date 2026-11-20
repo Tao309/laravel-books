@@ -20,7 +20,7 @@ class MakeRepositoryCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
         ];
     }
 
@@ -39,15 +39,15 @@ class MakeRepositoryCommand extends GeneratorCommand
     public function handle()
     {
         if ($this->isReservedName($this->getNameInput())) {
-            $this->components->error('The name "'.$this->getNameInput().'" is reserved by PHP.');
+            $this->components->error('The name "' . $this->getNameInput() . '" is reserved by PHP.');
 
             return false;
         }
 
-        $modelClass = '\\App\\Models\\'.$this->getNameInput();
+        $modelClass = '\\App\\Models\\' . $this->getNameInput();
 
         if (! class_exists($modelClass) && ! ($this->hasOption('force') && $this->option('force'))) {
-            $this->components->error('Required model class: '.$modelClass);
+            $this->components->error('Required model class: ' . $modelClass);
 
             return false;
         }
@@ -67,7 +67,7 @@ class MakeRepositoryCommand extends GeneratorCommand
         foreach ($searches as $search) {
             $stub = str_replace(
                 $search,
-                ['App\\Models\\'.$this->getNameInput(), $this->getNameInput()],
+                ['App\\Models\\' . $this->getNameInput(), $this->getNameInput()],
                 $stub
             );
         }
@@ -79,7 +79,7 @@ class MakeRepositoryCommand extends GeneratorCommand
     {
         $name = ltrim($name, '\\/');
 
-        $name = str_replace('/', '\\', $name).'Repository';
+        $name = str_replace('/', '\\', $name) . 'Repository';
 
         $rootNamespace = $this->rootNamespace();
 
@@ -87,12 +87,12 @@ class MakeRepositoryCommand extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name;
+        return $this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name;
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Repositories';
+        return $rootNamespace . '\Repositories';
     }
 
     protected function getStub()
@@ -104,6 +104,6 @@ class MakeRepositoryCommand extends GeneratorCommand
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
-            : __DIR__.$stub;
+            : __DIR__ . $stub;
     }
 }

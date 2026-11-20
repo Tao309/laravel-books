@@ -19,22 +19,22 @@ class MakeServiceCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
         ];
     }
 
     public function handle()
     {
         if ($this->isReservedName($this->getNameInput())) {
-            $this->components->error('The name "'.$this->getNameInput().'" is reserved by PHP.');
+            $this->components->error('The name "' . $this->getNameInput() . '" is reserved by PHP.');
 
             return false;
         }
 
-        $modelClass = '\\App\\Models\\'.$this->getNameInput();
+        $modelClass = '\\App\\Models\\' . $this->getNameInput();
 
         if (! class_exists($modelClass) && ! ($this->hasOption('force') && $this->option('force'))) {
-            $this->components->error('Required model class: '.$modelClass);
+            $this->components->error('Required model class: ' . $modelClass);
 
             return false;
         }
@@ -70,16 +70,16 @@ class MakeServiceCommand extends GeneratorCommand
                 $search,
                 [
                     $singularName,
-                    'Get'.$pluralName.'Query',
-                    'App\\CQRS\\Queries\\'.$pluralName.'\\Get'.$pluralName.'Query',
-                    'GetById'.$singularName.'Query',
-                    'App\\CQRS\\Queries\\'.$pluralName.'\\GetById'.$singularName.'Query',
-                    'Create'.$singularName.'Command',
-                    'App\\CQRS\\Commands\\'.$pluralName.'\\Create'.$singularName.'Command',
-                    'Update'.$singularName.'Command',
-                    'App\\CQRS\\Commands\\'.$pluralName.'\\Update'.$singularName.'Command',
-                    'Destroy'.$singularName.'Command',
-                    'App\\CQRS\\Commands\\'.$pluralName.'\\Destroy'.$singularName.'Command',
+                    'Get' . $pluralName . 'Query',
+                    'App\\CQRS\\Queries\\' . $pluralName . '\\Get' . $pluralName . 'Query',
+                    'GetById' . $singularName . 'Query',
+                    'App\\CQRS\\Queries\\' . $pluralName . '\\GetById' . $singularName . 'Query',
+                    'Create' . $singularName . 'Command',
+                    'App\\CQRS\\Commands\\' . $pluralName . '\\Create' . $singularName . 'Command',
+                    'Update' . $singularName . 'Command',
+                    'App\\CQRS\\Commands\\' . $pluralName . '\\Update' . $singularName . 'Command',
+                    'Destroy' . $singularName . 'Command',
+                    'App\\CQRS\\Commands\\' . $pluralName . '\\Destroy' . $singularName . 'Command',
                 ],
                 $stub
             );
@@ -92,7 +92,7 @@ class MakeServiceCommand extends GeneratorCommand
     {
         $name = ltrim($name, '\\/');
 
-        $name = str_replace('/', '\\', $name).'Service';
+        $name = str_replace('/', '\\', $name) . 'Service';
 
         $rootNamespace = $this->rootNamespace();
 
@@ -100,12 +100,12 @@ class MakeServiceCommand extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name;
+        return $this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name;
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Services';
+        return $rootNamespace . '\Services';
     }
 
     protected function getStub()
@@ -117,6 +117,6 @@ class MakeServiceCommand extends GeneratorCommand
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
-            : __DIR__.$stub;
+            : __DIR__ . $stub;
     }
 }

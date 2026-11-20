@@ -51,7 +51,7 @@ class BookSeriesBusMappingTest extends TestCase
         $this->expectException(HandlerNotFoundException::class);
         $this->expectExceptionMessage(
             'Handler App\CQRS\Handlers\BookSeries\DestroyBookSeriesHandler '
-            .'for '.DestroyBookSeriesCommand::class.' was not found',
+            . 'for ' . DestroyBookSeriesCommand::class . ' was not found',
         );
 
         (new Bus($this->createMock(Container::class)))

@@ -134,7 +134,7 @@ class UserSecurityTest extends TestCase
             't-price-checker-id' => $priceCheckerId,
             'Authorization' => $token === null
                 ? null
-                : 'Bearer '.($token === 'auto' ? $user->remember_token : $token),
+                : 'Bearer ' . ($token === 'auto' ? $user->remember_token : $token),
         ]);
     }
 

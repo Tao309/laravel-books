@@ -21,7 +21,7 @@ class PublishingHouseFactory extends Factory
                 'Орион',
                 'Альфа',
                 'Горизонт',
-            ]).' '.$faker->randomElement([
+            ]) . ' ' . $faker->randomElement([
                 'Пресс',
                 'Книга',
                 'Медиа',
@@ -31,7 +31,7 @@ class PublishingHouseFactory extends Factory
                 'Издательство',
                 'Книжный дом',
                 'Издательский дом',
-            ]).' «'.$faker->randomElement([
+            ]) . ' «' . $faker->randomElement([
                 'Роман',
                 'История',
                 'Легенда',
@@ -44,14 +44,14 @@ class PublishingHouseFactory extends Factory
                 'Мир',
                 'Слово',
                 'Классика',
-            ]).'»',
+            ]) . '»',
 
             fn () => $faker->randomElement([
                 'Новая',
                 'Большая',
                 'Современная',
                 'Русская',
-            ]).' '.$faker->randomElement([
+            ]) . ' ' . $faker->randomElement([
                 'книга',
                 'библиотека',
                 'литература',

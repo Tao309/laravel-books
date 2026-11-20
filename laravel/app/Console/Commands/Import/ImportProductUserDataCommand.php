@@ -65,13 +65,13 @@ class ImportProductUserDataCommand extends CommonImportCommand
             ProductUserData::PARAM_AVAILABLE => $row[self::FIELD_AVAILABLE],
             ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM => $row[self::FIELD_NOT_AVAILABLE_DATE_FROM]
                 ? $this->checkDateAndReturn(
-                    $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                    $row[self::FIELD_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                     $row[self::FIELD_NOT_AVAILABLE_DATE_FROM]
                 )
                 : null,
             ProductUserData::PARAM_AVAILABLE_DATE_FROM => $row[self::FIELD_AVAILABLE_DATE_FROM]
                 ? $this->checkDateAndReturn(
-                    $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                    $row[self::FIELD_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                     $row[self::FIELD_AVAILABLE_DATE_FROM]
                 )
                 : null,
@@ -79,7 +79,7 @@ class ImportProductUserDataCommand extends CommonImportCommand
             ProductUserData::PARAM_LISTEN_QTY_VALUE => $row[self::FIELD_LISTEN_QTY_VALUE],
             ProductUserData::PARAM_RELEASE_DATE => $row[self::FIELD_RELEASE_DATE]
                 ? $this->checkDateAndReturn(
-                    $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                    $row[self::FIELD_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                     $row[self::FIELD_RELEASE_DATE]
                 )
                 : null,
@@ -87,11 +87,11 @@ class ImportProductUserDataCommand extends CommonImportCommand
             ProductUserData::PARAM_COMMENT => $row[self::FIELD_COMMENT],
 
             Model::UPDATED_AT => $this->checkDateAndReturn(
-                $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                 $row[self::FIELD_DATE_UPDATED]
             ),
             Model::CREATED_AT => $this->checkDateAndReturn(
-                $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                 $row[self::FIELD_DATE_CREATED]
             ),
         ];

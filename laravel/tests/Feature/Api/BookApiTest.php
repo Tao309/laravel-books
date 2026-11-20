@@ -217,7 +217,7 @@ class BookApiTest extends TestCase
             ->assertUnprocessable()
             ->assertJsonPath('success', false)
             ->assertJsonPath(
-                'errors.'.Book::PARAM_TITLE.'.0',
+                'errors.' . Book::PARAM_TITLE . '.0',
                 'A Book with this title already exists',
             );
     }
@@ -231,7 +231,7 @@ class BookApiTest extends TestCase
         ]))
             ->assertUnprocessable()
             ->assertJsonPath(
-                'errors.'.Book::PARAM_ISBN.'.0',
+                'errors.' . Book::PARAM_ISBN . '.0',
                 'A Book with this ISBN already exists',
             );
     }
@@ -315,7 +315,7 @@ class BookApiTest extends TestCase
             ],
         ]))
             ->assertUnprocessable()
-            ->assertJsonValidationErrors([Book::PARAM_BOOK_USER_DATA.'.'.BookUserData::PARAM_RELEASE_DATE]);
+            ->assertJsonValidationErrors([Book::PARAM_BOOK_USER_DATA . '.' . BookUserData::PARAM_RELEASE_DATE]);
     }
 
     // ---------- GET /api/books/{id} ----------
@@ -371,7 +371,7 @@ class BookApiTest extends TestCase
         ]))
             ->assertUnprocessable()
             ->assertJsonPath(
-                'errors.'.Book::PARAM_TITLE.'.0',
+                'errors.' . Book::PARAM_TITLE . '.0',
                 'A Book with this title already exists',
             );
     }

@@ -14,7 +14,7 @@ class ShopFactory extends Factory
     {
         return [
             Shop::PARAM_TYPE => fake()->domainWord(),
-            Shop::PARAM_DOMAIN => fake()->domainWord().'.'.fake()->tld(),
+            Shop::PARAM_DOMAIN => fake()->domainWord() . '.' . fake()->tld(),
         ];
     }
 

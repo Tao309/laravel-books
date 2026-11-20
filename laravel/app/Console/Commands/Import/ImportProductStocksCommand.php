@@ -65,7 +65,7 @@ class ImportProductStocksCommand extends CommonImportCommand
             ProductStock::PARAM_QTY => $row[self::FIELD_QTY],
             ProductStock::PARAM_DATE => $row[self::FIELD_DATE]
                 ? $this->checkDateAndReturn(
-                    $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                    $row[self::FIELD_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                     $row[self::FIELD_DATE]
                 )
                 : null,

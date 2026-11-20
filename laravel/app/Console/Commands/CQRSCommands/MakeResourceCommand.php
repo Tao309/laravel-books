@@ -31,12 +31,12 @@ class MakeResourceCommand extends GeneratorCommand
         $name = str_replace('/', '\\', $name);
 
         if ($this->collection()) {
-            $name = Str::plural($name).'ResourceCollection';
+            $name = Str::plural($name) . 'ResourceCollection';
         } else {
-            $name = $name.'Resource';
+            $name = $name . 'Resource';
         }
 
-        $name = $this->collection() ? Str::plural($name).'ResourceCollection' : $name.'Resource';
+        $name = $this->collection() ? Str::plural($name) . 'ResourceCollection' : $name . 'Resource';
 
         $rootNamespace = $this->rootNamespace();
 
@@ -44,7 +44,7 @@ class MakeResourceCommand extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name;
+        return $this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name;
     }
 
     protected function getStub()
@@ -67,12 +67,12 @@ class MakeResourceCommand extends GeneratorCommand
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
-            : __DIR__.$stub;
+            : __DIR__ . $stub;
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Resources\\'.Str::plural(Str::ucfirst($this->getNameInput()));
+        return $rootNamespace . '\Http\Resources\\' . Str::plural(Str::ucfirst($this->getNameInput()));
     }
 
     protected function getOptions()

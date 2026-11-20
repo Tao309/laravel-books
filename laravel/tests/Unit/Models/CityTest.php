@@ -55,7 +55,7 @@ class CityTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".City::class,
+            "Attribute {$attributeClass} is expected on " . City::class,
         );
 
         return $attributes[0]->newInstance();

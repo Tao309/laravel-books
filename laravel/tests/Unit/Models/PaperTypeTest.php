@@ -55,7 +55,7 @@ class PaperTypeTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".PaperType::class,
+            "Attribute {$attributeClass} is expected on " . PaperType::class,
         );
 
         return $attributes[0]->newInstance();

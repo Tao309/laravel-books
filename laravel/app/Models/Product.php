@@ -87,9 +87,9 @@ class Product extends Model
     // > morphs
     public const string PARAM_SOURCE = 'source';
 
-    public const string PARAM_SOURCE_TYPE = self::PARAM_SOURCE.'_type';
+    public const string PARAM_SOURCE_TYPE = self::PARAM_SOURCE . '_type';
 
-    public const string PARAM_SOURCE_ID = self::PARAM_SOURCE.'_id';
+    public const string PARAM_SOURCE_ID = self::PARAM_SOURCE . '_id';
     // < morphs
 
     // > relations

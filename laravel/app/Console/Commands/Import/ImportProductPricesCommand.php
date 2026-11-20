@@ -44,7 +44,7 @@ class ImportProductPricesCommand extends CommonImportCommand
             ProductPrice::PARAM_PRICE => $row[self::FIELD_PRICE],
             ProductPrice::PARAM_DATE => $row[self::FIELD_DATE]
                 ? $this->checkDateAndReturn(
-                    $row[self::FIELD_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                    $row[self::FIELD_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                     $row[self::FIELD_DATE]
                 )
                 : null,

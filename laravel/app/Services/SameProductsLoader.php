@@ -76,25 +76,25 @@ class SameProductsLoader
 
         $sameProductsQuery = Product::query()
             ->withoutEagerLoads()
-            ->from(Product::TABLE_NAME.' as pr')
+            ->from(Product::TABLE_NAME . ' as pr')
             ->joinSub($subQuery, 'pp', function (JoinClause $join) {
                 $join->on(
                     'pp.product_id',
                     '=',
-                    'pr.'.Product::PARAM_ID
+                    'pr.' . Product::PARAM_ID
                 );
             })
-            ->where('pr.'.Product::PARAM_SOURCE_TYPE, $sourceType)
-            ->whereIn('pr.'.Product::PARAM_SOURCE_ID, $sourceIds)
+            ->where('pr.' . Product::PARAM_SOURCE_TYPE, $sourceType)
+            ->whereIn('pr.' . Product::PARAM_SOURCE_ID, $sourceIds)
             ->orderBy('pp.min_price')
             ->select([
-                'pr.'.Product::PARAM_ID,
-                'pr.'.Product::PARAM_TITLE,
-                'pr.'.Product::PARAM_SHOP_PRODUCT_ID,
-                'pr.'.Product::PARAM_SHOP_PRODUCT_CODE,
-                'pr.'.Product::PARAM_SOURCE_TYPE,
-                'pr.'.Product::PARAM_SOURCE_ID,
-                'pr.'.Product::PARAM_SHOP_ID,
+                'pr.' . Product::PARAM_ID,
+                'pr.' . Product::PARAM_TITLE,
+                'pr.' . Product::PARAM_SHOP_PRODUCT_ID,
+                'pr.' . Product::PARAM_SHOP_PRODUCT_CODE,
+                'pr.' . Product::PARAM_SOURCE_TYPE,
+                'pr.' . Product::PARAM_SOURCE_ID,
+                'pr.' . Product::PARAM_SHOP_ID,
                 'pp.min_price',
             ])
             ->with(Product::PARAM_SHOP, 'productUserData')

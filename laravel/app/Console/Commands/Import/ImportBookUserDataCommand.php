@@ -50,7 +50,7 @@ class ImportBookUserDataCommand extends CommonImportCommand
             BookUserData::PARAM_USER_ID => $row[self::FIELD_USER_ID],
             BookUserData::PARAM_RELEASE_DATE => $row[self::FIELD_RELEASE_DATE]
                 ? $this->checkDateAndReturn(
-                    $row[self::FIELD_BOOK_ID].'_'.$row[self::FIELD_USER_ID],
+                    $row[self::FIELD_BOOK_ID] . '_' . $row[self::FIELD_USER_ID],
                     $row[self::FIELD_RELEASE_DATE]
                 )
                 : null,
@@ -58,11 +58,11 @@ class ImportBookUserDataCommand extends CommonImportCommand
             BookUserData::PARAM_COMMENT => $row[self::FIELD_COMMENT],
 
             Model::UPDATED_AT => $this->checkDateAndReturn(
-                $row[self::FIELD_BOOK_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_BOOK_ID] . '_' . $row[self::FIELD_USER_ID],
                 $row[self::FIELD_DATE_UPDATED]
             ),
             Model::CREATED_AT => $this->checkDateAndReturn(
-                $row[self::FIELD_BOOK_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_BOOK_ID] . '_' . $row[self::FIELD_USER_ID],
                 $row[self::FIELD_DATE_CREATED]
             ),
         ];

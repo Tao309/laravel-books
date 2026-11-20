@@ -17,7 +17,7 @@ abstract class AbstractPaperTypeRequest extends FormRequest implements RequestIn
     public function messages(): array
     {
         return [
-            PaperType::PARAM_LABEL.'.unique' => 'A PaperType with this label already exists',
+            PaperType::PARAM_LABEL . '.unique' => 'A PaperType with this label already exists',
         ];
     }
 

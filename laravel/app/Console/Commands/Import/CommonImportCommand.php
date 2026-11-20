@@ -108,8 +108,8 @@ abstract class CommonImportCommand extends Command
             return Command::FAILURE;
         }
 
-        $this->io->title('Завершение импорта: '.static::COMMAND_LABEL);
-        $this->io->section('Добавлено: '.$this->added);
+        $this->io->title('Завершение импорта: ' . static::COMMAND_LABEL);
+        $this->io->section('Добавлено: ' . $this->added);
 
         if ($this->isFake) {
             $this->io->warning('Фейковый запуск команды');
@@ -146,14 +146,14 @@ abstract class CommonImportCommand extends Command
             return;
         }
 
-        $this->io->warning('// > Warnings: ('.count($this->warnings).')');
+        $this->io->warning('// > Warnings: (' . count($this->warnings) . ')');
 
         $i = 1;
         foreach ($this->warnings as $error) {
-            $this->io->text($i++.'. '.$error);
+            $this->io->text($i++ . '. ' . $error);
         }
 
-        $this->io->warning('// < Warnings: ('.count($this->warnings).')');
+        $this->io->warning('// < Warnings: (' . count($this->warnings) . ')');
 
     }
 
@@ -164,7 +164,7 @@ abstract class CommonImportCommand extends Command
         }
 
         if (! Schema::hasTable($this->tableName)) {
-            throw new \RuntimeException('Таблица "'.$this->tableName.'" не найдена');
+            throw new \RuntimeException('Таблица "' . $this->tableName . '" не найдена');
         }
     }
 
@@ -191,7 +191,7 @@ abstract class CommonImportCommand extends Command
     protected function checkDateAndReturn(int|string $id, ?string $date = null): Carbon
     {
         if (empty($date) || $date === '0000-00-00 00:00:00') {
-            $this->addWarning('Дата не корректна id = '.$id.': ('.$date.')');
+            $this->addWarning('Дата не корректна id = ' . $id . ': (' . $date . ')');
 
             return Carbon::now();
         }
@@ -205,7 +205,7 @@ abstract class CommonImportCommand extends Command
         try {
             return Carbon::createFromFormat('Y-m-d H:i:s', $date);
         } catch (\Throwable $e) {
-            $this->addWarning('Дата не корректна id = '.$id.': '.$date.': '.$e->getMessage());
+            $this->addWarning('Дата не корректна id = ' . $id . ': ' . $date . ': ' . $e->getMessage());
 
             return Carbon::now();
         }
@@ -220,13 +220,13 @@ abstract class CommonImportCommand extends Command
     {
         $io = $this->io;
 
-        $io->title('Начало импорта: '.static::COMMAND_LABEL);
+        $io->title('Начало импорта: ' . static::COMMAND_LABEL);
         if ($this->isFake) {
             $io->warning('Фейковый запуск команды');
         }
 
         $io->section('Поиск данных для импорта из файла');
-        $filePath = base_path().'/app/Console/Commands/Import/csv/'.$this->fileName;
+        $filePath = base_path() . '/app/Console/Commands/Import/csv/' . $this->fileName;
 
         if (empty($this->fileName) || ! file_exists($filePath) || ! is_readable($filePath)) {
             throw new \RuntimeException(\sprintf('Файл "%s" не найден или недоступен к чтению.', $filePath));
@@ -295,7 +295,7 @@ abstract class CommonImportCommand extends Command
 
     protected function persistImportData(): void
     {
-        $this->io->title(static::COMMAND_LABEL.' => Запись в БД...');
+        $this->io->title(static::COMMAND_LABEL . ' => Запись в БД...');
 
         $totalRecords = \count($this->importData);
 
@@ -339,7 +339,7 @@ abstract class CommonImportCommand extends Command
 
             Log::error($e);
 
-            throw new \RuntimeException('Ошибка при записи "'.static::COMMAND_LABEL.'" в БД: '.$e->getMessage());
+            throw new \RuntimeException('Ошибка при записи "' . static::COMMAND_LABEL . '" в БД: ' . $e->getMessage());
         }
 
         $this->io->progressFinish();
@@ -360,17 +360,17 @@ abstract class CommonImportCommand extends Command
 
         $pdoDriverName = DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
-        $tableName = DB::getTablePrefix().$this->tableName;
+        $tableName = DB::getTablePrefix() . $this->tableName;
 
         if ($pdoDriverName === 'pgsql') {
-            DB::update("SELECT setval(pg_get_serial_sequence('".$tableName."', 'id'), COALESCE(MAX(id), 0) + 1, false) FROM ".$tableName.';');
+            DB::update("SELECT setval(pg_get_serial_sequence('" . $tableName . "', 'id'), COALESCE(MAX(id), 0) + 1, false) FROM " . $tableName . ';');
 
             return;
         }
 
         $lastId = $this->getLastId($tableName, $this->idParam);
 
-        DB::update('ALTER TABLE '.$tableName.' AUTO_INCREMENT = '.($lastId + 1).';');
+        DB::update('ALTER TABLE ' . $tableName . ' AUTO_INCREMENT = ' . ($lastId + 1) . ';');
     }
 
     protected function getLastId(string $tableName, $paramId = 'id'): int

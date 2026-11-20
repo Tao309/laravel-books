@@ -20,8 +20,8 @@ class StoreProductRequest extends AbstractProductRequest
             Product::PARAM_SHOP_PRODUCT_ID => [
                 RequestInterface::RULE_REQUIRED,
                 RequestInterface::RULE_STRING,
-                RequestInterface::RULE_MIN.':5',
-                RequestInterface::RULE_MAX.':30',
+                RequestInterface::RULE_MIN . ':5',
+                RequestInterface::RULE_MAX . ':30',
                 ...$this->addRuleIfProductIdEmpty(
                     Rule::unique(Product::TABLE_NAME)->where(function ($query) {
                         $shopId = $this->shop['id'] ?? null;
@@ -48,7 +48,7 @@ class StoreProductRequest extends AbstractProductRequest
                         if ($shopProductId === null) {
                             throw ValidationException::withMessages([
                                 Product::PARAM_SHOP_PRODUCT_ID => __('validation.required', [
-                                    'attribute' => __('validation.attributes.'.Product::PARAM_SHOP_PRODUCT_ID),
+                                    'attribute' => __('validation.attributes.' . Product::PARAM_SHOP_PRODUCT_ID),
                                 ]),
                             ]);
                         }

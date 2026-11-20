@@ -37,17 +37,17 @@ class RunAllImportsCommand extends Command
 
         $importName = $input->getOption('import-name') ?? null;
 
-        if ($importName && ! array_key_exists('app:import:'.$importName, \Artisan::all())) {
+        if ($importName && ! array_key_exists('app:import:' . $importName, \Artisan::all())) {
             $io->error(sprintf(
                 'Команда "%s" не найдена в списке artisan',
-                'app:import:'.$importName
+                'app:import:' . $importName
             ));
 
             return CommandAlias::FAILURE;
         }
 
         $commandNames = $importName
-            ? ['app:import:'.$importName]
+            ? ['app:import:' . $importName]
             : [
                 // > books
                 'app:import:paper_types',

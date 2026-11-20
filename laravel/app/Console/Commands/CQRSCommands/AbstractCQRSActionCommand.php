@@ -11,8 +11,8 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
     protected function getArguments(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
-            ['action', InputArgument::REQUIRED, 'The action of the '.strtolower($this->type)],
+            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
+            ['action', InputArgument::REQUIRED, 'The action of the ' . strtolower($this->type)],
         ];
     }
 
@@ -60,10 +60,10 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
                 '{{ ModelName }}',
                 '{{ RepositoryNamespace }}',
                 '{{ RepositoryName }}',
-                '{{ '.$searchAction.'CommandNamespace }}',
-                '{{ '.$searchAction.'CommandName }}',
-                '{{ '.$searchAction.'QueryNamespace }}',
-                '{{ '.$searchAction.'QueryName }}',
+                '{{ ' . $searchAction . 'CommandNamespace }}',
+                '{{ ' . $searchAction . 'CommandName }}',
+                '{{ ' . $searchAction . 'QueryNamespace }}',
+                '{{ ' . $searchAction . 'QueryName }}',
                 '{{ AbstractHandlerName }}',
             ],
         ];
@@ -72,15 +72,15 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
             $stub = str_replace(
                 $search,
                 [
-                    'App\\Models\\'.$singularName,
+                    'App\\Models\\' . $singularName,
                     $singularName,
-                    'App\\Repositories\\'.$singularName.'Repository',
-                    $singularName.'Repository',
-                    'App\\CQRS\\Commands\\'.$pluralName.'\\'.$searchAction.$commandName.'Command',
-                    $searchAction.$commandName.'Command',
-                    'App\\CQRS\\Queries\\'.$pluralName.'\\'.$searchAction.$commandName.'Query',
-                    $searchAction.$commandName.'Query',
-                    'Abstract'.$singularName.'Handler',
+                    'App\\Repositories\\' . $singularName . 'Repository',
+                    $singularName . 'Repository',
+                    'App\\CQRS\\Commands\\' . $pluralName . '\\' . $searchAction . $commandName . 'Command',
+                    $searchAction . $commandName . 'Command',
+                    'App\\CQRS\\Queries\\' . $pluralName . '\\' . $searchAction . $commandName . 'Query',
+                    $searchAction . $commandName . 'Query',
+                    'Abstract' . $singularName . 'Handler',
                 ],
                 $stub
             );
@@ -101,15 +101,15 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
         }
 
         return $this->qualifyClass(
-            $this->getDefaultTypeNamespace(trim($rootNamespace, '\\'), $type).
-            '\\'.Str::plural($className).
-            '\\'.Str::ucfirst($action).Str::ucfirst($className).Str::ucfirst($type)
+            $this->getDefaultTypeNamespace(trim($rootNamespace, '\\'), $type) .
+            '\\' . Str::plural($className) .
+            '\\' . Str::ucfirst($action) . Str::ucfirst($className) . Str::ucfirst($type)
         );
     }
 
     protected function getDefaultTypeNamespace(string $rootNamespace, string $type): string
     {
-        return $rootNamespace.'\\CQRS\\'.Str::ucfirst(Str::plural($type));
+        return $rootNamespace . '\\CQRS\\' . Str::ucfirst(Str::plural($type));
     }
 
     protected function buildCustomClass(string $type, string $action, string $name)
@@ -121,7 +121,7 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
 
     protected function getActionStub(string $type, string $action): string
     {
-        return $this->resolveStubPath('/app/Console/Commands/stubs/cqrs-'.$type.'-'.$action.'.stub');
+        return $this->resolveStubPath('/app/Console/Commands/stubs/cqrs-' . $type . '-' . $action . '.stub');
     }
 
     protected function getStub()
@@ -133,6 +133,6 @@ abstract class AbstractCQRSActionCommand extends GeneratorCommand
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
-            : __DIR__.$stub;
+            : __DIR__ . $stub;
     }
 }

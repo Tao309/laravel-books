@@ -65,14 +65,14 @@ class SourceProductFactory extends Factory
         ];
 
         $formats = [
-            fn () => $faker->randomElement($products).' '.
+            fn () => $faker->randomElement($products) . ' ' .
                 $faker->randomElement($colors),
 
-            fn () => $faker->randomElement($products).' '.
+            fn () => $faker->randomElement($products) . ' ' .
                 $faker->randomElement($seasons),
 
-            fn () => $faker->randomElement($products).' '.
-                $faker->randomElement($colors).' '.
+            fn () => $faker->randomElement($products) . ' ' .
+                $faker->randomElement($colors) . ' ' .
                 $faker->randomElement($seasons),
         ];
 

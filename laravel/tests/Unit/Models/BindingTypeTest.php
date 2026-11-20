@@ -60,7 +60,7 @@ class BindingTypeTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".BindingType::class,
+            "Attribute {$attributeClass} is expected on " . BindingType::class,
         );
 
         return $attributes[0]->newInstance();

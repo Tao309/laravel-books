@@ -72,7 +72,7 @@ class BindingTypeRepositoryTest extends TestCase
         BindingType::factory()
             ->count(20)
             ->sequence(fn ($sequence) => [
-                BindingType::PARAM_LABEL => 'Тип обложки номер '.$sequence->index,
+                BindingType::PARAM_LABEL => 'Тип обложки номер ' . $sequence->index,
             ])
             ->create();
 

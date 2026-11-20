@@ -4,13 +4,14 @@ namespace App\Console\Commands\CQRSCommands;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
+
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\suggest;
+
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use function Laravel\Prompts\confirm;
-use function Laravel\Prompts\suggest;
 
 #[AsCommand(name: 'app:make:cqrs')]
 class MakeCQRSCommand extends GeneratorCommand
@@ -24,7 +25,7 @@ class MakeCQRSCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
         ];
     }
 
@@ -35,7 +36,7 @@ class MakeCQRSCommand extends GeneratorCommand
         }
 
         if ($this->isReservedName($this->getNameInput())) {
-            $this->components->error('The name "'.$this->getNameInput().'" is reserved by PHP.');
+            $this->components->error('The name "' . $this->getNameInput() . '" is reserved by PHP.');
 
             return false;
         }
@@ -48,12 +49,12 @@ class MakeCQRSCommand extends GeneratorCommand
         ]);
 
         $this->call('make:migration', [
-            'name' => 'Create'.$pluralName.'Table',
+            'name' => 'Create' . $pluralName . 'Table',
             '--table' => Str::snake($pluralName),
             '--create' => true,
         ]);
 
-        $this->call('make:seed', ['name' => $upperName.'Seeder']);
+        $this->call('make:seed', ['name' => $upperName . 'Seeder']);
 
         $this->call('app:make:request', [
             'name' => $upperName,
@@ -75,11 +76,11 @@ class MakeCQRSCommand extends GeneratorCommand
         ]);
 
         $this->call('make:request', [
-            'name' => $pluralName.'/Store'.$upperName.'Request',
+            'name' => $pluralName . '/Store' . $upperName . 'Request',
         ]);
 
         $this->call('make:request', [
-            'name' => $pluralName.'/Update'.$upperName.'Request',
+            'name' => $pluralName . '/Update' . $upperName . 'Request',
         ]);
 
         $this->call('app:make:resource', [
@@ -101,7 +102,7 @@ class MakeCQRSCommand extends GeneratorCommand
         ]);
 
         $this->call('make:provider', [
-            'name' => Str::singular($upperName).'Provider',
+            'name' => Str::singular($upperName) . 'Provider',
         ]);
 
         $this->createDTO();

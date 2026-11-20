@@ -50,11 +50,11 @@ class ImportSourceProductUserDataCommand extends CommonImportCommand
             SourceProductUserData::PARAM_COMMENT => $row[self::FIELD_COMMENT],
 
             Model::UPDATED_AT => $this->checkDateAndReturn(
-                $row[self::FIELD_SOURCE_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_SOURCE_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                 $row[self::FIELD_DATE_UPDATED]
             ),
             Model::CREATED_AT => $this->checkDateAndReturn(
-                $row[self::FIELD_SOURCE_PRODUCT_ID].'_'.$row[self::FIELD_USER_ID],
+                $row[self::FIELD_SOURCE_PRODUCT_ID] . '_' . $row[self::FIELD_USER_ID],
                 $row[self::FIELD_DATE_CREATED]
             ),
         ];

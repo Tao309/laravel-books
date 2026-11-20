@@ -72,7 +72,7 @@ class AuthorTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".Author::class,
+            "Attribute {$attributeClass} is expected on " . Author::class,
         );
 
         return $attributes[0]->newInstance();

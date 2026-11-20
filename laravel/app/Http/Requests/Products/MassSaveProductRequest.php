@@ -11,10 +11,10 @@ class MassSaveProductRequest extends AbstractProductRequest
     public function messages(): array
     {
         return [
-            'items.*.'.Product::PARAM_SHOP_PRODUCT_ID.'.unique' => 'A Product with this ShopProductId and Shop already exists',
-            'items.*.'.Product::PARAM_SHOP.'.unique' => 'A Product with this ShopProductId and Shop already exists',
-            'items.*.'.Product::PARAM_BOOK.'.required_without' => 'Book or SourceProduct is required',
-            'items.*.'.Product::PARAM_SOURCE_PRODUCT.'.required_without' => 'Book or SourceProduct is required',
+            'items.*.' . Product::PARAM_SHOP_PRODUCT_ID . '.unique' => 'A Product with this ShopProductId and Shop already exists',
+            'items.*.' . Product::PARAM_SHOP . '.unique' => 'A Product with this ShopProductId and Shop already exists',
+            'items.*.' . Product::PARAM_BOOK . '.required_without' => 'Book or SourceProduct is required',
+            'items.*.' . Product::PARAM_SOURCE_PRODUCT . '.required_without' => 'Book or SourceProduct is required',
         ];
     }
 
@@ -27,8 +27,8 @@ class MassSaveProductRequest extends AbstractProductRequest
             'items' => [
                 RequestInterface::RULE_REQUIRED,
                 RequestInterface::RULE_ARRAY,
-                RequestInterface::RULE_MIN.':1',
-                RequestInterface::RULE_MAX.':200',
+                RequestInterface::RULE_MIN . ':1',
+                RequestInterface::RULE_MAX . ':200',
             ],
         ];
 
@@ -47,19 +47,19 @@ class MassSaveProductRequest extends AbstractProductRequest
                     continue;
                 }
 
-                $rules['items.'.$index.'.'.$field] = $fieldRules;
+                $rules['items.' . $index . '.' . $field] = $fieldRules;
             }
 
-            $rules['items.'.$index.'.'.Product::PARAM_ID] = [
+            $rules['items.' . $index . '.' . Product::PARAM_ID] = [
                 RequestInterface::RULE_INTEGER,
-                RequestInterface::RULE_MIN_DIGITS.':1',
-                RequestInterface::RULE_REQUIRED_WITHOUT.':items.'.$index.'.'.Product::PARAM_SHOP_PRODUCT_ID,
+                RequestInterface::RULE_MIN_DIGITS . ':1',
+                RequestInterface::RULE_REQUIRED_WITHOUT . ':items.' . $index . '.' . Product::PARAM_SHOP_PRODUCT_ID,
             ];
-            $rules['items.'.$index.'.'.Product::PARAM_SHOP_PRODUCT_ID] = [
+            $rules['items.' . $index . '.' . Product::PARAM_SHOP_PRODUCT_ID] = [
                 RequestInterface::RULE_STRING,
-                RequestInterface::RULE_MIN.':5',
-                RequestInterface::RULE_MAX.':30',
-                RequestInterface::RULE_REQUIRED_WITHOUT.':items.'.$index.'.'.Product::PARAM_ID,
+                RequestInterface::RULE_MIN . ':5',
+                RequestInterface::RULE_MAX . ':30',
+                RequestInterface::RULE_REQUIRED_WITHOUT . ':items.' . $index . '.' . Product::PARAM_ID,
             ];
         }
 

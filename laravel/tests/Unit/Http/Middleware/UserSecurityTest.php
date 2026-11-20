@@ -92,7 +92,7 @@ class UserSecurityTest extends TestCase
         $request->headers->set('t-price-checker-id', $priceCheckerId);
 
         if ($token !== null) {
-            $request->headers->set('Authorization', 'Bearer '.$token);
+            $request->headers->set('Authorization', 'Bearer ' . $token);
         }
 
         return $request;

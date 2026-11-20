@@ -22,7 +22,7 @@ class PublishingBrandFactory extends Factory
                 'Dark',
                 'Silver',
                 'Golden',
-            ]).' '.$faker->randomElement([
+            ]) . ' ' . $faker->randomElement([
                 'Violet',
                 'Phoenix',
                 'World',
@@ -39,7 +39,7 @@ class PublishingBrandFactory extends Factory
                 'Тайная',
                 'Вечная',
                 'Последняя',
-            ]).' '.$faker->randomElement([
+            ]) . ' ' . $faker->randomElement([
                 'вселенная',
                 'галактика',
                 'легенда',
@@ -57,7 +57,7 @@ class PublishingBrandFactory extends Factory
                 'Тайны',
                 'Грани',
                 'Эпоха',
-            ]).' '.$faker->randomElement([
+            ]) . ' ' . $faker->randomElement([
                 'фэнтези',
                 'фантастики',
                 'романов',

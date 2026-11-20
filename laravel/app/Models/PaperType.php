@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Http\Resources\PaperTypes\PaperTypeResource;
 use App\Http\Resources\PaperTypes\PaperTypesResourceCollection;
+use App\Observers\PaperTypeObserver;
 use Database\Factories\PaperTypeFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,6 +33,7 @@ use Illuminate\Support\Carbon;
  */
 #[UseResource(PaperTypeResource::class)]
 #[UseResourceCollection(PaperTypesResourceCollection::class)]
+#[ObservedBy([PaperTypeObserver::class])]
 class PaperType extends Model
 {
     /** @use HasFactory<PaperTypeFactory> */

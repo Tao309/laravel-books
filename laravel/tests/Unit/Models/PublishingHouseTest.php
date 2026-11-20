@@ -60,7 +60,7 @@ class PublishingHouseTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".PublishingHouse::class,
+            "Attribute {$attributeClass} is expected on " . PublishingHouse::class,
         );
 
         return $attributes[0]->newInstance();

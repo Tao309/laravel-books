@@ -20,7 +20,7 @@ class BookSeriesFactory extends Factory
             'Хроники',
             'Библиотека',
             'Коллекция',
-        ]).' '.$faker->randomElement([
+        ]) . ' ' . $faker->randomElement([
             'фантастики',
             'фэнтези',
             'современной прозы',

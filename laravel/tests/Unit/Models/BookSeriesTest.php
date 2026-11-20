@@ -67,7 +67,7 @@ class BookSeriesTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".BookSeries::class,
+            "Attribute {$attributeClass} is expected on " . BookSeries::class,
         );
 
         return $attributes[0]->newInstance();

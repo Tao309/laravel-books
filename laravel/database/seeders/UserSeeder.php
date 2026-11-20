@@ -24,7 +24,7 @@ class UserSeeder extends AbstractSeeder
             $insertingData[] = [
                 User::PARAM_ID => $row[0],
                 User::PARAM_NAME => $row[1],
-                User::PARAM_EMAIL => $row[1].'@localhost.ru',
+                User::PARAM_EMAIL => $row[1] . '@localhost.ru',
                 User::PARAM_PASSWORD => Hash::make(Str::password(8)),
                 User::PARAM_REMEMBER_TOKEN => $row[2],
                 Model::CREATED_AT => Carbon::now(),

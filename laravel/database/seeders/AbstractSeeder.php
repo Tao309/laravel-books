@@ -18,17 +18,17 @@ abstract class AbstractSeeder extends Seeder
 
         $pdoDriverName = DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
-        $tableName = DB::getTablePrefix().$tableName;
+        $tableName = DB::getTablePrefix() . $tableName;
 
         if ($pdoDriverName === 'pgsql') {
-            DB::update("SELECT setval(pg_get_serial_sequence('".$tableName."', 'id'), COALESCE(MAX(id), 0) + 1, false) FROM ".$tableName.';');
+            DB::update("SELECT setval(pg_get_serial_sequence('" . $tableName . "', 'id'), COALESCE(MAX(id), 0) + 1, false) FROM " . $tableName . ';');
 
             return;
         }
 
         $lastId = $this->getLastId($tableName, $paramId);
 
-        DB::update('ALTER TABLE '.$tableName.' AUTO_INCREMENT = '.($lastId + 1).';');
+        DB::update('ALTER TABLE ' . $tableName . ' AUTO_INCREMENT = ' . ($lastId + 1) . ';');
     }
 
     protected function getLastId(string $tableName, $paramId = 'id')

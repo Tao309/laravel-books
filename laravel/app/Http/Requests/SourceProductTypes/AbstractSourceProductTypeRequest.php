@@ -17,8 +17,8 @@ abstract class AbstractSourceProductTypeRequest extends FormRequest implements R
     public function messages(): array
     {
         return [
-            SourceProductType::PARAM_CODE.'.unique' => 'A SourceProductType with this code already exists',
-            SourceProductType::PARAM_NAME.'.unique' => 'A SourceProductType with this name already exists',
+            SourceProductType::PARAM_CODE . '.unique' => 'A SourceProductType with this code already exists',
+            SourceProductType::PARAM_NAME . '.unique' => 'A SourceProductType with this name already exists',
         ];
     }
 

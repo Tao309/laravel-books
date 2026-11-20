@@ -19,14 +19,14 @@ class MakeControllerCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
         ];
     }
 
     public function handle()
     {
         if ($this->isReservedName($this->getNameInput())) {
-            $this->components->error('The name "'.$this->getNameInput().'" is reserved by PHP.');
+            $this->components->error('The name "' . $this->getNameInput() . '" is reserved by PHP.');
 
             return false;
         }
@@ -39,7 +39,7 @@ class MakeControllerCommand extends GeneratorCommand
         $name = ltrim($name, '\\/');
         $name = str_replace('/', '\\', $name);
 
-        $name = Str::ucfirst($name).'Controller';
+        $name = Str::ucfirst($name) . 'Controller';
 
         $rootNamespace = $this->rootNamespace();
 
@@ -47,7 +47,7 @@ class MakeControllerCommand extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name;
+        return $this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name;
     }
 
     protected function getStub()
@@ -59,12 +59,12 @@ class MakeControllerCommand extends GeneratorCommand
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
-            : __DIR__.$stub;
+            : __DIR__ . $stub;
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Controllers\Api';
+        return $rootNamespace . '\Http\Controllers\Api';
     }
 
     protected function replaceNamespace(&$stub, $name)

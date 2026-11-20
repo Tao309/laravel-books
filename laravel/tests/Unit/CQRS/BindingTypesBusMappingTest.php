@@ -67,7 +67,7 @@ class BindingTypesBusMappingTest extends TestCase
         $this->expectException(HandlerNotFoundException::class);
         $this->expectExceptionMessage(
             'Handler App\CQRS\Handlers\BindingTypes\GetBindingTypeByIdHandler '
-            .'for '.GetBindingTypeByIdQuery::class.' was not found',
+            . 'for ' . GetBindingTypeByIdQuery::class . ' was not found',
         );
 
         (new Bus($this->createMock(Container::class)))

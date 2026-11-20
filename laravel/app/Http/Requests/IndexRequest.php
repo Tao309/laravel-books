@@ -23,11 +23,11 @@ class IndexRequest extends FormRequest implements IndexRequestInterface
     public function messages(): array
     {
         return [
-            self::FIELD_IDS.'.string' => 'IDs is not correct.',
-            self::FIELD_IDS.'.regex' => 'IDs is not correct.',
-            self::FIELD_SEARCH.'.required' => 'Search value is required.',
-            self::FIELD_SEARCH.'.min' => 'Search value must be at least :min.',
-            self::FIELD_SEARCH.'.max' => 'Search value must be less than :max.',
+            self::FIELD_IDS . '.string' => 'IDs is not correct.',
+            self::FIELD_IDS . '.regex' => 'IDs is not correct.',
+            self::FIELD_SEARCH . '.required' => 'Search value is required.',
+            self::FIELD_SEARCH . '.min' => 'Search value must be at least :min.',
+            self::FIELD_SEARCH . '.max' => 'Search value must be less than :max.',
         ];
     }
 

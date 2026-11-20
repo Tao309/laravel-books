@@ -18,8 +18,8 @@ class ArchiveProductRequest extends AbstractProductRequest
             Product::PARAM_SHOP_PRODUCT_ID => [
                 RequestInterface::RULE_REQUIRED,
                 RequestInterface::RULE_STRING,
-                RequestInterface::RULE_MIN.':5',
-                RequestInterface::RULE_MAX.':30',
+                RequestInterface::RULE_MIN . ':5',
+                RequestInterface::RULE_MAX . ':30',
             ],
             ProductUserData::PARAM_IS_ARCHIVE => [
                 RequestInterface::RULE_REQUIRED,

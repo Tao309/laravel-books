@@ -60,7 +60,7 @@ class PublishingBrandTest extends TestCase
 
         $this->assertNotEmpty(
             $attributes,
-            "Attribute {$attributeClass} is expected on ".PublishingBrand::class,
+            "Attribute {$attributeClass} is expected on " . PublishingBrand::class,
         );
 
         return $attributes[0]->newInstance();
