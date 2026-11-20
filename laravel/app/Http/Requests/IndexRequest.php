@@ -38,27 +38,34 @@ class IndexRequest extends FormRequest implements IndexRequestInterface
     {
         return [
             self::FIELD_SEARCH => [
-                'sometimes',
+                RequestInterface::RULE_SOMETIMES,
                 function ($attribute, $value, $fail) {
                     if (! is_string($value) && ! is_int($value)) {
                         $fail('The search value must be a string or integer.');
                     }
                 },
-                'min:3',
-                'max:50',
+                RequestInterface::RULE_MIN . ':3',
+                RequestInterface::RULE_MAX . ':200',
             ],
             self::FIELD_IDS => [
-                'sometimes',
-                'string',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_STRING,
                 'regex:/^\d+(,\d+)*$/',
             ],
-            'id' => ['sometimes', 'array'],
-            'id.*' => ['required', 'integer', 'min:1'],
+            'id' => [
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_ARRAY,
+            ],
+            'id.*' => [
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN . ':1',
+            ],
             self::FIELD_LIMIT => [
-                'sometimes',
-                'integer',
-                'min:1',
-                'max:100',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN . ':1',
+                RequestInterface::RULE_MAX . ':100',
             ],
         ];
     }
