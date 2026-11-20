@@ -38,7 +38,6 @@ class ProductRepository implements RepositoryInterface
 
     public function __construct(
         private readonly SameProductsLoader $sameProductsLoader,
-        private readonly DateService $dateService,
         private readonly ProductPriceRepository $ppRepository,
         private readonly ProductStockRepository $psRepository,
         private readonly ProductUserDataRepository $pudRepo,
@@ -294,9 +293,11 @@ class ProductRepository implements RepositoryInterface
             $lastStock = reset($dtoStocks) ?: null;
             $productLastStock = $product->lastStock();
 
+            $lastStockDate = DateService::createFromDate($lastStock[ProductStock::PARAM_DATE]);
+            $productLastStockDate = $productLastStock->date->format('Y-m-d H:i:s');
+
             $isLastStockEqualsQty = $lastStock && $productLastStock
-                && $productLastStock->date->format('d.m.Y')
-                    === $this->dateService->getDateTime($lastStock[ProductStock::PARAM_DATE])->format('d.m.Y')
+                && $productLastStockDate === $lastStockDate
                 && $productLastStock->qty === $lastStock[ProductStock::PARAM_QTY];
 
             if ($isLastStockEqualsQty) {
