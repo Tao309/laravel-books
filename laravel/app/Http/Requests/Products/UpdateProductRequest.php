@@ -41,7 +41,12 @@ class UpdateProductRequest extends AbstractProductRequest
                 ),
             ],
             Product::PARAM_SHOP => [
-                'required',
+                RequestInterface::RULE_REQUIRED,
+            ],
+            Product::PARAM_SHOP . '.' . Shop::PARAM_ID => [
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN_DIGITS . ':1',
                 ...$this->addRuleIfProductIdEmpty(Rule::exists(Shop::TABLE_NAME, Shop::PARAM_ID)),
                 ...$this->addRuleIfProductIdEmpty(
                     Rule::unique(Product::TABLE_NAME, Product::PARAM_SHOP_ID)->where(function ($query) {

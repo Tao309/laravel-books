@@ -7,6 +7,7 @@ use App\CacheProviders\BookSeriesCacheProvider;
 use App\CacheProviders\PaperTypesCacheProvider;
 use App\CacheProviders\PublishingBrandsCacheProvider;
 use App\CacheProviders\PublishingHousesCacheProvider;
+use App\CacheProviders\ShopsCacheProvider;
 use App\CacheProviders\SourceProductsTypesCacheProvider;
 use App\Enums\ShopType;
 use App\Http\Response\ResponseContext;
@@ -23,6 +24,7 @@ class ConfigController extends ApiController
         private readonly BindingTypesCacheProvider $bindingTypesCacheProvider,
         private readonly PaperTypesCacheProvider $paperTypesCacheProvider,
         private readonly SourceProductsTypesCacheProvider $sourceProductTypesCacheProvider,
+        private readonly ShopsCacheProvider $shopCacheProvider,
         ResponseContext $context,
         ?string $resourceClass,
         ?ServiceInterface $service = null,
@@ -40,6 +42,7 @@ class ConfigController extends ApiController
             'book_publishing_houses' => $this->bookPublishingHouseCacheProvider->get(),
             'book_publishing_brands' => $this->bookPublishingBrandCacheProvider->get(),
             'book_series' => $this->bookSeriesCacheProvider->get(),
+            'shops' => $this->shopCacheProvider->get(),
             'shop_urls' => [
                 ShopType::Wildberries->value => Config::get('app.t_price_checker.shop_urls.wb'),
                 ShopType::Ozon->value => Config::get('app.t_price_checker.shop_urls.ozon'),

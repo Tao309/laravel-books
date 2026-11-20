@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Http\Resources\Shops\ShopResource;
 use App\Http\Resources\Shops\ShopsResourceCollection;
+use App\Observers\ShopObserver;
 use Database\Factories\ShopFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +35,7 @@ use Illuminate\Support\Carbon;
  */
 #[UseResource(ShopResource::class)]
 #[UseResourceCollection(ShopsResourceCollection::class)]
+#[ObservedBy([ShopObserver::class])]
 class Shop extends Model
 {
     /** @use HasFactory<ShopFactory> */

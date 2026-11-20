@@ -56,7 +56,12 @@ class ProductRepository implements RepositoryInterface
         try {
             $userId = Auth::id();
 
-            $entity = Product::newModelInstance($dto->getEntityData());
+            $entity = $this->findByShopProductId($dto->shopProductId);
+            $isExists = (bool) $entity;
+
+            if (! $entity) {
+                $entity = Product::newModelInstance($dto->getEntityData());
+            }
 
             $this->setSourceToModel($entity, $relationData);
 
@@ -70,13 +75,16 @@ class ProductRepository implements RepositoryInterface
 
             $entity->save();
 
-            $this->pudRepo->create(
-                $entity->id,
-                ProductUserDataDTO::fromArray([
-                    ProductUserData::PARAM_PRODUCT_ID => $entity->id,
-                    ...Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []),
-                ])
-            );
+            $pudDTO = ProductUserDataDTO::fromArray([
+                ProductUserData::PARAM_PRODUCT_ID => $entity->id,
+                ...Arr::get($relationData, Product::PARAM_PRODUCT_USER_DATA, []),
+            ]);
+
+            if ($isExists) {
+                $this->pudRepo->update($entity->id, $pudDTO);
+            } else {
+                $this->pudRepo->create($entity->id, $pudDTO);
+            }
 
             $this->savePrices($entity, $dto);
             $this->saveStocks($entity, $dto);

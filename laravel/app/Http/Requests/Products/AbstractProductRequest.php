@@ -11,7 +11,6 @@ use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use App\Models\ProductUserData;
-use App\Models\Shop;
 use App\Models\SourceProduct;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -89,17 +88,10 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             // < flags
 
             // > relations
-            Product::PARAM_SHOP . '.' . Shop::PARAM_ID => [
-                RequestInterface::RULE_REQUIRED,
-                RequestInterface::RULE_INTEGER,
-                RequestInterface::RULE_MIN_DIGITS . ':1',
-            ],
-
             Product::PARAM_CITY => [
                 RequestInterface::RULE_SOMETIMES,
                 RequestInterface::RULE_NULLABLE,
                 RequestInterface::RULE_ARRAY,
-                ...$this->addRuleIfProductIdEmpty(Rule::exists(City::TABLE_NAME, City::PARAM_ID)),
             ],
             Product::PARAM_CITY . '.' . City::PARAM_ID => [
                 Rule::requiredIf(
@@ -107,13 +99,13 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
                 ),
                 RequestInterface::RULE_INTEGER,
                 RequestInterface::RULE_MIN_DIGITS . ':1',
+                ...$this->addRuleIfProductIdEmpty(Rule::exists(City::TABLE_NAME, City::PARAM_ID)),
             ],
 
             Product::PARAM_BOOK => [
                 RequestInterface::RULE_SOMETIMES,
                 RequestInterface::RULE_NULLABLE,
                 RequestInterface::RULE_ARRAY,
-                ...$this->addRuleIfProductIdEmpty(Rule::exists(Book::TABLE_NAME, Book::PARAM_ID)),
             ],
             Product::PARAM_BOOK . '.' . Book::PARAM_ID => [
                 Rule::requiredIf(
@@ -121,13 +113,13 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
                 ),
                 RequestInterface::RULE_INTEGER,
                 RequestInterface::RULE_MIN_DIGITS . ':1',
+                ...$this->addRuleIfProductIdEmpty(Rule::exists(Book::TABLE_NAME, Book::PARAM_ID)),
             ],
 
             Product::PARAM_SOURCE_PRODUCT => [
                 RequestInterface::RULE_SOMETIMES,
                 RequestInterface::RULE_NULLABLE,
                 RequestInterface::RULE_ARRAY,
-                ...$this->addRuleIfProductIdEmpty(Rule::exists(SourceProduct::TABLE_NAME, SourceProduct::PARAM_ID)),
             ],
             Product::PARAM_SOURCE_PRODUCT . '.' . SourceProduct::PARAM_ID => [
                 Rule::requiredIf(
@@ -135,6 +127,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
                 ),
                 RequestInterface::RULE_INTEGER,
                 RequestInterface::RULE_MIN_DIGITS . ':1',
+                ...$this->addRuleIfProductIdEmpty(Rule::exists(SourceProduct::TABLE_NAME, SourceProduct::PARAM_ID)),
             ],
             // < relations
 
