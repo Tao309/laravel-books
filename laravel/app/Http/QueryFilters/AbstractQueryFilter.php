@@ -28,7 +28,7 @@ abstract class AbstractQueryFilter implements QueryFilterInterface
         return $query->whereIn($query->getModel()->getKey(), $value);
     }
 
-    protected function applyTitleSearchFilter(
+    protected function applySearchToQuery(
         Builder $query,
         string $titleField,
         string $value,

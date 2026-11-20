@@ -137,6 +137,7 @@ return [
             'ffan' => env('URL_FFAN'),
             'knigofan' => env('URL_KNIGOFAN'),
         ],
+        'search_remove_words' => json_decode(env('SEARCH_REMOVE_WORDS', '[]'), true) ?? [],
     ],
     // ##< price_checker info ###
 ];
