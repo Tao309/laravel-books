@@ -75,9 +75,4 @@ class ProductStock extends Model
             self::PARAM_LOG => 'array',
         ];
     }
-
-    //    public function product(): BelongsTo
-    //    {
-    //        return $this->belongsTo(Product::class, self::PARAM_PRODUCT_ID);
-    //    }
 }

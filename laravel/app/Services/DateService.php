@@ -26,7 +26,7 @@ class DateService
             return null;
         }
 
-        $date = Carbon::parse($date);
+        $date = Carbon::parse($date)->timezone(config('app.timezone'));
 
         return $date ? Carbon::createFromFormat($format, $date)->format('Y-m-d H:i:s') : null;
     }

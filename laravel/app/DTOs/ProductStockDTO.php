@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\ProductStock;
+use App\Services\DateService;
 use Illuminate\Support\Arr;
 
 class ProductStockDTO implements UserDataDtoInterface
@@ -10,7 +11,7 @@ class ProductStockDTO implements UserDataDtoInterface
     public function __construct(
         public int $qty,
         public string $date,
-        public ?string $log,
+        public ?array $log,
     ) {}
 
     public static function fromArray(array $data): UserDataDtoInterface
@@ -26,8 +27,8 @@ class ProductStockDTO implements UserDataDtoInterface
     {
         return [
             ProductStock::PARAM_QTY => $this->qty,
-            ProductStock::PARAM_DATE => $this->date,
-            ProductStock::PARAM_LOG => $this->log,
+            ProductStock::PARAM_DATE => DateService::createFromDate($this->date),
+            ProductStock::PARAM_LOG => $this->log ? json_encode($this->log, JSON_THROW_ON_ERROR) : null,
         ];
     }
 }

@@ -215,7 +215,7 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
             Product::PARAM_STOCKS . '.*.' . ProductStock::PARAM_LOG => [
                 RequestInterface::RULE_SOMETIMES,
                 RequestInterface::RULE_NULLABLE,
-                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_ARRAY,
             ],
             // < stocks
         ];

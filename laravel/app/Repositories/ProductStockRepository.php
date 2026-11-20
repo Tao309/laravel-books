@@ -36,8 +36,12 @@ class ProductStockRepository
                 ProductStock::PARAM_PRODUCT_ID,
                 ProductStock::PARAM_USER_ID,
                 ProductStock::PARAM_DATE,
+                ProductStock::PARAM_LOG,
             ],
-            [ProductStock::PARAM_QTY]
+            [
+                ProductStock::PARAM_QTY,
+                ProductStock::PARAM_LOG,
+            ]
         );
 
         return true;

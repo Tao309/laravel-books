@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\ProductPrice;
+use App\Services\DateService;
 use Illuminate\Support\Arr;
 
 class ProductPriceDTO implements UserDataDtoInterface
@@ -24,7 +25,7 @@ class ProductPriceDTO implements UserDataDtoInterface
     {
         return [
             ProductPrice::PARAM_PRICE => $this->price,
-            ProductPrice::PARAM_DATE => $this->date,
+            ProductPrice::PARAM_DATE => DateService::createFromDate($this->date),
         ];
     }
 }

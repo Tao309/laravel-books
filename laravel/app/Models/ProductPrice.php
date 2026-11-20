@@ -69,9 +69,4 @@ class ProductPrice extends Model
             self::PARAM_DATE => 'datetime',
         ];
     }
-
-    //    public function product(): BelongsTo
-    //    {
-    //        return $this->belongsTo(Product::class, self::PARAM_PRODUCT_ID);
-    //    }
 }
