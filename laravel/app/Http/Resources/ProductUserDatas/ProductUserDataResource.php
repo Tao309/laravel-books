@@ -28,6 +28,9 @@ class ProductUserDataResource extends AbstractResource
             ProductUserData::PARAM_IS_ARCHIVE => (bool) $this->offsetGet(ProductUserData::PARAM_IS_ARCHIVE),
             ProductUserData::PARAM_COMMENT => $this->offsetGet(ProductUserData::PARAM_COMMENT),
 
+            ProductUserData::PARAM_PRODUCT_ID => $this->offsetGet(ProductUserData::PARAM_PRODUCT_ID),
+            ProductUserData::PARAM_USER_ID => $this->offsetGet(ProductUserData::PARAM_USER_ID),
+
             Model::UPDATED_AT => DateService::createFromDate($this->offsetGet(Model::UPDATED_AT)),
             Model::CREATED_AT => DateService::createFromDate($this->offsetGet(Model::CREATED_AT)),
         ];
