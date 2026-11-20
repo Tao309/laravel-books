@@ -235,7 +235,7 @@ class SameProductsLoaderTest extends TestCase
 
         $this->loader->load(new Collection([$parent]));
 
-        $this->assertTrue($parent->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+        $this->assertTrue($parent->relationLoaded(Product::PARAM_MODEL_SAME_PRODUCTS));
         $this->assertSame([], $parent->getSameProducts()->all());
     }
 

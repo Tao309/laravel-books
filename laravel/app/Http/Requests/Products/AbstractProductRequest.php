@@ -57,152 +57,165 @@ abstract class AbstractProductRequest extends FormRequest implements RequestInte
     {
         $flagsRules = [
             Product::PARAM_FLAGS => [
-                'sometimes',
-                'array',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_ARRAY,
             ],
         ];
 
         foreach (ProductFlag::cases() as $flag) {
             $flagsRules[Product::PARAM_FLAGS.".{$flag->value}"] = [
-                'sometimes',
-                'boolean',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_BOOLEAN,
             ];
         }
 
         return [
             Product::PARAM_SHOP_PRODUCT_CODE => [
-                'sometimes',
-                'nullable',
-                'string',
-                'min:5',
-                'max:20',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN.':5',
+                RequestInterface::RULE_MAX.':20',
             ],
             Product::PARAM_TITLE => [
-                'required',
-                'string',
-                'min:5',
-                'max:255',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN.':5',
+                RequestInterface::RULE_MAX.':255',
             ],
+
             // > flags
             ...$flagsRules,
             // < flags
+
             // > relations
             Product::PARAM_SHOP.'.'.Shop::PARAM_ID => [
-                'required',
-                'integer',
-                'min_digits:1',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN_DIGITS.':1',
             ],
+
             Product::PARAM_CITY => [
-                'sometimes',
-                'nullable',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_ARRAY,
                 ...$this->addRuleIfProductIdEmpty(Rule::exists(City::TABLE_NAME, City::PARAM_ID)),
             ],
             Product::PARAM_CITY.'.'.City::PARAM_ID => [
-                'sometimes',
-                'nullable',
-                'integer',
-                'min_digits:1',
+                Rule::requiredIf(
+                    fn () => is_array($this->input(Product::PARAM_CITY))
+                ),
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN_DIGITS.':1',
             ],
+
             Product::PARAM_BOOK => [
-                'sometimes',
-                'nullable',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_ARRAY,
                 ...$this->addRuleIfProductIdEmpty(Rule::exists(Book::TABLE_NAME, Book::PARAM_ID)),
             ],
             Product::PARAM_BOOK.'.'.Book::PARAM_ID => [
-                'sometimes',
-                'nullable',
-                'integer',
-                'min_digits:1',
+                Rule::requiredIf(
+                    fn () => is_array($this->input(Product::PARAM_BOOK))
+                ),
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN_DIGITS.':1',
             ],
+
             Product::PARAM_SOURCE_PRODUCT => [
-                'sometimes',
-                'nullable',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_ARRAY,
                 ...$this->addRuleIfProductIdEmpty(Rule::exists(SourceProduct::TABLE_NAME, SourceProduct::PARAM_ID)),
             ],
             Product::PARAM_SOURCE_PRODUCT.'.'.SourceProduct::PARAM_ID => [
-                'sometimes',
-                'nullable',
-                'integer',
-                'min_digits:1',
+                Rule::requiredIf(
+                    fn () => is_array($this->input(Product::PARAM_SOURCE_PRODUCT))
+                ),
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN_DIGITS.':1',
             ],
             // < relations
 
             // > user_data
             Product::PARAM_PRODUCT_USER_DATA => [
-                'sometimes',
-                'array',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_ARRAY,
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_AVAILABLE => [
-                'sometimes',
-                'boolean',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_BOOLEAN,
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM => [
-                'sometimes',
-                'nullable',
-                'date_format:Y.m.d,Y-m-d\TH:i:s.v\Z',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_DATE_FORMAT.':Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_AVAILABLE_DATE_FROM => [
-                'sometimes',
-                'nullable',
-                'date_format:Y.m.d,Y-m-d\TH:i:s.v\Z',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_DATE_FORMAT.':Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_LISTEN_PRICE_VALUE => [
-                'sometimes',
-                'nullable',
-                'integer',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_INTEGER,
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_LISTEN_QTY_VALUE => [
-                'sometimes',
-                'nullable',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
                 'integer',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_RELEASE_DATE => [
-                'sometimes',
-                'nullable',
-                'date_format:Y.m.d,Y-m-d\TH:i:s.v\Z',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_DATE_FORMAT.':Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_IS_ARCHIVE => [
-                'sometimes',
-                'boolean',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_BOOLEAN,
             ],
             Product::PARAM_PRODUCT_USER_DATA.'.'.ProductUserData::PARAM_COMMENT => [
-                'sometimes',
-                'nullable',
-                'string',
-                'max:300',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MAX.':300',
             ],
             // < user_data
+
             // > prices
             Product::PARAM_PRICES => [
-                'sometimes',
-                'array',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_ARRAY,
             ],
             Product::PARAM_PRICES.'.*.'.ProductPrice::PARAM_PRICE => [
-                'required',
-                'integer',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_INTEGER,
             ],
             Product::PARAM_PRICES.'.*.'.ProductPrice::PARAM_DATE => [
-                'required',
-                'date_format:Y-m-d H:i:s,Y-m-d\TH:i:s.v\Z',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_DATE_FORMAT.':Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             // < prices
+
             // > stocks
             Product::PARAM_STOCKS => [
-                'sometimes',
-                'array',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_ARRAY,
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_QTY => [
-                'required',
-                'integer',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_INTEGER,
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_DATE => [
-                'required',
-                'date_format:Y-m-d H:i:s,Y-m-d\TH:i:s.v\Z',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_DATE_FORMAT.':Y.m.d,Y-m-d\TH:i:s.v\Z',
             ],
             Product::PARAM_STOCKS.'.*.'.ProductStock::PARAM_LOG => [
-                'sometimes',
-                'nullable',
-                'string',
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_STRING,
             ],
             // < stocks
         ];

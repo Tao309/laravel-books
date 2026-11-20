@@ -10,6 +10,7 @@ use App\Http\Resources\ProductStocks\ProductStockResource;
 use App\Http\Resources\ProductUserDatas\ProductUserDataResource;
 use App\Http\Resources\Shops\ShopResource;
 use App\Http\Resources\SourceProducts\SourceProductResource;
+use App\Http\Resources\Users\UserResource;
 use App\Models\Book;
 use App\Models\Product;
 use App\Models\SourceProduct;
@@ -46,6 +47,10 @@ class ProductResource extends AbstractResource
             ),
 
             // > relations
+            Product::PARAM_USER_CREATED => $this->whenLoaded(
+                Product::PARAM_MODEL_USER_CREATED,
+                fn () => UserResource::make($this->userCreated)
+            ),
             Product::PARAM_SHOP => $this->whenLoaded(
                 Product::PARAM_SHOP,
                 fn () => ShopResource::make($this->shop)
@@ -63,7 +68,7 @@ class ProductResource extends AbstractResource
                 fn () => $this->source instanceof SourceProduct ? SourceProductResource::make($this->source) : null
             ),
             Product::PARAM_PRODUCT_USER_DATA => $this->whenLoaded(
-                'productUserData',
+                Product::PARAM_MODEL_PRODUCT_USER_DATA,
                 fn () => ProductUserDataResource::make($this->productUserData)
             ),
             Product::PARAM_PRICES => $this->whenLoaded(
@@ -75,7 +80,7 @@ class ProductResource extends AbstractResource
                 fn () => ProductStockResource::collection($this->stocks)
             ),
             Product::PARAM_SAME_PRODUCTS => $this->whenLoaded(
-                Product::PARAM_SAME_PRODUCTS,
+                Product::PARAM_MODEL_SAME_PRODUCTS,
                 fn () => SameProductResource::collection($this->sameProducts)
             ),
             // < relations

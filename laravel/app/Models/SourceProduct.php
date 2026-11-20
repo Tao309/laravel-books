@@ -58,6 +58,8 @@ class SourceProduct extends Model
 
     public const string PARAM_USER_CREATED = 'user_created';
 
+    public const string PARAM_MODEL_USER_CREATED = 'userCreated';
+
     public const string PARAM_SOURCE_PRODUCT_TYPE_ID = 'source_product_type_id';
 
     public const string PARAM_USER_CREATED_ID = 'user_created_id';

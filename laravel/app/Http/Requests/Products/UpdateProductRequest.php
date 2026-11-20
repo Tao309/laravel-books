@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Products;
 
+use App\Http\Requests\RequestInterface;
 use App\Models\Product;
 use App\Models\Shop;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -19,10 +20,10 @@ class UpdateProductRequest extends AbstractProductRequest
 
         return [
             Product::PARAM_SHOP_PRODUCT_ID => [
-                'required',
-                'string',
-                'min:5',
-                'max:30',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN.':5',
+                RequestInterface::RULE_MAX.':30',
                 ...$this->addRuleIfProductIdEmpty(
                     Rule::unique(Product::TABLE_NAME)->where(function ($query) {
                         $shopId = $this->shop['id'] ?? null;

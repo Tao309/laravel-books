@@ -107,16 +107,22 @@ class Product extends Model
 
     public const string PARAM_USER_CREATED = 'user_created';
 
+    public const string PARAM_MODEL_USER_CREATED = 'userCreated';
+
     public const string PARAM_USER_CREATED_ID = 'user_created_id';
 
     public const string PARAM_PRODUCT_USER_DATA = 'product_user_data';
+
+    public const string PARAM_MODEL_PRODUCT_USER_DATA = 'productUserData';
 
     public const string PARAM_PRICES = 'prices';
 
     public const string PARAM_STOCKS = 'stocks';
     // < relations
 
-    public const string PARAM_SAME_PRODUCTS = 'sameProducts';
+    public const string PARAM_SAME_PRODUCTS = 'same_products';
+
+    public const string PARAM_MODEL_SAME_PRODUCTS = 'sameProducts';
 
     protected $table = self::TABLE_NAME;
 
@@ -209,6 +215,6 @@ class Product extends Model
 
     public function getSameProducts(): Collection
     {
-        return $this->getRelationValue(self::PARAM_SAME_PRODUCTS) ?? new Collection;
+        return $this->getRelationValue(self::PARAM_MODEL_SAME_PRODUCTS) ?? new Collection;
     }
 }

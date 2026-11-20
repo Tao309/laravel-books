@@ -59,7 +59,7 @@ class ProductTest extends TestCase
             (new Product)->forceFill([Product::PARAM_ID => 3]),
         ]);
 
-        $product->setRelation(Product::PARAM_SAME_PRODUCTS, $sameProducts);
+        $product->setRelation(Product::PARAM_MODEL_SAME_PRODUCTS, $sameProducts);
 
         $this->assertSame($sameProducts, $product->getSameProducts());
     }
@@ -68,7 +68,7 @@ class ProductTest extends TestCase
     {
         $product = new Product;
 
-        $this->assertFalse($product->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+        $this->assertFalse($product->relationLoaded(Product::PARAM_MODEL_SAME_PRODUCTS));
         $this->assertSame([], $product->getSameProducts()->all());
     }
 

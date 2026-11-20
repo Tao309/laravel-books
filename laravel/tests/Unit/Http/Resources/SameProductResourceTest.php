@@ -106,13 +106,13 @@ class SameProductResourceTest extends TestCase
         $same->min_price = 800;
 
         $parent->setRelation(
-            Product::PARAM_SAME_PRODUCTS,
+            Product::PARAM_MODEL_SAME_PRODUCTS,
             new Collection([$same]),
         );
 
         $data = ProductResource::make($parent)->resolve(new Request);
 
-        $items = $data[Product::PARAM_SAME_PRODUCTS];
+        $items = $data[Product::PARAM_MODEL_SAME_PRODUCTS];
 
         $this->assertCount(1, $items);
         $this->assertSame(2, $items[0][Product::PARAM_ID]);

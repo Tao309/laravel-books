@@ -116,7 +116,7 @@ class SameProductsLoader
                 ])
                 ->values();
 
-            $product->setRelation(Product::PARAM_SAME_PRODUCTS, $currentSameProducts);
+            $product->setRelation(Product::PARAM_MODEL_SAME_PRODUCTS, $currentSameProducts);
         }
     }
 }

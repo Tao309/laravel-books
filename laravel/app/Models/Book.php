@@ -131,6 +131,8 @@ class Book extends Model
 
     public const string PARAM_USER_CREATED = 'user_created';
 
+    public const string PARAM_MODEL_USER_CREATED = 'userCreated';
+
     public const string PARAM_BINDING_TYPE_ID = 'binding_type_id';
 
     public const string PARAM_PAPER_TYPE_ID = 'paper_type_id';

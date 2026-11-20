@@ -36,6 +36,7 @@ class BookResource extends AbstractResource
             Book::PARAM_GOODREADS_RATING => $this->offsetGet(Book::PARAM_GOODREADS_RATING),
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
+
             // > relations
             Book::PARAM_AUTHORS => $this->whenLoaded(
                 'authors',

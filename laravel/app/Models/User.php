@@ -56,6 +56,8 @@ class User extends Authenticatable
 
     public const string PARAM_NAME = 'name';
 
+    public const string PARAM_USERNAME = 'username';
+
     public const string PARAM_EMAIL = 'email';
 
     public const string PARAM_EMAIL_VERIFIED_AT = 'email_verified_at';

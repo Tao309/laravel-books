@@ -15,6 +15,7 @@ class UserResource extends AbstractResource
         return [
             User::PARAM_ID => $this->offsetGet(User::PARAM_ID),
             User::PARAM_NAME => $this->offsetGet(User::PARAM_NAME),
+            User::PARAM_USERNAME => $this->offsetGet(User::PARAM_NAME),
             User::PARAM_EMAIL => $this->offsetGet(User::PARAM_EMAIL),
             // @todo Заменить на реальную проверку isActive
             User::PARAM_IS_ACTIVE => true,

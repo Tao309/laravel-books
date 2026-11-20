@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Products;
 
+use App\Http\Requests\RequestInterface;
 use App\Models\Product;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -24,10 +25,10 @@ class MassSaveProductRequest extends AbstractProductRequest
     {
         $rules = [
             'items' => [
-                'required',
-                'array',
-                'min:1',
-                'max:200',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_ARRAY,
+                RequestInterface::RULE_MIN.':1',
+                RequestInterface::RULE_MAX.':200',
             ],
         ];
 
@@ -50,15 +51,15 @@ class MassSaveProductRequest extends AbstractProductRequest
             }
 
             $rules['items.'.$index.'.'.Product::PARAM_ID] = [
-                'integer',
-                'min_digits:1',
-                'required_without:items.'.$index.'.'.Product::PARAM_SHOP_PRODUCT_ID,
+                RequestInterface::RULE_INTEGER,
+                RequestInterface::RULE_MIN_DIGITS.':1',
+                RequestInterface::RULE_REQUIRED_WITHOUT.':items.'.$index.'.'.Product::PARAM_SHOP_PRODUCT_ID,
             ];
             $rules['items.'.$index.'.'.Product::PARAM_SHOP_PRODUCT_ID] = [
-                'string',
-                'min:5',
-                'max:30',
-                'required_without:items.'.$index.'.'.Product::PARAM_ID,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN.':5',
+                RequestInterface::RULE_MAX.':30',
+                RequestInterface::RULE_REQUIRED_WITHOUT.':items.'.$index.'.'.Product::PARAM_ID,
             ];
         }
 

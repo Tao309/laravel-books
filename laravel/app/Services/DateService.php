@@ -22,6 +22,10 @@ class DateService
 
     public static function createFromDate(?string $date, string $format = 'Y-m-d H:i:s'): ?string
     {
+        if (! $date) {
+            return null;
+        }
+
         $date = Carbon::parse($date);
 
         return $date ? Carbon::createFromFormat($format, $date)->format('Y-m-d H:i:s') : null;

@@ -21,6 +21,7 @@ class SourceProductResource extends AbstractResource
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
 
+            // > relations
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => $this->whenLoaded(
                 'sourceProductType',
                 fn () => SourceProductTypeResource::make($this->sourceProductType)
@@ -33,6 +34,7 @@ class SourceProductResource extends AbstractResource
                 'sourceProductUserData',
                 fn () => SourceProductUserDataResource::make($this->sourceProductUserData)
             ),
+            // < relations
         ];
     }
 }

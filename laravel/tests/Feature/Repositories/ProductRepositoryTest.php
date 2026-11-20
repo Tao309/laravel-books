@@ -124,7 +124,7 @@ class ProductRepositoryTest extends TestCase
             'prices' => [['price' => 1000, 'date' => '2026-01-01 10:00:00']],
         ]));
 
-        $this->assertTrue($product->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+        $this->assertTrue($product->relationLoaded(Product::PARAM_MODEL_SAME_PRODUCTS));
         $this->assertSame(
             [$candidate->id],
             $product->getSameProducts()->pluck(Product::PARAM_ID)->all(),
@@ -292,7 +292,7 @@ class ProductRepositoryTest extends TestCase
 
         $product = $this->repo->update($parent->id, $this->dto(['book' => [Book::PARAM_ID => $book->id]]));
 
-        $this->assertTrue($product->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+        $this->assertTrue($product->relationLoaded(Product::PARAM_MODEL_SAME_PRODUCTS));
         $this->assertSame(
             [$candidate->id],
             $product->getSameProducts()->pluck(Product::PARAM_ID)->all(),
@@ -312,7 +312,7 @@ class ProductRepositoryTest extends TestCase
 
         $product = $this->repo->get($parent->id);
 
-        $this->assertTrue($product->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+        $this->assertTrue($product->relationLoaded(Product::PARAM_MODEL_SAME_PRODUCTS));
 
         // лоадер не скоупит кандидатов по магазину: под указанную сессию
         // попадают кандидаты и из shop-2
@@ -348,7 +348,7 @@ class ProductRepositoryTest extends TestCase
         // а не на фабричные переменные — берём товар из $products
         $firstLoaded = $products->firstWhere(Product::PARAM_ID, $first->id);
 
-        $this->assertTrue($firstLoaded->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+        $this->assertTrue($firstLoaded->relationLoaded(Product::PARAM_MODEL_SAME_PRODUCTS));
         $this->assertSame(
             [$second->id],
             $firstLoaded->getSameProducts()->pluck(Product::PARAM_ID)->all(),
@@ -373,7 +373,7 @@ class ProductRepositoryTest extends TestCase
         $this->assertSame(15, $paginator->perPage());
 
         foreach ($paginator->getCollection() as $product) {
-            $this->assertTrue($product->relationLoaded(Product::PARAM_SAME_PRODUCTS));
+            $this->assertTrue($product->relationLoaded(Product::PARAM_MODEL_SAME_PRODUCTS));
         }
     }
 }
