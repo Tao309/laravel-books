@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $date
  * @property array<array-key, mixed>|null $log
  *
+ * @method static \Database\Factories\ProductStockFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductStock newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductStock newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductStock query()

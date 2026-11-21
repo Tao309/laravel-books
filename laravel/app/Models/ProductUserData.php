@@ -13,18 +13,19 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $product_id
  * @property int $user_id
- * @property bool $available
+ * @property int $available
  * @property Carbon|null $not_available_date_from
  * @property Carbon|null $available_date_from
  * @property int|null $listen_price_value
  * @property int|null $listen_qty_value
  * @property Carbon|null $release_date
- * @property bool $is_archive
+ * @property int $is_archive
  * @property string|null $comment
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Product $product
  *
+ * @method static \Database\Factories\ProductUserDataFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductUserData newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductUserData newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductUserData query()

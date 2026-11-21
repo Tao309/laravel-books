@@ -25,4 +25,17 @@ abstract class AbstractPaperTypeRequest extends FormRequest implements RequestIn
     {
         return PaperTypeDTO::fromArray($this->validated());
     }
+
+    protected function getCommonRules(): array
+    {
+        return [
+            PaperType::PARAM_DESCRIPTION => [
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':50',
+            ],
+        ];
+    }
 }

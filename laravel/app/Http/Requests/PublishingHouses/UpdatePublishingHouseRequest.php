@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\PublishingHouses;
 
+use App\Http\Requests\RequestInterface;
 use App\Models\PublishingHouse;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
@@ -17,11 +18,11 @@ class UpdatePublishingHouseRequest extends AbstractPublishingHouseRequest
 
         return [
             PublishingHouse::PARAM_NAME => [
-                'required',
-                'string',
-                'min:2',
-                'max:255',
-                Rule::unique('publishing_houses')->ignore($id),
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':255',
+                Rule::unique(PublishingHouse::TABLE_NAME)->ignore($id),
             ],
         ];
     }

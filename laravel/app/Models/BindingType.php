@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
+ * @method static \Database\Factories\BindingTypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BindingType query()

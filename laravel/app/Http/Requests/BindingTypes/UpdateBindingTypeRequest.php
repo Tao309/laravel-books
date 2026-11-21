@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\BindingTypes;
 
+use App\Http\Requests\RequestInterface;
 use App\Models\BindingType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
@@ -17,11 +18,11 @@ class UpdateBindingTypeRequest extends AbstractBindingTypeRequest
 
         return [
             BindingType::PARAM_LABEL => [
-                'required',
-                'string',
-                'min:5',
-                'max:50',
-                Rule::unique('binding_types')->ignore($id),
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':5',
+                RequestInterface::RULE_MAX . ':50',
+                Rule::unique(BindingType::TABLE_NAME)->ignore($id),
             ],
         ];
     }

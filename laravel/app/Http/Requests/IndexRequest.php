@@ -23,11 +23,11 @@ class IndexRequest extends FormRequest implements IndexRequestInterface
     public function messages(): array
     {
         return [
-            self::FIELD_IDS . '.string' => 'IDs is not correct.',
-            self::FIELD_IDS . '.regex' => 'IDs is not correct.',
-            self::FIELD_SEARCH . '.required' => 'Search value is required.',
-            self::FIELD_SEARCH . '.min' => 'Search value must be at least :min.',
-            self::FIELD_SEARCH . '.max' => 'Search value must be less than :max.',
+            self::FIELD_IDS . '.' . RequestInterface::RULE_STRING => 'IDs is not correct.',
+            self::FIELD_IDS . '.' . RequestInterface::RULE_REGEX => 'IDs is not correct.',
+            self::FIELD_SEARCH . '.' . RequestInterface::RULE_REQUIRED => 'Search value is required.',
+            self::FIELD_SEARCH . '.' . RequestInterface::RULE_MIN => 'Search value must be at least :min.',
+            self::FIELD_SEARCH . '.' . RequestInterface::RULE_MAX => 'Search value must be less than :max.',
         ];
     }
 
@@ -105,8 +105,8 @@ class IndexRequest extends FormRequest implements IndexRequestInterface
 
     protected function prepareForValidation(): void
     {
-        if ($this->has('ids') && is_string($this->input('ids'))) {
-            $ids = trim($this->input('ids'), ', ');
+        if ($this->has(self::FIELD_IDS) && is_string($this->input(self::FIELD_IDS))) {
+            $ids = trim($this->input(self::FIELD_IDS), ', ');
 
             $this->merge([
                 'id' => explode(',', $ids),

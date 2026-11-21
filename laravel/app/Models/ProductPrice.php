@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int $price
  * @property Carbon $date
  *
+ * @method static \Database\Factories\ProductPriceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductPrice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductPrice newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductPrice query()

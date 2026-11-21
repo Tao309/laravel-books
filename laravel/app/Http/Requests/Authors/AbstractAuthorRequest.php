@@ -25,4 +25,17 @@ abstract class AbstractAuthorRequest extends FormRequest implements RequestInter
     {
         return AuthorDTO::fromArray($this->validated());
     }
+
+    protected function getCommonRules(): array
+    {
+        return [
+            Author::PARAM_LAST_NAME => [
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_NULLABLE,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':100',
+            ],
+        ];
+    }
 }

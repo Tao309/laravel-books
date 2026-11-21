@@ -22,6 +22,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Book> $books
  * @property-read int|null $books_count
  *
+ * @method static \Database\Factories\AuthorFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Author query()

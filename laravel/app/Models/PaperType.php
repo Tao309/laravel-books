@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
+ * @method static \Database\Factories\PaperTypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaperType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaperType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaperType query()

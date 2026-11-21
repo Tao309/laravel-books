@@ -52,6 +52,7 @@ use Illuminate\Support\Facades\Auth;
  * @property-read PublishingHouse|null $publishingHouse
  * @property-read User $userCreated
  *
+ * @method static \Database\Factories\BookFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book query()

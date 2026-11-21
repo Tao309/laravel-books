@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
+ * @method static \Database\Factories\PublishingBrandFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PublishingBrand newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PublishingBrand newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PublishingBrand query()

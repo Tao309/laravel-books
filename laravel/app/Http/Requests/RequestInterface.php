@@ -16,6 +16,8 @@ interface RequestInterface
 
     public const string RULE_STRING = 'string';
 
+    public const string RULE_REGEX = 'regex';
+
     public const string RULE_INTEGER = 'integer';
 
     public const string RULE_BOOLEAN = 'boolean';

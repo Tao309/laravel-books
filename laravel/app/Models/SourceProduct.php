@@ -23,17 +23,20 @@ use Illuminate\Support\Facades\Auth;
  * @property Carbon|null $updated_at
  * @property int $source_product_type_id
  * @property int $user_created_id
+ * @property int $on_sale_count
  * @property-read Collection<int, Product> $products
  * @property-read int|null $products_count
  * @property-read SourceProductType $sourceProductType
  * @property-read SourceProductUserData|null $sourceProductUserData
  * @property-read User $userCreated
  *
+ * @method static \Database\Factories\SourceProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereOnSaleCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereSourceProductTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereUpdatedAt($value)

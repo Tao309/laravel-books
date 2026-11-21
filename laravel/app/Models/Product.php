@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Auth;
  * @property-read int|null $stocks_count
  * @property-read User $userCreated
  *
+ * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product query()

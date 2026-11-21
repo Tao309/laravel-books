@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\PublishingBrands;
 
+use App\Http\Requests\RequestInterface;
 use App\Models\PublishingBrand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
@@ -15,11 +16,11 @@ class StorePublishingBrandRequest extends AbstractPublishingBrandRequest
     {
         return [
             PublishingBrand::PARAM_NAME => [
-                'required',
-                'string',
-                'min:2',
-                'max:255',
-                Rule::unique('publishing_brands'),
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':255',
+                Rule::unique(PublishingBrand::TABLE_NAME),
             ],
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\SourceProductTypes;
 
+use App\Http\Requests\RequestInterface;
 use App\Models\SourceProductType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
@@ -17,17 +18,17 @@ class UpdateSourceProductTypeRequest extends AbstractSourceProductTypeRequest
 
         return [
             SourceProductType::PARAM_CODE => [
-                'required',
-                'string',
-                'min:2',
-                'max:50',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':50',
                 Rule::unique(SourceProductType::TABLE_NAME)->ignore($id),
             ],
             SourceProductType::PARAM_NAME => [
-                'required',
-                'string',
-                'min:2',
-                'max:50',
+                RequestInterface::RULE_REQUIRED,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':50',
                 Rule::unique(SourceProductType::TABLE_NAME)->ignore($id),
             ],
         ];
