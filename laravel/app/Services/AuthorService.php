@@ -8,18 +8,26 @@ use App\CQRS\Commands\Authors\DestroyAuthorCommand;
 use App\CQRS\Commands\Authors\UpdateAuthorCommand;
 use App\CQRS\Queries\Authors\GetAuthorByIdQuery;
 use App\CQRS\Queries\Authors\GetAuthorsPaginateQuery;
+use App\CQRS\Queries\Authors\GetAuthorsQuery;
 use App\DTOs\CollectionQueryDtoInterface;
 use App\DTOs\DtoInterface;
 use App\Models\Author;
 use App\Services\Interfaces\GetListPaginateServiceInterface;
+use App\Services\Interfaces\GetListServiceInterface;
 use App\Services\Interfaces\ServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-readonly class AuthorService implements GetListPaginateServiceInterface, ServiceInterface
+readonly class AuthorService implements GetListPaginateServiceInterface, GetListServiceInterface, ServiceInterface
 {
     public function __construct(
         private Bus $bus,
     ) {}
+
+    public function getList(CollectionQueryDtoInterface $dto): Collection
+    {
+        return $this->bus->handle(new GetAuthorsQuery($dto));
+    }
 
     public function getListPaginate(CollectionQueryDtoInterface $dto): LengthAwarePaginator
     {

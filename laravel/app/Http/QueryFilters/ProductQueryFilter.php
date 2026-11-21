@@ -12,10 +12,18 @@ class ProductQueryFilter extends AbstractQueryFilter
     public function applySearchFilter(Builder $query, $value): Builder
     {
         $titleField = Product::PARAM_TITLE;
-        $value = mb_strtolower($value);
+        $value = mb_strtolower(trim($value));
 
-        $query->whereRaw("LOWER({$titleField}) LIKE ?", "%{$value}%");
-        $query->limit(7);
+        $query
+            ->whereRaw(
+                "LOWER({$titleField}) LIKE ?",
+                ["%{$value}%"]
+            )
+            ->orderByRaw(
+                "CASE WHEN LOWER({$titleField}) = ? THEN 0 ELSE 1 END",
+                [$value]
+            )
+            ->limit(7);
 
         return $query;
     }
