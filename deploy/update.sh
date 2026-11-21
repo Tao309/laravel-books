@@ -20,12 +20,9 @@ git fetch "$GIT_REMOTE" "$GIT_BRANCH"
 git pull --ff-only "$GIT_REMOTE" "$GIT_BRANCH"
 
 # Копируем env
-if [[ ! -f "$LARAVEL_DIR/.env" ]]; then
-    [[ -f "$DEPLOY_DIR/.env.example" ]] || fail "Custom .env.example not found in deploy directory."
-
-    cp "$DEPLOY_DIR/.env.example" "$LARAVEL_DIR/.env"
-    echo "Custom .env.example copied to Laravel project."
-fi
+[[ -f "$DEPLOY_DIR/.env.example" ]] || fail "Custom .env.example not found in deploy directory."
+cp "$DEPLOY_DIR/.env.example" "$LARAVEL_DIR/.env"
+echo "Custom .env.example copied to Laravel project."
 
 # Установка Composer-зависимостей
 cd "$LARAVEL_DIR"

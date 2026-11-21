@@ -21,8 +21,12 @@ abstract class ApiController extends Controller
 
     protected function indexAction(IndexRequestInterface $request): JsonResponse
     {
+        $result = $this->getService()->getList($request->toDTO());
+
         return $this->toJson(
-            $this->getService()->getList($request->toDTO())->toResourceCollection()
+            $result->count()
+                ? $result->toResourceCollection()
+                : $this->getEmptyCollectionResponse()
         );
     }
 
@@ -32,8 +36,12 @@ abstract class ApiController extends Controller
             return $this->indexAction($request);
         }
 
+        $result = $this->getService()->getListPaginate($request->toDTO());
+
         return $this->toJson(
-            PaginateResource::make($this->getService()->getListPaginate($request->toDTO()), $this->getResourceClass())
+            $result->count()
+                ? PaginateResource::make($result, $this->getResourceClass())
+                : $this->getEmptyCollectionResponse()
         );
     }
 
@@ -87,5 +95,15 @@ abstract class ApiController extends Controller
         }
 
         return $this->resourceClass;
+    }
+
+    private function getEmptyCollectionResponse(): array
+    {
+        return [
+            ResponseContext::ITEMS => [],
+            'meta' => [
+                'count' => 0,
+            ],
+        ];
     }
 }

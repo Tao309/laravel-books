@@ -14,6 +14,7 @@ use App\Repositories\ProductRepository;
 use App\Repositories\SourceProductRepository;
 use App\Repositories\SourceProductUserDataRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
 readonly class LinkToProductService
 {
@@ -39,18 +40,27 @@ readonly class LinkToProductService
             throw new ApiException('Not found Book by id = ' . $bookId);
         }
 
-        if (! $book->bookUserData) {
-            $book->setRelation(
-                'bookUserData',
-                $this->budRepo->create($book->id, BookUserDataDTO::fromArray([
-                    BookUserData::PARAM_BOOK_ID => $book->id,
-                ]))
-            );
+        DB::beginTransaction();
+        try {
+            if (! $book->bookUserData) {
+                $book->setRelation(
+                    'bookUserData',
+                    $this->budRepo->create($book->id, BookUserDataDTO::fromArray([
+                        BookUserData::PARAM_BOOK_ID => $book->id,
+                    ]))
+                );
+            }
+
+            $product->source()->associate($book)->save();
+            $this->bookRepo->updateOnSailCount($book);
+
+            DB::Commit();
+
+            return $product;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $product->source()->associate($book)->save();
-
-        return $product;
     }
 
     public function linkSourceProduct(int $productId, int $sourceProductId): Product
@@ -67,17 +77,26 @@ readonly class LinkToProductService
             throw new ApiException('Not found SourceProduct by id = ' . $sourceProductId);
         }
 
-        if (! $sourceProduct->sourceProductUserData) {
-            $sourceProduct->setRelation(
-                'sourceProductUserData',
-                $this->spudRepo->create($sourceProduct->id, SourceProductUserDataDTO::fromArray([
-                    SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $sourceProduct->id,
-                ]))
-            );
+        DB::beginTransaction();
+        try {
+            if (! $sourceProduct->sourceProductUserData) {
+                $sourceProduct->setRelation(
+                    'sourceProductUserData',
+                    $this->spudRepo->create($sourceProduct->id, SourceProductUserDataDTO::fromArray([
+                        SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $sourceProduct->id,
+                    ]))
+                );
+            }
+
+            $product->source()->associate($sourceProduct)->save();
+            $this->spRepository->updateOnSailCount($sourceProduct);
+
+            DB::Commit();
+
+            return $product;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $product->source()->associate($sourceProduct)->save();
-
-        return $product;
     }
 }

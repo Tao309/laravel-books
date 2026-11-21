@@ -6,6 +6,8 @@ use App\CQRS\Queries\GetCollectionQueryInterface;
 use App\DTOs\DtoInterface;
 use App\DTOs\SourceProductUserDataDTO;
 use App\Http\QueryFilters\SourceProductQueryFilter;
+use App\Models\Product;
+use App\Models\ProductStock;
 use App\Models\SourceProduct;
 use App\Models\SourceProductUserData;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -117,6 +119,23 @@ class SourceProductRepository implements RepositoryInterface
         $entity = SourceProduct::query()->withoutEagerLoads()->findOrFail($id);
 
         return $entity->delete();
+    }
+
+    public function updateOnSailCount(SourceProduct $sourceProduct): void
+    {
+        $totalQty = (int) $sourceProduct->products()
+            ->join(
+                sprintf('%s as ps', ProductStock::TABLE_NAME),
+                sprintf('ps.%s', ProductStock::PARAM_PRODUCT_ID),
+                '=',
+                sprintf('%s.%s', Product::TABLE_NAME, Product::PARAM_ID),
+            )
+            ->where(sprintf('ps.%s', ProductStock::PARAM_USER_ID), Auth::id())
+            ->sum(sprintf('ps.%s', ProductStock::PARAM_QTY));
+
+        $sourceProduct->update([
+            SourceProduct::PARAM_ON_SALE_COUNT => $totalQty,
+        ]);
     }
 
     /**

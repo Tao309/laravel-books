@@ -8,6 +8,8 @@ use App\DTOs\DtoInterface;
 use App\Http\QueryFilters\BookQueryFilter;
 use App\Models\Book;
 use App\Models\BookUserData;
+use App\Models\Product;
+use App\Models\ProductStock;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -144,6 +146,23 @@ class BookRepository implements RepositoryInterface
         $entity->authors()->detach();
 
         return $entity->delete();
+    }
+
+    public function updateOnSailCount(Book $book): void
+    {
+        $totalQty = (int) $book->products()
+            ->join(
+                sprintf('%s as ps', ProductStock::TABLE_NAME),
+                sprintf('ps.%s', ProductStock::PARAM_PRODUCT_ID),
+                '=',
+                sprintf('%s.%s', Product::TABLE_NAME, Product::PARAM_ID),
+            )
+            ->where(sprintf('ps.%s', ProductStock::PARAM_USER_ID), Auth::id())
+            ->sum(sprintf('ps.%s', ProductStock::PARAM_QTY));
+
+        $book->update([
+            Book::PARAM_ON_SALE_COUNT => $totalQty,
+        ]);
     }
 
     /**

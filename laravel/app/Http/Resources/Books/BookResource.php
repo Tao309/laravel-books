@@ -34,6 +34,7 @@ class BookResource extends AbstractResource
             Book::PARAM_FANTLAB_ID => $this->offsetGet(Book::PARAM_FANTLAB_ID),
             Book::PARAM_LIVELIB_RATING => $this->offsetGet(Book::PARAM_LIVELIB_RATING),
             Book::PARAM_GOODREADS_RATING => $this->offsetGet(Book::PARAM_GOODREADS_RATING),
+            Book::PARAM_ON_SALE_COUNT => $this->offsetGet(Book::PARAM_ON_SALE_COUNT),
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
 

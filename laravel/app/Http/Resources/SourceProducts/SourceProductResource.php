@@ -18,6 +18,7 @@ class SourceProductResource extends AbstractResource
         return [
             SourceProduct::PARAM_ID => $this->offsetGet(SourceProduct::PARAM_ID),
             SourceProduct::PARAM_TITLE => $this->offsetGet(SourceProduct::PARAM_TITLE),
+            SourceProduct::PARAM_ON_SALE_COUNT => $this->offsetGet(SourceProduct::PARAM_ON_SALE_COUNT),
             Model::UPDATED_AT => DateService::createFromDate($this->updated_at),
             Model::CREATED_AT => DateService::createFromDate($this->created_at),
 

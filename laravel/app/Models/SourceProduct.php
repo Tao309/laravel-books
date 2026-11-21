@@ -56,6 +56,8 @@ class SourceProduct extends Model
 
     public const string PARAM_SOURCE_PRODUCT_TYPE = 'source_product_type';
 
+    public const string PARAM_ON_SALE_COUNT = 'on_sale_count';
+
     public const string PARAM_USER_CREATED = 'user_created';
 
     public const string PARAM_MODEL_USER_CREATED = 'userCreated';
@@ -83,6 +85,7 @@ class SourceProduct extends Model
         self::PARAM_TITLE,
         self::PARAM_SOURCE_PRODUCT_TYPE_ID,
         self::PARAM_USER_CREATED_ID,
+        self::PARAM_ON_SALE_COUNT,
     ];
 
     public function sourceProductType(): BelongsTo

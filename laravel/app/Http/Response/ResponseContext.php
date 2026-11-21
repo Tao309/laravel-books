@@ -10,6 +10,8 @@ class ResponseContext
 
     public const string DATA = 'data';
 
+    public const string ITEMS = 'items';
+
     public function __construct(
         private bool $success = false,
         private ?string $message = null,
