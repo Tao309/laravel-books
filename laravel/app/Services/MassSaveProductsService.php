@@ -23,30 +23,34 @@ class MassSaveProductsService
         $products = [];
 
         foreach (array_chunk($items, 10) as $chunk) {
-            DB::beginTransaction();
-
             try {
-                foreach ($chunk as $data) {
-                    $productsCount++;
+                $result = DB::transaction(function () use ($chunk): array {
+                    $chunkIds = [];
+                    $chunkProducts = [];
 
-                    $dto = ProductDTO::fromArray($data);
+                    foreach ($chunk as $data) {
+                        $dto = ProductDTO::fromArray($data);
 
-                    if (! empty($data[Product::PARAM_ID])) {
-                        $product = $this->productRepo->update($data[Product::PARAM_ID], $dto);
-                    } else {
-                        $product = $this->productRepo->create($dto);
+                        if (! empty($data[Product::PARAM_ID])) {
+                            $product = $this->productRepo->update($data[Product::PARAM_ID], $dto);
+                        } else {
+                            $product = $this->productRepo->create($dto);
+                        }
+
+                        $chunkIds[] = $product->id;
+                        $chunkProducts[] = $product;
                     }
 
-                    $ids[] = $product->id;
-                    $products[] = $product;
-                }
+                    return ['ids' => $chunkIds, 'products' => $chunkProducts];
+                });
 
-                DB::commit();
+                $productsCount += count($chunk);
+                $ids = array_merge($ids, $result['ids']);
+                $products = array_merge($products, $result['products']);
             } catch (\Throwable $e) {
+                $productsCount += count($chunk);
                 $errorsCount++;
                 $errorMessages[] = $e->getMessage();
-
-                DB::rollBack();
             }
         }
 

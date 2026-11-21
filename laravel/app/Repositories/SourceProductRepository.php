@@ -29,9 +29,7 @@ class SourceProductRepository implements RepositoryInterface
     {
         $relationData = $dto->getRelationsData();
 
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($dto, $relationData): SourceProduct {
             $userId = Auth::id();
             $entity = SourceProduct::newModelInstance($dto->getEntityData());
 
@@ -48,14 +46,8 @@ class SourceProductRepository implements RepositoryInterface
                 ])
             );
 
-            DB::commit();
-
             return $this->query()->findOrFail($entity->id);
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            throw $e;
-        }
+        });
     }
 
     public function get(int $id): SourceProduct
@@ -83,9 +75,7 @@ class SourceProductRepository implements RepositoryInterface
     {
         $relationData = $dto->getRelationsData();
 
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($id, $dto, $relationData): SourceProduct {
             $entity = SourceProduct::findOrFail($id);
 
             $entity->sourceProductType()->associate(Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
@@ -104,14 +94,8 @@ class SourceProductRepository implements RepositoryInterface
                 );
             }
 
-            DB::commit();
-
             return $this->query()->findOrFail($entity->id);
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            throw $e;
-        }
+        });
     }
 
     public function delete(int $id): bool

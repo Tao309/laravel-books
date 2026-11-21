@@ -51,8 +51,7 @@ class ProductRepository implements RepositoryInterface
     {
         $relationData = $dto->getRelationsData();
 
-        DB::beginTransaction();
-        try {
+        $productId = DB::transaction(function () use ($dto, $relationData): int {
             $userId = Auth::id();
 
             $entity = $this->findByShopProductId($dto->shopProductId);
@@ -88,18 +87,14 @@ class ProductRepository implements RepositoryInterface
             $this->savePrices($entity, $dto);
             $this->saveStocks($entity, $dto);
 
-            DB::commit();
+            return (int) $entity->id;
+        });
 
-            $entity = $this->query()->findOrFail($entity->id);
+        $entity = $this->query()->findOrFail($productId);
 
-            $this->sameProductsLoader->load($entity);
+        $this->sameProductsLoader->load($entity);
 
-            return $entity;
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            throw $e;
-        }
+        return $entity;
     }
 
     public function get(int $id): Product
@@ -152,8 +147,7 @@ class ProductRepository implements RepositoryInterface
     {
         $relationData = $dto->getRelationsData();
 
-        DB::beginTransaction();
-        try {
+        $productId = DB::transaction(function () use ($id, $dto, $relationData): int {
             $entity = Product::findOrFail($id);
 
             $this->setSourceToModel($entity, $relationData);
@@ -183,18 +177,14 @@ class ProductRepository implements RepositoryInterface
             $this->savePrices($entity, $dto);
             $this->saveStocks($entity, $dto);
 
-            DB::commit();
+            return (int) $entity->id;
+        });
 
-            $product = $this->query()->findOrFail($entity->id);
+        $product = $this->query()->findOrFail($productId);
 
-            $this->sameProductsLoader->load($product);
+        $this->sameProductsLoader->load($product);
 
-            return $product;
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            throw $e;
-        }
+        return $product;
     }
 
     public function delete(int $id): bool
