@@ -51,8 +51,8 @@ class ProductSeeder extends AbstractSeeder
             ],
             Product::PARAM_PRODUCT_USER_DATA => [
                 ProductUserData::PARAM_AVAILABLE => false,
-                ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM => $this->createDate('2026.11.01'),
-                ProductUserData::PARAM_AVAILABLE_DATE_FROM => $this->createDate('2026.11.07'),
+                ProductUserData::PARAM_NOT_AVAILABLE_DATE_FROM => DateService::createFromDate('2026.11.01'),
+                ProductUserData::PARAM_AVAILABLE_DATE_FROM => DateService::createFromDate('2026.11.07'),
                 ProductUserData::PARAM_LISTEN_PRICE_VALUE => 5400,
                 ProductUserData::PARAM_LISTEN_QTY_VALUE => 4,
                 ProductUserData::PARAM_RELEASE_DATE => null,
@@ -62,33 +62,33 @@ class ProductSeeder extends AbstractSeeder
             Product::PARAM_PRICES => [
                 [
                     ProductPrice::PARAM_PRICE => 800,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.01'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.11.01'),
                 ],
                 [
                     ProductPrice::PARAM_PRICE => 700,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.02'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.11.02'),
                 ],
                 [
                     ProductPrice::PARAM_PRICE => 600,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.03'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.11.03'),
                 ],
                 [
                     ProductPrice::PARAM_PRICE => 500,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.11.04'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.11.04'),
                 ],
             ],
             Product::PARAM_STOCKS => [
                 [
                     ProductStock::PARAM_QTY => 100,
-                    ProductStock::PARAM_DATE => $this->createDate('2026.11.01'),
+                    ProductStock::PARAM_DATE => DateService::createFromDate('2026.11.01'),
                 ],
                 [
                     ProductStock::PARAM_QTY => 80,
-                    ProductStock::PARAM_DATE => $this->createDate('2026.11.02'),
+                    ProductStock::PARAM_DATE => DateService::createFromDate('2026.11.02'),
                 ],
                 [
                     ProductStock::PARAM_QTY => 40,
-                    ProductStock::PARAM_DATE => $this->createDate('2026.11.03'),
+                    ProductStock::PARAM_DATE => DateService::createFromDate('2026.11.03'),
                 ],
             ],
         ]));
@@ -113,35 +113,35 @@ class ProductSeeder extends AbstractSeeder
                 ProductUserData::PARAM_AVAILABLE => true,
                 ProductUserData::PARAM_LISTEN_PRICE_VALUE => 650,
                 ProductUserData::PARAM_LISTEN_QTY_VALUE => 20,
-                ProductUserData::PARAM_RELEASE_DATE => $this->createDate('2026.09.14'),
+                ProductUserData::PARAM_RELEASE_DATE => DateService::createFromDate('2026.09.14'),
                 ProductUserData::PARAM_COMMENT => 'Комментарий для: Ловец Чудес. #1',
             ],
             Product::PARAM_PRICES => [
                 [
                     ProductPrice::PARAM_PRICE => 1200,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.11'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.10.11'),
                 ],
                 [
                     ProductPrice::PARAM_PRICE => 1000,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.15'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.10.15'),
                 ],
                 [
                     ProductPrice::PARAM_PRICE => 800,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.21'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.10.21'),
                 ],
             ],
             Product::PARAM_STOCKS => [
                 [
                     ProductStock::PARAM_QTY => 6,
-                    ProductStock::PARAM_DATE => $this->createDate('2026.10.07'),
+                    ProductStock::PARAM_DATE => DateService::createFromDate('2026.10.07'),
                 ],
                 [
                     ProductStock::PARAM_QTY => 5,
-                    ProductStock::PARAM_DATE => $this->createDate('2026.10.14'),
+                    ProductStock::PARAM_DATE => DateService::createFromDate('2026.10.14'),
                 ],
                 [
                     ProductStock::PARAM_QTY => 2,
-                    ProductStock::PARAM_DATE => $this->createDate('2026.10.23'),
+                    ProductStock::PARAM_DATE => DateService::createFromDate('2026.10.23'),
                 ],
             ],
         ]));
@@ -166,10 +166,10 @@ class ProductSeeder extends AbstractSeeder
             ],
             Product::PARAM_PRODUCT_USER_DATA => [
                 ProductUserData::PARAM_AVAILABLE => true,
-                ProductUserData::PARAM_AVAILABLE_DATE_FROM => $this->createDate('2026.08.12'),
+                ProductUserData::PARAM_AVAILABLE_DATE_FROM => DateService::createFromDate('2026.08.12'),
                 ProductUserData::PARAM_LISTEN_PRICE_VALUE => 580,
                 ProductUserData::PARAM_LISTEN_QTY_VALUE => 10,
-                ProductUserData::PARAM_RELEASE_DATE => $this->createDate('2026.09.26'),
+                ProductUserData::PARAM_RELEASE_DATE => DateService::createFromDate('2026.09.26'),
                 ProductUserData::PARAM_COMMENT => 'Комментарий для: Ловец Чудес #2 (без цен и стоков)',
             ],
         ]));
@@ -202,29 +202,29 @@ class ProductSeeder extends AbstractSeeder
             Product::PARAM_PRICES => [
                 [
                     ProductPrice::PARAM_PRICE => 20000,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.05.10'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.05.10'),
                 ],
                 [
                     ProductPrice::PARAM_PRICE => 19900,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.08.22'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.08.22'),
                 ],
                 [
                     ProductPrice::PARAM_PRICE => 18900,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.10.14'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.10.14'),
                 ],
             ],
             Product::PARAM_STOCKS => [
                 [
                     ProductStock::PARAM_QTY => 1420,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.05.10'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.05.10'),
                 ],
                 [
                     ProductStock::PARAM_QTY => 640,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.08.28'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.08.28'),
                 ],
                 [
                     ProductStock::PARAM_QTY => 520,
-                    ProductPrice::PARAM_DATE => $this->createDate('2026.09.15'),
+                    ProductPrice::PARAM_DATE => DateService::createFromDate('2026.09.15'),
                 ],
             ],
         ]));
@@ -243,10 +243,5 @@ class ProductSeeder extends AbstractSeeder
     private function getShops(): Collection
     {
         return Shop::all();
-    }
-
-    private function createDate(string $date): string
-    {
-        return DateService::createFromDate($date, 'Y.m.d');
     }
 }

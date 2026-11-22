@@ -46,11 +46,13 @@ abstract class AbstractSourceProductRequest extends FormRequest implements Reque
                 RequestInterface::RULE_ARRAY,
             ],
             SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA . '.' . SourceProductUserData::PARAM_LISTEN_PRICE_VALUE => [
+                RequestInterface::RULE_NULLABLE,
                 RequestInterface::RULE_SOMETIMES,
                 RequestInterface::RULE_INTEGER,
                 RequestInterface::RULE_MAX_DIGITS . ':6',
             ],
             SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA . '.' . SourceProductUserData::PARAM_COMMENT => [
+                RequestInterface::RULE_NULLABLE,
                 RequestInterface::RULE_SOMETIMES,
                 RequestInterface::RULE_STRING,
                 RequestInterface::RULE_MAX . ':300',
