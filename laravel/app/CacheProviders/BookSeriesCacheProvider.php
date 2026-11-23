@@ -14,6 +14,8 @@ class BookSeriesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return BookSeries::all(BookSeries::PARAM_ID, BookSeries::PARAM_NAME)->toArray();
+        return BookSeries::all([BookSeries::PARAM_ID, BookSeries::PARAM_NAME])
+            ->sortBy(BookSeries::PARAM_NAME)
+            ->toArray();
     }
 }

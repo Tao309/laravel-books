@@ -14,6 +14,8 @@ class BindingTypesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return BindingType::all(BindingType::PARAM_ID, BindingType::PARAM_LABEL)->toArray();
+        return BindingType::all([BindingType::PARAM_ID, BindingType::PARAM_LABEL])
+            ->sortByDesc(BindingType::PARAM_LABEL)
+            ->toArray();
     }
 }

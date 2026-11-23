@@ -29,7 +29,7 @@ class SourceProductRepository implements RepositoryInterface
     {
         $relationData = $dto->getRelationsData();
 
-        return DB::transaction(function () use ($dto, $relationData): SourceProduct {
+        $id = DB::transaction(function () use ($dto, $relationData): int {
             $userId = Auth::id();
             $entity = SourceProduct::newModelInstance($dto->getEntityData());
 
@@ -46,8 +46,10 @@ class SourceProductRepository implements RepositoryInterface
                 ])
             );
 
-            return $this->query()->findOrFail($entity->id);
+            return $entity->id;
         });
+
+        return $this->query()->findOrFail($id);
     }
 
     public function get(int $id): SourceProduct
@@ -73,11 +75,10 @@ class SourceProductRepository implements RepositoryInterface
 
     public function update(int $id, DtoInterface $dto): SourceProduct
     {
+        $entity = SourceProduct::findOrFail($id);
         $relationData = $dto->getRelationsData();
 
-        return DB::transaction(function () use ($id, $dto, $relationData): SourceProduct {
-            $entity = SourceProduct::findOrFail($id);
-
+        $id = DB::transaction(function () use ($entity, $dto, $relationData): int {
             $entity->sourceProductType()->associate(Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
 
             $entity->update($dto->getEntityData());
@@ -94,8 +95,10 @@ class SourceProductRepository implements RepositoryInterface
                 );
             }
 
-            return $this->query()->findOrFail($entity->id);
+            return $entity->id;
         });
+
+        return $this->query()->findOrFail($id);
     }
 
     public function delete(int $id): bool

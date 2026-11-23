@@ -14,10 +14,12 @@ class SourceProductsTypesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return SourceProductType::all(
+        return SourceProductType::all([
             SourceProductType::PARAM_ID,
             SourceProductType::PARAM_CODE,
-            SourceProductType::PARAM_NAME
-        )->toArray();
+            SourceProductType::PARAM_NAME,
+        ])
+            ->sortBy(SourceProductType::PARAM_NAME)
+            ->toArray();
     }
 }

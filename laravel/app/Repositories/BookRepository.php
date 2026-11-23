@@ -29,7 +29,7 @@ class BookRepository implements RepositoryInterface
     {
         $relationData = $dto->getRelationsData();
 
-        return DB::transaction(function () use ($dto, $relationData): Book {
+        $id = DB::transaction(function () use ($dto, $relationData): int {
             $userId = Auth::id();
 
             $book = Book::newModelInstance($dto->getEntityData());
@@ -66,17 +66,18 @@ class BookRepository implements RepositoryInterface
                 ])
             );
 
-            return $this->query()->findOrFail($book->id);
+            return $book->id;
         });
+
+        return $this->query()->findOrFail($id);
     }
 
     public function update(int $id, DtoInterface $dto): Book
     {
         $relationData = $dto->getRelationsData();
 
-        return DB::transaction(function () use ($id, $dto, $relationData): Book {
+        $id = DB::transaction(function () use ($id, $dto, $relationData): int {
             $book = Book::findOrFail($id);
-
             $book->bindingType()->associate(Arr::get($relationData, Book::PARAM_BINDING_TYPE));
             $book->paperType()->associate(Arr::get($relationData, Book::PARAM_PAPER_TYPE));
             $book->publishingHouse()->associate(Arr::get($relationData, Book::PARAM_PUBLISHING_HOUSE));
@@ -99,8 +100,10 @@ class BookRepository implements RepositoryInterface
                 );
             }
 
-            return $this->query()->findOrFail($book->id);
+            return $book->id;
         });
+
+        return $this->query()->findOrFail($id);
     }
 
     public function get(int $id): Book

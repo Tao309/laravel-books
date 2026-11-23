@@ -3,39 +3,34 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 
 class DateService
 {
-    public static function getDateTime(?string $dateTime): \DateTime
-    {
-        $date = new \DateTime($dateTime);
-        $date->setTimezone(self::getCurrentDateTimeZone());
-        $date->modify('-3 hours');
-
-        return $date;
-    }
-
-    public static function getCurrentDateTimeZone(): \DateTimeZone
-    {
-        return new \DateTimeZone('Europe/Moscow');
-    }
-
-    public static function createFromDate(?string $date, string $format = 'Y-m-d H:i:s'): ?string
+    public static function createFromDate(?string $date): ?string
     {
         if (! $date) {
             return null;
         }
 
-        $date = Carbon::parse($date)->timezone(config('app.timezone'));
+        try {
+            $parsed = Carbon::parse($date);
+        } catch (\Throwable) {
+            $parsed = null;
 
-        return $date ? Carbon::createFromFormat($format, $date)->format('Y-m-d H:i:s') : null;
-    }
+            foreach (['Y.m.d', 'Y-m-d\TH:i:s.v\Z', 'Y-m-d H:i:s', 'Y-m-d'] as $fallback) {
+                try {
+                    $parsed = Carbon::createFromFormat($fallback, $date);
+                    break;
+                } catch (\Throwable) {
+                }
+            }
 
-    public static function prepareForSave(string $date): string
-    {
-        return Carbon::parse(
-            $date,
-            DateService::getCurrentDateTimeZone()
-        )->toIso8601String();
+            if (! $parsed) {
+                throw new InvalidFormatException('Could not parse date: ' . $date);
+            }
+        }
+
+        return $parsed->timezone(config('app.timezone'))->format('Y-m-d H:i:s');
     }
 }

@@ -14,6 +14,8 @@ class PublishingBrandsCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return PublishingBrand::all(PublishingBrand::PARAM_ID, PublishingBrand::PARAM_NAME)->toArray();
+        return PublishingBrand::all([PublishingBrand::PARAM_ID, PublishingBrand::PARAM_NAME])
+            ->sortBy(PublishingBrand::PARAM_NAME)
+            ->toArray();
     }
 }

@@ -14,6 +14,8 @@ class PublishingHousesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return PublishingHouse::all(PublishingHouse::PARAM_ID, PublishingHouse::PARAM_NAME)->toArray();
+        return PublishingHouse::all([PublishingHouse::PARAM_ID, PublishingHouse::PARAM_NAME])
+            ->sortBy(PublishingHouse::PARAM_NAME)
+            ->toArray();
     }
 }

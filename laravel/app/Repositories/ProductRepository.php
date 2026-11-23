@@ -51,7 +51,7 @@ class ProductRepository implements RepositoryInterface
     {
         $relationData = $dto->getRelationsData();
 
-        $productId = DB::transaction(function () use ($dto, $relationData): int {
+        $id = DB::transaction(function () use ($dto, $relationData): int {
             $userId = Auth::id();
 
             $entity = $this->findByShopProductId($dto->shopProductId);
@@ -87,10 +87,10 @@ class ProductRepository implements RepositoryInterface
             $this->savePrices($entity, $dto);
             $this->saveStocks($entity, $dto);
 
-            return (int) $entity->id;
+            return $entity->id;
         });
 
-        $entity = $this->query()->findOrFail($productId);
+        $entity = $this->query()->findOrFail($id);
 
         $this->sameProductsLoader->load($entity);
 
@@ -145,11 +145,10 @@ class ProductRepository implements RepositoryInterface
      */
     public function update(int $id, DtoInterface $dto): Product
     {
+        $entity = Product::findOrFail($id);
         $relationData = $dto->getRelationsData();
 
-        $productId = DB::transaction(function () use ($id, $dto, $relationData): int {
-            $entity = Product::findOrFail($id);
-
+        $id = DB::transaction(function () use ($entity, $dto, $relationData): int {
             $this->setSourceToModel($entity, $relationData);
 
             if (Arr::has($relationData, Product::PARAM_SHOP)) {
@@ -177,10 +176,10 @@ class ProductRepository implements RepositoryInterface
             $this->savePrices($entity, $dto);
             $this->saveStocks($entity, $dto);
 
-            return (int) $entity->id;
+            return $entity->id;
         });
 
-        $product = $this->query()->findOrFail($productId);
+        $product = $this->query()->findOrFail($id);
 
         $this->sameProductsLoader->load($product);
 

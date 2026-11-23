@@ -14,6 +14,8 @@ class PaperTypesCacheProvider extends CommonCacheProvider
 
     protected function generateData(): array
     {
-        return PaperType::all(PaperType::PARAM_ID, PaperType::PARAM_LABEL, PaperType::PARAM_DESCRIPTION)->toArray();
+        return PaperType::all([PaperType::PARAM_ID, PaperType::PARAM_LABEL, PaperType::PARAM_DESCRIPTION])
+            ->sortBy(PaperType::PARAM_LABEL)
+            ->toArray();
     }
 }
