@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\CQRS\Handlers\PublishingHouses\CreatePublishingHouseHandler;
+use App\CQRS\Handlers\PublishingHouses\DestroyPublishingHouseHandler;
 use App\CQRS\Handlers\PublishingHouses\GetPublishingHouseByIdHandler;
 use App\CQRS\Handlers\PublishingHouses\GetPublishingHousesHandler;
 use App\CQRS\Handlers\PublishingHouses\UpdatePublishingHouseHandler;
@@ -17,6 +18,10 @@ class PublishingHouseProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->when(DestroyPublishingHouseHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(PublishingHouseRepository::class);
+
         $this->app->when(CreatePublishingHouseHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(PublishingHouseRepository::class);

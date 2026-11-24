@@ -281,7 +281,7 @@
                 }
             }
         },
-        "/api/books_series": {
+        "/api/book_series": {
             "get": {
                 "tags": [
                     "BookSeries"
@@ -344,7 +344,7 @@
                 }
             }
         },
-        "/api/books_series/{id}": {
+        "/api/book_series/{id}": {
             "get": {
                 "tags": [
                     "BookSeries"

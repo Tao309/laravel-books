@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\CQRS\Handlers\BindingTypes\CreateBindingTypeHandler;
 use App\CQRS\Handlers\BindingTypes\DestroyBindingTypeHandler;
+use App\CQRS\Handlers\BindingTypes\GetBindingTypeByIdHandler;
 use App\CQRS\Handlers\BindingTypes\GetBindingTypesHandler;
 use App\CQRS\Handlers\BindingTypes\UpdateBindingTypeHandler;
+use App\CQRS\Queries\BindingTypes\GetBindingTypeByIdQuery;
 use App\Http\Controllers\Api\BindingTypeController;
 use App\Repositories\BindingTypeRepository;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -17,6 +19,14 @@ class BindingTypeProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->when(GetBindingTypeByIdHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(BindingTypeRepository::class);
+
+        $this->app->when(GetBindingTypeByIdQuery::class)
+            ->needs(RepositoryInterface::class)
+            ->give(BindingTypeRepository::class);
+
         $this->app->when(GetBindingTypesHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(BindingTypeRepository::class);

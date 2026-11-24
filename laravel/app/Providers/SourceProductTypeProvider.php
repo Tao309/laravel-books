@@ -4,8 +4,9 @@ namespace App\Providers;
 
 use App\CQRS\Handlers\SourceProductTypes\CreateSourceProductTypeHandler;
 use App\CQRS\Handlers\SourceProductTypes\DestroySourceProductTypeHandler;
-use App\CQRS\Handlers\SourceProductTypes\GetSourceProductByIdTypeHandler;
+use App\CQRS\Handlers\SourceProductTypes\GetSourceProductTypeByIdHandler;
 use App\CQRS\Handlers\SourceProductTypes\GetSourceProductTypesHandler;
+use App\CQRS\Handlers\SourceProductTypes\GetSourceProductTypesPaginateHandler;
 use App\CQRS\Handlers\SourceProductTypes\UpdateSourceProductTypeHandler;
 use App\Http\Controllers\Api\SourceProductTypeController;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -18,7 +19,11 @@ class SourceProductTypeProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->when(GetSourceProductByIdTypeHandler::class)
+        $this->app->when(GetSourceProductTypesPaginateHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(SourceProductTypeRepository::class);
+
+        $this->app->when(GetSourceProductTypeByIdHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(SourceProductTypeRepository::class);
 

@@ -2,13 +2,12 @@
 
 namespace App\CQRS\Handlers\Cities;
 
-use App\CQRS\Handlers\PaperTypes\AbstractPaperTypeHandler;
 use App\CQRS\Queries\Cities\GetCityByIdQuery;
-use App\Models\PaperType;
+use App\Models\City;
 
-class GetCityByIdHandler extends AbstractPaperTypeHandler
+class GetCityByIdHandler extends AbstractCityHandler
 {
-    public function handle(GetCityByIdQuery $query): PaperType
+    public function handle(GetCityByIdQuery $query): City
     {
         return $this->repository->get($query->id);
     }

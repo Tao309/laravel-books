@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 final class BookSeries
 {
     #[OA\Get(
-        path: '/api/books_series',
+        path: '/api/book_series',
         operationId: 'book_series.index',
         description: 'Get list of Book Series',
         summary: 'Get list of Book Series',
@@ -31,7 +31,7 @@ final class BookSeries
     public function index(): void {}
 
     #[OA\Post(
-        path: '/api/books_series',
+        path: '/api/book_series',
         operationId: 'book_series.store',
         description: 'Create BookSeries',
         summary: 'Create BookSeries',
@@ -55,7 +55,7 @@ final class BookSeries
     public function store(): void {}
 
     #[OA\Get(
-        path: '/api/books_series/{id}',
+        path: '/api/book_series/{id}',
         operationId: 'book_series.show',
         description: 'Get BookSeries by id',
         summary: 'Get BookSeries by id',
@@ -76,7 +76,7 @@ final class BookSeries
     public function show(): void {}
 
     #[OA\Patch(
-        path: '/api/books_series/{id}',
+        path: '/api/book_series/{id}',
         operationId: 'book_series.update',
         description: 'Update BookSeries by id',
         summary: 'Update BookSeries by id',

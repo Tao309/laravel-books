@@ -13,26 +13,21 @@ abstract class AbstractSeeder extends Seeder
         return User::firstOrFail();
     }
 
-    protected function updateLastId(string $tableName, $paramId = 'id'): void
+    protected function updateLastId(string $tableName, string $paramId = 'id'): void
     {
+        $driver = DB::connection()->getDriverName();
 
-        $pdoDriverName = DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
-
-        $tableName = DB::getTablePrefix() . $tableName;
-
-        if ($pdoDriverName === 'pgsql') {
-            DB::update("SELECT setval(pg_get_serial_sequence('" . $tableName . "', 'id'), COALESCE(MAX(id), 0) + 1, false) FROM " . $tableName . ';');
-
+        if ($driver !== 'pgsql') {
             return;
         }
 
-        $lastId = $this->getLastId($tableName, $paramId);
+        $lastId = DB::table($tableName)->max($paramId) ?? 0;
 
-        DB::update('ALTER TABLE ' . $tableName . ' AUTO_INCREMENT = ' . ($lastId + 1) . ';');
-    }
+        $tableName = DB::getTablePrefix() . $tableName;
 
-    protected function getLastId(string $tableName, $paramId = 'id')
-    {
-        return DB::table($tableName)->max($paramId);
+        DB::selectOne(
+            'SELECT setval(pg_get_serial_sequence(?, ?), ?, false)',
+            [$tableName, $paramId, $lastId + 1]
+        );
     }
 }

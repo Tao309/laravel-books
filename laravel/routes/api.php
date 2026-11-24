@@ -33,7 +33,7 @@ Route::middleware([UserSecurity::class])->group(function () {
     // > books
     Route::apiResource('/paper_types', PaperTypeController::class)->except(['create', 'edit']);
     Route::apiResource('/binding_types', BindingTypeController::class)->except(['create', 'edit', 'show']);
-    Route::apiResource('/books_series', BookSeriesController::class)->except(['create', 'edit', 'destroy']);
+    Route::apiResource('/book_series', BookSeriesController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/publishing_brands', PublishingBrandController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/publishing_houses', PublishingHouseController::class)->except(['create', 'edit', 'destroy']);
     Route::apiResource('/authors', AuthorController::class)->except(['create', 'edit']);

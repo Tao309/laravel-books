@@ -5,7 +5,7 @@ namespace App\CQRS\Handlers\SourceProductTypes;
 use App\CQRS\Queries\SourceProductTypes\GetSourceProductTypeByIdQuery;
 use App\Models\SourceProductType;
 
-class GetSourceProductByIdTypeHandler extends AbstractSourceProductTypeHandler
+class GetSourceProductTypeByIdHandler extends AbstractSourceProductTypeHandler
 {
     public function handle(GetSourceProductTypeByIdQuery $query): SourceProductType
     {

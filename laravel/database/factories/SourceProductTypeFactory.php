@@ -13,8 +13,8 @@ class SourceProductTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            SourceProductType::PARAM_CODE => fake('en_US')->word(),
-            SourceProductType::PARAM_NAME => fake('ru_RU')->word(),
+            SourceProductType::PARAM_CODE => fake('en_US')->unique()->lexify('??????'),
+            SourceProductType::PARAM_NAME => fake('ru_RU')->unique()->words(2, true),
         ];
     }
 

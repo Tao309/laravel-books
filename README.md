@@ -103,7 +103,7 @@ t-price-checker-id: <PRICE_CHECKER_ID>
 | Метод | Маршрут | Описание |
 |---|---|---|
 | GET | `/api/config` | настройки, кэш справочников, ссылки магазинов |
-| CRUD | `/api/books`, `/api/authors`, `/api/cities`, `/api/paper_types`, `/api/binding_types`, `/api/books_series`, `/api/publishing_brands`, `/api/publishing_houses` | справочники и книги |
+| CRUD | `/api/books`, `/api/authors`, `/api/cities`, `/api/paper_types`, `/api/binding_types`, `/api/book_series`, `/api/publishing_brands`, `/api/publishing_houses` | справочники и книги |
 | GET | `/api/shops` | список магазинов |
 | CRUD | `/api/source_products`, `/api/source_product_types` | источники товаров |
 | CRUD | `/api/products` | товары |
@@ -124,7 +124,7 @@ t-price-checker-id: <PRICE_CHECKER_ID>
 | Команда | CSV |
 |---|---|
 | `app:import:paper_types` | `paper_types.csv` |
-| `app:import:books_series` | `book_series.csv` |
+| `app:import:book_series` | `book_series.csv` |
 | `app:import:publishing_brands` | `publishing_brands.csv` |
 | `app:import:publishing_houses` | `publishing_houses.csv` |
 | `app:import:authors` | `authors.csv` |

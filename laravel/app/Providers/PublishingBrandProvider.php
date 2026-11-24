@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\CQRS\Handlers\PublishingBrands\CreatePublishingBrandHandler;
+use App\CQRS\Handlers\PublishingBrands\DestroyPublishingBrandHandler;
 use App\CQRS\Handlers\PublishingBrands\GetPublishingBrandByIdHandler;
 use App\CQRS\Handlers\PublishingBrands\GetPublishingBrandsHandler;
 use App\CQRS\Handlers\PublishingBrands\UpdatePublishingBrandHandler;
@@ -17,6 +18,10 @@ class PublishingBrandProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->when(DestroyPublishingBrandHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(PublishingBrandRepository::class);
+
         $this->app->when(CreatePublishingBrandHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(PublishingBrandRepository::class);

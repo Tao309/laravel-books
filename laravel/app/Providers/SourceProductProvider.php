@@ -6,6 +6,7 @@ use App\CQRS\Handlers\SourceProducts\CreateSourceProductHandler;
 use App\CQRS\Handlers\SourceProducts\DestroySourceProductHandler;
 use App\CQRS\Handlers\SourceProducts\GetSourceProductByIdSHandler;
 use App\CQRS\Handlers\SourceProducts\GetSourceProductsHandler;
+use App\CQRS\Handlers\SourceProducts\GetSourceProductsPaginateHandler;
 use App\CQRS\Handlers\SourceProducts\UpdateSourceProductHandler;
 use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Resources\SourceProducts\SourceProductResource;
@@ -20,6 +21,10 @@ class SourceProductProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->when(GetSourceProductByIdSHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(SourceProductRepository::class);
+
+        $this->app->when(GetSourceProductsPaginateHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(SourceProductRepository::class);
 

@@ -14,7 +14,7 @@ class UpdateBookSeriesRequest extends AbstractBookSeriesRequest
      */
     public function rules(): array
     {
-        $id = $this->route('books_series');
+        $id = $this->route('book_series');
 
         return [
             BookSeries::PARAM_NAME => [

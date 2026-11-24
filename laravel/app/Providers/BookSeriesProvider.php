@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\CQRS\Handlers\BookSeries\CreateBookSeriesHandler;
+use App\CQRS\Handlers\BookSeries\DestroyBookSeriesHandler;
 use App\CQRS\Handlers\BookSeries\GetBookSeriesByIdHandler;
 use App\CQRS\Handlers\BookSeries\GetBookSeriesHandler;
 use App\CQRS\Handlers\BookSeries\UpdateBookSeriesHandler;
@@ -30,6 +31,10 @@ class BookSeriesProvider extends ServiceProvider
             ->give(BookSeriesRepository::class);
 
         $this->app->when(UpdateBookSeriesHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(BookSeriesRepository::class);
+
+        $this->app->when(DestroyBookSeriesHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(BookSeriesRepository::class);
 

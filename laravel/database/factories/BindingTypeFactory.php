@@ -13,7 +13,7 @@ class BindingTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            BindingType::PARAM_LABEL => fake()->word(),
+            BindingType::PARAM_LABEL => fake()->unique()->words(2, true),
         ];
     }
 

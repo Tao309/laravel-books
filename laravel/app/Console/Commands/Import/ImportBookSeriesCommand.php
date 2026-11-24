@@ -6,7 +6,7 @@ use App\Models\BookSeries;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-#[AsCommand(name: 'app:import:books_series')]
+#[AsCommand(name: 'app:import:book_series')]
 class ImportBookSeriesCommand extends CommonImportCommand
 {
     public const string COMMAND_LABEL = 'Книжные серии';
@@ -23,7 +23,7 @@ class ImportBookSeriesCommand extends CommonImportCommand
 
     protected ?string $tableName = BookSeries::TABLE_NAME;
 
-    protected $signature = 'app:import:books_series';
+    protected $signature = 'app:import:book_series';
 
     protected $description = 'Импортируем список книжных серий';
 

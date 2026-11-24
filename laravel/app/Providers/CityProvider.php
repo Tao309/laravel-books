@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\CQRS\Handlers\Cities\CreateCityHandler;
 use App\CQRS\Handlers\Cities\DestroyCityHandler;
 use App\CQRS\Handlers\Cities\GetCitiesHandler;
+use App\CQRS\Handlers\Cities\GetCityByIdHandler;
 use App\CQRS\Handlers\Cities\UpdateCityHandler;
 use App\Http\Controllers\Api\CityController;
 use App\Repositories\CityRepository;
@@ -17,6 +18,10 @@ class CityProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->when(GetCityByIdHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(CityRepository::class);
+
         $this->app->when(GetCitiesHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(CityRepository::class);

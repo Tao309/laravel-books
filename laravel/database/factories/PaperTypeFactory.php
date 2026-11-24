@@ -13,7 +13,7 @@ class PaperTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            PaperType::PARAM_LABEL => fake()->word(),
+            PaperType::PARAM_LABEL => fake()->unique()->words(2, true),
             PaperType::PARAM_DESCRIPTION => fake()->words(8, true),
         ];
     }

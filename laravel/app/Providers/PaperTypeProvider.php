@@ -6,6 +6,7 @@ use App\CQRS\Handlers\PaperTypes\CreatePaperTypeHandler;
 use App\CQRS\Handlers\PaperTypes\DestroyPaperTypeHandler;
 use App\CQRS\Handlers\PaperTypes\GetPaperTypeByIdHandler;
 use App\CQRS\Handlers\PaperTypes\GetPaperTypesHandler;
+use App\CQRS\Handlers\PaperTypes\GetPaperTypesPaginateHandler;
 use App\CQRS\Handlers\PaperTypes\UpdatePaperTypeHandler;
 use App\Http\Controllers\Api\PaperTypeController;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -18,6 +19,10 @@ class PaperTypeProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->when(GetPaperTypesPaginateHandler::class)
+            ->needs(RepositoryInterface::class)
+            ->give(PaperTypeRepository::class);
+
         $this->app->when(CreatePaperTypeHandler::class)
             ->needs(RepositoryInterface::class)
             ->give(PaperTypeRepository::class);

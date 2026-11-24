@@ -2,16 +2,16 @@
 
 namespace App\CQRS\Handlers\BookSeries;
 
-use App\CQRS\Commands\Books\DestroyBookCommand;
+use App\CQRS\Commands\BookSeries\DestroyBookSeriesCommand;
 use App\CQRS\Handlers\Books\AbstractBookHandler;
 use App\Exceptions\ApiException;
 
-class DestroyBookHandler extends AbstractBookHandler
+class DestroyBookSeriesHandler extends AbstractBookHandler
 {
     /**
      * @throws ApiException
      */
-    public function handle(DestroyBookCommand $command): bool
+    public function handle(DestroyBookSeriesCommand $command): bool
     {
         return $this->repository->delete($command->id);
     }
