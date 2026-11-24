@@ -4,66 +4,95 @@ namespace Tests\Feature\Observers;
 
 use App\CacheProviders\PublishingBrandsCacheProvider;
 use App\Models\PublishingBrand;
+use App\Observers\PublishingBrandObserver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
-/**
- * Интеграция: #[ObservedBy] на модели действительно навешивает обсервер,
- * и события created/updated/deleted сбрасывают кеш справочника.
- * Покрытие самих обработчиков — в Tests\Unit\Observers\PublishingBrandObserverTest.
- */
 class PublishingBrandObserverCacheTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const string CACHE_KEY = 't_publishing_brands';
-
-    private PublishingBrandsCacheProvider $cacheProvider;
-
-    protected function setUp(): void
+    public function test_observer_invalidates_cache_on_create(): void
     {
-        parent::setUp();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $this->cacheProvider = $this->app->make(PublishingBrandsCacheProvider::class);
+        $this->createModel();
+
+        $this->assertGreaterThanOrEqual($before + 1, count($provider->get()));
     }
 
-    public function test_creating_brand_clears_cache(): void
+    public function test_observer_invalidates_cache_on_update(): void
     {
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        $name = 'U ' . uniqid();
 
-        PublishingBrand::factory()->create();
+        $model->update([PublishingBrand::PARAM_NAME => $name]);
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($name, $this->findCachedName($provider, $model->id));
     }
 
-    public function test_updating_brand_clears_cache(): void
+    public function test_observer_invalidates_cache_on_delete(): void
     {
-        $brand = PublishingBrand::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $brand->update([PublishingBrand::PARAM_NAME => 'Обновлённое имя бренда']);
+        $model->delete();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($before - 1, count($provider->get()));
+        $this->assertNull($this->findCachedName($provider, $model->id));
     }
 
-    public function test_deleting_brand_clears_cache(): void
+    public function test_observer_invalidates_cache_on_restored(): void
     {
-        $brand = PublishingBrand::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_publishing_brands', json_encode([]), 3600 * 24 * 30);
 
-        $brand->delete();
+        $this->app->make(PublishingBrandObserver::class)->restored();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($model->name, $this->findCachedName($provider, $model->id));
     }
 
-    private function warmUpCache(): void
+    public function test_observer_invalidates_cache_on_force_deleted(): void
     {
-        $this->cacheProvider->get();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_publishing_brands', json_encode([$model->toArray()]), 3600 * 24 * 30);
+        $modelId = $model->id;
+        $model->deleteQuietly();
 
-        $this->assertTrue(
-            Cache::has(self::CACHE_KEY),
-            'Кеш должен быть прогрет перед проверкой инвалидации',
-        );
+        $this->app->make(PublishingBrandObserver::class)->forceDeleted();
+
+        $this->assertNull($this->findCachedName($provider, $modelId));
+    }
+
+    private function makeProvider(): PublishingBrandsCacheProvider
+    {
+        Cache::flush();
+
+        return $this->app->make(PublishingBrandsCacheProvider::class);
+    }
+
+    private function createModel(): PublishingBrand
+    {
+        return PublishingBrand::factory()->create([PublishingBrand::PARAM_NAME => 'B ' . uniqid()]);
+    }
+
+    private function findCachedName(PublishingBrandsCacheProvider $provider, int $id): ?string
+    {
+        foreach ($provider->get() as $row) {
+            if ($row[PublishingBrand::PARAM_ID] === $id) {
+                return $row[PublishingBrand::PARAM_NAME];
+            }
+        }
+
+        return null;
     }
 }

@@ -31,7 +31,7 @@ class BookSeriesConfigTest extends TestCase
         // первый прогрев кеша без серий
         $this->apiGet('/api/config')->assertOk();
 
-        $this->apiPost('/api/books_series', ['name' => 'Свежая серия в конфиге'])
+        $this->apiPost('/api/book_series', ['name' => 'Свежая серия в конфиге'])
             ->assertStatus(201);
 
         // кеш сброшен обсервером, ответ собран заново — новая запись видна

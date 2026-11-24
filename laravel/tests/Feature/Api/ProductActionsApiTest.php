@@ -10,6 +10,7 @@ use App\Models\Shop;
 use App\Models\SourceProduct;
 use App\Models\SourceProductType;
 use App\Models\SourceProductUserData;
+use App\Services\ArchiveProductService;
 use Tests\Feature\Api\Concerns\ActsAsApiClient;
 use Tests\TestCase;
 
@@ -42,47 +43,36 @@ class ProductActionsApiTest extends TestCase
     // ---------- POST /api/products/mass-save ----------
 
     /**
-     * Документация дефекта: 'required' на items.*.id перебивает
-     * 'required_without' (проверяется раньше и безусловно) — создание
-     * товара без id НЕВАЛИДНО: весь запрос отбрасывается на 422,
-     * обновление существующего товара тоже не выполняется.
+     * Текущий контракт: required_without работает — item без id создаёт
+     * новый товар. prices/stocks обязательны для каждого item.
      */
-    public function test_mass_save_rejects_item_without_id_as_unprocessable(): void
+    public function test_mass_save_creates_item_without_id(): void
     {
-        // Явный shop_id: ozon-магазин (id=1) уже создан в setUp трейта,
-        // а секвенс shops не сдвинулся (id задан явно) — nested Shop::factory()
-        // из ProductFactory получил бы дубликат shops_pkey.
-        $existing = Product::factory()->create([Product::PARAM_SHOP_ID => 1]);
-
-        $this->apiPost('/api/products/mass-save', [
-            'items' => [
-                [
-                    'id' => $existing->id,
-                    'shop_product_id' => $existing->shop_product_id,
-                    'title' => 'Массово обновлённый товар',
-                    'shop' => ['id' => 1],
-                ],
-                [
-                    'shop_product_id' => '123456789012',
-                    'title' => 'Массово созданный товар',
-                    'shop' => ['id' => 1],
-                ],
+        $response = $this->apiPost('/api/products/mass-save', ['items' => [
+            [
+                Product::PARAM_SHOP_PRODUCT_ID => 'mass-created-000001',
+                Product::PARAM_SHOP => ['id' => 1],
+                Product::PARAM_TITLE => 'Массово созданный товар',
+                Product::PARAM_PRICES => [['price' => 100, 'date' => '2026.11.01']],
+                Product::PARAM_STOCKS => [['qty' => 2, 'date' => '2026.11.01']],
             ],
-        ])->assertUnprocessable()
-            ->assertJsonValidationErrors(['items.1.id']);
+        ]]);
 
-        // валидация отбросила весь запрос до контроллера: обновление не выполнено
-        $this->assertDatabaseMissing(Product::TABLE_NAME, [
-            Product::PARAM_ID => $existing->id,
-            Product::PARAM_TITLE => 'Массово обновлённый товар',
+        $response->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('message', 'Products saved')
+            ->assertJsonPath('data.products_count', 1)
+            ->assertJsonPath('data.saved_count', 1)
+            ->assertJsonPath('data.errors_count', 0);
+
+        $this->assertDatabaseHas(Product::TABLE_NAME, [
+            Product::PARAM_SHOP_PRODUCT_ID => 'mass-created-000001',
+            Product::PARAM_TITLE => 'Массово созданный товар',
         ]);
     }
 
     public function test_mass_save_commits_chunks_independently(): void
     {
-        // Валидация требует items.*.id ('required' идёт перед
-        // 'required_without' и делает его мёртвым кодом), поэтому
-        // создание через mass-save невозможно — обновляем существующие.
         $products = Product::factory()
             ->count(10)
             ->state(fn () => [Product::PARAM_SOURCE_TYPE => null, Product::PARAM_SOURCE_ID => null])
@@ -91,34 +81,39 @@ class ProductActionsApiTest extends TestCase
 
         $items = $products
             ->map(fn (Product $p, $i) => [
-                'id' => $p->id,
-                'shop_product_id' => $p->shop_product_id,
-                'title' => "Чанк товар номер {$i}",
-                'shop' => ['id' => 1],
+                Product::PARAM_ID => $p->id,
+                Product::PARAM_SHOP_PRODUCT_ID => $p->shop_product_id,
+                Product::PARAM_TITLE => "Чанк товар номер {$i}",
+                Product::PARAM_SHOP => ['id' => 1],
+                Product::PARAM_PRICES => [['price' => 100 + $i, 'date' => '2026.11.01']],
+                Product::PARAM_STOCKS => [['qty' => $i + 1, 'date' => '2026.11.01']],
             ])
             ->values()
             ->all();
 
         // 11-й элемент: транзакция второго чанка падает на несуществующем id
         $items[] = [
-            'id' => 99999,
-            'shop_product_id' => 'should-fail',
-            'title' => 'Товар с ошибкой',
-            'shop' => ['id' => 1],
+            Product::PARAM_ID => 99999,
+            Product::PARAM_SHOP_PRODUCT_ID => 'should-fail',
+            Product::PARAM_TITLE => 'Товар с ошибкой',
+            Product::PARAM_SHOP => ['id' => 1],
+            Product::PARAM_PRICES => [['price' => 100, 'date' => '2026.11.01']],
+            Product::PARAM_STOCKS => [['qty' => 1, 'date' => '2026.11.01']],
         ];
 
-        // Документация дефекта: ApiController::toJson() безусловно делает
-        // setSuccess(true) ПОСЛЕ того, как контроллер выставил setSuccess(false),
-        // поэтому success всегда true даже при ошибках чанков; glue-message
-        // уходит в 'message', а 'error_messages' вырезается из payload.
-        // saved_count/items пустые: $ids/$products сбрасываются после commit().
-        $this->apiPost('/api/products/mass-save', ['items' => $items])
-            ->assertOk()
+        // ApiController::toJson() безусловно делает setSuccess(true) ПОСЛЕ
+        // того, как контроллер выставил setSuccess(false), поэтому success
+        // остаётся true даже при ошибках чанков; error_messages уходит в message.
+        $response = $this->apiPost('/api/products/mass-save', ['items' => $items]);
+
+        $response->assertOk()
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.products_count', 11)
             ->assertJsonPath('data.errors_count', 1)
-            ->assertJsonPath('data.saved_count', 0)
-            ->assertJsonPath('message', fn (string $message) => str_contains($message, '99999'));
+            ->assertJsonPath('data.saved_count', 10)
+            ->assertJsonCount(10, 'data.items')
+            // Второй чанк падает на несуществующем id, поэтому сообщение отличается от успеха.
+            ->assertJsonPath('message', fn (string $message) => $message !== 'Products saved');
 
         // чанк 1 закоммичен
         $this->assertDatabaseHas(Product::TABLE_NAME, [
@@ -186,17 +181,18 @@ class ProductActionsApiTest extends TestCase
         ]);
     }
 
-    public function test_archive_missing_product_hits_model_not_found(): void
+    public function test_archive_missing_product_returns_require_to_create(): void
     {
-        // findByShopProduct() использует firstOrFail() → ModelNotFoundException.
-        // Документация дефекта: исключение оборачивается в NotFoundHttpException
-        // ещё в prepareException → Throwable-коллбэк → 500, а ветка
-        // require_to_create и сообщение 'Product is not exists' недостижимы.
+        // Текущий контракт: findByShopProductId() возвращает null, сервис
+        // отдаёт false, контроллер отвечает 200 + require_to_create и message
+        // 'Product is not exists' (toJson() принудительно ставит success=true).
         $this->apiPost('/api/products/archive', [
             'shop_product_id' => 'no-such-product',
             'is_archive' => true,
-        ])->assertStatus(500)
-            ->assertJsonPath('success', false);
+        ])->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('message', 'Product is not exists')
+            ->assertJsonPath('data.' . ArchiveProductService::REQUIRE_TO_CREATE, true);
     }
 
     public function test_archive_validates_is_archive_required(): void

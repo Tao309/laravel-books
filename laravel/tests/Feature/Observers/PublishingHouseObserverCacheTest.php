@@ -4,66 +4,95 @@ namespace Tests\Feature\Observers;
 
 use App\CacheProviders\PublishingHousesCacheProvider;
 use App\Models\PublishingHouse;
+use App\Observers\PublishingHouseObserver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
-/**
- * Интеграция: #[ObservedBy] на модели действительно навешивает обсервер,
- * и события created/updated/deleted сбрасывают кеш справочника.
- * Покрытие самих обработчиков — в Tests\Unit\Observers\PublishingHouseObserverTest.
- */
 class PublishingHouseObserverCacheTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const string CACHE_KEY = 't_publishing_houses';
-
-    private PublishingHousesCacheProvider $cacheProvider;
-
-    protected function setUp(): void
+    public function test_observer_invalidates_cache_on_create(): void
     {
-        parent::setUp();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $this->cacheProvider = $this->app->make(PublishingHousesCacheProvider::class);
+        $this->createModel();
+
+        $this->assertGreaterThanOrEqual($before + 1, count($provider->get()));
     }
 
-    public function test_creating_house_clears_cache(): void
+    public function test_observer_invalidates_cache_on_update(): void
     {
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        $name = 'U ' . uniqid();
 
-        PublishingHouse::factory()->create();
+        $model->update([PublishingHouse::PARAM_NAME => $name]);
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($name, $this->findCachedName($provider, $model->id));
     }
 
-    public function test_updating_house_clears_cache(): void
+    public function test_observer_invalidates_cache_on_delete(): void
     {
-        $house = PublishingHouse::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $house->update([PublishingHouse::PARAM_NAME => 'Обновлённое имя издательства']);
+        $model->delete();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($before - 1, count($provider->get()));
+        $this->assertNull($this->findCachedName($provider, $model->id));
     }
 
-    public function test_deleting_house_clears_cache(): void
+    public function test_observer_invalidates_cache_on_restored(): void
     {
-        $house = PublishingHouse::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_publishing_houses', json_encode([]), 3600 * 24 * 30);
 
-        $house->delete();
+        $this->app->make(PublishingHouseObserver::class)->restored();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($model->name, $this->findCachedName($provider, $model->id));
     }
 
-    private function warmUpCache(): void
+    public function test_observer_invalidates_cache_on_force_deleted(): void
     {
-        $this->cacheProvider->get();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_publishing_houses', json_encode([$model->toArray()]), 3600 * 24 * 30);
+        $modelId = $model->id;
+        $model->deleteQuietly();
 
-        $this->assertTrue(
-            Cache::has(self::CACHE_KEY),
-            'Кеш должен быть прогрет перед проверкой инвалидации',
-        );
+        $this->app->make(PublishingHouseObserver::class)->forceDeleted();
+
+        $this->assertNull($this->findCachedName($provider, $modelId));
+    }
+
+    private function makeProvider(): PublishingHousesCacheProvider
+    {
+        Cache::flush();
+
+        return $this->app->make(PublishingHousesCacheProvider::class);
+    }
+
+    private function createModel(): PublishingHouse
+    {
+        return PublishingHouse::factory()->create([PublishingHouse::PARAM_NAME => 'H ' . uniqid()]);
+    }
+
+    private function findCachedName(PublishingHousesCacheProvider $provider, int $id): ?string
+    {
+        foreach ($provider->get() as $row) {
+            if ($row[PublishingHouse::PARAM_ID] === $id) {
+                return $row[PublishingHouse::PARAM_NAME];
+            }
+        }
+
+        return null;
     }
 }

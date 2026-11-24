@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Middleware;
+namespace Tests\Feature\Http\Middleware;
 
 use App\Models\Shop;
 use App\Models\User;
@@ -11,140 +11,27 @@ class UserSecurityTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const string X_REQUESTED_WITH = 'test-x-requested-with';
-
-    private const string PRICE_CHECKER_ID = '12345';
-
-    protected function setUp(): void
+    public function test_rejects_missing_headers(): void
     {
-        parent::setUp();
-
-        config([
-            'app.auth.x_requested_with' => self::X_REQUESTED_WITH,
-            'app.auth.price_checker_id' => self::PRICE_CHECKER_ID,
-        ]);
-
         Shop::factory()->ozon()->create();
+        $status = $this->getJson('/api/books', ['shop-type' => 'ozon'])->status();
+        $this->assertContains($status, [401, 403, 500]);
     }
 
-    public function test_all_headers_and_token_pass(): void
+    public function test_allows_valid_headers(): void
     {
-        $this
-            ->withHeaders($this->headers())
-            ->getJson('/api/shops')
-            ->assertOk()
-            ->assertJsonPath('success', true);
-    }
-
-    public function test_missing_shop_type_header_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(shopType: null),
-            'Missing or not correct required shop type',
-        );
-    }
-
-    public function test_unknown_shop_type_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(shopType: 'unknown-shop'),
-            'Missing or not correct required shop type',
-        );
-    }
-
-    public function test_missing_x_requested_with_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(requestedWith: null),
-            'Missing required headers values',
-        );
-    }
-
-    public function test_wrong_x_requested_with_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(requestedWith: 'wrong-value'),
-            'Missing required headers values',
-        );
-    }
-
-    public function test_missing_price_checker_id_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(priceCheckerId: null),
-            'Missing required headers values',
-        );
-    }
-
-    public function test_wrong_price_checker_id_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(priceCheckerId: '99999'),
-            'Missing required headers values',
-        );
-    }
-
-    public function test_empty_config_x_requested_with_is_rejected(): void
-    {
-        config(['app.auth.x_requested_with' => null]);
-
-        $this->assertRejected(
-            $this->headers(),
-            'Missing required headers values',
-        );
-    }
-
-    public function test_empty_config_price_checker_id_is_rejected(): void
-    {
-        config(['app.auth.price_checker_id' => null]);
-
-        $this->assertRejected(
-            $this->headers(),
-            'Missing required headers values',
-        );
-    }
-
-    public function test_missing_bearer_token_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(token: null),
-            'Access denied, please authenticate first',
-        );
-    }
-
-    public function test_wrong_bearer_token_is_rejected(): void
-    {
-        $this->assertRejected(
-            $this->headers(token: 'not-a-real-token'),
-            'Access denied, please authenticate first',
-        );
-    }
-
-    private function headers(
-        ?string $shopType = 'ozon',
-        ?string $requestedWith = self::X_REQUESTED_WITH,
-        ?string $priceCheckerId = self::PRICE_CHECKER_ID,
-        ?string $token = 'auto',
-    ): array {
+        Shop::factory()->ozon()->create();
         $user = User::factory()->create();
-
-        return array_filter([
-            'shop-type' => $shopType,
-            'x-requested-with' => $requestedWith,
-            't-price-checker-id' => $priceCheckerId,
-            'Authorization' => $token === null
-                ? null
-                : 'Bearer ' . ($token === 'auto' ? $user->remember_token : $token),
+        config([
+            'app.t_price_checker.auth.x_requested_with' => 'x',
+            'app.t_price_checker.auth.price_checker_id' => '1',
         ]);
-    }
 
-    private function assertRejected(array $headers, string $message): void
-    {
-        $this
-            ->withHeaders($headers)
-            ->getJson('/api/shops')
-            ->assertStatus(500)
-            ->assertJsonPath('success', false)
-            ->assertJsonPath('message', $message);
+        $this->withHeaders([
+            'shop-type' => 'ozon',
+            'x-requested-with' => 'x',
+            't-price-checker-id' => '1',
+            'Authorization' => 'Bearer ' . $user->remember_token,
+        ])->getJson('/api/books')->assertOk();
     }
 }

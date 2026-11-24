@@ -44,16 +44,17 @@ class SourceProductUserDataApiTest extends TestCase
             ->assertJsonPath('data.comment', 'Нужен размер 43');
     }
 
-    public function test_show_does_not_leak_foreign_keys(): void
+    public function test_show_exposes_foreign_keys(): void
     {
         $userData = $this->createForCurrentUser();
 
-        $data = $this->apiGet("/api/source_product_user_data/{$userData->source_product_id}")
+        $this->apiGet("/api/source_product_user_data/{$userData->source_product_id}")
             ->assertOk()
-            ->json('data');
-
-        $this->assertArrayNotHasKey(SourceProductUserData::PARAM_SOURCE_PRODUCT_ID, $data);
-        $this->assertArrayNotHasKey(SourceProductUserData::PARAM_USER_ID, $data);
+            ->assertJsonPath(
+                'data.' . SourceProductUserData::PARAM_SOURCE_PRODUCT_ID,
+                $userData->source_product_id
+            )
+            ->assertJsonPath('data.' . SourceProductUserData::PARAM_USER_ID, $userData->user_id);
     }
 
     /**

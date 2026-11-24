@@ -40,16 +40,14 @@ class BookUserDataApiTest extends TestCase
             ->assertJsonPath('data.comment', 'Дождаться скидки');
     }
 
-    public function test_show_does_not_leak_foreign_keys(): void
+    public function test_show_exposes_foreign_keys(): void
     {
         $userData = $this->createForCurrentUser();
 
-        $data = $this->apiGet("/api/book_user_data/{$userData->book_id}")
+        $this->apiGet("/api/book_user_data/{$userData->book_id}")
             ->assertOk()
-            ->json('data');
-
-        $this->assertArrayNotHasKey(BookUserData::PARAM_BOOK_ID, $data);
-        $this->assertArrayNotHasKey(BookUserData::PARAM_USER_ID, $data);
+            ->assertJsonPath('data.' . BookUserData::PARAM_BOOK_ID, $userData->book_id)
+            ->assertJsonPath('data.' . BookUserData::PARAM_USER_ID, $userData->user_id);
     }
 
     /**

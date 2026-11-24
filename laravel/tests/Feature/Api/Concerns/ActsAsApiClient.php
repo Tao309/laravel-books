@@ -16,39 +16,42 @@ trait ActsAsApiClient
 
     private const string PRICE_CHECKER_ID = '12345';
 
-    private User $user;
+    protected User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         config([
-            'app.auth.x_requested_with' => self::X_REQUESTED_WITH,
-            'app.auth.price_checker_id' => self::PRICE_CHECKER_ID,
+            'app.t_price_checker.auth.x_requested_with' => self::X_REQUESTED_WITH,
+            'app.t_price_checker.auth.price_checker_id' => self::PRICE_CHECKER_ID,
         ]);
 
         Shop::factory()->ozon()->create();
-
-        // ozon вставлен с явным id=1 — pgsql-секвенс остался на 1 (nextval
-        // нетранзакционен, его значение зависит от порядка тестов в прогоне,
-        // отсюда недетерминированные дубликаты shops_pkey). Сдвигаем секвенс
-        // за фактический максимум: обычные Shop::factory() получают id > 1.
-        DB::statement(sprintf(
-            "SELECT setval(pg_get_serial_sequence('%s', '%s'), COALESCE((SELECT MAX(%s) FROM %s), 0) + 1, false)",
-            Shop::TABLE_NAME,
-            Shop::PARAM_ID,
-            Shop::PARAM_ID,
-            Shop::TABLE_NAME,
-        ));
+        $this->syncShopSequence();
 
         $this->user = User::factory()->create();
     }
 
-    /**
-     * Заголовки для прохода UserSecurity: shop-type по фабрике ozon,
-     * значения из config('app.auth.*'), токен по remember_token.
-     */
-    private function headers(): array
+    private function syncShopSequence(): void
+    {
+        // MySQL: ALTER TABLE ... AUTO_INCREMENT делал бы неявный commit внутри
+        // транзакции RefreshDatabase и ломал вложенные savepoint'ы.
+        $table = Shop::TABLE_NAME;
+        $id = Shop::PARAM_ID;
+        $driver = DB::connection()->getDriverName();
+
+        if ($driver !== 'pgsql') {
+            return;
+        }
+
+        DB::statement(sprintf(
+            "SELECT setval(pg_get_serial_sequence('%s', '%s'), COALESCE((SELECT MAX(%s) FROM %s), 0) + 1, false)",
+            $table, $id, $id, $table
+        ));
+    }
+
+    protected function apiHeaders(): array
     {
         return [
             'shop-type' => 'ozon',
@@ -58,23 +61,23 @@ trait ActsAsApiClient
         ];
     }
 
-    private function apiGet(string $uri): TestResponse
+    protected function apiGet(string $uri): TestResponse
     {
-        return $this->withHeaders($this->headers())->getJson($uri);
+        return $this->withHeaders($this->apiHeaders())->getJson($uri);
     }
 
-    private function apiPost(string $uri, array $data = []): TestResponse
+    protected function apiPost(string $uri, array $data = []): TestResponse
     {
-        return $this->withHeaders($this->headers())->postJson($uri, $data);
+        return $this->withHeaders($this->apiHeaders())->postJson($uri, $data);
     }
 
-    private function apiPut(string $uri, array $data = []): TestResponse
+    protected function apiPut(string $uri, array $data = []): TestResponse
     {
-        return $this->withHeaders($this->headers())->putJson($uri, $data);
+        return $this->withHeaders($this->apiHeaders())->putJson($uri, $data);
     }
 
-    private function apiDelete(string $uri): TestResponse
+    protected function apiDelete(string $uri): TestResponse
     {
-        return $this->withHeaders($this->headers())->deleteJson($uri);
+        return $this->withHeaders($this->apiHeaders())->deleteJson($uri);
     }
 }

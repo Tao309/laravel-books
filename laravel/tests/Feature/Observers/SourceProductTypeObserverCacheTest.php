@@ -4,66 +4,98 @@ namespace Tests\Feature\Observers;
 
 use App\CacheProviders\SourceProductsTypesCacheProvider;
 use App\Models\SourceProductType;
+use App\Observers\SourceProductTypeObserver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
-/**
- * Интеграция: #[ObservedBy] на модели действительно навешивает обсервер,
- * и события created/updated/deleted сбрасывают кеш справочника.
- * Покрытие самих обработчиков — в Tests\Unit\Observers\SourceProductTypeObserverTest.
- */
 class SourceProductTypeObserverCacheTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const string CACHE_KEY = 't_source_product_types';
-
-    private SourceProductsTypesCacheProvider $cacheProvider;
-
-    protected function setUp(): void
+    public function test_observer_invalidates_cache_on_create(): void
     {
-        parent::setUp();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $this->cacheProvider = $this->app->make(SourceProductsTypesCacheProvider::class);
+        $this->createModel();
+
+        $this->assertGreaterThanOrEqual($before + 1, count($provider->get()));
     }
 
-    public function test_creating_type_clears_cache(): void
+    public function test_observer_invalidates_cache_on_update(): void
     {
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        $name = 'U ' . uniqid();
 
-        SourceProductType::factory()->create();
+        $model->update([SourceProductType::PARAM_NAME => $name]);
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($name, $this->findCachedName($provider, $model->id));
     }
 
-    public function test_updating_type_clears_cache(): void
+    public function test_observer_invalidates_cache_on_delete(): void
     {
-        $type = SourceProductType::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $type->update([SourceProductType::PARAM_NAME => 'Обновлённый тип']);
+        $model->delete();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($before - 1, count($provider->get()));
+        $this->assertNull($this->findCachedName($provider, $model->id));
     }
 
-    public function test_deleting_type_clears_cache(): void
+    public function test_observer_invalidates_cache_on_restored(): void
     {
-        $type = SourceProductType::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_source_product_types', json_encode([]), 3600 * 24 * 30);
 
-        $type->delete();
+        $this->app->make(SourceProductTypeObserver::class)->restored();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($model->name, $this->findCachedName($provider, $model->id));
     }
 
-    private function warmUpCache(): void
+    public function test_observer_invalidates_cache_on_force_deleted(): void
     {
-        $this->cacheProvider->get();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_source_product_types', json_encode([$model->toArray()]), 3600 * 24 * 30);
+        $modelId = $model->id;
+        $model->deleteQuietly();
 
-        $this->assertTrue(
-            Cache::has(self::CACHE_KEY),
-            'Кеш должен быть прогрет перед проверкой инвалидации',
-        );
+        $this->app->make(SourceProductTypeObserver::class)->forceDeleted();
+
+        $this->assertNull($this->findCachedName($provider, $modelId));
+    }
+
+    private function makeProvider(): SourceProductsTypesCacheProvider
+    {
+        Cache::flush();
+
+        return $this->app->make(SourceProductsTypesCacheProvider::class);
+    }
+
+    private function createModel(): SourceProductType
+    {
+        return SourceProductType::factory()->create([
+            SourceProductType::PARAM_NAME => 'T ' . uniqid(),
+            SourceProductType::PARAM_CODE => 'c' . substr(uniqid(), -8),
+        ]);
+    }
+
+    private function findCachedName(SourceProductsTypesCacheProvider $provider, int $id): ?string
+    {
+        foreach ($provider->get() as $row) {
+            if ($row[SourceProductType::PARAM_ID] === $id) {
+                return $row[SourceProductType::PARAM_NAME];
+            }
+        }
+
+        return null;
     }
 }

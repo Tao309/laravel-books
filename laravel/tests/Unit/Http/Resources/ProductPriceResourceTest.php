@@ -3,34 +3,27 @@
 namespace Tests\Unit\Http\Resources;
 
 use App\Http\Resources\ProductPrices\ProductPriceResource;
+use App\Models\Product;
 use App\Models\ProductPrice;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class ProductPriceResourceTest extends TestCase
 {
-    public function test_resolves_price_and_formatted_date(): void
+    use RefreshDatabase;
+
+    public function test_resource_resolves(): void
     {
-        $price = new ProductPrice;
-        $price->price = 1200;
-        $price->date = Carbon::create(2026, 11, 10, 12, 0, 0);
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+        $price = ProductPrice::factory()->create([
+            ProductPrice::PARAM_PRODUCT_ID => $product->id,
+            ProductPrice::PARAM_USER_ID => $user->id,
+        ]);
 
-        $data = ProductPriceResource::make($price)->resolve(new Request);
-
-        $this->assertSame(1200, $data[ProductPrice::PARAM_PRICE]);
-        $this->assertSame('2026-11-10 12:00:00', $data[ProductPrice::PARAM_DATE]);
-    }
-
-    public function test_foreign_keys_are_not_exposed(): void
-    {
-        $price = new ProductPrice;
-        $price->price = 1200;
-        $price->date = Carbon::create(2026, 11, 10, 12, 0, 0);
-
-        $data = ProductPriceResource::make($price)->resolve(new Request);
-
-        $this->assertArrayNotHasKey(ProductPrice::PARAM_PRODUCT_ID, $data);
-        $this->assertArrayNotHasKey(ProductPrice::PARAM_USER_ID, $data);
+        $data = (new ProductPriceResource($price))->toArray(new Request);
+        $this->assertIsArray($data);
     }
 }

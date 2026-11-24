@@ -143,10 +143,17 @@ class ProductApiTest extends TestCase
             ->state(fn () => [Product::PARAM_SOURCE_TYPE => null, Product::PARAM_SOURCE_ID => null])
             ->create([Product::PARAM_SHOP_ID => 1]);
 
-        $this->apiGet('/api/products')
+        $response = $this->apiGet('/api/products')
             ->assertOk()
-            ->assertJsonMissing(['id' => $foreign->id])
-            ->assertJsonFragment(['id' => $own->id]);
+            ->assertJsonCount(1, 'data.items')
+            ->assertJsonPath('data.items.0.id', $own->id);
+
+        // notChecked: вложенный shop.id совпадает с id чужого товара —
+        // проверяем только товары в data.items, а не весь JSON.
+        $this->assertNotContains(
+            $foreign->id,
+            array_column($response->json('data.items'), 'id')
+        );
     }
 
     // ---------- GET /api/products/{id} ----------
@@ -272,17 +279,17 @@ class ProductApiTest extends TestCase
             // nullable-правило: null проходит exists-валидацию
             'city' => null,
             'book' => ['id' => $book->id],
-            // Даты в product_user_data не передаём: валидация требует 'Y.m.d',
-            // а ProductUserDataDTO парсит 'Y-m-d H:i:s' — нестыковка → 500 (см. тест ниже)
+            // Даты цен/стоков и PUD приходят в 'Y.m.d' (см. date_format в
+            // AbstractProductRequest); DateService нормализует их в 'Y-m-d H:i:s'.
             'product_user_data' => [
                 'available' => true,
             ],
             'prices' => [
-                ['price' => 1500, 'date' => '2026-11-01 10:00:00'],
-                ['price' => 1200, 'date' => '2026-11-05 10:00:00'],
+                ['price' => 1500, 'date' => '2026.11.01'],
+                ['price' => 1200, 'date' => '2026.11.05'],
             ],
             'stocks' => [
-                ['qty' => 7, 'date' => '2026-11-05 10:00:00'],
+                ['qty' => 7, 'date' => '2026.11.05'],
             ],
             // Гейты сохранения цен/стоков/PUD в ProductRepository — незакоммиченное
             // поведение: без флагов massSave не вызывается вовсе. array-правило
@@ -320,15 +327,31 @@ class ProductApiTest extends TestCase
         $this->assertDatabaseCount(ProductStock::TABLE_NAME, 1);
     }
 
-    public function test_store_rejects_duplicate_shop_product_id_in_shop(): void
+    /**
+     * Характеристика текущего поведения: у StoreProductRequest нет unique
+     * на shop_product_id, а репозиторий findByShopProductId() переиспользует
+     * найденный товар. Скалярные поля (title и т.п.) при этом НЕ перезаписываются —
+     * getEntityData() применяется только при создании новой модели.
+     */
+    public function test_store_reuses_existing_product_by_shop_product_id(): void
     {
         $existing = Product::factory()->create([Product::PARAM_SHOP_ID => 1]);
+        $originalTitle = $existing->title;
 
         $this->apiPost('/api/products', $this->payload([
             'shop_product_id' => $existing->shop_product_id,
-        ]))->assertUnprocessable()
-            ->assertJsonPath('success', false)
-            ->assertJsonPath('errors.shop_product_id.0', 'A Book with this ShopProductId and Shop already exists');
+        ]))->assertStatus(201)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.id', $existing->id)
+            ->assertJsonPath('data.title', $originalTitle);
+
+        $this->assertSame(1, Product::query()
+            ->where(Product::PARAM_SHOP_PRODUCT_ID, $existing->shop_product_id)
+            ->count());
+        $this->assertDatabaseHas(Product::TABLE_NAME, [
+            Product::PARAM_ID => $existing->id,
+            Product::PARAM_TITLE => $originalTitle,
+        ]);
     }
 
     public function test_store_validates_title_min_length(): void
@@ -364,19 +387,26 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * Документирует нестыковку форматов дат: валидация пропускает 'Y.m.d',
-     * а ProductUserDataDTO::getEntityData парсит 'Y-m-d H:i:s' → InvalidFormatException → 500.
-     * После починки ожидания должны смениться на 201.
+     * Текущий контракт: 'Y.m.d' проходит валидацию и DateService сохраняет
+     * дату PUD в каноническом 'Y-m-d H:i:s'.
      */
-    public function test_store_with_pud_date_in_validated_format_fails(): void
+    public function test_store_with_pud_date_in_validated_format_succeeds(): void
     {
         $this->apiPost('/api/products', $this->payload([
             'product_user_data' => [
                 'available' => true,
                 'available_date_from' => '2026.11.01',
             ],
-        ]))->assertStatus(500)
-            ->assertJsonPath('success', false);
+        ]))->assertStatus(201)
+            ->assertJsonPath('success', true);
+
+        // 'Y.m.d' не содержит времени — DateService оставляет текущее время,
+        // поэтому проверяем только календарную дату.
+        $userData = ProductUserData::query()
+            ->where(ProductUserData::PARAM_AVAILABLE, true)
+            ->firstOrFail();
+
+        $this->assertSame('2026-11-01', $userData->available_date_from?->format('Y-m-d'));
     }
 
     // ---------- PUT /api/products/{id} ----------
@@ -404,7 +434,7 @@ class ProductApiTest extends TestCase
 
         $this->apiPut("/api/products/{$product->id}", $this->payload([
             'shop_product_id' => $product->shop_product_id,
-            'prices' => [['price' => 999, 'date' => '2026-11-01 10:00:00']],
+            'prices' => [['price' => 999, 'date' => '2026.11.01']],
         ]))->assertOk()
             ->assertJsonPath('success', true);
 

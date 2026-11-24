@@ -11,8 +11,8 @@ use Tests\TestCase;
  *
  * Кворки, зафиксированные как текущее поведение:
  *  - без фильтров index идёт через indexActionPaginate (PaginateResource, 100/стр);
- *  - любой фильтр (search/ids/limit) переключает на indexAction, но у
- *    AuthorService нет getList() → HTTP 500;
+ *  - любой фильтр (search/ids/limit) переключает на indexAction, где
+ *    AuthorService::getList() сейчас доступен и возвращает плоскую коллекцию;
  *  - create/update без last_name подставляет [] вместо null → HTTP 500.
  */
 class AuthorApiTest extends TestCase
@@ -41,30 +41,42 @@ class AuthorApiTest extends TestCase
     }
 
     /**
-     * Документация дефекта: hasFilters() → indexAction → AuthorService::getList(),
-     * которого у сервиса нет (только getListPaginate) → \Error → 500.
+     * hasFilters() переключает index на indexAction: ответ без пагинации,
+     * limit применяется AuthorQueryFilter на уровне репозитория.
      */
-    public function test_index_with_limit_filter_is_500(): void
+    public function test_index_with_limit_filter_returns_flat_collection(): void
     {
         Author::factory()->count(3)->create();
 
-        $this->apiGet('/api/authors?limit=2')
-            ->assertStatus(500);
+        $response = $this->apiGet('/api/authors?limit=2')
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonCount(2, 'data.items')
+            ->assertJsonPath('data.meta.count', 2);
+
+        $this->assertArrayNotHasKey('current_page', $response->json('data.meta'));
     }
 
     /**
-     * Аналогично search: фильтр доходит до AuthorQueryFilter только на уровне
-     * репозитория (AuthorRepositoryTest), через API путь обрывается на 500.
+     * Search splits full name into first/last name and applies both conditions.
      */
-    public function test_index_with_search_filter_is_500(): void
+    public function test_index_with_search_filter_returns_matching_authors(): void
     {
         Author::factory()->create([
             Author::PARAM_FIRST_NAME => 'Лев',
             Author::PARAM_LAST_NAME => 'Толстой',
         ]);
+        Author::factory()->create([
+            Author::PARAM_FIRST_NAME => 'Фёдор',
+            Author::PARAM_LAST_NAME => 'Достоевский',
+        ]);
 
         $this->apiGet('/api/authors?search=лев толстой')
-            ->assertStatus(500);
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonCount(1, 'data.items')
+            ->assertJsonPath('data.items.0.first_name', 'Лев')
+            ->assertJsonPath('data.items.0.last_name', 'Толстой');
     }
 
     // ---------- POST /api/authors ----------

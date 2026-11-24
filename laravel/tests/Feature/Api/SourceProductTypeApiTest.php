@@ -8,10 +8,9 @@ use Tests\Feature\Api\Concerns\ActsAsApiClient;
 use Tests\TestCase;
 
 /**
- * API /api/source_product_types — полный CRUD, кроме show:
- * сервис шлёт GetSourceProductTypeByIdQuery, а хендлер назван
- * GetSourceProductByIdTypeHandler → HandlerNotFoundException → HTTP 500.
- * Уникальность code/name дублируется в БД.
+ * API /api/source_product_types — полный CRUD, включая show:
+ * GetSourceProductTypeByIdQuery замаплен на GetSourceProductTypeByIdHandler,
+ * поэтому GET /{id} возвращает тип. Уникальность code/name дублируется в БД.
  */
 class SourceProductTypeApiTest extends TestCase
 {
@@ -21,11 +20,31 @@ class SourceProductTypeApiTest extends TestCase
 
     private const string NAME = 'Обувь';
 
+    private int $typeSeq = 0;
+
+    /**
+     * Фабрика использует fake()->word() для code — при нескольких созданиях
+     * в одном тесте возможна коллизия уникального индекса. Все создания
+     * идут через явные детерминированные code/name.
+     */
+    private function createType(array $attributes = []): SourceProductType
+    {
+        $this->typeSeq++;
+
+        return SourceProductType::factory()->create(array_merge([
+            SourceProductType::PARAM_CODE => 'type-' . $this->typeSeq,
+            SourceProductType::PARAM_NAME => 'Тип ' . $this->typeSeq,
+        ], $attributes));
+    }
+
     // ---------- GET /api/source_product_types ----------
 
     public function test_index_returns_collection_without_pagination(): void
     {
-        SourceProductType::factory()->count(2)->create();
+        SourceProductType::factory()->count(2)->sequence(
+            [SourceProductType::PARAM_CODE => 'type-1', SourceProductType::PARAM_NAME => 'Тип 1'],
+            [SourceProductType::PARAM_CODE => 'type-2', SourceProductType::PARAM_NAME => 'Тип 2'],
+        )->create();
 
         $response = $this->apiGet('/api/source_product_types')
             ->assertOk()
@@ -38,7 +57,11 @@ class SourceProductTypeApiTest extends TestCase
 
     public function test_index_ignores_limit_filter(): void
     {
-        SourceProductType::factory()->count(3)->create();
+        SourceProductType::factory()->count(3)->sequence(
+            [SourceProductType::PARAM_CODE => 'type-1', SourceProductType::PARAM_NAME => 'Тип 1'],
+            [SourceProductType::PARAM_CODE => 'type-2', SourceProductType::PARAM_NAME => 'Тип 2'],
+            [SourceProductType::PARAM_CODE => 'type-3', SourceProductType::PARAM_NAME => 'Тип 3'],
+        )->create();
 
         // документация дефекта: репозиторий делает SourceProductType::all()
         $this->apiGet('/api/source_product_types?limit=1')
@@ -67,7 +90,7 @@ class SourceProductTypeApiTest extends TestCase
 
     public function test_store_rejects_duplicate_code(): void
     {
-        SourceProductType::factory()->create([SourceProductType::PARAM_CODE => self::CODE]);
+        $this->createType([SourceProductType::PARAM_CODE => self::CODE, SourceProductType::PARAM_NAME => self::NAME]);
 
         $this->apiPost('/api/source_product_types', [
             SourceProductType::PARAM_CODE => self::CODE,
@@ -80,7 +103,7 @@ class SourceProductTypeApiTest extends TestCase
 
     public function test_store_rejects_duplicate_name(): void
     {
-        SourceProductType::factory()->create([
+        $this->createType([
             SourceProductType::PARAM_CODE => 'other-code',
             SourceProductType::PARAM_NAME => self::NAME,
         ]);
@@ -115,23 +138,23 @@ class SourceProductTypeApiTest extends TestCase
 
     // ---------- GET /api/source_product_types/{id} ----------
 
-    /**
-     * Документация дефекта: несоответствие имени запроса и хендлера →
-     * HandlerNotFoundException → 500 вместо данных типа.
-     */
-    public function test_show_missing_type_is_500(): void
+    public function test_show_returns_type(): void
     {
-        $type = SourceProductType::factory()->create();
+        $type = $this->createType();
 
         $this->apiGet("/api/source_product_types/{$type->id}")
-            ->assertStatus(500);
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.id', $type->id)
+            ->assertJsonPath('data.code', $type->code)
+            ->assertJsonPath('data.name', $type->name);
     }
 
     // ---------- PUT /api/source_product_types/{id} ----------
 
     public function test_update_changes_code_and_name(): void
     {
-        $type = SourceProductType::factory()->create([SourceProductType::PARAM_CODE => 'old-code']);
+        $type = $this->createType([SourceProductType::PARAM_CODE => 'old-code']);
 
         $this->apiPut("/api/source_product_types/{$type->id}", [
             SourceProductType::PARAM_CODE => 'new-code',
@@ -150,7 +173,7 @@ class SourceProductTypeApiTest extends TestCase
 
     public function test_update_ignores_self_in_unique(): void
     {
-        $type = SourceProductType::factory()->create([SourceProductType::PARAM_CODE => self::CODE]);
+        $type = $this->createType([SourceProductType::PARAM_CODE => self::CODE]);
 
         $this->apiPut("/api/source_product_types/{$type->id}", [
             SourceProductType::PARAM_CODE => self::CODE,
@@ -161,8 +184,8 @@ class SourceProductTypeApiTest extends TestCase
 
     public function test_update_rejects_code_of_other_type(): void
     {
-        SourceProductType::factory()->create([SourceProductType::PARAM_CODE => 'busy-code']);
-        $type = SourceProductType::factory()->create([SourceProductType::PARAM_CODE => 'free-code']);
+        $this->createType([SourceProductType::PARAM_CODE => 'busy-code']);
+        $type = $this->createType([SourceProductType::PARAM_CODE => 'free-code']);
 
         $this->apiPut("/api/source_product_types/{$type->id}", [
             SourceProductType::PARAM_CODE => 'busy-code',
@@ -190,7 +213,7 @@ class SourceProductTypeApiTest extends TestCase
 
     public function test_destroy_deletes_type(): void
     {
-        $type = SourceProductType::factory()->create();
+        $type = $this->createType();
 
         $this->apiDelete("/api/source_product_types/{$type->id}")
             ->assertOk()
@@ -216,7 +239,7 @@ class SourceProductTypeApiTest extends TestCase
      */
     public function test_destroy_cascades_to_source_products(): void
     {
-        $type = SourceProductType::factory()->create();
+        $type = $this->createType();
         $sourceProduct = SourceProduct::factory()->create([
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $type->id,
         ]);

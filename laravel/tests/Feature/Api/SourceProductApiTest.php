@@ -33,7 +33,9 @@ class SourceProductApiTest extends TestCase
 
     private function payload(array $overrides = []): array
     {
-        $type = SourceProductType::factory()->create();
+        // Возврат к factory()->create() давал случайный word() и редкие
+        // коллизии по уникальному code в пределах одного теста.
+        $type = SourceProductType::factory()->shoes()->create();
 
         return array_merge([
             SourceProduct::PARAM_TITLE => self::TITLE,
@@ -215,7 +217,9 @@ class SourceProductApiTest extends TestCase
 
         $this->apiPost('/api/source_products', $payload)
             ->assertUnprocessable()
-            ->assertJsonValidationErrors([SourceProduct::PARAM_SOURCE_PRODUCT_TYPE]);
+            ->assertJsonValidationErrors([
+                SourceProduct::PARAM_SOURCE_PRODUCT_TYPE . '.' . SourceProductType::PARAM_ID,
+            ]);
     }
 
     public function test_store_rejects_listen_price_value_longer_than_nine_digits(): void
@@ -289,21 +293,12 @@ class SourceProductApiTest extends TestCase
             SourceProduct::PARAM_TITLE => 'Куртка осенняя',
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID => $newType->id,
         ]);
-        /**
-         * Документация дефекта: UpdateSourceProductRequest не содержит правил
-         * для source_product_user_data.* (в отличие от Store), поэтому
-         * validated() отбрасывает этот ключ — comment НЕ обновляется
-         * и остаётся null.
-         */
-        $this->assertDatabaseMissing(SourceProductUserData::TABLE_NAME, [
-            SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $sourceProduct->id,
-            SourceProductUserData::PARAM_USER_ID => $this->user->id,
-            SourceProductUserData::PARAM_COMMENT => 'Обновлённый комментарий',
-        ]);
+        // UpdateSourceProductRequest теперь использует общие правила, поэтому
+        // source_product_user_data.comment попадает в validated() и обновляется.
         $this->assertDatabaseHas(SourceProductUserData::TABLE_NAME, [
             SourceProductUserData::PARAM_SOURCE_PRODUCT_ID => $sourceProduct->id,
             SourceProductUserData::PARAM_USER_ID => $this->user->id,
-            SourceProductUserData::PARAM_COMMENT => null,
+            SourceProductUserData::PARAM_COMMENT => 'Обновлённый комментарий',
         ]);
     }
 

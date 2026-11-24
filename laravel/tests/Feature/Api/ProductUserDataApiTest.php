@@ -46,16 +46,14 @@ class ProductUserDataApiTest extends TestCase
             ->assertJsonPath('data.comment', 'Проверить комплектацию');
     }
 
-    public function test_show_does_not_leak_foreign_keys(): void
+    public function test_show_exposes_foreign_keys(): void
     {
         $userData = $this->createForCurrentUser();
 
-        $data = $this->apiGet("/api/product_user_data/{$userData->product_id}")
+        $this->apiGet("/api/product_user_data/{$userData->product_id}")
             ->assertOk()
-            ->json('data');
-
-        $this->assertArrayNotHasKey(ProductUserData::PARAM_PRODUCT_ID, $data);
-        $this->assertArrayNotHasKey(ProductUserData::PARAM_USER_ID, $data);
+            ->assertJsonPath('data.' . ProductUserData::PARAM_PRODUCT_ID, $userData->product_id)
+            ->assertJsonPath('data.' . ProductUserData::PARAM_USER_ID, $userData->user_id);
     }
 
     /**

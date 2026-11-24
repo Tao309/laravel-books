@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 /**
  * API /api/publishing_brands. Контроллер использует indexAction (без пагинации),
- * destroy-роут отсутствует, лимиты name не симметричны между store и update —
+ * destroy-роут отсутствует, лимиты name симметричны между store и update (min:2) —
  * эти особенности зафиксированы тестами как текущее поведение.
  */
 class PublishingBrandApiTest extends TestCase
@@ -138,12 +138,24 @@ class PublishingBrandApiTest extends TestCase
             ->assertJsonPath('errors.name.0', 'A PublishingBrand with this name already exists');
     }
 
-    public function test_update_uses_stricter_limits_than_store(): void
+    public function test_update_uses_same_min_length_as_store(): void
     {
         $brand = PublishingBrand::factory()->create([PublishingBrand::PARAM_NAME => 'Бренд с длинным именем']);
 
-        // store пропустил бы 'AB' (min:2), update требует min:5
+        // Store и Update оба требуют min:2 — 'AB' теперь проходит
         $this->apiPut("/api/publishing_brands/{$brand->id}", ['name' => 'AB'])
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.name', 'AB');
+    }
+
+    public function test_update_rejects_single_character_name(): void
+    {
+        $brand = PublishingBrand::factory()->create([PublishingBrand::PARAM_NAME => 'Бренд с длинным именем']);
+
+        // Отдельный тест: ResponseContext — singleton, и после успешного request
+        // в том же тесте валидационные errors уезжают внутрь data.
+        $this->apiPut("/api/publishing_brands/{$brand->id}", ['name' => 'A'])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['name']);
     }

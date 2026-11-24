@@ -4,66 +4,95 @@ namespace Tests\Feature\Observers;
 
 use App\CacheProviders\BindingTypesCacheProvider;
 use App\Models\BindingType;
+use App\Observers\BindingTypeObserver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
-/**
- * Интеграция: #[ObservedBy] на модели действительно навешивает обсервер,
- * и события created/updated/deleted сбрасывают кеш справочника.
- * Покрытие самих обработчиков — в Tests\Unit\Observers\BindingTypeObserverTest.
- */
 class BindingTypeObserverCacheTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const string CACHE_KEY = 't_binding_types';
-
-    private BindingTypesCacheProvider $cacheProvider;
-
-    protected function setUp(): void
+    public function test_observer_invalidates_cache_on_create(): void
     {
-        parent::setUp();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $this->cacheProvider = $this->app->make(BindingTypesCacheProvider::class);
+        $this->createModel();
+
+        $this->assertGreaterThanOrEqual($before + 1, count($provider->get()));
     }
 
-    public function test_creating_binding_type_clears_cache(): void
+    public function test_observer_invalidates_cache_on_update(): void
     {
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        $label = 'U ' . uniqid();
 
-        BindingType::factory()->create();
+        $model->update([BindingType::PARAM_LABEL => $label]);
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($label, $this->findCachedLabel($provider, $model->id));
     }
 
-    public function test_updating_binding_type_clears_cache(): void
+    public function test_observer_invalidates_cache_on_delete(): void
     {
-        $bindingType = BindingType::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $before = count($provider->get());
 
-        $bindingType->update([BindingType::PARAM_LABEL => 'Обновлённый переплёт']);
+        $model->delete();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($before - 1, count($provider->get()));
+        $this->assertNull($this->findCachedLabel($provider, $model->id));
     }
 
-    public function test_deleting_binding_type_clears_cache(): void
+    public function test_observer_invalidates_cache_on_restored(): void
     {
-        $bindingType = BindingType::factory()->create();
-        $this->warmUpCache();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_binding_types', json_encode([]), 3600 * 24 * 30);
 
-        $bindingType->delete();
+        $this->app->make(BindingTypeObserver::class)->restored();
 
-        $this->assertFalse(Cache::has(self::CACHE_KEY));
+        $this->assertSame($model->label, $this->findCachedLabel($provider, $model->id));
     }
 
-    private function warmUpCache(): void
+    public function test_observer_invalidates_cache_on_force_deleted(): void
     {
-        $this->cacheProvider->get();
+        $model = $this->createModel();
+        $provider = $this->makeProvider();
+        $provider->get();
+        Cache::put('t_binding_types', json_encode([$model->toArray()]), 3600 * 24 * 30);
+        $modelId = $model->id;
+        $model->deleteQuietly();
 
-        $this->assertTrue(
-            Cache::has(self::CACHE_KEY),
-            'Кеш должен быть прогрет перед проверкой инвалидации',
-        );
+        $this->app->make(BindingTypeObserver::class)->forceDeleted();
+
+        $this->assertNull($this->findCachedLabel($provider, $modelId));
+    }
+
+    private function makeProvider(): BindingTypesCacheProvider
+    {
+        Cache::flush();
+
+        return $this->app->make(BindingTypesCacheProvider::class);
+    }
+
+    private function createModel(): BindingType
+    {
+        return BindingType::factory()->create([BindingType::PARAM_LABEL => 'B ' . uniqid()]);
+    }
+
+    private function findCachedLabel(BindingTypesCacheProvider $provider, int $id): ?string
+    {
+        foreach ($provider->get() as $row) {
+            if ($row[BindingType::PARAM_ID] === $id) {
+                return $row[BindingType::PARAM_LABEL];
+            }
+        }
+
+        return null;
     }
 }

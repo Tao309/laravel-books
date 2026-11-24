@@ -18,7 +18,7 @@ use Tests\TestCase;
  * биндит все хендлеры, destroy-роут зарегистрирован).
  *
  * Основное покрытие — правила StoreBookRequest / UpdateBookRequest /
- * AbstractBookRequest: required-ключи (title, publish_year,
+ * AbstractBookRequest: required-ключи (title, publish_year >= 1990,
  * binding_type, authors), уникальность title/isbn на уровне правил
  * (в БД уникальных индексов на books нет), integer:strict,
  * BookRatingRule, book_user_data (release_date формат Y.m.d — но см.
@@ -78,7 +78,7 @@ class BookApiTest extends TestCase
     {
         return array_merge([
             Book::PARAM_TITLE => 'Мастер и Маргарита',
-            Book::PARAM_PUBLISH_YEAR => 1967,
+            Book::PARAM_PUBLISH_YEAR => 2020,
             Book::PARAM_BINDING_TYPE => [BindingType::PARAM_ID => $this->bindingType()->id],
             Book::PARAM_AUTHORS => [[Author::PARAM_ID => $this->author()->id]],
         ], $overrides);
@@ -135,7 +135,7 @@ class BookApiTest extends TestCase
             ->assertStatus(201)
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.title', 'Мастер и Маргарита')
-            ->assertJsonPath('data.publish_year', 1967);
+            ->assertJsonPath('data.publish_year', 2020);
 
         $this->assertDatabaseHas(Book::TABLE_NAME, [
             Book::PARAM_TITLE => 'Мастер и Маргарита',
@@ -181,17 +181,10 @@ class BookApiTest extends TestCase
     }
 
     /**
-     * Документация дефекта: валидация StoreBookRequest/UpdateBookRequest
-     * допускает release_date в формате 'Y.m.d', но
-     * BookUserDataDTO::getEntityData() парсит дату через
-     * DateService::createFromDate() с форматом по умолчанию
-     * 'Y-m-d H:i:s' → InvalidFormatException → HTTP 500, книга не
-     * создаётся (rollback в BookRepository::create). Та же нестыковка
-     * форматов дат, что и у product_user_data (см. ProductApiTest).
-     * Если формат в DTO или реквесте унифицируют — перевернуть тест
-     * на 201 + строку в book_user_datas.
+     * Текущий контракт: release_date в формате 'Y.m.d' проходит валидацию
+     * и сохраняется BookUserDataDTO/DateService в 'Y-m-d H:i:s'.
      */
-    public function test_store_with_release_date_in_rule_format_is_500(): void
+    public function test_store_with_release_date_in_rule_format_succeeds(): void
     {
         $this->apiPost('/api/books', $this->payload([
             Book::PARAM_ISBN => '9785389079618',
@@ -200,13 +193,19 @@ class BookApiTest extends TestCase
                 BookUserData::PARAM_COMMENT => 'Читал в 2020',
             ],
         ]))
-            ->assertStatus(500)
-            ->assertJsonPath('success', false);
+            ->assertStatus(201)
+            ->assertJsonPath('success', true);
 
-        // транзакция откатилась — книги нет
-        $this->assertDatabaseMissing(Book::TABLE_NAME, [
+        $this->assertDatabaseHas(Book::TABLE_NAME, [
             Book::PARAM_ISBN => '9785389079618',
         ]);
+        // DateService::createFromFormat('Y.m.d') сохраняет текущее время суток,
+        // поэтому проверяем только календарную дату.
+        $userData = BookUserData::query()
+            ->where(BookUserData::PARAM_COMMENT, 'Читал в 2020')
+            ->firstOrFail();
+
+        $this->assertSame('2026-01-15', $userData->release_date?->format('Y-m-d'));
     }
 
     public function test_store_rejects_duplicate_title(): void
@@ -271,7 +270,9 @@ class BookApiTest extends TestCase
             Book::PARAM_BINDING_TYPE => [BindingType::PARAM_ID => 99999],
         ]))
             ->assertUnprocessable()
-            ->assertJsonValidationErrors([Book::PARAM_BINDING_TYPE]);
+            ->assertJsonValidationErrors([
+                Book::PARAM_BINDING_TYPE . '.' . BindingType::PARAM_ID,
+            ]);
     }
 
     public function test_store_rejects_unknown_author_id(): void
@@ -403,8 +404,9 @@ class BookApiTest extends TestCase
      */
     public function test_update_missing_book_is_500_with_success_false(): void
     {
-        $this->apiPut('/api/books/99999', $this->payload())
-            ->assertStatus(500)
+        $response = $this->apiPut('/api/books/99999', $this->payload());
+
+        $response->assertStatus(500)
             ->assertJsonPath('success', false);
     }
 
@@ -414,8 +416,9 @@ class BookApiTest extends TestCase
     {
         $book = $this->factoryBook();
 
-        $this->apiDelete("/api/books/{$book->id}")
-            ->assertOk()
+        $response = $this->apiDelete("/api/books/{$book->id}");
+
+        $response->assertOk()
             ->assertJsonPath('success', true);
 
         $this->assertModelMissing($book);
