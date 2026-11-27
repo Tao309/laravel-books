@@ -11,12 +11,22 @@ use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
+ * @property int $id
+ * @property string $name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
  * @method static \Database\Factories\BookSeriesFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookSeries whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */

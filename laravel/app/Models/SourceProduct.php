@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Auth;
  * @property int $source_product_type_id
  * @property int $user_created_id
  * @property int $on_sale_count
+ * @property int|null $brand_id
+ * @property-read Brand|null $brand
  * @property-read Collection<int, Product> $products
  * @property-read int|null $products_count
  * @property-read SourceProductType $sourceProductType
@@ -34,6 +36,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereBrandId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SourceProduct whereOnSaleCount($value)
@@ -63,11 +66,15 @@ class SourceProduct extends Model
 
     public const string PARAM_USER_CREATED = 'user_created';
 
+    public const string PARAM_BRAND = 'brand';
+
     public const string PARAM_MODEL_USER_CREATED = 'userCreated';
 
     public const string PARAM_SOURCE_PRODUCT_TYPE_ID = 'source_product_type_id';
 
     public const string PARAM_USER_CREATED_ID = 'user_created_id';
+
+    public const string PARAM_BRAND_ID = 'brand_id';
 
     public const string PARAM_SOURCE_PRODUCT_USER_DATA = 'source_product_user_data';
 
@@ -76,12 +83,14 @@ class SourceProduct extends Model
     protected $hidden = [
         SourceProduct::PARAM_SOURCE_PRODUCT_TYPE_ID,
         SourceProduct::PARAM_USER_CREATED_ID,
+        SourceProduct::PARAM_BRAND_ID,
     ];
 
     protected $with = [
         'sourceProductType',
         'userCreated',
         'sourceProductUserData',
+        'brand',
     ];
 
     protected $fillable = [
@@ -89,6 +98,7 @@ class SourceProduct extends Model
         self::PARAM_SOURCE_PRODUCT_TYPE_ID,
         self::PARAM_USER_CREATED_ID,
         self::PARAM_ON_SALE_COUNT,
+        self::PARAM_BRAND_ID,
     ];
 
     public function sourceProductType(): BelongsTo
@@ -112,5 +122,10 @@ class SourceProduct extends Model
             ->where([
                 SourceProductUserData::PARAM_USER_ID => Auth::id() ?? null,
             ]);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
     }
 }

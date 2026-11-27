@@ -13,18 +13,23 @@ class CollectionQueryDto implements CollectionQueryDtoInterface
         private ?array $ids = [],
     ) {}
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data): static
     {
-        return new self(
-            search: Arr::get($data, IndexRequest::FIELD_SEARCH),
-            limit: Arr::get($data, IndexRequest::FIELD_LIMIT),
-            ids: ! empty($data['id']) && is_array($data['id']) ? $data['id'] : null,
+        return new static(
+            ...array_merge(
+                [
+                    'search' => Arr::get($data, IndexRequest::FIELD_SEARCH),
+                    'limit' => Arr::get($data, IndexRequest::FIELD_LIMIT, 30),
+                    'ids' => ! empty($data['id']) && is_array($data['id']) ? $data['id'] : null,
+                ],
+                static::getAdditionalData($data),
+            )
         );
     }
 
     public function hasFilters(): bool
     {
-        return $this->getSearch() || $this->getLimit() || $this->getIds();
+        return $this->search !== null || ! empty($this->ids);
     }
 
     public function getSearch(): ?string
@@ -40,5 +45,10 @@ class CollectionQueryDto implements CollectionQueryDtoInterface
     public function getIds(): ?array
     {
         return $this->ids ?? null;
+    }
+
+    protected static function getAdditionalData(array $data): array
+    {
+        return [];
     }
 }

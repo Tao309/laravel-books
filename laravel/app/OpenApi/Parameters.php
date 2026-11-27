@@ -84,6 +84,17 @@ use OpenApi\Attributes as OA;
                 example: 2,
             )
         ),
+        new OA\Parameter(
+            parameter: 'BrandCode',
+            name: 'brand_code',
+            description: 'Brand Code',
+            in: 'path',
+            required: true,
+            schema: new OA\Schema(
+                type: 'string',
+                example: 'joy-toy',
+            )
+        ),
     ]
 )]
 class Parameters {}

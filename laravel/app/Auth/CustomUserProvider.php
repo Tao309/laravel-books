@@ -39,7 +39,7 @@ class CustomUserProvider implements UserProvider
         }
 
         $user = $this->connection->table($this->table)
-            ->where(User::PARAM_REMEMBER_TOKEN, $credentials[self::TOKEN])
+            ->where(User::PARAM_TOKEN_HASH, hash('sha256', $credentials[self::TOKEN]))
             ->first();
 
         return $this->getGenericUser($user);

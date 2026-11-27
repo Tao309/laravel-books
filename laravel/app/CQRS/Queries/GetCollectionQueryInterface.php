@@ -2,21 +2,9 @@
 
 namespace App\CQRS\Queries;
 
-use App\DTOs\CollectionQueryDto;
+use App\DTOs\CollectionQueryDtoInterface;
 
 interface GetCollectionQueryInterface
 {
-    //    public ?string $search {
-    //        get;
-    //    }
-    //
-    //    public int $limit {
-    //        get;
-    //    }
-    //
-    //    public array $ids {
-    //        get;
-    //    }
-    //
-    public function getDTO(): CollectionQueryDto;
+    public function getDTO(): CollectionQueryDtoInterface;
 }

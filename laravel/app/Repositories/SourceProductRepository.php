@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\CQRS\Queries\GetCollectionQueryInterface;
+use App\CQRS\Queries\SourceProducts\GetSourceProductsCollectionQueryInterface;
 use App\DTOs\DtoInterface;
 use App\DTOs\SourceProductUserDataDTO;
 use App\Http\QueryFilters\SourceProductQueryFilter;
@@ -34,6 +35,7 @@ class SourceProductRepository implements RepositoryInterface
             $entity = SourceProduct::newModelInstance($dto->getEntityData());
 
             $entity->sourceProductType()->associate(Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
+            $entity->brand()->associate(Arr::get($relationData, SourceProduct::PARAM_BRAND));
             $entity->userCreated()->associate($userId);
 
             $entity->save();
@@ -59,6 +61,10 @@ class SourceProductRepository implements RepositoryInterface
 
     public function getAll(GetCollectionQueryInterface $query): Collection
     {
+        /**
+         * @var $query GetSourceProductsCollectionQueryInterface
+         */
+
         return $this->queryFilter->apply(
             SourceProduct::query(),
             $query->getDTO()
@@ -67,6 +73,10 @@ class SourceProductRepository implements RepositoryInterface
 
     public function getAllPaginate(GetCollectionQueryInterface $query): LengthAwarePaginator
     {
+        /**
+         * @var $query GetSourceProductsCollectionQueryInterface
+         */
+
         return $this->queryFilter->apply(
             SourceProduct::query(),
             $query->getDTO()
@@ -80,6 +90,7 @@ class SourceProductRepository implements RepositoryInterface
 
         $id = DB::transaction(function () use ($entity, $dto, $relationData): int {
             $entity->sourceProductType()->associate(Arr::get($relationData, SourceProduct::PARAM_SOURCE_PRODUCT_TYPE));
+            $entity->brand()->associate(Arr::get($relationData, SourceProduct::PARAM_BRAND));
 
             $entity->update($dto->getEntityData());
 

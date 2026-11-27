@@ -13,7 +13,14 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: SourceProduct::PARAM_SOURCE_PRODUCT_TYPE,
             properties: [
-                new OA\Property(property: 'id', type: 'integer', example: '1'),
+                new OA\Property(property: 'id', type: 'integer', example: 1),
+            ],
+            type: 'object'
+        ),
+        new OA\Property(
+            property: SourceProduct::PARAM_BRAND,
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 1),
             ],
             type: 'object'
         ),

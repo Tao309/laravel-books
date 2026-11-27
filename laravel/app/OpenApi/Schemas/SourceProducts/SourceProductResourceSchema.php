@@ -28,6 +28,11 @@ use OpenApi\Attributes as OA;
             ref: Refs::SOURCE_PRODUCT_USER_DATA_RESOURCE,
             type: 'object'
         ),
+        new OA\Property(
+            property: SourceProduct::PARAM_BRAND,
+            ref: Refs::BRAND_RESOURCE,
+            type: 'object'
+        ),
     ],
     type: 'object'
 )]

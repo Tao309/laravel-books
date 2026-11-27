@@ -5,6 +5,7 @@ use App\Providers\AuthorProvider;
 use App\Providers\BindingTypeProvider;
 use App\Providers\BookProvider;
 use App\Providers\BookSeriesProvider;
+use App\Providers\BrandProvider;
 use App\Providers\CityProvider;
 use App\Providers\PaperTypeProvider;
 use App\Providers\ProductProvider;
@@ -20,6 +21,7 @@ return [
     BindingTypeProvider::class,
     BookProvider::class,
     BookSeriesProvider::class,
+    BrandProvider::class,
     CityProvider::class,
     PaperTypeProvider::class,
     ProductProvider::class,

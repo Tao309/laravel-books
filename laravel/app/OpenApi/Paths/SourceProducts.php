@@ -17,6 +17,7 @@ final class SourceProducts
             new OA\Parameter(ref: Refs::IDS),
             new OA\Parameter(ref: Refs::LIMIT),
             new OA\Parameter(ref: Refs::SEARCH),
+            new OA\Parameter(ref: Refs::BRAND_CODE),
         ],
         responses: [
             new OA\Response(
@@ -29,6 +30,27 @@ final class SourceProducts
         ]
     )]
     public function index(): void {}
+
+    #[OA\Get(
+        path: '/api/source_products/brand/{brandCode}',
+        operationId: 'source_products.indexByBandCode',
+        description: 'Get list of SourceProducts by Brand Code',
+        summary: 'Get list of SourceProducts by Brand Code',
+        tags: ['SourceProducts'],
+        parameters: [
+            new OA\Parameter(ref: Refs::BRAND_CODE),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Get list of SourceProducts by Brand Code',
+                content: new OA\JsonContent(
+                    ref: Refs::SOURCE_PRODUCT_TYPES_INDEX_RESPONSE
+                )
+            ),
+        ]
+    )]
+    public function indexByBandCode(): void {}
 
     #[OA\Post(
         path: '/api/source_products',

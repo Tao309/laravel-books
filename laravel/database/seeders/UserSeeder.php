@@ -26,7 +26,7 @@ class UserSeeder extends AbstractSeeder
                 User::PARAM_NAME => $row[1],
                 User::PARAM_EMAIL => $row[1] . '@localhost.ru',
                 User::PARAM_PASSWORD => Hash::make(Str::password(8)),
-                User::PARAM_REMEMBER_TOKEN => $row[2],
+                User::PARAM_TOKEN_HASH => hash('sha256', $row[2]),
                 Model::CREATED_AT => Carbon::now(),
                 Model::UPDATED_AT => Carbon::now(),
             ];

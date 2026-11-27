@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BookQueryFilter extends AbstractQueryFilter
 {
-    public function applySearchFilter(Builder $query, $value): Builder
+    protected function applySearchFilter(Builder $query, $value): Builder
     {
         return $this->applySearchToQuery(
             $query,

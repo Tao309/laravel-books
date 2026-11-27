@@ -11,6 +11,7 @@ class SourceProductDTO extends AbstractDTO
         public string $title,
         public array $sourceProductType,
         public array $sourceProductUserData,
+        public array $brand,
     ) {}
 
     public static function fromArray(array $data): self
@@ -19,6 +20,7 @@ class SourceProductDTO extends AbstractDTO
             title: $data[SourceProduct::PARAM_TITLE],
             sourceProductType: $data[SourceProduct::PARAM_SOURCE_PRODUCT_TYPE],
             sourceProductUserData: Arr::get($data, SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA, []),
+            brand: Arr::get($data, SourceProduct::PARAM_BRAND, []),
         );
     }
 
@@ -34,6 +36,7 @@ class SourceProductDTO extends AbstractDTO
         return [
             SourceProduct::PARAM_SOURCE_PRODUCT_TYPE => Arr::get($this->sourceProductType, 'id'),
             SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => $this->sourceProductUserData,
+            SourceProduct::PARAM_BRAND => Arr::get($this->brand, 'id'),
         ];
     }
 }

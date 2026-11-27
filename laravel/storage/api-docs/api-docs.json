@@ -583,6 +583,156 @@
                 }
             }
         },
+        "/api/brands": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Get list of brands",
+                "description": "Get list of brands",
+                "operationId": "brands.index",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Ids"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Search"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get list of brands",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandsPaginateResourceCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Create Brand",
+                "description": "Create Brand",
+                "operationId": "brands.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBrandRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Get created Brand",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/brands/{id}": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Get brand by id",
+                "description": "Get brand by id",
+                "operationId": "brands.show",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get brand by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Delete brand by id",
+                "description": "Delete brand by id",
+                "operationId": "brands.destroy",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete brand by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandDestroyResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Update brand by id",
+                "description": "Update brand by id",
+                "operationId": "brands.update",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBrandRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update brand by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/cities": {
             "get": {
                 "tags": [
@@ -1712,6 +1862,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/Search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/BrandCode"
                     }
                 ],
                 "responses": {
@@ -1751,6 +1904,33 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SourceProductShowResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/source_products/brand/{brandCode}": {
+            "get": {
+                "tags": [
+                    "SourceProducts"
+                ],
+                "summary": "Get list of SourceProducts by Brand Code",
+                "description": "Get list of SourceProducts by Brand Code",
+                "operationId": "source_products.indexByBandCode",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/BrandCode"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get list of SourceProducts by Brand Code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SourceProductTypesIndexResponse"
                                 }
                             }
                         }
@@ -2528,6 +2708,101 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BrandResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "joy-toy"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "JoyToy"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2026-09-10 10:10:19"
+                    }
+                },
+                "type": "object"
+            },
+            "BrandDestroyResponse": {
+                "$ref": "#/components/schemas/Response"
+            },
+            "BrandShowResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BrandResource"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "BrandsResourceCollection": {
+                "description": "Collection of Brands",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/BrandResource"
+                }
+            },
+            "BrandsPaginateResourceCollection": {
+                "description": "Collection of Brands with paginate",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Response"
+                    },
+                    {
+                        "$ref": "#/components/schemas/PaginateResponse"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "$ref": "#/components/schemas/BrandsResourceCollection"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "StoreBrandRequest": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "example": "joy-toy"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "JoyToy"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBrandRequest": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "example": "joy-toy"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "JoyToy"
                     }
                 },
                 "type": "object"
@@ -3719,6 +3994,9 @@
                     },
                     "source_product_user_data": {
                         "$ref": "#/components/schemas/SourceProductUserDataResource"
+                    },
+                    "brand": {
+                        "$ref": "#/components/schemas/BrandResource"
                     }
                 },
                 "type": "object"
@@ -3778,6 +4056,15 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "brand": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -3792,7 +4079,16 @@
                         "properties": {
                             "id": {
                                 "type": "integer",
-                                "example": "1"
+                                "example": 1
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "brand": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
                             }
                         },
                         "type": "object"
@@ -3901,6 +4197,16 @@
                     "type": "integer",
                     "example": 2
                 }
+            },
+            "BrandCode": {
+                "name": "brand_code",
+                "in": "path",
+                "description": "Brand Code",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "joy-toy"
+                }
             }
         }
     },
@@ -3924,6 +4230,10 @@
         {
             "name": "Books",
             "description": "Books"
+        },
+        {
+            "name": "Brands",
+            "description": "Brands"
         },
         {
             "name": "Cities",

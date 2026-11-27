@@ -2,6 +2,7 @@
 
 use App\Exceptions\ApiException;
 use App\Http\Middleware\ApiResponse;
+use App\Http\Middleware\SwaggerProductionMiddleware;
 use App\Http\Response\ResponseContext;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->appendToGroup('api', [
             ApiResponse::class,
+        ]);
+
+        $middleware->alias([
+            'swagger.production' => SwaggerProductionMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

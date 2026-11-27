@@ -12,7 +12,7 @@ class AuthorQueryFilter extends AbstractQueryFilter
         private readonly AuthorService $authorService,
     ) {}
 
-    public function applySearchFilter(Builder $query, $value): Builder
+    protected function applySearchFilter(Builder $query, $value): Builder
     {
         $firstNameField = Author::PARAM_FIRST_NAME;
         $lastNameField = Author::PARAM_LAST_NAME;

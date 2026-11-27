@@ -24,6 +24,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property string|null $token_hash
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
@@ -40,6 +41,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTokenHash($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  *
  * @mixin \Eloquent
@@ -66,6 +68,8 @@ class User extends Authenticatable
 
     public const string PARAM_REMEMBER_TOKEN = 'remember_token';
 
+    public const string PARAM_TOKEN_HASH = 'token_hash';
+
     public const string PARAM_IS_ACTIVE = 'is_active';
 
     protected $table = self::TABLE_NAME;
@@ -80,6 +84,7 @@ class User extends Authenticatable
         self::PARAM_PASSWORD,
         self::PARAM_REMEMBER_TOKEN,
         self::PARAM_EMAIL_VERIFIED_AT,
+        self::PARAM_TOKEN_HASH,
     ];
 
     /**

@@ -2,7 +2,6 @@
 
 namespace App\CQRS\Queries;
 
-use App\DTOs\CollectionQueryDto;
 use App\DTOs\CollectionQueryDtoInterface;
 
 abstract class AbstractGetCollectionQuery implements GetCollectionQueryInterface
@@ -11,7 +10,7 @@ abstract class AbstractGetCollectionQuery implements GetCollectionQueryInterface
         public CollectionQueryDtoInterface $dto,
     ) {}
 
-    public function getDTO(): CollectionQueryDto
+    public function getDTO(): CollectionQueryDtoInterface
     {
         return $this->dto;
     }

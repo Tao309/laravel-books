@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\CacheProviders\BindingTypesCacheProvider;
 use App\CacheProviders\BookSeriesCacheProvider;
+use App\CacheProviders\BrandsCacheProvider;
 use App\CacheProviders\PaperTypesCacheProvider;
 use App\CacheProviders\PublishingBrandsCacheProvider;
 use App\CacheProviders\PublishingHousesCacheProvider;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Config;
 class ConfigController extends ApiController
 {
     public function __construct(
+        private readonly BrandsCacheProvider $brandsCacheProvider,
         private readonly BookSeriesCacheProvider $bookSeriesCacheProvider,
         private readonly PublishingBrandsCacheProvider $bookPublishingBrandCacheProvider,
         private readonly PublishingHousesCacheProvider $bookPublishingHouseCacheProvider,
@@ -42,6 +44,7 @@ class ConfigController extends ApiController
             'book_publishing_houses' => $this->bookPublishingHouseCacheProvider->get(),
             'book_publishing_brands' => $this->bookPublishingBrandCacheProvider->get(),
             'book_series' => $this->bookSeriesCacheProvider->get(),
+            'brands' => $this->brandsCacheProvider->get(),
             'shops' => $this->shopCacheProvider->get(),
             'shop_urls' => [
                 ShopType::Wildberries->value => Config::get('app.t_price_checker.shop_urls.wb'),

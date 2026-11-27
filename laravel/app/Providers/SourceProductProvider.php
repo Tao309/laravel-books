@@ -9,6 +9,7 @@ use App\CQRS\Handlers\SourceProducts\GetSourceProductsHandler;
 use App\CQRS\Handlers\SourceProducts\GetSourceProductsPaginateHandler;
 use App\CQRS\Handlers\SourceProducts\UpdateSourceProductHandler;
 use App\Http\Controllers\Api\SourceProductController;
+use App\Http\Controllers\Api\SourceProductsByBrandCodeController;
 use App\Http\Resources\SourceProducts\SourceProductResource;
 use App\Repositories\Interfaces\RepositoryInterface;
 use App\Repositories\SourceProductRepository;
@@ -49,6 +50,10 @@ class SourceProductProvider extends ServiceProvider
             ->give(SourceProductService::class)
             ->needs('$resourceClass')
             ->give(SourceProductResource::class);
+
+        $this->app->when(SourceProductsByBrandCodeController::class)
+            ->needs(ServiceInterface::class)
+            ->give(SourceProductService::class);
     }
 
     public function boot(): void {}

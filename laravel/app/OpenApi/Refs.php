@@ -18,6 +18,8 @@ final class Refs
     public const string PRODUCT_ID = '#/components/parameters/ProductId';
 
     public const string SOURCE_PRODUCT_ID = '#/components/parameters/SourceProductId';
+
+    public const string BRAND_CODE = '#/components/parameters/BrandCode';
     // < parameters
 
     // > common
@@ -41,6 +43,22 @@ final class Refs
 
     public const string UPDATE_AUTHOR_REQUEST = '#/components/schemas/UpdateAuthorRequest';
     // < authors
+
+    // > brands
+    public const string BRAND_RESOURCE = '#/components/schemas/BrandResource';
+
+    public const string BRANDS_RESOURCE_COLLECTION = '#/components/schemas/BrandsResourceCollection';
+
+    public const string BRANDS_PAGINATE_RESOURCE_COLLECTION = '#/components/schemas/BrandsPaginateResourceCollection';
+
+    public const string BRAND_SHOW_RESPONSE = '#/components/schemas/BrandShowResponse';
+
+    public const string BRAND_DESTROY_RESPONSE = '#/components/schemas/BrandDestroyResponse';
+
+    public const string STORE_BRAND_REQUEST = '#/components/schemas/StoreBrandRequest';
+
+    public const string UPDATE_BRAND_REQUEST = '#/components/schemas/UpdateBrandRequest';
+    // < brands
 
     // > books
     public const string BOOK_RESOURCE = '#/components/schemas/BookResource';

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BindingTypeController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\BookSeriesController;
 use App\Http\Controllers\Api\BookUserDataController;
+use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\ConfigController;
 use App\Http\Controllers\Api\LinkBookController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Api\PublishingBrandController;
 use App\Http\Controllers\Api\PublishingHouseController;
 use App\Http\Controllers\Api\ShopController;
 use App\Http\Controllers\Api\SourceProductController;
+use App\Http\Controllers\Api\SourceProductsByBrandCodeController;
 use App\Http\Controllers\Api\SourceProductTypeController;
 use App\Http\Controllers\Api\SourceProductUserDataController;
 use App\Http\Controllers\Api\UnlinkFromProductController;
@@ -44,6 +46,7 @@ Route::middleware([UserSecurity::class])->group(function () {
     // > source_products
     Route::apiResource('/source_product_types', SourceProductTypeController::class)->except(['create', 'edit']);
     Route::apiResource('/source_products', SourceProductController::class)->except(['create', 'edit']);
+    Route::get('/source_products/brand/{brand_code}', SourceProductsByBrandCodeController::class);
     Route::get('/source_product_user_data/{source_product_id}', [SourceProductUserDataController::class, 'show']);
     // < source_products
 
@@ -57,4 +60,8 @@ Route::middleware([UserSecurity::class])->group(function () {
     Route::post('/products/unlink/{product_id}', UnlinkFromProductController::class);
     Route::post('/products/mass-save', MassSaveProductController::class);
     // < products
+
+    // > brands
+    Route::apiResource('/brands', BrandController::class)->except(['create', 'edit']);
+    // < brands
 });

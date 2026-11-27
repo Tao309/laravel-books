@@ -2,14 +2,14 @@
 
 namespace App\Http\QueryFilters;
 
-use App\DTOs\CollectionQueryDto;
+use App\DTOs\CollectionQueryDtoInterface;
 use App\Models\Product;
 use App\Services\SessionShopService;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProductQueryFilter extends AbstractQueryFilter
 {
-    public function applySearchFilter(Builder $query, $value): Builder
+    protected function applySearchFilter(Builder $query, $value): Builder
     {
         $titleField = Product::PARAM_TITLE;
         $value = mb_strtolower(trim($value));
@@ -28,7 +28,7 @@ class ProductQueryFilter extends AbstractQueryFilter
         return $query;
     }
 
-    public function apply(Builder $query, CollectionQueryDto $dto): Builder
+    public function apply(Builder $query, CollectionQueryDtoInterface $dto): Builder
     {
         $builder = parent::apply($query, $dto);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\SourceProducts;
 
 use App\Http\Resources\AbstractResource;
+use App\Http\Resources\Brands\BrandResource;
 use App\Http\Resources\SourceProductTypes\SourceProductTypeResource;
 use App\Http\Resources\SourceProductUserDatas\SourceProductUserDataResource;
 use App\Http\Resources\Users\UserResource;
@@ -34,6 +35,10 @@ class SourceProductResource extends AbstractResource
             SourceProduct::PARAM_SOURCE_PRODUCT_USER_DATA => $this->whenLoaded(
                 'sourceProductUserData',
                 fn () => SourceProductUserDataResource::make($this->sourceProductUserData)
+            ),
+            SourceProduct::PARAM_BRAND => $this->whenLoaded(
+                'brand',
+                fn () => BrandResource::make($this->brand)
             ),
             // < relations
         ];

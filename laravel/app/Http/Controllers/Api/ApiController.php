@@ -97,7 +97,7 @@ abstract class ApiController extends Controller
         return $this->resourceClass;
     }
 
-    private function getEmptyCollectionResponse(): array
+    protected function getEmptyCollectionResponse(): array
     {
         return [
             ResponseContext::ITEMS => [],
