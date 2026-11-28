@@ -22,6 +22,10 @@ readonly class MessengerAuthService
     ): MessengerAccount {
         $apiToken = $this->apiTokenService->findValid($inputToken);
 
+        if ($apiToken->platform !== $platform) {
+            throw new RuntimeException('Токен предназначен для другой платформы.');
+        }
+
         if (! $apiToken) {
             throw new RuntimeException('Invalid API token.');
         }

@@ -117,6 +117,78 @@ t-price-checker-id: <PRICE_CHECKER_ID>
 Списки поддерживают `ids`, `limit`, `search`. Полная спецификация —
 `/api/documentation/` или `laravel/storage/api-docs/api-docs.json`.
 
+
+## API Token Management
+
+Для управления API-токенами предусмотрены Artisan-команды.
+
+Токены создаются отдельно для каждой платформы: `telegram`, `vk`, `max`.
+Срок действия нового токена — 1 месяц.
+
+### Создание токена
+
+Создаёт API-токен для пользователя. Если пользователь не найден, команда
+предложит создать его и автоматически сгенерирует пароль.
+
+При создании нового токена предыдущие действующие токены пользователя для
+указанной платформы автоматически отзываются.
+
+```bash
+php artisan app:token-create {user_name} {platform} [--name="Token name"]
+```
+
+Примеры:
+
+```bash
+php artisan app:token-create {username} telegram --name="Telegram"
+php artisan app:token-create {username} vk --name="VK"
+php artisan app:token-create {username} max --name="MAX"
+```
+
+Сгенерированный API-токен и пароль нового пользователя выводятся в консоль.
+Сохраните их: повторно получить исходное значение API-токена нельзя.
+
+### Список токенов
+
+Выводит список API-токенов пользователя с информацией о платформе,
+дате создания, сроке действия и статусе.
+
+```bash
+php artisan app:token-list {user_name}
+```
+
+Пример:
+
+```bash
+php artisan app:token-list {username}
+```
+
+### Отзыв токена
+
+Отзывает действующие API-токены пользователя для указанной платформы.
+Перед отзывом команда запрашивает подтверждение.
+
+```bash
+php artisan app:token-revoke {user_name} {platform}
+```
+
+Примеры:
+
+```bash
+php artisan app:token-revoke {username} telegram
+php artisan app:token-revoke {username} vk
+php artisan app:token-revoke {username} max
+```
+
+### Поддерживаемые платформы
+
+| Платформа | Значение |
+|---|---|
+| Telegram | `telegram` |
+| VK | `vk` |
+| MAX | `max` |
+
+
 ## Импорт данных
 
 Каждая команда читает CSV из `laravel/app/Console/Commands/Import/csv/`.
