@@ -140,9 +140,9 @@ php artisan app:token-create {user_name} {platform} [--name="Token name"]
 Примеры:
 
 ```bash
-php artisan app:token-create {username} telegram --name="Telegram"
-php artisan app:token-create {username} vk --name="VK"
-php artisan app:token-create {username} max --name="MAX"
+php artisan app:token-create runman1990 telegram --name="Telegram"
+php artisan app:token-create runman1990 vk --name="VK"
+php artisan app:token-create runman1990} max --name="MAX"
 ```
 
 Сгенерированный API-токен и пароль нового пользователя выводятся в консоль.
@@ -160,7 +160,7 @@ php artisan app:token-list {user_name}
 Пример:
 
 ```bash
-php artisan app:token-list {username}
+php artisan app:token-list runman1990
 ```
 
 ### Отзыв токена
@@ -175,9 +175,9 @@ php artisan app:token-revoke {user_name} {platform}
 Примеры:
 
 ```bash
-php artisan app:token-revoke {username} telegram
-php artisan app:token-revoke {username} vk
-php artisan app:token-revoke {username} max
+php artisan app:token-revoke runman1990 telegram
+php artisan app:token-revoke runman1990 vk
+php artisan app:token-revoke runman1990 max
 ```
 
 ### Поддерживаемые платформы
