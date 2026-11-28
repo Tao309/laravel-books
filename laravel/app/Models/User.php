@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -95,6 +96,24 @@ class User extends Authenticatable
         return [
             self::PARAM_EMAIL_VERIFIED_AT => 'datetime',
             self::PARAM_PASSWORD => 'hashed',
+            self::PARAM_TOKEN_HASH => 'hashed',
         ];
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->roles->contains('code', $role);
+    }
+
+    public function hasAnyRole(string ...$roles): bool
+    {
+        return $this->roles->contains(
+            fn (Role $userRole) => in_array($userRole->code, $roles, true)
+        );
     }
 }

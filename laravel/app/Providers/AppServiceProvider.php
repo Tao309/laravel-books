@@ -48,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
     {
         return new CustomUserProvider(
             $this->app['db']->connection($config['connection'] ?? null),
+            $this->app['hash'],
             $config['table'],
         );
     }
