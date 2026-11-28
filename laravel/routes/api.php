@@ -26,6 +26,10 @@ use App\Http\Controllers\Api\UnlinkFromProductController;
 use App\Http\Middleware\UserSecurity;
 use Illuminate\Support\Facades\Route;
 
+if (app()->environment('production')) {
+    Route::any('/', fn () => abort(404));
+}
+
 Route::middleware([UserSecurity::class])->group(function () {
     Route::get('/config', ConfigController::class);
 

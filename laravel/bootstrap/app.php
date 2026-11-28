@@ -28,6 +28,13 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        if (app()->environment('production')) {
+            return response()->json([
+                ResponseContext::SUCCESS => false,
+                ResponseContext::MESSAGE => 'Internal server error',
+            ], 404);
+        }
+
         $exceptions->render(function (ApiException $e) {
             return response()->json([
                 ResponseContext::SUCCESS => false,

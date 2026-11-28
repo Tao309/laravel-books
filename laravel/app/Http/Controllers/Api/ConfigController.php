@@ -81,6 +81,7 @@ class ConfigController extends ApiController
                 'create' => true,
                 'update' => true,
                 'limit' => null,
+                'add_brand' => true,
             ],
             'shop' => [
                 'list' => [
