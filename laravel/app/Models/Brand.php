@@ -59,7 +59,7 @@ class Brand extends Model
     protected function code(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => $this->normalizeCode($value),
+            set: fn (?string $value) => $this->normalizeCode($value),
         );
     }
 
@@ -72,7 +72,7 @@ class Brand extends Model
         });
     }
 
-    private function normalizeCode(string $value): string
+    private function normalizeCode(?string $value): string
     {
         $value = preg_replace('/([a-z0-9])([A-Z])/', '$1-$2', $value);
 

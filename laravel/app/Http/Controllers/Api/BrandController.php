@@ -11,7 +11,7 @@ class BrandController extends ApiController
 {
     public function index(IndexRequest $request): JsonResponse
     {
-        return $this->index($request);
+        return $this->indexAction($request);
     }
 
     public function store(StoreBrandRequest $request): JsonResponse

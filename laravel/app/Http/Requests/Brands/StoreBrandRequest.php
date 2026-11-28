@@ -15,14 +15,20 @@ class StoreBrandRequest extends AbstractBrandRequest
     public function rules(): array
     {
         return [
-            Brand::PARAM_CODE => [
+            Brand::PARAM_TITLE => [
                 RequestInterface::RULE_REQUIRED,
                 RequestInterface::RULE_STRING,
                 RequestInterface::RULE_MIN . ':2',
                 RequestInterface::RULE_MAX . ':100',
                 Rule::unique(Brand::TABLE_NAME),
             ],
-            ...$this->getCommonRules(),
+            Brand::PARAM_CODE => [
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':100',
+                Rule::unique(Brand::TABLE_NAME),
+            ],
         ];
     }
 }

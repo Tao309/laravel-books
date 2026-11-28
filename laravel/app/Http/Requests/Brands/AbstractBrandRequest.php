@@ -28,13 +28,6 @@ abstract class AbstractBrandRequest extends FormRequest implements RequestInterf
 
     protected function getCommonRules(): array
     {
-        return [
-            Brand::PARAM_TITLE => [
-                RequestInterface::RULE_REQUIRED,
-                RequestInterface::RULE_STRING,
-                RequestInterface::RULE_MIN . ':2',
-                RequestInterface::RULE_MAX . ':100',
-            ],
-        ];
+        return [];
     }
 }

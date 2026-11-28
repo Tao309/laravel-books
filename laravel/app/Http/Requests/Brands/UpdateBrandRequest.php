@@ -17,13 +17,20 @@ class UpdateBrandRequest extends AbstractBrandRequest
         $id = $this->route('brand');
 
         return [
-            Brand::PARAM_CODE => [
+            Brand::PARAM_TITLE => [
+                RequestInterface::RULE_REQUIRED,
                 RequestInterface::RULE_STRING,
                 RequestInterface::RULE_MIN . ':2',
                 RequestInterface::RULE_MAX . ':100',
                 Rule::unique(Brand::TABLE_NAME)->ignore($id),
             ],
-            ...$this->getCommonRules(),
+            Brand::PARAM_CODE => [
+                RequestInterface::RULE_SOMETIMES,
+                RequestInterface::RULE_STRING,
+                RequestInterface::RULE_MIN . ':2',
+                RequestInterface::RULE_MAX . ':100',
+                Rule::unique(Brand::TABLE_NAME)->ignore($id),
+            ],
         ];
     }
 }
