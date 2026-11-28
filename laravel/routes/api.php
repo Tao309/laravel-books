@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\SourceProductController;
 use App\Http\Controllers\Api\SourceProductsByBrandCodeController;
 use App\Http\Controllers\Api\SourceProductTypeController;
 use App\Http\Controllers\Api\SourceProductUserDataController;
+use App\Http\Controllers\Api\TelegramWebhookController;
 use App\Http\Controllers\Api\UnlinkFromProductController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\UserSecurity;
@@ -30,6 +31,13 @@ use Illuminate\Support\Facades\Route;
 if (app()->environment('production')) {
     Route::any('/', fn () => abort(404));
 }
+
+Route::prefix('messenger')->group(function () {
+    Route::post(
+        'telegram/webhook',
+        TelegramWebhookController::class
+    )->name('messenger.telegram.webhook');
+});
 
 $registerApiResource = function (string $uri, string $controller, array $except = [], array $only = []) {
     $resourceMiddleware = [
