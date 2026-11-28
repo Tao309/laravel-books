@@ -19,7 +19,7 @@ class CollectionQueryDto implements CollectionQueryDtoInterface
             ...array_merge(
                 [
                     'search' => Arr::get($data, IndexRequest::FIELD_SEARCH),
-                    'limit' => Arr::get($data, IndexRequest::FIELD_LIMIT, 30),
+                    'limit' => Arr::get($data, IndexRequest::FIELD_LIMIT),
                     'ids' => ! empty($data['id']) && is_array($data['id']) ? $data['id'] : null,
                 ],
                 static::getAdditionalData($data),
