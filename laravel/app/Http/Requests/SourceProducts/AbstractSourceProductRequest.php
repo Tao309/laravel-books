@@ -59,6 +59,7 @@ abstract class AbstractSourceProductRequest extends FormRequest implements Reque
                 RequestInterface::RULE_MAX . ':300',
             ],
             SourceProduct::PARAM_BRAND => [
+                RequestInterface::RULE_NULLABLE,
                 RequestInterface::RULE_SOMETIMES,
                 RequestInterface::RULE_ARRAY,
             ],
