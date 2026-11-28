@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -115,5 +116,15 @@ class User extends Authenticatable
         return $this->roles->contains(
             fn (Role $userRole) => in_array($userRole->code, $roles, true)
         );
+    }
+
+    public function apiTokens(): HasMany
+    {
+        return $this->hasMany(ApiToken::class);
+    }
+
+    public function messengerAccounts(): HasMany
+    {
+        return $this->hasMany(MessengerAccount::class);
     }
 }
